@@ -1,0 +1,36 @@
+<div class="layout-topbar">
+    <div class="layout-topbar-logo-container">
+        <button class="layout-menu-button layout-topbar-action" (click)="layoutService.onMenuToggle()">
+            <i class="pi pi-bars"></i>
+        </button>
+        <a class="layout-topbar-logo" routerLink="/">
+            <img alt="" width="120">
+        </a>
+    </div>
+
+    <div class="layout-topbar-actions">
+        <div class="layout-config-menu">
+            <button type="button" class="layout-topbar-action" (click)="toggleDarkMode()">
+                <i
+                    [ngClass]="{ 'pi ': true, 'pi-moon': layoutService.isDarkTheme(), 'pi-sun': !layoutService.isDarkTheme() }"></i>
+            </button>
+        </div>
+
+        <button type="button" class="layout-topbar-action" (click)="visibleProfile = true">
+            <i class="pi pi-user"></i>
+            <span>Profile</span>
+        </button>
+    </div>
+</div>
+
+<p-drawer [(visible)]="visibleProfile" header="User Profile" position="right">
+    <div class="flex flex-col h-full">
+        <p-panelmenu [model]="items"  styleClass="w-full md:w-20rem" />
+        <div class="mt-auto w-full">
+            <p-divider /> <!-- Divider at the bottom -->
+            <div class="flex justify-center">
+                <p-button severity="contrast" label="Sign Out" icon="pi pi-sign-out" size="large" variant="text" />
+            </div>
+        </div>
+    </div>
+</p-drawer>

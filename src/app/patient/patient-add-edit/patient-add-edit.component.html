@@ -1,0 +1,343 @@
+<div pageHeader>
+    <p-toolbar>
+        <ng-template #start>
+            <p class="text-2xl font-bold sm:truncate sm:text-3xl sm:tracking-tight">
+                Add Patient
+            </p>
+        </ng-template>
+
+        <ng-template #center>
+        </ng-template>
+
+        <ng-template #end>
+            <div class="flex space-x-3 justify-items-end">
+                <p-button label="Save" (onClick)="save()" />
+                <p-button label="Cancel" variant="outlined" severity="danger" (onClick)="cancel()" />
+            </div>
+        </ng-template>
+    </p-toolbar>
+</div>
+<div class="card">
+    <div>
+        <h3 class="text-base/7 font-semibold text-gray-900">Basic Details</h3>
+    </div>
+    <p-divider></p-divider>
+
+    <div class="mt-10 grid grid-cols-12 gap-6">
+        <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-1">
+            <label for="Title">Title <span class="text-red-500">*</span></label>
+            <div class="mt-2">
+                <p-select id="Title" [(ngModel)]="patient.title" [options]="titleOption" optionLabel="name"
+                    placeholder="Select One" class="w-full" class="w-full">
+                </p-select>
+            </div>
+        </div>
+        <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-3">
+            <label for="firstName">First Name<span class="text-red-500">*</span></label>
+            <div class="mt-2">
+                <input pInputText id="firstName" [(ngModel)]="patient.firstName" type="text"
+                    placeholder="Enter First name" class="w-full" />
+            </div>
+        </div>
+        <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-3">
+            <label for="MiddleName">Middle Name </label>
+            <div class="mt-2">
+                <input pInputText id="MiddleName" [(ngModel)]="patient.middleName" type="text"
+                    placeholder="Enter MiddleName name" class="w-full" />
+            </div>
+        </div>
+        <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-3">
+            <label for="LastName">Last Name<span class="text-red-500">*</span></label>
+            <div class="mt-2">
+                <input pInputText id="LastName" type="text" [(ngModel)]="patient.lastName"
+                    placeholder="Enter LastName name" class="w-full" />
+            </div>
+        </div>
+        <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-2">
+            <label for="dob">Date of Birth<span class="text-red-500">*</span></label>
+            <div class="mt-2">
+                <p-datepicker [showIcon]="true" [showButtonBar]="true" [(ngModel)]="patient.dateOfBirth"
+                    class="w-full"></p-datepicker>
+            </div>
+        </div>
+        <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-1">
+            <label for="age">Age</label>
+            <div class="mt-2">
+                <input pInputText type="number" id="age" readonly class="w-full" />
+            </div>
+        </div>
+        <div class="flex flex-col  col-span-full sm:col-span-6 md:col-span-2">
+            <label for="state">Gender<span class="text-red-500">*</span></label>
+            <div class="mt-2">
+                <p-select id="Gender" [(ngModel)]="patient.gender" [options]="genderList" optionLabel="name"
+                    optionValue="code" placeholder="Select Gender" class="w-full" class="w-full">
+                </p-select>
+            </div>
+        </div>
+        <div class="flex flex-col  col-span-full sm:col-span-6 md:col-span-2" *ngIf="patient.gender == 'Others'">
+            <label for="genderFreeText">&nbsp;</label>
+            <div class="mt-2">
+                <input pInputText type="text" [(ngModel)]="patient.genderFreeText" id="genderFreeText" class="w-full" />
+            </div>
+        </div>
+        <div class="flex flex-col  col-span-full sm:col-span-6 md:col-span-2">
+            <label for="state">Marital Status</label>
+            <div class="mt-2 flex">
+                <p-select id="MaritalStatus" [(ngModel)]="patient.maritalStatus" [options]="maritalStatusOption"
+                    optionLabel="name" optionValue="code" placeholder="Select Marital Status" class="w-full"
+                    class="w-full">
+                </p-select>
+            </div>
+        </div>
+        <div class="flex flex-col  col-span-full sm:col-span-6 md:col-span-2" *ngIf="patient.maritalStatus == 'Other'">
+            <label for="genderFreeText">&nbsp;</label>
+            <div class="mt-2">
+                <input pInputText type="text" [(ngModel)]="patient.maritalStatusFreeText" id="genderFreeText"
+                    class="w-full" />
+            </div>
+        </div>
+        <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-2">
+            <label for="aadhaarNumber">Aadhaar Number<span class="text-red-500">*</span></label>
+            <div class="mt-2">
+                <p-inputmask mask="9999 9999 9999" [(ngModel)]="patient.aadhaarNumber" id="aadhaarNumber" class="w-full"
+                    placeholder="9999 9999 9999" />
+            </div>
+        </div>
+        <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-2">
+            <label for="abhaId">ABHA ID</label>
+            <div class="mt-2">
+                <p-inputmask mask="9999-9999-9999-99" [(ngModel)]="patient.abhaId" id="abhaId" class="w-full"
+                    placeholder="9999-9999-9999-99" />
+            </div>
+        </div>
+        <div class="flex flex-col  col-span-full sm:col-span-6 md:col-span-2">
+            <label for="PreferredLanguage">Preferred Language</label>
+            <div class="mt-2 flex">
+                <p-select id="PreferredLanguage" [(ngModel)]="patient.preferredLanguage" [options]="languageOption"
+                    optionLabel="name" optionValue="name" placeholder="Select Preferred Language" class="w-full"
+                    class="w-full">
+                </p-select>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="card">
+    <div>
+        <h3 class="text-base/7 font-semibold text-gray-900">Contact Details</h3>
+        <p class="mt-1 text-sm/6 ">Use a permanent address where you can receive mail.</p>
+    </div>
+    <p-divider></p-divider>
+    <div class="mt-10 grid grid-cols-12 gap-6">
+        <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-3 lg:col-span-2">
+            <label for="mobileNumber" class="">Mobile number<span class="text-red-500">*</span></label>
+            <div class="mt-2">
+                <p-inputnumber [(ngModel)]="patient.mobileNumber" name="mobileNumber" id="mobileNumber" class="w-full"
+                    mode="decimal" inputId="withoutgrouping" [useGrouping]="false" [maxlength]="10" [minlength]="10" />
+
+            </div>
+        </div>
+        <div class="flex flex-col  col-span-full sm:col-span-6 md:col-span-3 lg:col-span-2">
+            <label for="alternateContactNumber" class="">Alternate Mobile number</label>
+            <div class="mt-2">
+                <p-inputnumber [(ngModel)]="patient.alternateContactNumber" name="alternateContactNumber"
+                    id="alternateContactNumber" class="w-full" mode="decimal" inputId="withoutgrouping"
+                    [useGrouping]="false" [maxlength]="10" [minlength]="10" />
+            </div>
+        </div>
+
+        <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-3 lg:col-span-2">
+            <label for="email" class="">Email Address<span class="text-red-500">*</span></label>
+            <div class="mt-2">
+                <input pInputText id="email" [(ngModel)]="patient.emailAddress" name="email" type="email"
+                    class="w-full">
+            </div>
+        </div>
+        <div
+            class="flex flex-col col-start-1 sm:col-start-1 md:col-start-1 lg:col-start-1 col-span-full md:col-span-6 lg:col-span-4">
+            <label for="address1">Adress 1<span class="text-red-500">*</span></label>
+            <div class="mt-2">
+                <input pInputText type="text" [(ngModel)]="patient.address1" name="street-address" id="address1"
+                    class="w-full">
+            </div>
+        </div>
+
+        <div class="flex flex-col col-span-full md:col-span-6 lg:col-span-4">
+            <label for="address2">Adress 2<small> (Optional)</small></label>
+            <div class="mt-2">
+                <input pInputText type="text" [(ngModel)]="patient.address2" name="street-address" id="address2"
+                    class="w-full">
+            </div>
+        </div>
+
+        <div
+            class="flex flex-col col-start-1 sm:col-start-1 md:col-start-1 lg:col-start-1 col-span-full sm:col-span-6 md:col-span-3 lg:col-span-2">
+            <label for="postal-code">PIN code<span class="text-red-500">*</span></label>
+            <div class="mt-2">
+                <input pInputText type="text" [(ngModel)]="patient.pincode" name="pin-code" id="postal-code"
+                    class="w-full">
+            </div>
+        </div>
+
+        <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-3 lg:col-span-2">
+            <label for="city">City<span class="text-red-500">*</span></label>
+            <div class="mt-2">
+                <input pInputText type="text" [(ngModel)]="patient.city" name="city" id="city" class="w-full">
+            </div>
+        </div>
+
+        <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-3 lg:col-span-2">
+            <label for="region">State<span class="text-red-500">*</span></label>
+            <div class="mt-2">
+                <input pInputText type="text" [(ngModel)]="patient.state" name="region" id="region" class="w-full">
+            </div>
+        </div>
+
+        <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-3 lg:col-span-2 flex">
+            <label for="country" class="">Country</label>
+            <div class="mt-2 justify-center">
+                <p-select [options]="countries" [(ngModel)]="patient.country" optionLabel="name" optionValue="name"
+                    placeholder="Select a City" class="w-full md:w-56" [style]="{'width':'100%'}" />
+            </div>
+        </div>
+
+
+    </div>
+</div>
+
+
+<div class="card">
+    <div>
+        <h3 class="text-base/7 font-semibold text-gray-900">Emergency Contact Details</h3>
+        <p class="mt-1 text-sm/6 ">Emergency Contact Details</p>
+    </div>
+    <p-divider></p-divider>
+    <div class="mt-10 grid grid-cols-12 gap-6">
+        <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-3">
+            <label for="emergencyContactName">Emergency Contact Name<span class="text-red-500">*</span></label>
+            <div class="mt-2">
+                <input pInputText id="emergencyContactName" [(ngModel)]="patient.emergencyContactName" type="text"
+                    placeholder="Enter Emergency Contact Name" class="w-full" />
+            </div>
+        </div>
+        <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-3 lg:col-span-2">
+            <label for="emergencyContactNumber" class="">Emergency Contact Number<span
+                    class="text-red-500">*</span></label>
+            <div class="mt-2">
+                <p-inputnumber [(ngModel)]="patient.emergencyContactNumber" name="emergencyContactNumber"
+                    id="emergencyContactNumber" class="w-full" mode="decimal" inputId="withoutgrouping"
+                    [useGrouping]="false" [maxlength]="10" [minlength]="10" />
+            </div>
+        </div>
+        <div class="flex flex-col  col-span-full sm:col-span-6 md:col-span-2">
+            <label for="relationshipToPatient">Relationship to Patient<span class="text-red-500">*</span></label>
+            <div class="mt-2 flex">
+                <p-select id="relationshipToPatient" [(ngModel)]="patient.relationshipToPatient"
+                    [options]="patientRelationOption" optionLabel="name" optionValue="name"
+                    placeholder="Select Relationship to Patient" class="w-full" class="w-full">
+                </p-select>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="card">
+    <div>
+        <h3 class="text-base/7 font-semibold text-gray-900">Medical Information</h3>
+        <p class="mt-1 text-sm/6 ">Medical Information</p>
+    </div>
+    <p-divider></p-divider>
+    <div class="mt-10 grid grid-cols-12 gap-6">
+        <div class="flex flex-col  col-span-full sm:col-span-6 md:col-span-2">
+            <label for="bloodGroup">Blood Group</label>
+            <div class="mt-2 flex">
+                <p-select id="bloodGroup" [(ngModel)]="patient.bloodGroup" [options]="bloodGroupOption"
+                    optionLabel="name" optionValue="name" placeholder="Select Blood Group" class="w-full"
+                    class="w-full">
+                </p-select>
+            </div>
+        </div>
+        <div
+            class="flex flex-col col-start-1 sm:col-start-1 md:col-start-1  col-span-full sm:col-span-12 md:col-span-12">
+            <label for="knownAllergies">Known Allergies</label>
+            <div class="mt-2 flex">
+                <p-selectbutton [options]="knownAllergiesOption" [(ngModel)]="patient.knownAllergies" optionLabel="name"
+                    (onChange)="knownAllergiesChange($event)" [multiple]="true" optionValue="code" />
+            </div>
+        </div>
+        @for (item of knownAllergiesOption; track $index) {
+        @if (patient.knownAllergies.includes(item.code)) {
+        <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-3"
+            *ngIf="item?.child?.length > 0 || item.code == 'Other Allergies'">
+            <label for="allergyName">{{item.name}}</label>
+            <div class="mt-2">
+                <input pInputText id="emergencyContactName" *ngIf="item.code == 'Other Allergies'" type="text"
+                    class="w-full" />
+                <p-multiselect *ngIf="item.code != 'Other Allergies'" id="mapped" [options]="item.child"
+                    optionLabel="name" placeholder="Select Allergies" class="w-full" class="w-full">
+                </p-multiselect>
+            </div>
+        </div>
+        }
+        }
+        <div
+            class="flex flex-col col-start-1 sm:col-start-1 md:col-start-1  col-span-full sm:col-span-12 md:col-span-3">
+            <label for="ChronicConditions">Chronic Conditions</label>
+            <div class="mt-2 flex">
+                <p-multiselect [options]="ChronicConditionsOption" [(ngModel)]="patient.chronicConditions"
+                    [disabled]="patient.noKnownChronicConditions" optionLabel="name" optionValue="code" class="w-full">
+                </p-multiselect>
+            </div>
+        </div>
+        <div class="flex flex-col  col-span-full sm:col-span-12 md:col-span-3">
+            <label for="Conditionss">&nbsp;</label>
+            <div class="mt-2 flex">
+                <p-checkbox id="Conditionss" name="option" [binary]="true"
+                    [(ngModel)]="patient.noKnownChronicConditions" />
+                <label for="Conditionss" class="ml-2">No Known Chronic Conditions</label>
+            </div>
+        </div>
+        <div
+            class="flex flex-col col-start-1 sm:col-start-1 md:col-start-1  col-span-full sm:col-span-12 md:col-span-3">
+            <label for="CurrentMedications">Current Medications</label>
+            <div class="mt-2 flex">
+                <p-multiselect [options]="currentMedications" [(ngModel)]="patient.currentMedications"
+                    optionLabel="name" optionValue="code" class="w-full">
+                </p-multiselect>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="card">
+    <div>
+        <h3 class="text-base/7 font-semibold text-gray-900">Insurance Details</h3>
+        <p class="mt-1 text-sm/6 ">Insurance Details</p>
+    </div>
+    <p-divider></p-divider>
+    <div class="mt-10 grid grid-cols-12 gap-6">
+        <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-3">
+            <label>Insurance Provider</label>
+            <div class="mt-2">
+                <p-select id="subscriptionPlan" [(ngModel)]="patient.insuranceProvider" [options]="insuranceProviders"
+                    optionLabel="name" placeholder="Select One" class="w-full">
+                </p-select>
+            </div>
+        </div>
+        <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-3">
+            <label>Insurance ID Number</label>
+            <div class="mt-2">
+                <input pInputText id="address1" type="text"[(ngModel)]="patient.insuranceIdNumber"  placeholder="Enter Insurance ID Number" class="w-full" />              
+            </div>
+        </div> <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-3">
+            <label>Policy Expiry Date</label>
+            <div class="mt-2">
+                <p-datepicker [showIcon]="true" [showButtonBar]="true" [(ngModel)]="patient.policyExpiryDate"
+                class="w-full"></p-datepicker>
+            </div>
+        </div>
+    </div>
+</div>

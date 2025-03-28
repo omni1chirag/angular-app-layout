@@ -1,0 +1,402 @@
+[
+    {
+        "id": 1001,
+        "name": "Jeevan Jyoti Clinic",
+        "type": "Cancer Institute",
+        "organization": "LV Prasad Eye Institute",
+        "state": "Meghalaya",
+        "status": "active"
+    },
+    {
+        "id": 1002,
+        "name": "Lotus Physiotherapy Center",
+        "type": "Diagnostic Center",
+        "organization": "National Institute of Homeopathy",
+        "state": "Gujarat",
+        "status": "inactive"
+    },
+    {
+        "id": 1003,
+        "name": "Sunrise Pediatric Hospital",
+        "type": "Homeopathy Clinic",
+        "organization": "Clove Dental",
+        "state": "Punjab",
+        "status": "active"
+    },
+    {
+        "id": 1004,
+        "name": "Ayushman Clinic",
+        "type": "Dental Clinic",
+        "organization": "Surya Hospitals",
+        "state": "West Bengal",
+        "status": "inactive"
+    },
+    {
+        "id": 1005,
+        "name": "Prime Cardiology Clinic",
+        "type": "Diagnostic Center",
+        "organization": "Apollo Hospitals",
+        "state": "Jharkhand",
+        "status": "inactive"
+    },
+    {
+        "id": 1006,
+        "name": "Medilife Polyclinic",
+        "type": "Clinic",
+        "organization": "National Institute of Homeopathy",
+        "state": "Delhi",
+        "status": "inactive"
+    },
+    {
+        "id": 1007,
+        "name": "Shanti Polyclinic",
+        "type": "Polyclinic",
+        "organization": "AIIMS",
+        "state": "Tripura",
+        "status": "active"
+    },
+    {
+        "id": 1008,
+        "name": "Sunrise Cancer Institute",
+        "type": "Polyclinic",
+        "organization": "Narayana Health",
+        "state": "Delhi",
+        "status": "inactive"
+    },
+    {
+        "id": 1009,
+        "name": "Lotus Homeopathy Clinic",
+        "type": "Cancer Institute",
+        "organization": "National Institute of Homeopathy",
+        "state": "Madhya Pradesh",
+        "status": "active"
+    },
+    {
+        "id": 1010,
+        "name": "Shanti Diagnostic Center",
+        "type": "Ayurvedic Clinic",
+        "organization": "Medanta",
+        "state": "Goa",
+        "status": "inactive"
+    },
+    {
+        "id": 1011,
+        "name": "Care Plus Diagnostic Center",
+        "type": "Cancer Institute",
+        "organization": "Narayana Health",
+        "state": "Rajasthan",
+        "status": "active"
+    },
+    {
+        "id": 1012,
+        "name": "Lotus Physiotherapy Center",
+        "type": "Physiotherapy Center",
+        "organization": "Fortis Healthcare",
+        "state": "Karnataka",
+        "status": "inactive"
+    },
+    {
+        "id": 1013,
+        "name": "Medilife Eye Hospital",
+        "type": "Clinic",
+        "organization": "National Institute of Homeopathy",
+        "state": "Bihar",
+        "status": "active"
+    },
+    {
+        "id": 1014,
+        "name": "Shanti Neurology Clinic",
+        "type": "Cancer Institute",
+        "organization": "Fortis Healthcare",
+        "state": "Bihar",
+        "status": "active"
+    },
+    {
+        "id": 1015,
+        "name": "Prime Cardiology Clinic",
+        "type": "Wellness Center",
+        "organization": "Manipal Hospitals",
+        "state": "West Bengal",
+        "status": "active"
+    },
+    {
+        "id": 1016,
+        "name": "Ayushman Clinic",
+        "type": "Ayurvedic Clinic",
+        "organization": "AIIMS",
+        "state": "Madhya Pradesh",
+        "status": "inactive"
+    },
+    {
+        "id": 1017,
+        "name": "Jeevan Jyoti Pediatric Hospital",
+        "type": "Homeopathy Clinic",
+        "organization": "Fortis Healthcare",
+        "state": "Uttar Pradesh",
+        "status": "active"
+    },
+    {
+        "id": 1018,
+        "name": "Lotus Homeopathy Clinic",
+        "type": "Dental Clinic",
+        "organization": "Kerala Ayurveda Limited",
+        "state": "Gujarat",
+        "status": "active"
+    },
+    {
+        "id": 1019,
+        "name": "Medilife Diagnostic Center",
+        "type": "Dental Clinic",
+        "organization": "Manipal Hospitals",
+        "state": "Karnataka",
+        "status": "inactive"
+    },
+    {
+        "id": 1020,
+        "name": "Apollo Neurology Clinic",
+        "type": "Physiotherapy Center",
+        "organization": "Medanta",
+        "state": "Gujarat",
+        "status": "active"
+    },
+    {
+        "id": 1021,
+        "name": "Jeevan Jyoti Health & Wellness Center",
+        "type": "Hospital",
+        "organization": "AIIMS",
+        "state": "Maharashtra",
+        "status": "inactive"
+    },
+    {
+        "id": 1022,
+        "name": "Prime Dental Clinic",
+        "type": "Cardiology Clinic",
+        "organization": "Fortis Healthcare",
+        "state": "Tripura",
+        "status": "inactive"
+    },
+    {
+        "id": 1023,
+        "name": "Jeevan Jyoti Eye Hospital",
+        "type": "Pediatric Hospital",
+        "organization": "Manipal Hospitals",
+        "state": "Uttar Pradesh",
+        "status": "active"
+    },
+    {
+        "id": 1024,
+        "name": "Medilife Physiotherapy Center",
+        "type": "Pediatric Hospital",
+        "organization": "Clove Dental",
+        "state": "Maharashtra",
+        "status": "active"
+    },
+    {
+        "id": 1025,
+        "name": "Apollo Pediatric Hospital",
+        "type": "Dental Clinic",
+        "organization": "Medanta",
+        "state": "Himachal Pradesh",
+        "status": "active"
+    },
+    {
+        "id": 1026,
+        "name": "Apollo Homeopathy Clinic",
+        "type": "Diagnostic Center",
+        "organization": "Max Healthcare",
+        "state": "Uttar Pradesh",
+        "status": "inactive"
+    },
+    {
+        "id": 1027,
+        "name": "Lotus Diagnostic Center",
+        "type": "Polyclinic",
+        "organization": "LV Prasad Eye Institute",
+        "state": "Assam",
+        "status": "active"
+    },
+    {
+        "id": 1028,
+        "name": "Apollo Physiotherapy Center",
+        "type": "Hospital",
+        "organization": "Narayana Health",
+        "state": "Nagaland",
+        "status": "active"
+    },
+    {
+        "id": 1029,
+        "name": "Shanti Eye Hospital",
+        "type": "Pediatric Hospital",
+        "organization": "Kerala Ayurveda Limited",
+        "state": "Himachal Pradesh",
+        "status": "active"
+    },
+    {
+        "id": 1030,
+        "name": "Shanti Pediatric Hospital",
+        "type": "Hospital",
+        "organization": "Apollo Hospitals",
+        "state": "Karnataka",
+        "status": "active"
+    },
+    {
+        "id": 1031,
+        "name": "Sai Ram Physiotherapy Center",
+        "type": "Clinic",
+        "organization": "LV Prasad Eye Institute",
+        "state": "Gujarat",
+        "status": "active"
+    },
+    {
+        "id": 1032,
+        "name": "Ayushman Wellness Center",
+        "type": "Clinic",
+        "organization": "Patanjali Ayurved",
+        "state": "Chhattisgarh",
+        "status": "active"
+    },
+    {
+        "id": 1033,
+        "name": "Sai Ram Physiotherapy Center",
+        "type": "Cancer Institute",
+        "organization": "Jaypee Hospital",
+        "state": "Tamil Nadu",
+        "status": "inactive"
+    },
+    {
+        "id": 1034,
+        "name": "Jeevan Jyoti Physiotherapy Center",
+        "type": "Eye Hospital",
+        "organization": "Manipal Hospitals",
+        "state": "Rajasthan",
+        "status": "inactive"
+    },
+    {
+        "id": 1035,
+        "name": "Apollo Diagnostic Center",
+        "type": "Hospital",
+        "organization": "Jaypee Hospital",
+        "state": "Punjab",
+        "status": "inactive"
+    },
+    {
+        "id": 1036,
+        "name": "Medilife Dental Clinic",
+        "type": "Clinic",
+        "organization": "Fortis Healthcare",
+        "state": "Uttar Pradesh",
+        "status": "inactive"
+    },
+    {
+        "id": 1037,
+        "name": "Sai Ram Clinic",
+        "type": "Hospital",
+        "organization": "Surya Hospitals",
+        "state": "Madhya Pradesh",
+        "status": "active"
+    },
+    {
+        "id": 1038,
+        "name": "Sunrise Cancer Institute",
+        "type": "Pediatric Hospital",
+        "organization": "LV Prasad Eye Institute",
+        "state": "Delhi",
+        "status": "inactive"
+    },
+    {
+        "id": 1039,
+        "name": "Apollo Homeopathy Clinic",
+        "type": "Cancer Institute",
+        "organization": "Tata Memorial Hospital",
+        "state": "Nagaland",
+        "status": "inactive"
+    },
+    {
+        "id": 1040,
+        "name": "Sai Ram Diagnostic Center",
+        "type": "Pediatric Hospital",
+        "organization": "Jaypee Hospital",
+        "state": "Meghalaya",
+        "status": "inactive"
+    },
+    {
+        "id": 1041,
+        "name": "Medilife Wellness Center",
+        "type": "Clinic",
+        "organization": "LV Prasad Eye Institute",
+        "state": "Uttarakhand",
+        "status": "active"
+    },
+    {
+        "id": 1042,
+        "name": "Prime Hospital",
+        "type": "Homeopathy Clinic",
+        "organization": "Medanta",
+        "state": "Madhya Pradesh",
+        "status": "active"
+    },
+    {
+        "id": 1043,
+        "name": "Medilife Cancer Institute",
+        "type": "Physiotherapy Center",
+        "organization": "Tata Memorial Hospital",
+        "state": "Uttarakhand",
+        "status": "active"
+    },
+    {
+        "id": 1044,
+        "name": "Prime Polyclinic",
+        "type": "Wellness Center",
+        "organization": "Manipal Hospitals",
+        "state": "Assam",
+        "status": "inactive"
+    },
+    {
+        "id": 1045,
+        "name": "Care Plus Health & Wellness Center",
+        "type": "Hospital",
+        "organization": "AIIMS",
+        "state": "Meghalaya",
+        "status": "inactive"
+    },
+    {
+        "id": 1046,
+        "name": "Care Plus Wellness Center",
+        "type": "Polyclinic",
+        "organization": "LV Prasad Eye Institute",
+        "state": "West Bengal",
+        "status": "inactive"
+    },
+    {
+        "id": 1047,
+        "name": "Apollo Pediatric Hospital",
+        "type": "Ayurvedic Clinic",
+        "organization": "National Institute of Homeopathy",
+        "state": "Madhya Pradesh",
+        "status": "inactive"
+    },
+    {
+        "id": 1048,
+        "name": "Ayushman Neurology Clinic",
+        "type": "Wellness Center",
+        "organization": "Medanta",
+        "state": "Haryana",
+        "status": "active"
+    },
+    {
+        "id": 1049,
+        "name": "Sai Ram Dental Clinic",
+        "type": "Physiotherapy Center",
+        "organization": "Max Healthcare",
+        "state": "Karnataka",
+        "status": "active"
+    },
+    {
+        "id": 1050,
+        "name": "Ayushman Cardiology Clinic",
+        "type": "Eye Hospital",
+        "organization": "Jaypee Hospital",
+        "state": "Bihar",
+        "status": "inactive"
+    }
+]

@@ -1,0 +1,48 @@
+    <div pageHeader>
+        <p-toolbar >
+            <ng-template #start>
+                <p class="text-2xl font-bold sm:truncate sm:text-3xl sm:tracking-tight">
+                    Add Role
+                </p>
+            </ng-template>
+    
+            <ng-template #center>
+            </ng-template>
+    
+            <ng-template #end>
+                <div class="flex space-x-3 justify-items-end">
+                    <p-button label="Save" (onClick)="navigateToListPage()" ></p-button>
+                    <p-button label="Cancel" variant="outlined" severity="danger" (onClick)="navigateToListPage()"></p-button>
+                </div>
+            </ng-template>
+        </p-toolbar>
+      </div>
+    <div class="card">
+        <div>
+            <h3 class="text-base/7 font-semibold text-gray-900">Basic Details</h3>
+        </div>
+    
+        <p-divider></p-divider>
+    
+        <div class="mt-10 grid grid-cols-12 gap-6">
+            <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-3">
+                <label for="roleName" class="text-red 500">Role Name <span class="text-red-500">*</span></label>
+                <div class="mt-2">
+                    <input pInputText id="roleName" type="text" placeholder="Enter role name" class="w-full" />
+                </div>
+            </div>
+            <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-3">
+                <label for="roleDescription">Role Description</label>
+                <div class="mt-2">
+                    <input pInputText id="roleDescription" type="text" placeholder="Enter role description" class="w-full" />
+                </div>
+            </div>
+            <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-2">
+                <label class="font-medium">Status <span class="text-red-500">*</span></label>
+                <div class="mt-2">
+                    <p-selectbutton [options]="genderOptions" [(ngModel)]="genderValue" optionLabel="name"
+                        optionValue="value" class="w-full" />
+                </div>
+            </div>
+        </div>
+    </div>

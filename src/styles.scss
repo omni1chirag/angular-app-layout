@@ -1,0 +1,43 @@
+/* You can add global styles to this file, and also import other style files */
+@use './assets/layout/layout.scss';
+@use 'primeicons/primeicons.css';
+@use './assets/demo/demo.scss';
+// @use './tailwind.css';
+@import "tailwindcss";
+
+
+
+
+
+/* Custom Global Variables:start */
+:root {
+    --navbar-height: 4rem;
+    --p-divider-horizontal-margin: 0.50rem 0 !important;
+  }
+  
+/* Custom Global Variables:end */
+  
+
+/*app logo for light and dark mode:start */
+.layout-topbar-logo img {
+    content: url('/assets/images/logo-black.png');
+}
+
+.app-dark .layout-topbar-logo img {
+    content: url('/assets/images/logo-white.png');
+}
+/*app logo for light and dark mode:end */
+
+
+/* sidebar menu items svg icons css for dark and light mode:start*/
+.menu-svg-icon {
+    width: 1.5rem;
+    height: 1.5rem;
+    margin-right: 10px;
+    transition: filter 0.3s ease;
+}
+
+.app-dark .menu-svg-icon {
+    filter: invert(1) brightness(2);
+}
+/* sidebar menu items svg icons css for dark and light mode:end*/

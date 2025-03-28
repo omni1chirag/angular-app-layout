@@ -1,0 +1,69 @@
+<ng-container>
+    <div *ngIf="root && item.visible !== false" class="layout-menuitem-root-text">{{ item.label }}</div>
+    <a *ngIf="(!item.routerLink || item.items) && item.visible !== false" [attr.href]="item.url"
+        (click)="itemClick($event)" [ngClass]="item.styleClass" [attr.target]="item.target" tabindex="0" pRipple>
+        <!-- <i [ngClass]="item.icon" class="layout-menuitem-icon"></i> -->
+        <!-- PrimeNG Icon (fallback) -->
+        <i *ngIf="!item['svgIcon'] && item.icon" [ngClass]="item.icon" class="layout-menuitem-icon"
+            style="font-size: 1.5rem"></i>
+
+        <!-- SVG Icon -->
+        <span *ngIf="item['svgIcon']" class="layout-menuitem-icon">
+            <img [src]="item['svgIcon']" [alt]="item.label" class="menu-svg-icon" />
+        </span>
+        <span class="layout-menuitem-text">{{ item.label }}</span>
+        <i class="pi pi-fw pi-angle-down layout-submenu-toggler" *ngIf="item.items" style="font-size: 1rem"></i>
+    </a>
+    <a *ngIf="item.routerLink && !item.items && !item['singleItem']  && item.visible !== false"
+        (click)="itemClick($event)" [ngClass]="item.styleClass" [routerLink]="item.routerLink"
+        routerLinkActive="active-route"
+        [routerLinkActiveOptions]="item.routerLinkActiveOptions || { paths: 'exact', queryParams: 'ignored', matrixParams: 'ignored', fragment: 'ignored' }"
+        [fragment]="item.fragment" [queryParamsHandling]="item.queryParamsHandling"
+        [preserveFragment]="item.preserveFragment" [skipLocationChange]="item.skipLocationChange"
+        [replaceUrl]="item.replaceUrl" [state]="item.state" [queryParams]="item.queryParams" [attr.target]="item.target"
+        tabindex="0" pRipple>
+
+        <!-- SVG Icon -->
+        <span *ngIf="item['svgIcon']" class="layout-menuitem-icon">
+            <img [src]="item['svgIcon']" [alt]="item.label" class="menu-svg-icon" />
+        </span>
+        <!-- <i [ngClass]="item.icon" class="layout-menuitem-icon"></i> -->
+        <i *ngIf="!item['svgIcon'] && item.icon" [ngClass]="item.icon" class="layout-menuitem-icon"
+            style="font-size: 1.5rem"></i>
+        <span class="layout-menuitem-text">{{ item.label }}</span>
+        <i class="pi pi-fw pi-angle-down layout-submenu-toggler" *ngIf="item.items" style="font-size: 1rem"></i>
+    </a>
+
+    <div *ngIf="item.routerLink && !item.items && item['singleItem'] && item.visible !== false"
+        class="flex flex-row justify-between items-center gap-1">
+        <a (click)="itemClick($event)" [ngClass]="item.styleClass" [routerLink]="item.routerLink"
+            routerLinkActive="active-route"
+            [routerLinkActiveOptions]="item.routerLinkActiveOptions || { paths: 'exact', queryParams: 'ignored', matrixParams: 'ignored', fragment: 'ignored' }"
+            [fragment]="item.fragment" [queryParamsHandling]="item.queryParamsHandling"
+            [preserveFragment]="item.preserveFragment" [skipLocationChange]="item.skipLocationChange"
+            [replaceUrl]="item.replaceUrl" [state]="item.state" [queryParams]="item.queryParams"
+            [attr.target]="item.target" tabindex="0" class="flex-1" pRipple>
+            <span *ngIf="item['svgIcon']" class="layout-menuitem-icon">
+                <img [src]="item['svgIcon']" [alt]="item.label" class="menu-svg-icon" />
+            </span>
+            <i *ngIf="!item['svgIcon'] && item.icon" [ngClass]="item.icon" class="layout-menuitem-icon"
+                style="font-size: 1.5rem"></i>
+            <span class="layout-menuitem-text">{{ item.label }}</span>
+        </a>
+        <a (click)="itemClick($event)" [routerLink]="item['singleItem'].routerLink" routerLinkActive="active-route"
+            [routerLinkActiveOptions]="item.routerLinkActiveOptions || { paths: 'exact', queryParams: 'ignored', matrixParams: 'ignored', fragment: 'ignored' }"
+            [fragment]="item.fragment" [queryParamsHandling]="item.queryParamsHandling"
+            [preserveFragment]="item.preserveFragment" [skipLocationChange]="item.skipLocationChange"
+            [replaceUrl]="item.replaceUrl" [state]="item.state" [queryParams]="item.queryParams"
+            [attr.target]="item.target" tabindex="0" class="flex-shrink-0 basis-14" 
+            [pTooltip]="item['singleItem'].label" tooltipPosition="top" pRipple>
+            <i [ngClass]="item['singleItem'].icon" style="font-size: 1.25rem"></i>
+        </a>
+    </div>
+
+    <ul *ngIf="item.items && item.visible !== false" [@children]="submenuAnimation">
+        <ng-template ngFor let-child let-i="index" [ngForOf]="item.items">
+            <li app-menuitem [item]="child" [index]="i" [parentKey]="key" [class]="child['badgeClass']"></li>
+        </ng-template>
+    </ul>
+</ng-container>

@@ -1,0 +1,86 @@
+<div pageHeader="list">
+    <p-toolbar>
+        <ng-template #start>
+            <div class="flex items-center gap-2">
+                <p class="text-2xl font-bold sm:truncate sm:text-3xl sm:tracking-tight">
+                    Patient List
+                </p>
+            </div>
+        </ng-template>
+
+        <ng-template #end>
+            <div class="flex items-center gap-2">
+                <p-button label="Add Patient" (onClick)="addEditMode()" />
+            </div>
+
+
+        </ng-template>
+    </p-toolbar>
+</div>
+<div class="card">
+    <div class="flex justify-between table-options">
+        <button pButton label="Clear" class="p-button-outlined" icon="pi pi-filter-slash" (click)="clear(dt1)"></button>
+        <div class="flex justify-between items-center flex-column sm:flex-row gap-2">
+            <div class="flex items-center gap-2">
+                <button pButton label="Export" class="p-button-outlined" icon="pi pi-external-link"
+                    (click)="exportCSV(dt1)"></button>
+            </div>
+        </div>
+    </div>
+    <p-divider></p-divider>
+    <p-table [value]="patients" styleClass="mt-4" [paginator]="true" [rows]="10" stripedRows
+        [exportHeader]="'customExportHeader'" [size]="'small'" [scrollable]="true" tableAutoScroll
+        #dt1>
+        <ng-template #header>
+            <tr>
+                <th style="width: 4rem" pFrozenColumn><p-tableHeaderCheckbox /></th>
+                <th style="min-width:200px" class="font-bold" pFrozenColumn>PatientName
+                </th>
+                <th style="min-width:150px">Gender
+                </th>
+                <th style="min-width:200px">Email
+                </th>
+                <th style="min-width:100px; text-align: center;" alignFrozen="right" pFrozenColumn [frozen]="true"
+                    [ngClass]="{ 'font-bold': true }" *ngIf="isBrowser">Actions</th>
+            </tr>
+           
+        </ng-template>
+        <ng-template #body let-patient>
+            <tr>
+                <td pFrozenColumn>
+                    <p-tableCheckbox [value]="patient"></p-tableCheckbox>
+                </td>
+
+                <td pFrozenColumn>{{ patient.lastname }} {{patient.firstName}}</td>
+                <td>{{ patient.gender}}</td>
+
+                <td>{{ patient.emailAddress }}</td>
+              
+
+                <td alignFrozen="right" pFrozenColumn [frozen]="true" [ngClass]="{ 'font-bold': true }"
+                    *ngIf="isBrowser">
+                    <p-menu #menu [popup]="true" [model]="optionsItems" appendTo="body">
+                        <ng-template #item let-item>
+                            <ng-container *ngIf="item.label =='Edit'">
+                                <span class="p-menu-item-link" (click)="addEditMode(patient)">
+                                    <span [class]="item.icon"></span>
+                                    <span class="ml-2">{{ item.label }}</span>
+                                </span>
+                            </ng-container>
+                          
+                        </ng-template>
+                    </p-menu>
+                    <div class="flex justify-center">
+                        <p-button icon="pi  pi-ellipsis-v" severity="secondary" rounded (click)="menu.toggle($event)"
+                            [raised]="true" />
+                    </div>
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template #emptymessage>
+            <tr>
+                <td colspan="8">No Data Found.</td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>

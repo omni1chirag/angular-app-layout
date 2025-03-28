@@ -1,0 +1,116 @@
+<div pageHeader="list">
+    <p-toolbar>
+        <ng-template #start>
+            <div class="flex items-center gap-2">
+                <p class="text-2xl font-bold sm:truncate sm:text-3xl sm:tracking-tight">
+                    Role List
+                </p>
+            </div>
+        </ng-template>
+
+        <ng-template #end>
+            <div class="flex items-center gap-2">
+                <p-button label="Add Role" (onClick)="navigateTo('/home/role/add-edit')" />
+            </div>
+        </ng-template>
+    </p-toolbar>
+</div>
+<div class="card">
+    <div class="flex justify-between table-options">
+        <button pButton label="Clear" class="p-button-outlined" icon="pi pi-filter-slash" (click)="clear(userTable)">
+        </button>
+        <div class="flex justify-between items-center flex-column sm:flex-row gap-2">
+            <button pButton label="Export" class="p-button-outlined" icon="pi pi-external-link"
+                (click)="exportCSV(userTable)"></button>
+        </div>
+    </div>
+    <p-divider></p-divider>
+
+    <p-table [value]="roles"[paginator]="true" [rows]="10"
+        stripedRows [(selection)]="selectedRole" (selectionChange)="onSelectionChange()" [size]="'small'"
+        [scrollable]="true" tableAutoScroll #userTable>
+        <ng-template #header>
+            <tr>
+                <th style="min-width:200px" class="font-bold" pFrozenColumn>Role Name</th>
+                <th style="min-width:200px" class="font-bold">Created By</th>
+                <th style="min-width:200px" class="font-bold">Created On</th>
+                <th style="min-width:200px" class="font-bold">Last Modified By</th>
+                <th style="min-width:200px" class="font-bold">Last Modified On</th>
+                <th style="min-width:200px" class="font-bold">Status</th>
+                <th style="min-width:100px; text-align: center;" alignFrozen="right" pFrozenColumn [frozen]="actions"
+                    [ngClass]="{ 'font-bold': actions }" *ngIf="isBrowser">Actions</th>
+            </tr>
+            <tr>
+                <th pFrozenColumn>
+                    <p-columnFilter type="text" field="RoleName" placeholder="Search by RoleName"
+                        ariaLabel="Filter Role"></p-columnFilter>
+                </th>
+                <th>
+                    <p-columnFilter type="text" field="createdBy" placeholder="Search by CreatedBy"
+                        ariaLabel="Filter CreatedBy"></p-columnFilter>
+                </th>
+                <th>
+                    <p-columnFilter type="text" field="createdOn" placeholder="Search by CreatedOn"
+                        ariaLabel="Filter CreatedOn"></p-columnFilter>
+                </th>
+                <th>
+                    <p-columnFilter type="text" field="lastModifiedBy" placeholder="Search by lastModifiedBy"
+                        ariaLabel="Filter lastModifiedBy"></p-columnFilter>
+                </th>
+                <th>
+                    <p-columnFilter type="text" field="lastModifiedOn" placeholder="Search by lastModifiedOn"
+                        ariaLabel="Filter lastModifiedOn"></p-columnFilter>
+                </th>
+                <th>
+                    <p-columnFilter field="status" matchMode="equals" [showMenu]="false">
+                        <ng-template #filter let-value let-filter="filterCallback">
+                            <p-select [ngModel]="value" [options]="statusList" (onChange)="filter($event.value)"
+                                placeholder="Any" [style]="{ 'min-width': '12rem' }">
+                                <ng-template let-option #item>
+                                    <div class="flex justify-center gap-2">
+                                        <p-tag [value]="option.label" [severity]="getSeverity(option.value)" />
+                                    </div>
+                                </ng-template>
+                            </p-select>
+                        </ng-template>
+                    </p-columnFilter>
+                </th>
+                <th pFrozenColumn alignFrozen="right" [frozen]="actions" style="text-align: center;">
+                    <p-togglebutton [(ngModel)]="actions" [onIcon]="'pi pi-lock'" offIcon="pi pi-lock-open"
+                        [onLabel]="'Unlock'" offLabel="Lock" />
+                </th>
+            </tr>
+        </ng-template>
+        <ng-template #body let-role>
+            <tr>
+                <td class="font-bold" pFrozenColumn>
+                    <p-button label="{{ role.roleName }}" [link]="true"
+                        (onClick)="navigateTo('/home/role/add-edit')" />
+                </td>
+                <td>{{ role.createdBy }}</td>
+                <td>{{ role.createdOn }}</td>
+                <td>{{ role.lastModifiedBy }}</td>
+                <td>{{role.lastModifiedOn}}</td>
+                <td>
+                    <span class="flex">
+                        <p-tag [severity]="role.status === 'Active' ? 'success' : 'danger'" [value]="role.status">
+                        </p-tag>
+                    </span>
+                </td>
+                <td alignFrozen="right" pFrozenColumn [frozen]="actions" [ngClass]="{ 'font-bold': actions }"
+                    *ngIf="isBrowser">
+                    <p-menu #menu [popup]="true" [model]="optionsItems" appendTo="body"></p-menu>
+                    <div class="flex justify-center">
+                        <p-button icon="pi  pi-ellipsis-v" severity="secondary" rounded (click)="menu.toggle($event)"
+                            [raised]="true" />
+                    </div>
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template #emptymessage>
+            <tr>
+                <td colspan="5">No Data Found.</td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>

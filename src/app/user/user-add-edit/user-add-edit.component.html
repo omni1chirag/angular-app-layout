@@ -1,0 +1,338 @@
+<div pageHeader>
+    <!-- 'padding': '0.5rem 1.5rem 0.5rem 1.5rem', -->
+    <p-toolbar>
+        <ng-template #start>
+            <p class="text-2xl font-bold sm:truncate sm:text-3xl sm:tracking-tight">
+                Add User
+            </p>
+        </ng-template>
+
+        <ng-template #center>
+        </ng-template>
+
+        <ng-template #end>
+            <div class="flex space-x-3 justify-items-end">
+                <p-button label="Save" (onClick)="navigateToListPage()"></p-button>
+                <p-button label="Cancel" variant="outlined" severity="danger" (onClick)="navigateToListPage()"></p-button>
+            </div>
+        </ng-template>
+    </p-toolbar>
+</div>
+
+
+
+<div class="card">
+    <div>
+        <h3 class="text-base/7 font-semibold text-gray-900">Basic Details</h3>
+        <p class="mt-1 text-sm">
+            Based on user type, fields will be changed.
+        </p>
+    </div>
+
+    <p-divider></p-divider>
+
+    <div class="mt-10 grid grid-cols-12 gap-6">
+        <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-4">
+            <label for="organization">User Type<span class="text-red-500">*</span></label>
+            <div class="mt-2">
+                <p-autoComplete dropdown id="organization" [(ngModel)]="selectedTypes" class="width-full w-full"
+                    [style]="{'width': '100%'}" [suggestions]="autoFilteredValue" optionLabel="label"
+                    optionValue="value" placeholder="Soft Search">
+                </p-autoComplete>
+            </div>
+        </div>
+
+        <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-4">
+            <label for="practiceName" class="">Mapped Practice<span class="text-red-500">*</span></label>
+            <div class="mt-2">
+                <p-autocomplete [(ngModel)]="selectedAutoValue" [suggestions]="filteredPracticeValue" optionLabel="name"
+                    placeholder="Search" dropdown multiple display="chip" (completeMethod)="filterPractice($event)"
+                    [style]="{'width': '100%'}" />
+            </div>
+        </div>
+
+        <div class="flex flex-col col-start-1 sm:col-start-1 md:col-start-1 col-span-full sm:col-span-6 md:col-span-2">
+            <label for="first-name">Title<span class="text-red-500">*</span></label>
+            <div class="mt-2">
+                <p-select [options]="countries" [(ngModel)]="selectedCountry" optionLabel="name"
+                    placeholder="Select a City" class="w-full md:w-56" [style]="{'width':'100%'}" />
+            </div>
+        </div>
+
+        <div class="flex flex-col col-span-full  sm:col-span-6 md:col-span-2">
+            <label for="firstName" class="">First name<span class="text-red-500">*</span></label>
+            <div class="mt-2">
+                <input pInputText type="text" name="firstName" id="firstName" autocomplete="family-name" class="w-full">
+            </div>
+        </div>
+        <div class="flex flex-col col-span-full  sm:col-span-6 md:col-span-2">
+            <label for="middleName" class="">Middle name<span class="text-red-500">*</span></label>
+            <div class="mt-2">
+                <input pInputText type="text" name="middleName" id="middleName" autocomplete="family-name" class="w-full">
+            </div>
+        </div>
+        <div class="flex flex-col col-span-full  sm:col-span-6 md:col-span-2">
+            <label for="last-name" class="">Last name<span class="text-red-500">*</span></label>
+            <div class="mt-2">
+                <input pInputText type="text" name="last-name" id="last-name" autocomplete="family-name" class="w-full">
+            </div>
+        </div>
+
+        <div class="flex flex-col col-start-1 sm:col-start-1 md:col-start-1 col-span-full sm:col-span-6 md:col-span-2">
+            <label for="last-name">Date of birth<span class="text-red-500">*</span></label>
+            <div class="mt-2">
+                <p-datepicker dateFormat="dd/mm/yy" class="w-full" [iconDisplay]="'input'" [showIcon]="true"
+                    [style]="{'width': '100%'}" />
+            </div>
+        </div>
+
+        <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-2">
+            <label for="last-name" class="">Age<span class="text-red-500">*</span></label>
+            <div class="mt-2">
+                <input pInputText type="number" name="last-name" id="last-name" autocomplete="family-name" class="w-full">
+            </div>
+        </div>
+
+        <div class="flex flex-col col-span-full md:col-span-8">
+            <label for="first-name" class="">Gender<small> (Optional)</small></label>
+            <div class="mt-2">
+                <p-selectbutton [options]="genderOptions" [(ngModel)]="genderValue" optionLabel="name"
+                    optionValue="value" />
+            </div>
+        </div>
+
+        <div class="flex flex-col col-start-1 sm:col-start-1 md:col-start-1 col-span-full sm:col-span-6 md:col-span-2">
+            <label for="last-name">Department<small> (Optional)</small></label>
+            <div class="mt-2">
+                <p-select [options]="countries" [(ngModel)]="selectedCountry" optionLabel="name"
+                    placeholder="Select a City" class="w-full md:w-56" [style]="{'width':'100%'}" />
+            </div>
+        </div>
+
+        <div class="flex flex-col col-span-full  sm:col-span-6 md:col-span-2">
+            <label for="last-name" class="">Year of experience<span class="text-red-500">*</span></label>
+            <div class="mt-2">
+                <p-inputnumber inputId="minmax" mode="decimal" [min]="0" [max]="100" class="w-full" />
+            </div>
+        </div>
+
+        <div class="flex flex-col col-start-1 sm:col-start-1 md:col-start-1 col-span-full  sm:col-span-6 md:col-span-4">
+            <label for="photo" class="">Profile Picture <small>(Optional)</small></label>
+            <div class="mt-2 flex items-center gap-x-3">
+                <p-avatar class="flex items-center justify-center mr-2" size="xlarge" shape="circle" icon="pi pi-user"
+                    [style]="{ 'background-color': '#c8e9ed' }">
+                </p-avatar>
+                <!-- <p-button label="Change" variant="outlined" /> -->
+                <p-fileupload mode="basic" name="demo[]" chooseIcon="pi pi-upload"
+                    url="https://www.primefaces.org/cdn/api/upload.php" accept="image/*" maxFileSize="1000000"
+                    (onUpload)="onBasicUploadAuto($event)" [auto]="true" chooseLabel="Choose" />
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <div>
+        <h3 class="text-base/7 font-semibold text-gray-900">Contact Details</h3>
+        <p class="mt-1 text-sm/6 ">Use a permanent address where you can receive mail.</p>
+    </div>
+    <p-divider></p-divider>
+    <div class="mt-10 grid grid-cols-12 gap-6">
+        <div class="flex flex-col col-span-full md:col-span-6 lg:col-span-4">
+            <label for="address1">Adress 1<span class="text-red-500">*</span></label>
+            <div class="mt-2">
+                <input pInputText type="text" name="street-address" id="address1" class="w-full">
+            </div>
+        </div>
+
+        <div class="flex flex-col col-span-full md:col-span-6 lg:col-span-4">
+            <label for="address2">Adress 2<small> (Optional)</small></label>
+            <div class="mt-2">
+                <input pInputText type="text" name="street-address" id="address2" class="w-full">
+            </div>
+        </div>
+
+        <div
+            class="flex flex-col col-start-1 sm:col-start-1 md:col-start-1 lg:col-start-1 col-span-full sm:col-span-6 md:col-span-3 lg:col-span-2">
+            <label for="postal-code">PIN code<span class="text-red-500">*</span></label>
+            <div class="mt-2">
+                <input pInputText type="text" name="pin-code" id="postal-code" class="w-full">
+            </div>
+        </div>
+
+        <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-3 lg:col-span-2">
+            <label for="city">City<span class="text-red-500">*</span></label>
+            <div class="mt-2">
+                <input pInputText type="text" name="city" id="city" class="w-full">
+            </div>
+        </div>
+
+        <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-3 lg:col-span-2">
+            <label for="region">State<span class="text-red-500">*</span></label>
+            <div class="mt-2">
+                <input pInputText type="text" name="region" id="region" class="w-full">
+            </div>
+        </div>
+
+        <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-3 lg:col-span-2 flex">
+            <label for="country" class="">Country</label>
+            <div class="mt-2 justify-center">
+                <p-select [options]="countries" [(ngModel)]="selectedCountry" optionLabel="name"
+                    placeholder="Select a City" class="w-full md:w-56" [style]="{'width':'100%'}" />
+            </div>
+        </div>
+
+        <div
+            class="flex flex-col col-start-1 sm:col-start-1 md:col-start-1 lg:col-start-1 col-span-full sm:col-span-6 md:col-span-3 lg:col-span-2">
+            <label for="contactNumber" class="">Contact number</label>
+            <div class="mt-2">
+                <input pInputText type="text" name="contactNumber" id="contactNumber" class="w-full">
+            </div>
+        </div>
+
+        <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-3 lg:col-span-2">
+            <label for="email" class="">Email address</label>
+            <div class="mt-2">
+                <input pInputText id="email" name="email" type="email" class="w-full">
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="card">
+    <div>
+        <h3 class="text-base/7 font-semibold text-gray-900">Login Details</h3>
+        <p class="mt-1 text-sm/6 ">passwrod should have atleast 8 character long.</p>
+    </div>
+    <p-divider></p-divider>
+
+    <div class="mt-10 grid grid-cols-12 gap-6">
+        <div class="flex flex-col col-span-full  lg:col-span-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
+                <div class="space-y-4 flex flex-col col-start-1">
+                    <div class="flex flex-col col-span-full">
+                        <label for="password" class="">Password<span class="text-red-500">*</span></label>
+                        <div class="mt-2">
+                            <p-password [toggleMask]="true" />
+                        </div>
+                    </div>
+                    <div class="flex flex-col col-span-full">
+                        <label for="confirmPassword" class="">Confirm
+                            Password<span class="text-red-500">*</span></label>
+                        <div class="mt-2">
+                            <p-password [toggleMask]="true" />
+                        </div>
+                    </div>
+                </div>
+                <div class="p-4 flex flex-col">
+                    <ul class="space-y-2">
+                        <li class="flex items-center">
+                            <i class="pi pi-check text-green-500 mr-2"></i>
+                            <span class="text-sm text-gray-700">At least 8 characters</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="pi pi-times text-red-500 mr-2"></i>
+                            <span class="text-sm text-gray-700">Contains uppercase letter</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="pi pi-check text-green-500 mr-2"></i>
+                            <span class="text-sm text-gray-700">Contains a number</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="pi pi-check text-green-500 mr-2"></i>
+                            <span class="text-sm text-gray-700">Contains a special character</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-6 col-start-1 sm:col-start-1 md:col-start-1">
+            <label for="first-name" class="">Status<span class="text-red-500">*</span></label>
+            <div class="mt-2">
+                <p-selectbutton [options]="statusOptions" [(ngModel)]="statusValue" optionLabel="name"
+                    optionValue="value" />
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <div>
+        <h3 class="text-base/7 font-semibold text-gray-900">Documents</h3>
+        <p class="mt-1 text-sm/6 ">Securely upload your documents for efficient verification and compliance.</p>
+    </div>
+    <p-divider></p-divider>
+
+    <div class="mt-10 grid grid-cols-12 gap-6">
+        <div
+            class="flex flex-col col-span-full sm:col-span-6 md:col-span-4 col-start-1 sm:col-start-1 md:col-start-1  justify-start">
+            <label for="cover-photo" class="">ID Proof<span class="text-red-500">*</span></label>
+            <div class="mt-2 flex justify-start">
+                <p-fileupload #fu mode="basic" chooseLabel="Choose" chooseIcon="pi pi-upload" name="demo[]"
+                    url="https://www.primefaces.org/cdn/api/upload.php" accept="image/*" maxFileSize="1000000"
+                    (onUpload)="onUpload($event)" />
+            </div>
+            <p-divider></p-divider>
+        </div>
+        <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-4 col-start-1 sm:col-start-1 md:col-start-1">
+            <label for="cover-photo" class="">Nursing License<span class="text-red-500">*</span></label>
+            <div class="mt-2 flex justify-start">
+                <p-fileupload #fu mode="basic" chooseLabel="Choose" chooseIcon="pi pi-upload" name="demo[]"
+                    url="https://www.primefaces.org/cdn/api/upload.php" accept="image/*" maxFileSize="1000000"
+                    (onUpload)="onUpload($event)" />
+            </div>
+            <p-divider></p-divider>
+        </div>
+        <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-4 col-start-1 sm:col-start-1 md:col-start-1">
+            <label for="cover-photo" class="">Certification Document<span class="text-red-500">*</span></label>
+            <div class="mt-2 flex justify-start">
+                <p-fileupload #fu mode="basic" chooseLabel="Choose" chooseIcon="pi pi-upload" name="demo[]"
+                    url="https://www.primefaces.org/cdn/api/upload.php" accept="image/*" maxFileSize="1000000"
+                    (onUpload)="onUpload($event)" />
+            </div>
+            <p-divider></p-divider>
+        </div>
+
+    </div>
+</div>
+
+<div class="card">
+    <div>
+        <h3 class="text-base/7 font-semibold text-gray-900">User Preferences</h3>
+        <p class="mt-1 text-sm/6 ">Securely upload your documents for efficient verification and compliance.</p>
+    </div>
+    <p-divider></p-divider>
+
+    <div class="mt-10 grid grid-cols-12 gap-6">
+        <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-4 col-start-1 sm:col-start-1 md:col-start-1">
+            <label for="organization">Preferred Language<small> (Optional)</small></label>
+            <div class="mt-2">
+                <p-autoComplete dropdown id="organization" [(ngModel)]="selectedTypes" class="w-full"
+                    [style]="{'width': '100%'}" [suggestions]="autoFilteredValue" optionLabel="label"
+                    optionValue="value" placeholder="Soft Search">
+                </p-autoComplete>
+            </div>
+        </div>
+
+        <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-4 col-start-1 sm:col-start-1 md:col-start-1">
+            <label for="organization">Mode of communication<small> (Optional)</small></label>
+            <div class="mt-2">
+                <p-autoComplete dropdown id="organization" [(ngModel)]="selectedTypes" class="w-full"
+                    [style]="{'width': '100%'}" [suggestions]="autoFilteredValue" optionLabel="label"
+                    optionValue="value" placeholder="Soft Search">
+                </p-autoComplete>
+            </div>
+        </div>
+
+        <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-4 col-start-1 sm:col-start-1 md:col-start-1">
+            <label for="organization">Mode of communication<small> (Optional)</small></label>
+            <div class="mt-2">
+                <p-autoComplete dropdown id="organization" [(ngModel)]="selectedTypes" class="w-full"
+                    [style]="{'width': '100%'}" [suggestions]="autoFilteredValue" optionLabel="label"
+                    optionValue="value" placeholder="Soft Search">
+                </p-autoComplete>
+            </div>
+        </div>
+    </div>
+</div>

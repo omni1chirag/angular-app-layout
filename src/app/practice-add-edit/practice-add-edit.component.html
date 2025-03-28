@@ -1,0 +1,270 @@
+<div pageHeader>
+    <p-toolbar>
+        <ng-template #start>
+            <p class="text-2xl font-bold sm:truncate sm:text-3xl sm:tracking-tight">
+                Add Practice
+            </p>
+        </ng-template>
+
+        <ng-template #center>
+        </ng-template>
+
+        <ng-template #end>
+            <div class="flex space-x-3 justify-items-end">
+                <p-button label="Save" (onClick)="navigateToListPage()"></p-button>
+                <p-button label="Cancel" variant="outlined" severity="danger"
+                    (onClick)="navigateToListPage()"></p-button>
+            </div>
+        </ng-template>
+    </p-toolbar>
+</div>
+
+<!-- <div class="flex justify-center m-6">
+    <h2 class="text-base/7 font-semibold ">Add Practice</h2>
+</div> -->
+
+<div class="card">
+    <div>
+        <h3 class="text-base/7 font-semibold ">Basic Details</h3>
+        <p class="mt-1 text-sm/6 ">This information will be displayed publicly so be careful what you
+            share.
+        </p>
+    </div>
+
+    <p-divider></p-divider>
+
+    <div class="mt-10 grid grid-cols-12 gap-6">
+        <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-4">
+            <label for="organization">Organization Name<span class="text-red-500">*</span></label>
+            <div class="mt-2">
+                <p-autoComplete dropdown id="organization" [(ngModel)]="selectedTypes" class="width-full w-full"
+                    [style]="{'width': '100%'}" [suggestions]="autoFilteredValue" optionLabel="label"
+                    optionValue="value" placeholder="Soft Search" (completeMethod)="searchOrganizationName($event)">
+                </p-autoComplete>
+            </div>
+        </div>
+
+        <div class="flex flex-col col-start-1 sm:col-start-1 md:col-start-1 col-span-full sm:col-span-6 md:col-span-4">
+            <label for="first-name">Practice name<span class="text-red-500">*</span></label>
+            <div class="mt-2">
+                <input pInputText type="text" name="first-name" id="first-name" autocomplete="given-name"
+                    class="w-full">
+            </div>
+        </div>
+
+        <div class="flex flex-col col-span-full  sm:col-span-6 md:col-span-4">
+            <label for="last-name" class="">Practice type<span class="text-red-500">*</span></label>
+            <div class="mt-2">
+                <p-select id="state" [(ngModel)]="selectedPracticeType" [options]="practiceTypes" optionLabel="name"
+                    placeholder="Select One" class="w-full" (onChange)="onDropdownChange()">
+                </p-select>
+            </div>
+        </div>
+
+        <div class="flex flex-col col-start-1 sm:col-start-1 md:col-start-1 col-span-full sm:col-span-6 md:col-span-4">
+            <label for="practiceName" class="">Registration id<span class="text-red-500">*</span></label>
+            <div class="mt-2">
+                <input name="practiceName" id="practiceName" pInputText class="w-full" />
+            </div>
+        </div>
+
+        <div class="flex flex-col col-span-full  sm:col-span-6 md:col-span-4">
+            <label for="first-name" class="">GSTIN number<small> (Optional)</small></label>
+            <div class="mt-2">
+                <input pInputText type="text" name="first-name" id="first-name" autocomplete="given-name"
+                    class="w-full">
+            </div>
+        </div>
+
+        <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-4 lg:col-span-3">
+            <label for="last-name">Year of Establishment<span class="text-red-500">*</span></label>
+            <div class="mt-2">
+                <p-datepicker view="year" dateFormat="yy" class="w-full" [iconDisplay]="'input'" [showIcon]="true"
+                    placeholder="YYYY" [style]="{'width': '100%'}" />
+            </div>
+        </div>
+
+        <div class="flex flex-col col-start-1 sm:col-start-1 md:col-start-1 col-span-full  sm:col-span-6 md:col-span-4">
+            <label for="photo" class="">Practice Logo <small>(Optional)</small></label>
+            <div class="mt-2 flex items-center justify-center gap-x-3">
+                <p-avatar class="flex items-center justify-center mr-2" size="xlarge" shape="circle"
+                    image="/assets/svg/clinic-svg-icon.svg" [style]="{ 'background-color': '#c8e9ed' }">
+                </p-avatar>
+                <p-button label="Change" variant="outlined" />
+            </div>
+        </div>
+
+        <div class="flex flex-col col-span-full md:col-span-8">
+            <label for="cover-photo" class="">Business licence<small> (Optional)</small></label>
+            <div class="mt-2">
+                <p-fileupload name="demo[]" (onUpload)="onUpload($event)" [multiple]="false" accept="image/*"
+                    maxFileSize="1000000" mode="advanced" url="https://www.primefaces.org/cdn/api/upload.php">
+                    <ng-template #empty>
+                        <div class="flex items-center justify-center flex-col">
+                            <i class="pi pi-cloud-upload !border-2 !rounded-full !p-8 !text-4xl !text-muted-color"></i>
+                            <p class="mt-6 mb-0">Drag and drop files to here to upload.</p>
+                            <small>PNG, JPG, GIF up to 10MB</small>
+                        </div>
+                    </ng-template>
+                    <ng-template #content>
+                        <ul *ngIf="uploadedFiles.length">
+                            <li *ngFor="let file of uploadedFiles">{{ file.name }} - {{ file.size }} bytes
+                            </li>
+                        </ul>
+                    </ng-template>
+                </p-fileupload>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <div>
+        <h3 class="text-base/7 font-semibold ">Contact Details</h3>
+        <p class="mt-1 text-sm/6 ">Use a permanent address where you can receive mail.</p>
+    </div>
+    <p-divider></p-divider>
+    <div class="mt-10 grid grid-cols-12 gap-6">
+        <div class="flex flex-col col-span-full md:col-span-6 lg:col-span-4">
+            <label for="address1">Adress 1<span class="text-red-500">*</span></label>
+            <div class="mt-2">
+                <input pInputText type="text" name="street-address" id="address2" class="w-full">
+            </div>
+        </div>
+
+        <div class="flex flex-col col-span-full md:col-span-6 lg:col-span-4">
+            <label for="address2">Adress 2<small> (Optional)</small></label>
+            <div class="mt-2">
+                <input pInputText type="text" name="street-address" id="address2" class="w-full">
+            </div>
+        </div>
+
+        <div
+            class="flex flex-col col-start-1 sm:col-start-1 md:col-start-1 lg:col-start-1 col-span-full sm:col-span-6 md:col-span-3 lg:col-span-2">
+            <label for="postal-code">PIN code<span class="text-red-500">*</span></label>
+            <div class="mt-2">
+                <input pInputText type="text" name="pin-code" id="postal-code" class="w-full">
+            </div>
+        </div>
+
+        <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-3 lg:col-span-2">
+            <label for="city">City<span class="text-red-500">*</span></label>
+            <div class="mt-2">
+                <input pInputText type="text" name="city" id="city" class="w-full">
+            </div>
+        </div>
+
+        <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-3 lg:col-span-2">
+            <label for="region">State<span class="text-red-500">*</span></label>
+            <div class="mt-2">
+                <input pInputText type="text" name="region" id="region" class="w-full">
+            </div>
+        </div>
+
+        <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-3 lg:col-span-2">
+            <label for="country" >Country</label>
+            <div class="justify-center">
+                <p-select [options]="countries" [(ngModel)]="selectedCountry" optionLabel="name"
+                    placeholder="Select a City" class="w-full md:w-56" [style]="{'width':'100%'}" />
+            </div>
+        </div>
+
+        <div
+            class="flex flex-col col-start-1 sm:col-start-1 md:col-start-1 lg:col-start-1 col-span-full sm:col-span-6 md:col-span-3 lg:col-span-2">
+            <label for="city" >Contact number</label>
+            <div class="mt-2">
+                <input pInputText type="text" name="city" id="city" class="w-full">
+            </div>
+        </div>
+
+        <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-3 lg:col-span-2">
+            <label for="email" >Email address</label>
+            <div class="mt-2">
+                <input pInputText id="email" name="email" type="email" class="w-full">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <div>
+        <h3 class="text-base/7 font-semibold ">Services & Speciality</h3>
+        <p class="mt-1 text-sm/6 ">We'll always let you know about important changes, but you pick what
+            else
+            you want to hear about.</p>
+    </div>
+
+    <p-divider></p-divider>
+
+    <div class="mt-10 space-y-10 grid grid-cols-12 gap-6">
+        <div class="flex flex-col col-start-1 sm:col-start-1 md:col-start-1 col-span-full sm:col-span-6 md:col-span-4">
+            <label for="specialities" >Specialities</label>
+            <div class="mt-2">
+                <p-multiselect [options]="Services" [(ngModel)]="selectedServices" class="w-full"
+                    placeholder="Mutliselect Specialities" optionLabel="name" display="chip" [filter]="true">
+                </p-multiselect>
+            </div>
+        </div>
+        
+        <div class="flex flex-col col-start-1 sm:col-start-1 md:col-start-1 col-span-full sm:col-span-6 md:col-span-4">
+                <label for="email">Payment Mode</label>
+                <div class="mt-2 border rounded-md border-gray-500/30 p-4 space-y-3">
+                    <div *ngFor="let category of paymentTypes" class="field-checkbox">
+                        <p-radiobutton [inputId]="category.key" [value]="category"  [(ngModel)]="selectedPaymentMode"/>
+                        <label [for]="category.key" class="ml-2">{{ category.name }}</label>
+                    </div>
+                </div>
+                
+                <!-- <div class="mt-2 border rounded-md border-gray-500/30 p-4 space-y-3">
+                    <div class="flex items-center gap-x-3">
+                        <p-radiobutton variant="filled" ngDefaultControl />
+                        <label for="push-everything" class="block text-sm/6 font-medium font-semibold">Credit/Debit
+                            Card</label>
+                    </div>
+                    <div class="flex items-center gap-x-3">
+                        <p-radiobutton variant="filled" ngDefaultControl />
+                        <label for="push-everything" class="block text-sm/6 font-medium font-semibold">UPI (Unified
+                            Payments
+                            Interface)</label>
+                    </div>
+                    <div class="flex items-center gap-x-3">
+                        <p-radiobutton variant="filled" ngDefaultControl />
+                        <label for="push-everything" class="block text-sm/6 font-medium font-semibold">Cash
+                            Payment</label>
+                    </div>
+                    <div class="flex items-center gap-x-3">
+                        <p-radiobutton variant="filled" ngDefaultControl />
+                        <label for="push-everything" class="block text-sm/6 font-medium font-semibold">All</label>
+                    </div>
+                </div> -->
+        </div>
+
+
+    </div>
+</div>
+
+
+<div class="card p-4">
+    <div class="mb-4">
+        <h3 class="text-base font-semibold ">Agreement</h3>
+        <p class="mt-1 text-sm ">
+            Please review and accept the terms and conditions below.
+        </p>
+    </div>
+    <p-divider></p-divider>
+    <fieldset class="mt-4">
+        <legend class="text-sm font-semibold ">
+            Terms &amp; Conditions
+        </legend>
+        <div class="flex items-center mt-2">
+            <div class="flex h-6 shrink-0 items-center">
+                <p-checkbox inputId="terms" value="accepted" ngDefaultControl />
+            </div>
+            <div class="ml-2">
+                <label for="terms" class="text-sm font-medium font-semibold">
+                    I agree to the Terms and Conditions
+                </label>
+            </div>
+        </div>
+    </fieldset>
+</div>

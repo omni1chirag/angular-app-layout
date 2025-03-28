@@ -1,0 +1,121 @@
+<div pageHeader="list">
+    <p-toolbar>
+        <ng-template #start>
+            <div class="flex items-center gap-2">
+                <p class="text-2xl font-bold sm:truncate sm:text-3xl sm:tracking-tight">Provider List</p>
+            </div>
+        </ng-template>
+
+        <ng-template #end>
+            <div class="flex items-center gap-2">
+                <p-button label="Add Provider" (onClick)="navigateTo('/home/provider/add-edit')" />
+
+            </div>
+        </ng-template>
+    </p-toolbar>
+</div>
+<div class="card">
+    <div class="flex justify-between table-options">
+        <button pButton label="Clear" class="p-button-outlined" icon="pi pi-filter-slash"
+            (click)="clear(providerTable)"></button>
+        <div class="flex justify-between items-center flex-column sm:flex-row gap-2">
+
+            <div class="flex items-center gap-2">
+                <button pButton label="Export" class="p-button-outlined" icon="pi pi-external-link"
+                    (click)="exportCSV(providerTable)"></button>
+            </div>
+        </div>
+    </div>
+
+    <p-divider></p-divider>
+
+    <p-table [value]="providers" styleClass="mt-4" [paginator]="true"
+        [rows]="10" stripedRows [(selection)]="selectedprovider" (selectionChange)="onSelectionChange()"
+        [size]="'small'" [scrollable]="true" tableAutoScroll #providerTable>
+        <ng-template #header>
+            <tr>
+                <th style="min-width:200px" class="font-bold" pFrozenColumn>Provider Name</th>
+                <th style="min-width:200px" class="font-bold">Specialization</th>
+                <th style="min-width:200px" class="font-bold">Practice Name</th>
+                <th style="min-width:200px" class="font-bold">Organization Name</th>
+                <th style="min-width:200px" class="font-bold">Consultation Mode</th>
+                <th style="min-width:200px" class="font-bold">Status</th>
+                <th style="min-width:100px; text-align: center;" alignFrozen="right" pFrozenColumn [frozen]="actions"
+                    [ngClass]="{ 'font-bold': actions }" *ngIf="isBrowser">Actions</th>
+            </tr>
+            <tr>
+                <th pFrozenColumn>
+                    <p-columnFilter type="text" field="providerName" placeholder="Search by providerName"
+                        ariaLabel="Filter Provider"></p-columnFilter>
+                </th>
+                <th>
+                    <p-columnFilter type="text" field="specialization" placeholder="Search by specialization"
+                        ariaLabel="Filter specialization"></p-columnFilter>
+                </th>
+                <th>
+                    <p-columnFilter type="text" field="practiceName" placeholder="Search by practiceName"
+                        ariaLabel="Filter practiceName"></p-columnFilter>
+                </th>
+                <th>
+                    <p-columnFilter type="text" field="organizationName" placeholder="Search by organizationName"
+                        ariaLabel="Filter organizationName"></p-columnFilter>
+                </th>
+                <th>
+                    <p-columnFilter type="text" field="consultationMode" placeholder="Search by consultationMode"
+                        ariaLabel="Filter consultationMode"></p-columnFilter>
+
+                </th>
+                <th>
+                    <p-columnFilter field="Status" matchMode="equals" [showMenu]="false">
+                        <ng-template #filter let-value let-filter="filterCallback">
+                            <p-select [ngModel]="value" [options]="statusList" (onChange)="filter($event.value)"
+                                placeholder="Any" [style]="{ 'min-width': '12rem' }">
+                                <ng-template let-option #item>
+                                    <div class="flex justify-center gap-2">
+                                        <p-tag [value]="option.label" [severity]="getSeverity(option.value)" />
+                                    </div>
+                                </ng-template>
+                            </p-select>
+                        </ng-template>
+                    </p-columnFilter>
+                </th>
+                <th pFrozenColumn alignFrozen="right" [frozen]="actions" style="text-align: center;">
+                    <p-togglebutton [(ngModel)]="actions" [onIcon]="'pi pi-lock'" offIcon="pi pi-lock-open"
+                        [onLabel]="'Unlock'" offLabel="Lock" />
+                </th>
+            </tr>
+        </ng-template>
+        <ng-template #body let-provider>
+            <tr>
+                <td class="font-bold" pFrozenColumn>
+                    <p-button label="{{ provider.providerName }}" [link]="true"
+                        (onClick)="navigateTo('/home/provider/add-edit')" />
+                </td>
+                <td>{{ provider.Specialization }}</td>
+                <td>{{ provider.practiceName }}</td>
+                <td>{{ provider.organizationName }}</td>
+                <td>{{ provider.ConsultationMode }}</td>
+                <td>
+                    <span class="flex">
+                        <p-tag [severity]="provider.Status === 'Active' ? 'success' : 'danger'"
+                            [value]="provider.Status">
+                        </p-tag>
+                    </span>
+                </td>
+                <td alignFrozen="right" pFrozenColumn [frozen]="actions" [ngClass]="{ 'font-bold': actions }"
+                    *ngIf="isBrowser">
+                    <p-menu #menu [popup]="true" [model]="optionsItems" appendTo="body"></p-menu>
+                    <div class="flex justify-center">
+                        <p-button icon="pi  pi-ellipsis-v" severity="secondary" rounded (click)="menu.toggle($event)"
+                            [raised]="true" />
+                    </div>
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template #emptymessage>
+            <tr>
+                <td colspan="5">No Data Found.</td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>

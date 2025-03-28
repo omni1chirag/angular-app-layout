@@ -1,0 +1,104 @@
+<div pageHeader="list">
+    <p-toolbar>
+        <ng-template #start>
+            <div class="flex items-center gap-2">
+                <div  class="text-2xl font-bold sm:truncate sm:text-3xl sm:tracking-tight">Organization List</div>
+
+            </div>
+        </ng-template>
+
+        <ng-template #end>
+            <div class="flex items-center gap-2">
+                <p-button label="Add Organization" (onClick)="navigateTo('/home/organization')" />
+            </div>
+        </ng-template>
+    </p-toolbar>
+</div>
+
+<div class="card">
+        <div class="flex justify-between table-options">
+            <div class="flex items-center gap-2">
+                <button pButton label="Clear" class="p-button-outlined" icon="pi pi-filter-slash"
+                    (click)="clear(organizationTable)"></button>
+            </div>
+            <div class="flex items-center gap-2">
+                <button pButton label="Export" class="p-button-outlined" icon="pi pi-external-link"
+                    (click)="exportCSV(organizationTable)"></button>
+            </div>
+        </div>
+        <p-divider></p-divider>
+    
+    <p-table [value]="organizations" styleClass="mt-4" [paginator]="true"
+        [rows]="10" stripedRows [(selection)]="selectedOrganzation" (selectionChange)="onSelectionChange()"
+        [size]="'small'" [scrollable]="true" tableAutoScroll #organizationTable>
+        <ng-template #header>
+            <tr>
+                <th style="min-width:200px" class="font-bold">Organization Name</th>
+                <th style="min-width:200px" class="font-bold">Type of Organization</th>
+                <th style="min-width:200px" class="font-bold">Subscription Plan</th>
+                <th style="min-width:200px">Status</th>
+                <th style="min-width:100px; text-align: center;" alignFrozen="right" pFrozenColumn [frozen]="actions"
+                    [ngClass]="{ 'font-bold': actions }" *ngIf="isBrowser">Actions</th>
+            </tr>
+            <tr>
+                <th>
+                    <p-columnFilter type="text" field="organizationName" placeholder="Search by organizationName"
+                        ariaLabel="Filter Organization"></p-columnFilter>
+                </th>
+                <th>
+                    <p-columnFilter type="text" field="typeOfOrganization" placeholder="Search by typeOfOrganization"
+                        ariaLabel="Filter typeOfOrganization"></p-columnFilter>
+                </th>
+                <th></th>
+                <th>
+                    <p-columnFilter field="status" matchMode="equals" [showMenu]="false">
+                        <ng-template #filter let-value let-filter="filterCallback">
+                            <p-select [ngModel]="value" [options]="statusList" (onChange)="filter($event.value)"
+                                placeholder="Any" [style]="{ 'min-width': '12rem' }">
+                                <ng-template let-option #item>
+                                    <div class="flex justify-center gap-2">
+                                        <p-tag [value]="option.label" [severity]="getSeverity(option.value)" />
+                                    </div>
+                                </ng-template>
+                            </p-select>
+                        </ng-template>
+                    </p-columnFilter>
+                </th>
+                <th pFrozenColumn alignFrozen="right" [frozen]="actions" style="text-align: center;">
+                    <p-togglebutton [(ngModel)]="actions" [onIcon]="'pi pi-lock'" offIcon="pi pi-lock-open"
+                        [onLabel]="'Unlock'" offLabel="Lock" />
+                </th>
+            </tr>
+        </ng-template>
+        <ng-template #body let-organization>
+            <tr>
+                <td class="font-bold" pFrozenColumn>
+                    <p-button label="{{ organization.organizationName }}" [link]="true"
+                        (onClick)="navigateTo('/home/organization')" />
+                </td>
+                <td>{{ organization.typeOfOrganization }}</td>
+                <td>{{ organization.subscriptionPlan }}</td>
+                <td>
+                    <span class="flex">
+                        <p-tag [severity]="organization.status === 'Active' ? 'success' : 'danger'"
+                            [value]="organization.status">
+                        </p-tag>
+                    </span>
+                </td>
+                <td alignFrozen="right" pFrozenColumn [frozen]="actions" [ngClass]="{ 'font-bold': actions }"
+                    *ngIf="isBrowser">
+                    <p-menu #menu [popup]="true" [model]="optionsItems" appendTo="body"></p-menu>
+                    <div class="flex justify-center">
+                        <p-button icon="pi  pi-ellipsis-v" severity="secondary" rounded (click)="menu.toggle($event)"
+                            [raised]="true" />
+                    </div>
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template #emptymessage>
+            <tr>
+                <td colspan="5">No Data Found.</td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>

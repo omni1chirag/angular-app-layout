@@ -1,0 +1,215 @@
+<div pageHeader="list">
+    <p-toolbar>
+        <ng-template #start>
+            <p class="text-2xl font-bold sm:truncate sm:text-3xl sm:tracking-tight ml-[1rem]">
+                Approval Requests
+            </p>
+        </ng-template>
+
+        <ng-template #center>
+            <div class="flex items-center gap-2">
+                <button pButton label="Approve Selected" class="p-button-outlined" severity="success"
+                    (click)="openApprovalConfirmation()" *ngIf="selectedClients.length > 0"></button>
+                <button pButton label="Reject Selected" class="p-button-outlined" severity="danger"
+                    (click)="openRejectConfirmation()" *ngIf="selectedClients.length > 0"></button>
+            </div>
+        </ng-template>
+
+        <ng-template #end>
+            <div class="flex items-center gap-2">
+                
+            </div>
+        </ng-template>
+    </p-toolbar>
+</div>
+
+<div class="card">
+    <div class="flex justify-between table-options">
+        <div class="flex items-center gap-2">
+            <button pButton label="Clear" class="p-button-outlined" icon="pi pi-filter-slash"
+                (click)="clear(dt1)"></button>
+        </div>
+        <div class="flex justify-between items-center flex-column sm:flex-row gap-2">
+            <div class="flex items-center gap-2">
+
+                <button pButton label="Export" class="p-button-outlined" icon="pi pi-external-link"
+                    (click)="exportCSV(dt1)"></button>
+            </div>
+        </div>
+    </div>
+    <p-divider></p-divider>
+
+    <p-table [value]="clients" styleClass="mt-4" [paginator]="true" [rows]="50"
+        stripedRows [(selection)]="selectedClients" (selectionChange)="onSelectionChange()"
+        [exportHeader]="'customExportHeader'" [columns]="cols" [size]="'small'" [scrollable]="true" tableAutoScroll  #dt1>
+        <ng-template #header>
+            <tr>
+                <th class="w-16" pFrozenColumn>
+                    <p-tableHeaderCheckbox />
+                </th>
+                <th class="min-w-48 font-bold" pFrozenColumn pSortableColumn="name">
+                    Provider Name
+                    <p-sortIcon field="name" />
+                </th>
+                <!-- <th class="min-w-36">Type</th> -->
+                <th class="min-w-52">Email Address</th>
+                <th class="min-w-52">Specialization</th>
+                <th class="min-w-52">Registration Date</th>
+                <th class="min-w-36">Status</th>
+                <!-- <th class="min-w-36">ContactNumber</th> -->
+                <!-- <th class="min-w-52">Address</th> -->
+                <th class="min-w-28 text-center" alignFrozen="right" pFrozenColumn [frozen]="actions"
+                    [ngClass]="{ 'font-bold': actions }" *ngIf="isBrowser">Actions</th>
+            </tr>
+            <tr>
+                <th pFrozenColumn></th>
+                <th pFrozenColumn>
+                    <p-columnFilter type="text" field="name" placeholder="Search by Provider Name"
+                        ariaLabel="Filter Name"></p-columnFilter>
+                </th>
+                <th></th>
+                <th>
+                    <p-columnFilter type="text" field="specialty" placeholder="Search by Specialization"
+                        ariaLabel="Filter Specialization"></p-columnFilter>
+                </th>
+                
+                <th>
+                    <p-columnFilter type="date" field="registeredOn" placeholder="mm/dd/yyyy"></p-columnFilter>
+                </th>
+                <th>
+                    <p-columnFilter field="status" matchMode="equals" [showMenu]="false">
+                        <ng-template #filter let-value let-filter="filterCallback">
+                            <p-select [ngModel]="value" [options]="statusList" (onChange)="filter($event.value)"
+                                placeholder="Any" [style]="{ 'min-width': '12rem' }">
+                                <ng-template let-option #item>
+                                    <div class="flex justify-center items-center gap-2">
+                                        <p-tag [value]="option.value" [severity]="getSeverity(option.label)" />
+                                    </div>
+                                </ng-template>
+                            </p-select>
+                        </ng-template>
+                    </p-columnFilter>
+                </th>
+
+                <th pFrozenColumn alignFrozen="right" [frozen]="actions" style="text-align: center;">
+                    <p-togglebutton [(ngModel)]="actions" [onIcon]="'pi pi-lock'" offIcon="pi pi-lock-open"
+                        [onLabel]="'Unlock'" offLabel="Lock" />
+                </th>
+            </tr>
+        </ng-template>
+        <ng-template #body let-client>
+            <tr>
+                <td pFrozenColumn>
+                    <p-tableCheckbox [value]="client"></p-tableCheckbox>
+                </td>
+                <td class="font-bold" pFrozenColumn>
+                    <p-button label="{{ client.name }}" [link]="true" (onClick)="visibleBottom =true" />
+                </td>
+                <!-- <td>{{ client.type }}</td> -->
+                <td>{{ client.email }}</td>
+                <td>{{ client.specialty }}</td>
+                <td>{{ client.registeredOn | date}}</td>
+                <td>
+                    <p-tag
+                        [severity]="client.status === 'Approved' ? 'success' : client.status === 'Pending' ? 'warn' : 'danger'"
+                        [value]="client.status">
+                    </p-tag>
+
+                </td>
+                <!-- <td>{{ client.address }}</td> -->
+                <td alignFrozen="right" pFrozenColumn [frozen]="actions" [ngClass]="{ 'font-bold': actions }"
+                    *ngIf="isBrowser">
+                    <p-menu #menu [popup]="true" [model]="optionsItems" appendTo="body"></p-menu>
+                    <div class="flex justify-center">
+                        <p-button icon="pi  pi-ellipsis-v" severity="secondary" rounded (click)="menu.toggle($event)"
+                            [raised]="true" />
+                    </div>
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template #emptymessage>
+            <tr>
+                <td colspan="5">No Data found.</td>
+            </tr>
+        </ng-template>
+    </p-table>
+
+    <p-dialog header="Confirmation" [(visible)]="displayApproveConfirmation" [style]="{ width: '350px' }" [modal]="true">
+        <div class="flex items-center justify-center">
+            <i class="pi pi-exclamation-triangle mr-4" style="font-size: 2rem"> </i>
+            <span>Are you sure you want to approve this provider?</span>
+        </div>
+        <ng-template #footer>
+            <p-button label="No" icon="pi pi-times" (click)="displayRejectConfirmation = false" text severity="secondary" />
+            <p-button label="Yes" icon="pi pi-check" (click)="closeApprovalConfirmation()" severity="success" outlined
+                autofocus />
+        </ng-template>
+    </p-dialog>
+    
+    <p-dialog header="Confirmation" [(visible)]="displayRejectConfirmation" [style]="{ width: '350px' }" [modal]="true">
+        <div class="flex items-center justify-center">
+            <i class="pi pi-exclamation-triangle mr-4" style="font-size: 2rem"> </i>
+            <span>Are you sure you want to Reject this provider?</span>
+        </div>
+        <p-divider />
+        <div class="flex flex-col justify-center">
+    
+            <label for="rejection-reason">Please Provide Valid Reason<span class="text-red-500">*</span></label>
+            <textarea rows="5" cols="30" pTextarea [(ngModel)]="rejectionReason"></textarea>
+        </div>
+    
+        <ng-template #footer>
+            <p-button label="No" icon="pi pi-times" (click)="displayRejectConfirmation = false" text severity="secondary" />
+            <p-button label="Yes" icon="pi pi-check" (click)="closeRejectConfirmation()" severity="danger" outlined
+                autofocus />
+        </ng-template>
+    </p-dialog>
+    
+    
+    
+    <p-dialog header="Provider Details" [(visible)]="visibleBottom" [breakpoints]="{ '960px': '75vw' }"
+        [style]="{ width: '30vw' }" [modal]="true">
+        <div class="flex justify-center">
+            <p-card [style]="{ width: '25rem', overflow: 'hidden' }">
+                <ng-template #header>
+                    <img alt="Card" class="w-full" src="/assets/images/client.jpg" />
+                </ng-template>
+                <ng-template #title>Provider Name </ng-template>
+                <ng-template #subtitle> Provider Speciality</ng-template>
+                <div class="flex-column">
+                    <p>
+                        <span class="font-semibold">Contact Number:</span> 1234567890
+                    </p>
+                    <p>
+                        <span class="font-semibold">Email:</span> provider&#64;email.com
+                    </p>
+                    <p>
+                        <span class="font-semibold">Registered On:</span> 12/02/2025
+                    </p>
+                    <p>
+                        <span class="font-semibold">Address:</span> 123, Provider Address, City, State, Country
+                    </p>
+                    <p>
+                        <span class="font-semibold">Status: </span> <p-tag severity="warn" value="Pendig" />
+                    </p>
+                </div>
+                <ng-template #footer>
+                    <div class="flex gap-4 mt-1">
+                        <p-button label="View Documents" severity="secondary" class="w-full" [outlined]="true"
+                            (click)="onViewDocument()" styleClass="w-full" />
+                    </div>
+                </ng-template>
+            </p-card>
+        </div>
+    </p-dialog>
+    
+    
+    <p-drawer [(visible)]="visibleDocument" header="Document viewer" position="full">
+        <div class="flex justify-center">
+            <p>View Documents</p>
+        </div>
+    </p-drawer>
+    
+    <p-toast position="bottom-right" key="toasterKey" />
+</div>
+

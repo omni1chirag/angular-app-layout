@@ -1,0 +1,12 @@
+.frozen-div {
+    position: sticky; /* Completely freezes it */
+    top: 0;
+    left: 0;
+    width: 100%; /* Ensures it spans the full width */
+    background: white; /* Prevents transparency issues */
+    z-index: 1000; /* Keeps it above other elements */
+    
+}
+
+
+

@@ -1,0 +1,316 @@
+<div pageHeader>
+    <p-toolbar >
+        <ng-template #start>
+            <p class="text-2xl font-bold sm:truncate sm:text-3xl sm:tracking-tight">
+                My Profile
+            </p>
+        </ng-template>
+
+        <ng-template #center>
+        </ng-template>
+
+        <ng-template #end>
+            <div class="flex space-x-3 justify-items-end">
+                <p-button label="Save" (onClick)="save()"></p-button>
+                <p-button label="Cancel" variant="outlined" (onClick)="save()" severity="danger"></p-button>
+            </div>
+        </ng-template>
+    </p-toolbar>
+</div>
+
+<div class="card">
+    <div>
+        <h3 class="text-base/7 font-semibold text-gray-900">Basic Details</h3>
+    </div>
+    <p-divider></p-divider>
+    <div class="mt-10 grid grid-cols-12 gap-6">
+
+        <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-1">
+            <label for="state">Title</label>
+            <div class="mt-2">
+                <p-select id="state" [(ngModel)]="provider.title" [options]="dropdownItems" optionLabel="name"
+                    placeholder="Select One" class="w-full" class="w-full">
+                </p-select>
+            </div>
+        </div>
+        <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-3">
+            <label for="firstName">First Name<span class="text-red-500">*</span></label>
+            <div class="mt-2">
+                <input pInputText id="firstName" [(ngModel)]="provider.firstName"  type="text" placeholder="Enter First name" class="w-full" />
+            </div>
+        </div>
+        <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-3">
+            <label for="MiddleName">Middle Name </label>
+            <div class="mt-2">
+                <input pInputText id="MiddleName" type="text" placeholder="Enter MiddleName name" class="w-full" />
+            </div>
+        </div>
+        <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-3">
+            <label for="LastName">Last Name<span class="text-red-500">*</span></label>
+            <div class="mt-2">
+                <input pInputText id="LastName" type="text" [(ngModel)]="provider.lastName"  placeholder="Enter LastName name" class="w-full" />
+            </div>
+        </div>
+        <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-2">
+            <label for="dob">Date of Birth<span class="text-red-500">*</span></label>
+            <div class="mt-2">
+                <p-datepicker [showIcon]="true" [showButtonBar]="true" [(ngModel)]="provider.dob"
+                    class="w-full"></p-datepicker>
+            </div>
+        </div>
+        <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-1">
+            <label for="age">Age</label>
+            <div class="mt-2">
+                <input pInputText type="number" id="age" readonly class="w-full" />
+            </div>
+        </div>
+        <div class="flex flex-col  col-span-full sm:col-span-6 md:col-span-4">
+            <label for="state">Gender<span class="text-red-500">*</span></label>
+            <div class="mt-2">
+                <p-selectbutton [options]="GenderList" [(ngModel)]="provider.gender" optionLabel="name"
+                    optionValue="value" />
+                <input pInputText type="text" *ngIf="provider.gender == 'Others'"
+                    [(ngModel)]="provider.registrationNumber" id="RegistrationNumber" class="w-full" />
+
+            </div>
+        </div>
+
+        <div
+            class="flex flex-col col-start-1 sm:col-start-1 md:col-start-1  col-span-full sm:col-span-6 md:col-span-3">
+            <label for="Medical or Doctor Registration Number">Medical or Doctor Registration Number<span
+                    class="text-red-500">*</span></label>
+            <div class="mt-2">
+                <input pInputText type="text" [(ngModel)]="provider.registrationNumber" id="RegistrationNumber"
+                    class="w-full" />
+            </div>
+        </div>
+        <div class="flex flex-col  col-span-full sm:col-span-6 md:col-span-3">
+            <label for="state">Licence Issuing Authority<span class="text-red-500">*</span></label>
+            <div class="mt-2">
+                <p-select id="state" [(ngModel)]="provider.licence" [options]="LicenceList" optionLabel="name"
+                    placeholder="Select One" class="w-full" class="w-full">
+                </p-select>
+            </div>
+        </div>
+        <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-2">
+            <label for="LicenceExpiry">Licence Expiry Date<span class="text-red-500">*</span></label>
+            <div class="mt-2">
+                <p-datepicker [showIcon]="true" [showButtonBar]="true" [(ngModel)]="provider.licenceExpiry"
+                    class="w-full"></p-datepicker>
+            </div>
+        </div>
+        <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-2">
+            <label for="Years">Years of Experience</label>
+            <div class="mt-2">
+                <input pInputText id="Years" type="text" class="w-full" placeholder="Enter Experience" />
+            </div>
+        </div>
+        <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-2">
+            <label for="MobileNumber">Mobile Number<span class="text-red-500">*</span></label>
+            <div class="mt-2">
+                <input pInputText id="MobileNumber" type="text" [(ngModel)]="provider.mobile"  placeholder="Enter Mobile Number" class="w-full" />
+            </div>
+        </div>
+        <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-2">
+            <label for="city">Email Address<span class="text-red-500">*</span></label>
+            <div class="mt-2">
+                <input pInputText id="Email" type="text" [(ngModel)]="provider.email" placeholder="Enter Email Address" class="w-full" />
+            </div>
+        </div>
+        <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-2">
+            <label>Profile Picture</label>
+            <div class="mt-2">
+                <p-fileupload #fu mode="basic" class="justify-content-start flex"  chooseLabel="Choose" chooseIcon="pi pi-upload" name="demo[]"
+                    accept="image/*" maxFileSize="1000000" />
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <div>
+        <h3 class="text-base/7 font-semibold text-gray-900">Specialization Details</h3>
+    </div>
+    <p-divider></p-divider>
+    <div class="mt-10 grid grid-cols-12 gap-6">
+        <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-3">
+            <label for="state">Specialization<span class="text-red-500">*</span></label>
+            <div class="mt-2">
+                <p-select id="state" [(ngModel)]="provider.specialization" [options]="spaciality" optionLabel="name"
+                    placeholder="Select One" class="w-full" class="w-full">
+                </p-select>
+            </div>
+        </div>
+        <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-3">
+            <label for="state">Sub Specialization<span class="text-red-500">*</span></label>
+            <div class="mt-2">
+                <p-select id="state" [(ngModel)]="provider.subSpecialization" [options]="sub_speciality"
+                    optionLabel="name" placeholder="Select One" class="w-full" class="w-full">
+                </p-select>
+            </div>
+        </div>
+        <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-3">
+            <label for="state">Medical Degree<span class="text-red-500">*</span></label>
+            <div class="mt-2">
+                <p-select id="state" [(ngModel)]="provider.degree" [options]="Medical_Degree" optionLabel="name"
+                    placeholder="Select One" class="w-full" class="w-full">
+                </p-select>
+            </div>
+        </div>
+        <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-3">
+            <label for="RegNumber">Registration Number<span class="text-red-500">*</span></label>
+            <div class="mt-2">
+                <input pInputText id="RegNumber" type="text" placeholder="Enter Reg Number" class="w-full" />
+            </div>
+        </div>
+        <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-3">
+            <label for="Years">Practicing Since</label>
+            <div class="mt-2">
+                <p-datepicker [showIcon]="true" [showButtonBar]="true" class="w-full"></p-datepicker>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <div>
+        <h3 class="text-base/7 font-semibold text-gray-900">Practice Details</h3>
+    </div>
+    <p-divider></p-divider>
+    <div class="mt-10 grid grid-cols-12 gap-6">
+        <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-4">
+            <label for="PracticeName">Practice Name<span class="text-red-500">*</span> </label>
+            <div class="mt-2">
+                <input pInputText id="PracticeName" type="text" placeholder="Enter Practice Name" class="w-full" />
+            </div>
+        </div>
+        <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-4">
+            <label for="address1">Address 1<span class="text-red-500">*</span> </label>
+            <div class="mt-2">
+                <input pInputText id="address1" type="text" placeholder="Enter address" class="w-full" />
+            </div>
+        </div>
+        <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-4">
+            <label for="address2">Address 2</label>
+            <div class="mt-2">
+                <input pInputText id="address2" type="text" placeholder="Enter address" class="w-full" />
+            </div>
+        </div>
+
+        <div
+            class="flex flex-col col-start-1 sm:col-start-1 md:col-start-1 col-span-full sm:col-span-6 md:col-span-2">
+            <label for="pincode">Pincode<span class="text-red-500">*</span></label>
+            <div class="mt-2">
+                <input pInputText id="pincode" type="text" placeholder="Enter pincode" class="w-full" />
+            </div>
+        </div>
+        <div class="flex flex-col col-span-full  sm:col-span-6 md:col-span-2">
+            <label for="city">City<span class="text-red-500">*</span></label>
+            <div class="mt-2">
+                <input pInputText id="city" type="text" placeholder="Enter city" class="w-full" />
+            </div>
+        </div>
+        <div class="flex flex-col col-span-full  sm:col-span-6 md:col-span-2">
+            <label for="state">State<span class="text-red-500">*</span></label>
+            <div class="mt-2">
+                <input pInputText id="state" type="text" placeholder="Enter state" class="w-full" />
+            </div>
+        </div>
+        <div class="flex flex-col col-span-full  sm:col-span-6 md:col-span-2">
+            <label for="country">Country<span class="text-red-500">*</span></label>
+            <div class="mt-2">
+                <input pInputText id="country" type="text" placeholder="Enter country" class="w-full" />
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <div>
+        <h3 class="text-base/7 font-semibold text-gray-900">Consultation Details</h3>
+    </div>
+    <p-divider></p-divider>
+    <div class="mt-10 grid grid-cols-12 gap-6">
+        <!-- Consultation Mode -->
+        <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-3">
+            <label class="font-medium">Consultation Mode</label>
+            <div class="mt-2">
+                <div class="flex gap-4">
+                    <div class="flex items-center">
+                        <p-checkbox id="checkOption1" name="option" value="In Person"
+                            [(ngModel)]="provider.consultationMode" />
+                        <label for="checkOption1" class="ml-2">In Person</label>
+                    </div>
+                    <div class="flex items-center">
+                        <p-checkbox id="checkOption2" name="option" value="Virtual"
+                            [(ngModel)]="provider.consultationMode" />
+                        <label for="checkOption2" class="ml-2">Virtual</label>
+                    </div>
+                    <div class="flex items-center">
+                        <p-checkbox id="checkOption3" name="option" value="Both"
+                            [(ngModel)]="provider.consultationMode" />
+                        <label for="checkOption3" class="ml-2">Both</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Available Days -->
+        <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-6">
+            <label class="font-medium">Available Days<span class="text-red-500">*</span></label>
+            <div class="mt-2">
+                <div class="flex gap-2">
+                    <div>
+                        <p-selectbutton [options]="daysoptions" [(ngModel)]="provider.days" [multiple]="true"
+                            optionLabel="name" optionValue="value" />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Available Time -->
+        <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-2">
+            <label class="font-medium">Available Time<span class="text-red-500">*</span></label>
+            <div class="mt-2">
+                <div class="flex items-center gap-4">
+                    <input pInputText type="time" [(ngModel)]="provider.startTime" />
+                    <span>to</span>
+                    <input pInputText type="time" [(ngModel)]="provider.endTime" />
+                </div>
+            </div>
+        </div>
+
+        <!-- Consultation Fee -->
+        <div
+            class="flex flex-col col-span-full col-start-1 sm:col-start-1 md:col-start-1  sm:col-span-6 md:col-span-2">
+            <label class="font-medium">Consultation Fee<span class="text-red-500">*</span></label>
+            <div class="mt-2">
+                <input pInputText type="number" [(ngModel)]="provider.consultationFee" maxlength="10"
+                    placeholder="Enter fee amount" class="w-full" />
+            </div>
+        </div>
+
+        <!-- Preferred Payment Mode -->
+        <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-2">
+            <div class="flex flex-col w-full">
+                <label for="paymentMode">Preferred Payment Mode<span class="text-red-500">*</span></label>
+                <div class="mt-2">
+                    <p-multiselect [options]="paymentoptions" [(ngModel)]="provider.Paymentopt"
+                        placeholder="Select Payment Mode" optionLabel="name" display="chip" [filter]="true"
+                        class="w-full">
+                    </p-multiselect>
+                </div>
+            </div>
+        </div>
+
+        <!-- Accepted Insurance Providers -->
+        <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-3">
+            <label>Accepted Insurance Providers</label>
+            <div class="mt-2">
+                <p-select id="subscriptionPlan" [(ngModel)]="provider.selectedInsuranceProvider"
+                    [options]="insuranceProviders" optionLabel="name" placeholder="Select One" class="w-full">
+                </p-select>
+            </div>
+        </div>
+    </div>
+</div>

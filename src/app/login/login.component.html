@@ -1,0 +1,186 @@
+<div class="layout-topbar">
+    <div class="layout-topbar-logo-container">
+        <a class="layout-topbar-logo" routerLink="/">
+            <img alt="" width="120">
+        </a>
+    </div>
+    <div class="layout-topbar-actions">
+        <div class="layout-config-menu">
+            <span>Find Doctors</span>
+            <span>Video Consultantion</span>
+            <span>Services</span>
+            <span>About Us</span>
+            <span>Contact US</span>
+        </div>
+
+    </div>
+
+</div>
+<div class="layout-main-container">
+    <div class="layout-main flex flex-col">
+        <div class="flex-1 flex flex items-center">
+            <div class="w-full flex h-full justify-end">
+                    <div class="sticky flex content-end pl-3">
+                    <p-image src="/assets/images/login.png" class="" alt="Image" width="400" />
+                </div>
+            </div>
+            <div class="w-full flex h-full justify-left">
+                <div class="grid">
+                    <p-tabs value="0" *ngIf="currentTab != 'otpVerification'">
+                        <p-tablist>
+                            <p-tab value="0" class="rounded-t-lg">Patient</p-tab>
+                            <p-tab value="1" class="rounded-t-lg">Provider</p-tab>
+                        </p-tablist>
+                    </p-tabs>
+                    <div [ngSwitch]="currentTab" class="rounded-l-lg rounded-r-lg flex content-start pr-3  bg-white">
+                        <ng-container *ngSwitchCase="'registration'">
+                            <ng-container *ngTemplateOutlet="registration"></ng-container>
+                        </ng-container>
+                        <ng-container *ngSwitchCase="'otpVerification'">
+                            <ng-container *ngTemplateOutlet="verification"></ng-container>
+                        </ng-container>
+                        <ng-container *ngSwitchCase="'login'">
+                            <ng-container *ngTemplateOutlet="login"></ng-container>
+                        </ng-container>
+                        <ng-container *ngSwitchDefault>
+                            <ng-container *ngTemplateOutlet="login"></ng-container>
+                        </ng-container>
+    
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<ng-template #registration>
+    <div class="p-5 grid grid-cols-12 gap-3 ">
+        <div class="col-span-12 col-start-1">
+            <span class="flex justify-center w-full text-muted-color text-2xl font-bold">Sign up to continue</span>
+        </div>
+        <div class="col-span-12 col-start-1">
+            <div class="mt-5 grid grid-cols-12 gap-3">
+                <div class="flex flex-col col-span-full sm:col-span-12 md:col-span-6 md:col-span-6">
+                    <label for="firstName">First Name </label>
+                    <div class="mt-2">
+                        <input pInputText id="firstName" type="text" [(ngModel)]="registrationForm.firstName"
+                            placeholder="Enter First name" class="w-full" />
+                    </div>
+                </div>
+                <div class="flex flex-col sm:col-start-1 col-span-full sm:col-span-12 md:col-span-6 md:col-span-6">
+                    <label for="LastName">Last Name </label>
+                    <div class="mt-2">
+                        <input pInputText id="LastName" type="text" [(ngModel)]="registrationForm.lastName"
+                            placeholder="Enter LastName name" class="w-full" />
+                    </div>
+                </div>
+                <div
+                    class="flex flex-col col-start-1 sm:col-start-1 md:col-start-1 col-span-full sm:col-span-12 md:col-span-12 md:col-span-12">
+                    <label for="city">Email Address </label>
+                    <div class="mt-2">
+                        <input pInputText id="Email" type="text" [(ngModel)]="registrationForm.email"
+                            placeholder="Enter Email Address" class="w-full" />
+                    </div>
+                </div>
+                <div
+                    class="flex flex-col col-start-1 sm:col-start-1 md:col-start-1 col-span-full sm:col-span-12 md:col-span-12 md:col-span-12">
+                    <label for="MobileNumber">Mobile Number </label>
+                    <div class="mt-2">
+                        <p-inputgroup>
+                            <p-inputgroup-addon>+91</p-inputgroup-addon>
+                            <input pInputText id="MobileNumber" [(ngModel)]="registrationForm.mobile" type="text"
+                                placeholder="Enter Mobile Number" class="w-full" />
+                        </p-inputgroup>
+                    </div>
+                </div>
+                <div
+                    class="flex flex-col col-start-1 sm:col-start-1 md:col-start-1 col-span-full sm:col-span-12 md:col-span-12 md:col-span-12">
+                    <label for="password">Create Password </label>
+                    <div class="mt-2">
+                        <input pInputText id="password" type="password" placeholder="Enter Password" class="w-full" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="flex flex-col col-span-12 col-start-1 gap-3 mt-1">
+            <div class="flex items-center">
+                <p-checkbox id="tearmsAndConditions" name="option" value="Agree to Terms and Conditions"
+                    [(ngModel)]="selectedOptions" binary="false"></p-checkbox>
+                <label for="tearmsAndConditions" class="ml-2">I Agree the Terms and Conditions</label>
+            </div>
+            <div class="flex items-center">
+                <p-checkbox id="dataPrivacy" name="option" value="Agree to Data Privacy Policy"
+                    [(ngModel)]="selectedOptions" binary="false"></p-checkbox>
+                <label for="dataPrivacy" class="ml-2">Agree to Data Privacy Policy(HIPPA, GDPR,
+                    Compliance)</label>
+            </div>
+        </div>
+        <div class="col-span-12 col-start-1">
+            <p-button label="Send OTP" styleClass="w-full" (onClick)="sendOTP()"></p-button>
+            <div class="col-span-12 col-start-1 flex items-center justify-between mt-2 mb-6 gap-8">
+                <span class="font-medium no-underline  text-primary" (click)="currentTab = 'login'">Already have an
+                    account? Log in here</span>
+            </div>
+        </div>
+    </div>
+</ng-template>
+<ng-template #verification>
+    <div class="p-5 grid grid-cols-12 gap-3 ">
+        <div class="flex flex-col justify-center col-span-12 col-start-1  gap-3 w-full">
+            <p class="flex justify-center font-extrabold text-2xl w-full text-[var(--primary-color)]">
+                Verification</p>
+            <p class="flex justify-center w-full">We have sent 6 digit Verification code to {{registrationForm.email}}
+            </p>
+            <p class="flex justify-center font-extrabold text-2xl w-full">Enter OTP</p>
+            <p-inputotp class="flex justify-center w-full" [(ngModel)]="otp" [length]="6" [mask]="true" />
+            <p class="flex justify-center w-full">Resend OTP in {{formattedTime}}</p>
+            <p-button label="Submit" styleClass="flex justify-center w-full" (onClick)="submitOTP()"></p-button>
+        </div>
+    </div>
+</ng-template>
+<ng-template #login>
+    <div class="p-5 grid grid-cols-12 gap-6 ">
+        <div class="flex flex-col justify-center col-span-12 gap-6 w-full">
+            <div class="text-center">
+                <span class="text-muted-color text-2xl font-bold">Sign in to continue</span>
+            </div>
+            <div>
+                <label for="email1" class="block text-surface-900 dark:text-surface-0 text-lg font-medium mb-1">Mobile
+                    Number / Email ID</label>
+                <input pInputText id="email1" type="text" class="w-full md:w-[30rem] mb-2" />
+
+                <label for="password1"
+                    class="block text-surface-900 dark:text-surface-0 font-medium text-lg mb-1">Password</label>
+                <p-password id="password1" placeholder="Password" [toggleMask]="true" styleClass="mb-4" [fluid]="true"
+                    [feedback]="false" [disabled]="loginwithOtp"></p-password>
+                <div class="flex items-center justify-between mt-2 mb-2 gap-8">
+                    <div class="flex items-center">
+                        <p-checkbox id="tearmsAndConditions" name="option" value="Remember me"
+                            [(ngModel)]="selectedOptions" binary="false"></p-checkbox>
+                        <label for="tearmsAndConditions" class="ml-2">Remember me</label>
+                    </div>
+
+                </div>
+                <div class="flex items-center justify-between mt-2 mb-6 gap-8">
+                    <div class="flex items-center">
+                        <p-checkbox id="loginwithOtp" name="option" [(ngModel)]="loginwithOtp"
+                            binary="true"></p-checkbox>
+                        <label for="tearmsAndConditions" class="ml-2">Login with OTP instead of password</label>
+                    </div>
+                </div>
+                <div class="flex items-center justify-between mt-2 mb-4 gap-8">
+
+                    <span class="font-medium no-underline cursor-pointer text-primary">Forgot Username?</span>
+                    <span class="font-medium no-underline ml-auto text-right cursor-pointer text-primary">Forgot
+                        password?</span>
+                </div>
+                <p-button label="Sign In" styleClass="w-full" (onClick)="onLogin()" routerLink="/"></p-button>
+                <div class="flex items-center justify-between mt-2 mb-6 gap-8">
+                    <span class="font-medium no-underline cursor-pointer text-primary"
+                        (click)="currentTab = 'registration'">Don't have an account? Sign
+                        up</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>

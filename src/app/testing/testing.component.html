@@ -1,0 +1,113 @@
+<div class="relative w-screen h-screen">
+  <!-- Blurred background layer -->
+  <div class="absolute inset-0 bg-cover bg-center filter"
+    style="background-image: url('/assets/images/login-bg-2.jpg'); filter: blur(0px);">
+  </div>
+
+  <div class="layout-topbar">
+    <div class="layout-topbar-logo-container">
+      <a class="layout-topbar-logo" routerLink="/">
+        <img alt="" width="120">
+      </a>
+    </div>
+    <div class="layout-topbar-actions">
+      <div class="layout-config-menu">
+        <span>Find Doctors</span>
+        <span>Video Consultantion</span>
+        <span>Services</span>
+        <span>About Us</span>
+        <span>Contact US</span>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- Login Card (Content Layer) -->
+  <div class="layout-main-container">
+    <div class="layout-main">
+      <div class="relative min-h-screen flex items-center justify-center">
+        <div class="bg-white/30 backdrop-blur-[1px] shadow-md rounded-3xl p-8 w-full flex flex-col md:flex-row
+                  md:min-h-[300px] lg:min-h-[500px] max-w-full md:max-w-4xl lg:max-w-7xl mx-auto">
+          <!-- Left Side: Company Image (hidden on small screens) -->
+          <div class="hidden md:flex md:w-1/2 items-center justify-center">
+            <div class="flex">
+              <p-image src="/assets/images/login.png" alt="Image" width="400" />
+            </div>
+          </div>
+          <!-- Right Side: Login Form -->
+          <div class="w-full md:w-1/2 flex items-center">
+            <div class="grid">
+              <div class="flex flex-col justify-center items-center m-5 col-span-12 gap-6 w-full">
+                <p-selectbutton [options]="stateOptions" [(ngModel)]="loginMode" optionLabel="label" optionValue="value"
+                  aria-labelledby="basic" />
+              </div>
+              <!-- <p-tabs value="0" *ngIf="currentTab != 'otpVerification'">
+                  <p-tablist>
+                    <p-tab value="0" class="rounded-t-lg">Patient</p-tab>
+                    <p-tab value="1" class="rounded-t-lg">Provider</p-tab>
+                  </p-tablist>
+                </p-tabs> -->
+              <div [ngSwitch]="currentTab" class="card" style="border-radius: 1.5rem;">
+                <ng-container *ngSwitchCase="'login'">
+                  <ng-container *ngTemplateOutlet="login"></ng-container>
+                </ng-container>
+                <ng-container *ngSwitchDefault>
+                  <ng-container *ngTemplateOutlet="login"></ng-container>
+                </ng-container>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<ng-template #login>
+  <div class="p-5 grid grid-cols-12 gap-6 ">
+    <div class="flex flex-col justify-center col-span-12 gap-6 w-full">
+      <div class="text-center">
+        <span class="text-muted-color text-2xl font-bold">Sign in to continue</span>
+      </div>
+      <div>
+        <label for="email1" class="block text-surface-900 dark:text-surface-0 text-lg font-medium mb-1">Mobile
+          Number / Email ID</label>
+        <input pInputText id="email1" type="text" class="w-full md:w-[30rem] mb-2" />
+
+        <label for="password1"
+          class="block text-surface-900 dark:text-surface-0 font-medium text-lg mb-1">Password</label>
+        <p-password id="password1" placeholder="Password" [toggleMask]="true" styleClass="mb-4" [fluid]="true"
+          [feedback]="false" [disabled]="loginwithOtp"></p-password>
+        <div class="flex items-center justify-between mt-2 mb-2 gap-8">
+          <div class="flex items-center">
+            <p-checkbox id="tearmsAndConditions" name="option" value="Remember me" [(ngModel)]="selectedOptions"
+              binary="false"></p-checkbox>
+            <label for="tearmsAndConditions" class="ml-2">Remember me</label>
+          </div>
+
+        </div>
+        <div class="flex items-center justify-between mt-2 mb-6 gap-8">
+          <div class="flex items-center">
+            <p-checkbox id="loginwithOtp" name="option" [(ngModel)]="loginwithOtp" binary="true"></p-checkbox>
+            <label for="tearmsAndConditions" class="ml-2">Login with OTP instead of password</label>
+          </div>
+        </div>
+        <div class="flex items-center justify-between mt-2 mb-4 gap-8">
+
+          <span class="font-medium no-underline cursor-pointer text-primary">Forgot Username?</span>
+          <span class="font-medium no-underline ml-auto text-right cursor-pointer text-primary">Forgot
+            password?</span>
+        </div>
+        <p-button label="Sign In" styleClass="w-full" (onClick)="onLogin()" routerLink="/"></p-button>
+        <div class="flex items-center justify-between mt-2 mb-6 gap-8">
+          <span class="font-medium no-underline cursor-pointer text-primary" (click)="currentTab = 'registration'">Don't
+            have an account? Sign
+            up</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>

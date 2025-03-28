@@ -1,0 +1,75 @@
+<div pageHeader>
+    <p-toolbar>
+        <ng-template #start>
+            <p class="text-2xl font-bold sm:truncate sm:text-3xl sm:tracking-tight">
+                Manage Permissions
+            </p>
+        </ng-template>
+
+        <ng-template #center>
+        </ng-template>
+
+        <ng-template #end>
+            <div class="flex space-x-3 justify-items-end">
+                <p-button label="Save"></p-button>
+                <p-button label="Cancel" variant="outlined" severity="danger"></p-button>
+            </div>
+        </ng-template>
+    </p-toolbar>
+</div>
+
+
+<div class="card min-h-full">
+    <div>
+        <h3 class="text-base/7 font-semibold text-gray-900">Default Role-Permissions</h3>
+        <p class="mt-1 text-sm/6">Select Role to modify user permissions.</p>
+    </div>
+    <p-divider></p-divider>
+
+    <div class="mt-10 grid grid-cols-12 gap-6 flex-1 min-h-0">
+        <div class="flex flex-col col-start-1 sm:col-start-1 md:col-start-1 col-span-full sm:col-span-6 md:col-span-3">
+            <label for="organization">Select Role<span class="text-red-500">*</span></label>
+            <div class="mt-2">
+                <p-select [options]="roles" [(ngModel)]="selectedRole" optionLabel="label" placeholder="Select a City"
+                    class="w-full" />
+            </div>
+        </div>
+
+        <div class="flex flex-col sm:col-span-full md:col-span-9 h-full">
+            <label for="organization">Permissions<span class="text-red-500">*</span></label>
+            <div class="mt-2 flex justify-center flex-1 min-h-0">
+                <p-pick-list [source]="sourcePermissions" [target]="targetPermissions" breakpoint="1400px"
+                    class="w-fullh-dvh flex-1">
+                    <ng-template #sourceHeader>
+                        <p class=" font-semibold">Source Permissions</p>
+                    </ng-template>
+                    <ng-template #targetHeader>
+                        <p class=" font-semibold">Target Permissions</p>
+                    </ng-template>
+                    <ng-template #item let-item>
+                        {{ item.name }}
+                    </ng-template>
+                </p-pick-list>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- <div class="flex flex-col col-span-full">
+            <p-accordion [value]="0">
+                @for (role of roles; track role.label) {
+                    <p-accordion-panel [value]="role.value"  [disabled]="false" (onOpen)="onOpenAccordian(role.label)">
+                        <p-accordion-header>{{ role.label }}</p-accordion-header>
+                        <p-accordion-content>
+                            <p-pick-list [source]="sourcePermissions" [target]="targetPermissions" breakpoint="1400px">
+                                <ng-template #item let-item>
+                                    {{ item.name }}
+                                </ng-template>
+                            </p-pick-list>
+                        </p-accordion-content>
+                    </p-accordion-panel>
+                }
+            </p-accordion>
+        </div> -->

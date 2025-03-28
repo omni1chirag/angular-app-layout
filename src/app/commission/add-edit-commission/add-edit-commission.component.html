@@ -1,0 +1,92 @@
+<div pageHeader>
+    <p-toolbar>
+        <ng-template #start>
+            <p class="text-2xl font-bold sm:truncate sm:text-3xl sm:tracking-tight">
+                Add Commission Setup
+            </p>
+        </ng-template>
+
+        <ng-template #center>
+        </ng-template>
+
+        <ng-template #end>
+            <div class="flex space-x-3 justify-items-end">
+                <p-button label="Save"  (onClick)="save()" />
+                <p-button label="Cancel" variant="outlined" severity="danger" (onClick)="cancel()"  />
+            </div>
+        </ng-template>
+    </p-toolbar>
+</div>
+<div class="card mt-6">
+    <div>
+        <h3 class="text-base/7 font-semibold ">Commission</h3>
+        <p class="mt-1 text-sm/6 ">This information will be displayed publicly so be careful what you
+            share.
+        </p>
+    </div>
+    <p-divider></p-divider>
+    @for(commission of commissions;track commission.commissionId;let isLast = $last){
+    <div class="mt-10 grid grid-cols-12 gap-6">
+        <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-3 lg:col-span-2">
+            <label for="serviceName">Service Name<span class="text-red-500">*</span></label>
+            <div class="mt-2">
+                <p-select [options]="serviceName" optionLabel="name" optionValue="name"
+                    placeholder="Select a Service Name" class="w-full md:w-56" [(ngModel)]="commission.serviceName"
+                    [style]="{'width':'100%'}" />
+
+            </div>
+        </div>
+        <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-3 lg:col-span-2">
+            <label for="commissionType">Commission Type<span class="text-red-500">*</span></label>
+            <div class="mt-2">
+                <p-selectbutton [options]="commissionType" optionLabel="name" class="w-full md:w-56"
+                    [(ngModel)]="commission.type" [style]="{'width':'100%'}" optionValue="code"
+                    aria-labelledby="commissionType" />
+
+            </div>
+        </div>
+        <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-3 lg:col-span-2">
+            <label for="commissionValue">Commission Value<span class="text-red-500">*</span></label>
+            <div class="mt-2">
+
+                <ng-container *ngIf="commission.type == '%'">
+                    <p-inputnumber [(ngModel)]="commission.value" inputId="percent" suffix="%" [min]="0" [max]="100" />
+                </ng-container>
+                <ng-container *ngIf="commission.type != '%'">
+                    <p-inputnumber mode="currency" inputId="currency-india" currency="INR" currencyDisplay="symbol"
+                        locale="en-IN" [(ngModel)]="commission.value" [min]="0" [max]="10000" class="w-full" />
+                </ng-container>
+            </div>
+        </div>
+        <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-3 lg:col-span-2">
+            <label for="status">Status<span class="text-red-500">*</span></label>
+            <div class="mt-2">
+                <p-selectbutton [options]="stateOptions" optionLabel="name" class="w-full md:w-56"
+                    [(ngModel)]="commission.status" [style]="{'width':'100%'}" optionValue="code"
+                    aria-labelledby="status" />
+            </div>
+        </div>
+        <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-3 lg:col-span-2">
+            <label for="effectiveDate">Effective Date<span class="text-red-500">*</span></label>
+            <div class="mt-2">
+                <p-datepicker class="w-full md:w-56" [(ngModel)]="commission.effectiveDate"
+                    [style]="{'width':'100%'}" />
+            </div>
+        </div>
+        <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-1 lg:col-span-1">
+            <label for="addBtn">&nbsp;</label>
+            <div class="mt-2">
+                @if (isLast) {
+                <p-button icon="pi pi-plus" variant="outlined" (onClick)="addNewCommission()" />
+                } @else {
+                <p-button icon="pi pi-trash" variant="outlined" severity="danger"
+                    (onClick)="deleteCommission(commission.commissionId)" />
+                }
+            </div>
+        </div>
+    </div>
+    @if (!isLast) {
+    <p-divider></p-divider>
+    }
+    }
+</div>

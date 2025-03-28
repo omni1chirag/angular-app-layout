@@ -1,0 +1,15 @@
+{
+    "notification": {
+      "title": "Add Notification Alert",
+      "configuration": "Configuration",
+      "info": "This information will be displayed publicly so be careful what you share.",
+      "eventName": "Event Name",
+      "eventType": "Event Type",
+      "targetAudience": "Target Audience",
+      "whenToTrigger": "When to Trigger",
+      "dateAndTime": "Date and Time",
+      "status": "Status",
+      "message": "Message"
+    }
+  }
+  
