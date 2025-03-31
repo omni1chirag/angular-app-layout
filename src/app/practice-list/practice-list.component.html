@@ -36,13 +36,13 @@
             <tr>
                 <th style="min-width:200px" class="font-bold" pFrozenColumn>Practice Name
                 </th>
-                <th style="min-width:200px">Organization
+                <th style="min-width:200px">Type Of Practice
                 </th>
-                <th style="min-width:200px">Type
-                </th>
-                <th style="min-width:150px">Status
+                <th style="min-width:200px">Organization Name
                 </th>
                 <th style="min-width:150px">State
+                </th>
+                <th style="min-width:150px">Status
                 </th>
                 <th style="min-width:100px; text-align: center;" alignFrozen="right" pFrozenColumn [frozen]="actions"
                     [ngClass]="{ 'font-bold': actions }" *ngIf="isBrowser">Actions</th>
@@ -53,15 +53,11 @@
                         ariaLabel="Filter Name"></p-columnFilter>
                 </th>
                 <th>
-                    <p-columnFilter type="text" field="organization" placeholder="Search by Organization"
-                        ariaLabel="Filter Organization"></p-columnFilter>
-                </th>
-                <th>
                     <p-columnFilter field="type" matchMode="startsWith" [showMenu]="false">
                         <ng-template #filter let-value let-filter="filterCallback">
                             <div class="flex justify-center">
                                 <p-autoComplete [(ngModel)]="selectedTypes" [suggestions]="autoFilteredValue"
-                                    optionLabel="label" optionValue="value" placeholder="Soft Search"
+                                    optionLabel="label" optionValue="value" placeholder="Search by Type Of Practice"
                                     (completeMethod)="searchPracticeType($event, filter)" dropdown multiple
                                     display="chip" (onSelect)="onSelectType($event)" />
                             </div>
@@ -69,10 +65,15 @@
                     </p-columnFilter>
                 </th>
                 <th>
+                    <p-columnFilter type="text" field="organization" placeholder="Search by Organization"
+                        ariaLabel="Filter Organization"></p-columnFilter>
+                </th>      
+                <th></th>          
+                <th>
                     <p-columnFilter field="status" matchMode="equals" [showMenu]="false">
                         <ng-template #filter let-value let-filter="filterCallback">
                             <p-select [ngModel]="value" [options]="statusList" (onChange)="filter($event.value)"
-                                placeholder="Any" [style]="{ 'min-width': '12rem' }">
+                                placeholder="Search by Status" [style]="{ 'min-width': '12rem' }">
                                 <ng-template let-option #item>
                                     <div class="flex justify-center gap-2">
                                         <p-tag [value]="option.label" [severity]="getSeverity(option.value)" />
@@ -81,8 +82,7 @@
                             </p-select>
                         </ng-template>
                     </p-columnFilter>
-                </th>
-                <th></th>
+                </th>                
                 <th pFrozenColumn alignFrozen="right" [frozen]="actions" style="text-align: center;">
                     <p-togglebutton [(ngModel)]="actions" [onIcon]="'pi pi-lock'" offIcon="pi pi-lock-open"
                         [onLabel]="'Unlock'" offLabel="Lock" />
@@ -95,16 +95,16 @@
                     <p-button label="{{ practice.name }}" [link]="true"
                         (onClick)="navigateTo('/home/practice/add-edit')" />
                 </td>
-                <td>{{ practice.organization }}</td>
                 <td>{{ practice.type }}</td>
+                <td>{{ practice.organization }}</td>
+                <td>{{practice.state}}</td>
                 <td>
-                    <span class="flex justify-center">
+                    <span class="flex">
                         <p-tag [severity]="practice.status === 'active' ? 'success' : 'danger'"
                             [value]="practice.status">
                         </p-tag>
                     </span>
                 </td>
-                <td>{{practice.state}}</td>
                 <td alignFrozen="right" pFrozenColumn [frozen]="actions" [ngClass]="{ 'font-bold': actions }"
                     *ngIf="isBrowser">
                     <p-menu #menu [popup]="true" [model]="optionsItems" appendTo="body"></p-menu>

@@ -174,7 +174,21 @@ export const routes: Routes = [
                         path: 'list',
                         loadComponent: () => import('./patient/patient-list/patient-list.component').then(m => m.PatientListComponent)
                     }
-                ]            },
+                ]            
+            },
+            {
+                path: 'appointment',
+                children: [
+                    {
+                        path: 'add-edit',
+                        loadComponent: () => import('./appointment/add-edit-appointment/add-edit-appointment.component').then(m => m.AddEditAppointmentComponent)
+                    },
+                    {
+                        path: 'list',
+                        loadComponent: () => import('./appointment/appointment-list/appointment-list.component').then(m => m.AppointmentListComponent)
+                    }
+                ]            
+            },
         ]
     },
     { path: '', redirectTo: '/list', pathMatch: 'full' }

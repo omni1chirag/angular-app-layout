@@ -22,28 +22,28 @@
 <!-- Basic Details -->
 <div class="card">
   <div>
-    <h3 class="text-base/7 font-semibold text-gray-900">Basic Details</h3>
+    <h4 class="text-base/7 font-semibold text-gray-900">Basic Details</h4>
   </div>
   <p-divider></p-divider>
 
-  <div class="mt-10 grid grid-cols-12 gap-6">
+  <div class="mt-5 grid grid-cols-12 gap-3">
     <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-4">
       <label for="orgName" class="text-red 500">Organization Name <span class="text-red-500">*</span></label>
       <div class="mt-2">
-        <input pInputText id="orgName" type="text" placeholder="Enter organization name" class="w-full" />
+        <input pInputText id="orgName" type="text" placeholder="Enter Organization Name" class="w-full" />
       </div>
     </div>
     <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-4">
       <label for="legalOrgName">Legal Organization Name</label>
       <div class="mt-2">
-        <input pInputText id="legalOrgName" type="text" placeholder="Enter Legal organization name" class="w-full" />
+        <input pInputText id="legalOrgName" type="text" placeholder="Enter Legal Organization Name" class="w-full" />
       </div>
     </div>
     <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-4">
       <label for="state">Type of Organization <span class="text-red-500">*</span></label>
       <div class="mt-2">
         <p-select id="state" [(ngModel)]="dropdownItem" [options]="dropdownItems" optionLabel="name"
-          placeholder="Select One" class="w-full" (onChange)="onDropdownChange()">
+          placeholder="Enter Type of Organization" class="w-full" (onChange)="onDropdownChange()">
         </p-select>
       </div>
     </div>
@@ -67,53 +67,36 @@
         <input pInputText id="yearEstablishment" type="text" placeholder="YYYY" class="w-full" />
       </div>
     </div>
+    <div class="flex flex-col col-span-full  sm:col-span-6 md:col-span-2">
+      <label>Upload Business Logo</label>
+      <div class="mt-2">
+        <p-fileupload #fu mode="basic" chooseLabel="Choose" chooseIcon="pi pi-upload" name="demo[]"
+          url="https://www.primefaces.org/cdn/api/upload.php" accept="image/*" maxFileSize="1000000"
+          (onUpload)="onUpload($event)" class="w-full" />
+      </div>
+    </div>
   </div>
 </div>
 <!-- Contact Details -->
 <div class="card">
   <div>
-    <h3 class="text-base/7 font-semibold text-gray-900">Contact Details</h3>
+    <h4 class="text-base/7 font-semibold text-gray-900">Contact Details</h4>
   </div>
   <p-divider></p-divider>
-  <div class="mt-10 grid grid-cols-12 gap-6">
+  <div class="mt-5 grid grid-cols-12 gap-3">
     <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-4">
       <label for="address1">Address 1 <span class="text-red-500">*</span> </label>
       <div class="mt-2">
-        <input pInputText id="address1" type="text" placeholder="Enter address" class="w-full" />
+        <input pInputText id="address1" type="text" placeholder="Enter Address" class="w-full" />
       </div>
     </div>
     <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-4">
       <label for="address2">Address 2</label>
       <div class="mt-2">
-        <input pInputText id="address2" type="text" placeholder="Enter address" class="w-full" />
-      </div>
-    </div>
-
-    <div class="flex flex-col col-start-1 sm:col-start-1 md:col-start-1 col-span-full sm:col-span-6 md:col-span-2">
-      <label for="pincode">Pincode <span class="text-red-500">*</span></label>
-      <div class="mt-2">
-        <input pInputText id="pincode" type="text" placeholder="Enter pincode" class="w-full" />
+        <input pInputText id="address2" type="text" placeholder="Enter Address" class="w-full" />
       </div>
     </div>
     <div class="flex flex-col col-span-full  sm:col-span-6 md:col-span-2">
-      <label for="city">City <span class="text-red-500">*</span></label>
-      <div class="mt-2">
-        <input pInputText id="city" type="text" placeholder="Enter city" class="w-full" />
-      </div>
-    </div>
-    <div class="flex flex-col col-span-full  sm:col-span-6 md:col-span-2">
-      <label for="state">State <span class="text-red-500">*</span></label>
-      <div class="mt-2">
-        <input pInputText id="state" type="text" placeholder="Enter state" class="w-full" />
-      </div>
-    </div>
-    <div class="flex flex-col col-span-full  sm:col-span-6 md:col-span-2">
-      <label for="country">Country <span class="text-red-500">*</span></label>
-      <div class="mt-2">
-        <input pInputText id="country" type="text" placeholder="Enter country" class="w-full" />
-      </div>
-    </div>
-    <div class="flex flex-col col-start-1 sm:col-start-1 md:col-start-1 col-span-full sm:col-span-6 md:col-span-2">
       <label for="pincode">Mobile Number <span class="text-red-500">*</span></label>
       <div class="mt-2">
         <input pInputText id="Mobile" type="text" placeholder="Enter Mobile Number" class="w-full" />
@@ -125,6 +108,30 @@
         <input pInputText id="Email" type="text" placeholder="Enter Email Address" class="w-full" />
       </div>
     </div>
+    <div class="flex flex-col col-start-1 sm:col-start-1 md:col-start-1 col-span-full sm:col-span-6 md:col-span-2">
+      <label for="pincode">Pincode <span class="text-red-500">*</span></label>
+      <div class="mt-2">
+        <input pInputText id="pincode" type="text" placeholder="Enter Pincode" class="w-full" />
+      </div>
+    </div>
+    <div class="flex flex-col col-span-full  sm:col-span-6 md:col-span-2">
+      <label for="city">City <span class="text-red-500">*</span></label>
+      <div class="mt-2">
+        <input pInputText id="city" type="text" placeholder="Enter City" class="w-full" />
+      </div>
+    </div>
+    <div class="flex flex-col col-span-full  sm:col-span-6 md:col-span-2">
+      <label for="state">State <span class="text-red-500">*</span></label>
+      <div class="mt-2">
+        <input pInputText id="state" type="text" placeholder="Enter State" class="w-full" />
+      </div>
+    </div>
+    <div class="flex flex-col col-span-full  sm:col-span-6 md:col-span-2">
+      <label for="country">Country <span class="text-red-500">*</span></label>
+      <div class="mt-2">
+        <input pInputText id="country" type="text" placeholder="Enter Country" class="w-full" />
+      </div>
+    </div>
     <div class="flex flex-col col-span-full  sm:col-span-6 md:col-span-2">
       <label for="state">Website</label>
       <div class="mt-2">
@@ -132,7 +139,7 @@
       </div>
     </div>
     <div class="flex flex-col col-span-full  sm:col-span-6 md:col-span-2">
-      <label>Upload Business</label>
+      <label>Upload Business License</label>
       <div class="mt-2">
         <p-fileupload #fu mode="basic" chooseLabel="Choose" chooseIcon="pi pi-upload" name="demo[]"
           url="https://www.primefaces.org/cdn/api/upload.php" accept="image/*" maxFileSize="1000000"
@@ -142,59 +149,43 @@
   </div>
 </div>
 
-<div class="card">
-  <div>
-    <h3 class="text-base/7 font-semibold text-gray-900">Services and Specialities</h3>
-  </div>
-  <p-divider></p-divider>
-  <div class="mt-10 grid grid-cols-12 gap-6">
-    <div class="flex flex-col col-start-1 sm:col-start-1 md:col-start-1 col-span-full sm:col-span-6 md:col-span-4">
-      <p-multiselect [options]="Services" [(ngModel)]="selectedServices" placeholder="Select Services and Specialites"
-        optionLabel="name" display="chip" [filter]="true">
-      </p-multiselect>
-    </div>
-  </div>
-</div>
 <!-- Payment Details -->
 <div class="card">
   <div>
-    <h3 class="text-base/7 font-semibold text-gray-900">Payment Details</h3>
+    <h4 class="text-base/7 font-semibold text-gray-900">Payment Details</h4>
   </div>
   <p-divider></p-divider>
-  <div class="mt-10 grid grid-cols-12 gap-6">
+  <div class="mt-5 grid grid-cols-12 gap-3">
     <div class="flex flex-col col-start-1 sm:col-start-1 md:col-start-1 col-span-full sm:col-span-6 md:col-span-4">
-      <label for="paymentMode">Preferred Payment Mode <span class="text-red-500">*</span></label>
+      <label for="paymentMode">Accepted Payment Mode <span class="text-red-500">*</span></label>
       <div class="mt-2">
-        <p-multiselect [options]="paymentoptions" [(ngModel)]="Paymentopt" placeholder="Select Payment Mode"
+        <p-multiselect [options]="paymentoptions" [(ngModel)]="Paymentopt" placeholder="Enter Accepted Payment Mode"
           optionLabel="name" display="chip" [filter]="true" class="w-full">
         </p-multiselect>
       </div>
     </div>
+  </div>
+</div>
+<div class="card">
+  <div>
+    <h4 class="text-base/7 font-semibold text-gray-900">Subscription Details</h4>
+  </div>
+  <p-divider></p-divider>
+  <div class="mt-5 grid grid-cols-12 gap-3">
     <div class="flex flex-col col-span-full  sm:col-span-6 md:col-span-4">
       <label for="state">Subscription Plan <span class="text-red-500">*</span></label>
       <div class="mt-2">
         <p-select id="subscriptionPlan" [(ngModel)]="subscriptionPlan" [options]="subscriptionPlanoptions"
-          optionLabel="name" placeholder="Select One" class="w-full">
+          optionLabel="name" placeholder="Select Subscription Plan" class="w-full">
         </p-select>
       </div>
     </div>
-  </div>
-</div>
-<div class="flex mt-8">
-  <div class="card flex flex-col gap-6 w-full">
-    <div class="flex justify-between items-center">
-      <div class="font-semibold text-xl">Terms and Conditions</div>
-    </div>
-    <p-divider></p-divider>
-    <div class="flex items-center">
-      <p-checkbox id="checkOption1" name="option" value="Agree to Terms and Conditions" [(ngModel)]="selectedOptions"
-        binary="false"></p-checkbox>
-      <label for="checkOption1" class="ml-2">I Agree the Terms and Conditions</label>
-    </div>
-    <div class="flex items-center">
-      <p-checkbox id="checkOption2" name="option" value="Agree to Data Privacy Policy" [(ngModel)]="selectedOptions"
-        binary="false"></p-checkbox>
-      <label for="checkOption2" class="ml-2">Agree to Data Privacy Policy(HIPPA, GDPR, Compliance)</label>
+    <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-2">
+      <label class="font-medium">Status <span class="text-red-500">*</span></label>
+      <div class="mt-2">
+        <p-selectbutton [options]="statusOptions" [(ngModel)]="statusValue" optionLabel="name" optionValue="value"
+          class="w-full" />
+      </div>
     </div>
   </div>
 </div>

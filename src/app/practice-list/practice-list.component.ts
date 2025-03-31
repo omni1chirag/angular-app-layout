@@ -67,7 +67,7 @@ export class PracticeListComponent {
   isBrowser: boolean;
   private subscription!: Subscription;
   @ViewChild('filter') filter!: ElementRef;
-  actions: boolean = false;
+  actions: boolean = true;
   cols!: Column[];
   statusList: any[] = [];
   exportColumns!: ExportColumn[];
@@ -108,8 +108,8 @@ export class PracticeListComponent {
     });
 
     this.statusList = [
-      { label: 'Active', value: 'active' },
-      { label: 'Inactive', value: 'inactive' },
+      { label: 'Active', value: 'Active' },
+      { label: 'Inactive', value: 'Inactive' },
     ];
 
     this.practiceService.getPracticeTypes().then((practiceTypes) => {

@@ -87,6 +87,18 @@ MappedPractices!: mapPractices[];
     {name: 'Full Moon', code: 'Full Moon'},
   ];
   practice: any = null;
+  subSpecialities = [
+    {name: ' Interventional Cardiology', code: ' Interventional Cardiology'},
+    {name: 'Electrophysiology', code: 'Electrophysiology'},
+    {name: 'Heart Failure & Transplant Cardiology', code: 'Heart Failure & Transplant Cardiology'},
+    {name: 'Pediatric Cardiology', code: 'Pediatric Cardiology'},
+    {name: 'Hepatology', code: 'Hepatology'},
+    {name: 'Pancreatic Disorders', code: 'Pancreatic Disorders'},
+    {name: 'Radiation Oncology', code: 'Radiation Oncology'},
+    {name: 'Diabetes Specialist', code: 'Diabetes Specialist'},
+    {name: 'Neonatology', code: 'Neonatology'},
+  ];
+  subSpecialization: any = null;
   Service: any = null;
   Specialities = [
   { name: 'General Surgery', code: 'General Surgery' },
@@ -154,6 +166,16 @@ MappedPractices!: mapPractices[];
     { name: "Universal Sompo General Insurance Co. Ltd.", code: "UNIVERSAL_SOMPO" }
   ];
   selectedInsuranceProvider: any = null;
+  medicalDegree = [
+    {name: 'MBBS', code: 'MBBS'}, 
+    {name: 'MD', code: 'MD'},
+    {name: 'MS', code: 'MS'},
+    {name: 'DM', code: 'DM'},
+    {name: 'MCh', code: 'MCh'},
+    {name: 'Diploma', code: 'Diploma'},
+    {name: 'Fellowship', code: 'Fellowship'},
+  ];
+  degree: any = null;
   
   onDropdownChange() {
     this.showOtherInput = this.dropdownItem?.code === 'Other';

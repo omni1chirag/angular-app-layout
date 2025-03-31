@@ -20,12 +20,33 @@
 <!-- Basic Details -->
 <div class="card">
     <div>
-        <h3 class="text-base/7 font-semibold text-gray-900">Basic Details</h3>
+        <h4 class="text-base/7 font-semibold text-gray-900">Basic Details</h4>
     </div>
     <p-divider></p-divider>
 
-    <div class="mt-10 grid grid-cols-12 gap-6">
-        <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-1">
+    <div class="mt-5 grid grid-cols-12 gap-3">
+        <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-4">
+            <label for="orgName" class="text-red 500">Organization Name <span class="text-red-500">*</span></label>
+            <div class="mt-2">
+              <input pInputText id="orgName" type="text" placeholder="Enter Organization Name" class="w-full" />
+            </div>
+          </div>
+        <div class="flex flex-col col-span-full  sm:col-span-6 md:col-span-4">
+            <label for="first-name">Practice Name <span class="text-red-500">*</span></label>
+            <div class="mt-2">
+                <input pInputText type="text" name="first-name" id="first-name" autocomplete="given-name"
+                    class="w-full" placeholder="Enter Practice Name">
+            </div>
+        </div>
+        <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-4">
+            <label for="state">Select Practice <span class="text-red-500">*</span></label>
+            <div class="mt-2">
+                <p-select id="mapped" [(ngModel)]="practice" [options]="practices" optionLabel="name"
+                    placeholder="Enter Practice" class="w-full">
+                </p-select>
+            </div>
+        </div>
+        <div class="flex flex-col col-start-1 sm:col-start-1 md:col-start-1 col-span-full sm:col-span-6 md:col-span-1">
             <label for="state">Title <span class="text-red-500">*</span></label>
             <div class="mt-2">
                 <p-select id="state" [(ngModel)]="dropdownItem" [options]="dropdownItems" optionLabel="name"
@@ -39,36 +60,36 @@
                 <input pInputText id="firstName" type="text" placeholder="Enter First name" class="w-full" />
             </div>
         </div>
-        <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-3">
+        <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-2">
             <label for="MiddleName">Middle Name </label>
             <div class="mt-2">
-                <input pInputText id="MiddleName" type="text" placeholder="Enter MiddleName name" class="w-full" />
+                <input pInputText id="MiddleName" type="text" placeholder="Enter Middle Name" class="w-full" />
             </div>
         </div>
-        <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-3">
+        <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-2">
             <label for="LastName">Last Name <span class="text-red-500">*</span></label>
             <div class="mt-2">
-                <input pInputText id="LastName" type="text" placeholder="Enter LastName name" class="w-full" />
+                <input pInputText id="LastName" type="text" placeholder="Enter Last Name" class="w-full" />
             </div>
         </div>
         <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-2">
             <label for="dob">Date of Birth <span class="text-red-500">*</span></label>
             <div class="mt-2">
                 <p-datepicker [showIcon]="true" [showButtonBar]="true" [(ngModel)]="calendarValue"
-                    class="w-full"></p-datepicker>
+                    class="w-full" placeholder="Enter Date of Birth"></p-datepicker>
             </div>
         </div>
-        <div class="flex flex-col col-start-1 sm:col-start-1 md:col-start-1 col-span-full sm:col-span-6 md:col-span-1">
+        <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-1">
             <label for="age">Age</label>
             <div class="mt-2">
-                <input pInputText type="number" id="age" readonly class="w-full" />
+                <input pInputText type="number" id="age" readonly class="w-full" placeholder="Enter Age" />
             </div>
         </div>
         <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-1">
             <label for="state">Gender <span class="text-red-500">*</span></label>
             <div class="mt-2">
                 <p-select id="state" [(ngModel)]="Gender" [options]="GenderList" optionLabel="name"
-                    placeholder="Select One" class="w-full" (onChange)="onGenderChange()" class="w-full">
+                    placeholder="Enter Gender" class="w-full" (onChange)="onGenderChange()" class="w-full">
                 </p-select>
             </div>
         </div>
@@ -82,27 +103,27 @@
             <label for="LicenceExpiry">Licence Expiry Date <span class="text-red-500">*</span></label>
             <div class="mt-2">
                 <p-datepicker [showIcon]="true" [showButtonBar]="true" [(ngModel)]="LicenceExpiryValue"
-                    class="w-full"></p-datepicker>
+                    class="w-full" placeholder="Enter Licence Expiry Date"></p-datepicker>
             </div>
         </div>
-        <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-3">
+        <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-2">
             <label for="state">Licence Issuing Authority <span class="text-red-500">*</span></label>
             <div class="mt-2">
                 <p-select id="state" [(ngModel)]="Licence" [options]="LicenceList" optionLabel="name"
-                    placeholder="Select One" class="w-full" (onChange)="onGenderChange()" class="w-full">
+                    placeholder="Enter License Issuing Authority" class="w-full" (onChange)="onGenderChange()" class="w-full">
                 </p-select>
             </div>
         </div>
-        <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-3">
+        <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-2">
             <label for="RegNumber">Medical Registration Number <span class="text-red-500">*</span></label>
             <div class="mt-2">
-                <input pInputText id="RegNumber" type="text" placeholder="Enter Reg Number" class="w-full" />
+                <input pInputText id="RegNumber" type="text" placeholder="Enter Medical Registration Number" class="w-full" />
             </div>
         </div>
         <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-2">
             <label for="Years">Years of Experience</label>
             <div class="mt-2">
-                <input pInputText id="Years" type="text" placeholder="Enter Experience" />
+                <input pInputText id="Years" type="text" placeholder="Enter Years Of Experience" />
             </div>
         </div>
         <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-2">
@@ -116,52 +137,59 @@
             <div class="mt-2">
                 <input pInputText id="Email" type="text" placeholder="Enter Email Address" class="w-full" />
             </div>
-        </div>
-        <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-3">
-            <label for="state">Mapped Practice <span class="text-red-500">*</span></label>
+        </div>  
+        <div class="flex flex-col col-span-full  sm:col-span-6 md:col-span-2">
+            <label>Upload Business License</label>
             <div class="mt-2">
-                <p-select id="mapped" [(ngModel)]="practice" [options]="practices" optionLabel="name"
-                    placeholder="Select practices" class="w-full">
-                </p-select>
+              <p-fileupload #fu mode="basic" chooseLabel="Choose" chooseIcon="pi pi-upload" name="demo[]"
+                url="https://www.primefaces.org/cdn/api/upload.php" accept="image/*" maxFileSize="1000000"
+                (onUpload)="onUpload($event)" class="w-full" />
             </div>
-        </div>
-        <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-2">
-            <label>Upload Business</label>
-            <div class="mt-2">
-                <p-fileupload #fu mode="basic" chooseLabel="Choose" chooseIcon="pi pi-upload" name="demo[]"
-                    url="https://www.primefaces.org/cdn/api/upload.php" accept="image/*" maxFileSize="1000000"
-                    (onUpload)="onUpload($event)" />
-            </div>
-        </div>
+          </div>      
     </div>
 </div>
 
 <!-- Services & Specialities -->
 <div class="card">
     <div>
-        <h3 class="text-base/7 font-semibold text-gray-900">Specialization Details</h3>
+        <h4 class="text-base/7 font-semibold text-gray-900">Specialization Details</h4>
     </div>
     <p-divider></p-divider>
-    <div class="mt-10 grid grid-cols-12 gap-6">
-        <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-4">
-            <label for="state">Services and Specialities <span class="text-red-500">*</span></label>
+    <div class="mt-5 grid grid-cols-12 gap-3">
+        <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-3">
+            <label for="state">Specialities <span class="text-red-500">*</span></label>
             <div class="mt-2">
                 <p-multiselect id="mapped" [(ngModel)]="Service" [options]="Specialities" optionLabel="name"
-                    placeholder="Select Services and Specialites" class="w-full" (onChange)="onGenderChange()"
-                    class="w-full">
+                    placeholder="Enter Services and Specialites" class="w-full" class="w-full">
+                </p-multiselect>
+            </div>
+        </div>
+        <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-3">
+            <label for="state">Sub-Specialization</label>
+            <div class="mt-2">
+                <p-multiselect id="mapped" [(ngModel)]="subSpecialization" [options]="subSpecialities" optionLabel="name"
+                    placeholder="Enter Sub-Specialization" class="w-full" class="w-full">
+                </p-multiselect>
+            </div>
+        </div>
+        <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-3">
+            <label for="state">Medical Degree</label>
+            <div class="mt-2">
+                <p-multiselect id="mapped" [(ngModel)]="degree" [options]="medicalDegree" optionLabel="name"
+                    placeholder="Enter Medical Degree" class="w-full" class="w-full">
                 </p-multiselect>
             </div>
         </div>
         <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-3">
             <label for="RegNumber">Registration Number <span class="text-red-500">*</span></label>
             <div class="mt-2">
-                <input pInputText id="RegNumber" type="text" placeholder="Enter Reg Number" class="w-full" />
+                <input pInputText id="RegNumber" type="text" placeholder="Enter Registration Number" class="w-full" />
             </div>
         </div>
         <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-3">
             <label for="Years">Practicing Since</label>
             <div class="mt-2">
-                <input pInputText id="Years" type="text" placeholder="Enter years" class="w-full" />
+                <input pInputText id="Years" type="text" placeholder="DD/MM/YYYY" class="w-full" />
             </div>
         </div>
     </div>
@@ -169,45 +197,45 @@
 
 <div class="card">
     <div>
-        <h3 class="text-base/7 font-semibold text-gray-900">Contact Details</h3>
+        <h4 class="text-base/7 font-semibold text-gray-900">Contact Details</h4>
     </div>
     <p-divider></p-divider>
-    <div class="mt-10 grid grid-cols-12 gap-6">
+    <div class="mt-5 grid grid-cols-12 gap-3">        
         <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-4">
             <label for="address1">Address 1 <span class="text-red-500">*</span> </label>
             <div class="mt-2">
-                <input pInputText id="address1" type="text" placeholder="Enter address" class="w-full" />
+                <input pInputText id="address1" type="text" placeholder="Enter Address" class="w-full" />
             </div>
         </div>
         <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-4">
             <label for="address2">Address 2</label>
             <div class="mt-2">
-                <input pInputText id="address2" type="text" placeholder="Enter address" class="w-full" />
+                <input pInputText id="address2" type="text" placeholder="Enter Address" class="w-full" />
             </div>
         </div>
 
         <div class="flex flex-col col-start-1 sm:col-start-1 md:col-start-1 col-span-full sm:col-span-6 md:col-span-2">
             <label for="pincode">Pincode <span class="text-red-500">*</span></label>
             <div class="mt-2">
-                <input pInputText id="pincode" type="text" placeholder="Enter pincode" class="w-full" />
+                <input pInputText id="pincode" type="text" placeholder="Enter Pincode" class="w-full" />
             </div>
         </div>
         <div class="flex flex-col col-span-full  sm:col-span-6 md:col-span-2">
             <label for="city">City <span class="text-red-500">*</span></label>
             <div class="mt-2">
-                <input pInputText id="city" type="text" placeholder="Enter city" class="w-full" />
+                <input pInputText id="city" type="text" placeholder="Enter City" class="w-full" />
             </div>
         </div>
         <div class="flex flex-col col-span-full  sm:col-span-6 md:col-span-2">
             <label for="state">State <span class="text-red-500">*</span></label>
             <div class="mt-2">
-                <input pInputText id="state" type="text" placeholder="Enter state" class="w-full" />
+                <input pInputText id="state" type="text" placeholder="Enter State" class="w-full" />
             </div>
         </div>
         <div class="flex flex-col col-span-full  sm:col-span-6 md:col-span-2">
             <label for="country">Country <span class="text-red-500">*</span></label>
             <div class="mt-2">
-                <input pInputText id="country" type="text" placeholder="Enter country" class="w-full" />
+                <input pInputText id="country" type="text" placeholder="Enter Country" class="w-full" />
             </div>
         </div>
     </div>
@@ -218,13 +246,13 @@
 
 <div class="card">
     <div>
-        <h3 class="text-base/7 font-semibold text-gray-900">Consultation Details</h3>
+        <h4 class="text-base/7 font-semibold text-gray-900">Consultation Details</h4>
     </div>
     <p-divider></p-divider>
-    <div class="mt-10 grid grid-cols-12 gap-6">
+    <div class="mt-5 grid grid-cols-12 gap-3">
         <!-- Consultation Mode -->
         <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-3">
-            <label class="font-medium">Consultation Mode</label>
+            <label class="font-medium">Consultation Mode <span class="text-red-500">*</span></label>
             <div class="mt-2">
                 <div class="flex gap-4">
                     <div class="flex items-center">

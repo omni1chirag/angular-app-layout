@@ -46,7 +46,7 @@ export class UserListComponent {
   users!: User[];
   @ViewChild('filter') filter!: ElementRef;
   selecteduser: User[] = [];
-  actions: boolean = false;
+  actions: boolean = true;
   isBrowser: boolean;
   statusList: any[] = [];
   optionsItems = [

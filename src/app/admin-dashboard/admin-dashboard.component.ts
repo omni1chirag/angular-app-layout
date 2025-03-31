@@ -44,6 +44,11 @@ export class AdminDashboardComponent {
   selectedTime ={label: 'Last Week', value: 'lastWeek'};
   documentStyle: any;
   clients!: Client[];
+  clientPieChartData: any;
+  clientPieChartOptions: any;
+  activeClients = 123;
+  inactiveClients = 56;
+  totalClients = this.activeClients + this.inactiveClients;
 
   constructor(public layoutService: LayoutService, private clientService: ClientService, private router: Router) {
     this.subscription = this.layoutService.configUpdate$.pipe(debounceTime(25)).subscribe(() => {
@@ -56,7 +61,26 @@ export class AdminDashboardComponent {
   ngOnInit() {
     this.clientService.getClientSmall().then((data) => (this.clients = data));
     this.initChart();
+    this.clientPieChartData = {
+      labels: ['Active Clients', 'Inactive Clients', 'Total Clients'],
+      datasets: [
+          {
+              data: [this.activeClients, this.inactiveClients, this.totalClients],
+              backgroundColor: ['#4CAF50', '#F44336', '#2196F3'], // Green, Red, Blue
+              hoverBackgroundColor: ['#66BB6A', '#EF5350', '#42A5F5']
+          }
+      ]
+  };
 
+  this.clientPieChartOptions = {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+          legend: {
+              position: 'top'
+          }
+      }
+  };
   }
 
   initChart() {

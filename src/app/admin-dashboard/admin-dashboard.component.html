@@ -1,6 +1,6 @@
 <div class="grid grid-cols-12 gap-5 row-gap-5 mt-[1rem]">
     <div class="contents">
-        <div class="col-span-12 lg:col-span-6 xl:col-span-3">
+        <!-- <div class="col-span-12 lg:col-span-6 xl:col-span-3">
             <div class="card mb-0">
                 <div class="flex justify-between mb-4">
                     <div>
@@ -15,7 +15,7 @@
                 <span class="text-primary font-medium">52</span>
                 <span class="text-muted-color"> newly registered</span>
             </div>
-        </div>
+        </div> -->
     
         <div class="col-span-12 lg:col-span-6 xl:col-span-3">
             <div class="card mb-0">
@@ -38,7 +38,7 @@
             <div class="card mb-0">
                 <div class="flex justify-between mb-4">
                     <div>
-                        <span class="block text-muted-color font-medium mb-4">New Clients</span>
+                        <span class="block text-muted-color font-medium mb-4">New Organizations</span>
                         <div class="text-surface-900 dark:text-surface-0 font-medium text-xl">132</div>
                     </div>
                     <div class="flex items-center justify-center bg-blue-100 dark:bg-blue-400/10 rounded-border"
@@ -51,7 +51,7 @@
             </div>
         </div>
     
-        <div class="col-span-12 lg:col-span-6 xl:col-span-3">
+        <!-- <div class="col-span-12 lg:col-span-6 xl:col-span-3">
             <div class="card mb-0">
                 <div class="flex justify-between mb-4">
                     <div>
@@ -66,9 +66,9 @@
                 <span class="text-primary font-medium">25 new </span>
                 <span class="text-muted-color">since last week</span>
             </div>
-        </div>
+        </div> -->
     
-        <div class="col-span-12 lg:col-span-6 xl:col-span-3">
+        <!-- <div class="col-span-12 lg:col-span-6 xl:col-span-3">
             <div class="card mb-0">
                 <div class="flex justify-between mb-4">
                     <div>
@@ -83,7 +83,7 @@
                 <span class="text-primary font-medium">2 new </span>
                 <span class="text-muted-color">since last week</span>
             </div>
-        </div>
+        </div> -->
     
         <div class="col-span-12 lg:col-span-6 xl:col-span-3">
             <a (click)="navigateTo('/layout/unsettled-commission')" class="cursor-pointer">
@@ -109,7 +109,7 @@
                 <div class="card mb-0">
                     <div class="flex justify-between mb-4">
                         <div>
-                            <span class="block text-muted-color font-medium mb-4">Approval Requests</span>
+                            <span class="block text-muted-color font-medium mb-4">Pending Approval Requests</span>
                             <div class="text-surface-900 dark:text-surface-0 font-medium text-xl">152</div>
                         </div>
                         <div class="flex items-center justify-center bg-purple-100 dark:bg-purple-400/10 rounded-border"
@@ -147,6 +147,13 @@
 
 
 <div class="grid grid-cols-12 gap-5 mt-5">
+    <div class="col-span-12 md:col-span-6">
+        <div class="card">
+            <h5 class="text-lg font-medium mb-4">Organization</h5>
+            <p-chart type="pie" [data]="clientPieChartData" [options]="clientPieChartOptions"
+                style="height: 200px;"></p-chart>
+        </div>
+    </div>
     <div class="col-span-12 lg:col-span-12 xl:col-span-6">
         <div class="card !mb-8">
             <div class="font-semibold text-xl mb-4">Revenue Stream</div>
@@ -167,7 +174,7 @@
                     <tr>
                         <th>Image</th>
                         <th pSortableColumn="name">Name <p-sortIcon field="name"></p-sortIcon></th>
-                        <th pSortableColumn="price">Type </th>
+                        <!-- <th pSortableColumn="price">Type </th> -->
                         <th>View</th>
                     </tr>
                 </ng-template>
@@ -177,9 +184,9 @@
                             <img src="/assets/images/client.jpg" class="shadow-lg" alt="{{ client.name }}" width="50" />
                         </td>
                         <td style="width: 35%; min-width: 7rem;">{{ client.name }}</td>
-                        <td style="width: 35%; min-width: 8rem;">{{ client.type }}</td>
+                        <!-- <td style="width: 35%; min-width: 8rem;">{{ client.type }}</td> -->
                         <td style="width: 15%;">
-                            <button pButton pRipple type="button" icon="pi pi-search"
+                            <button pButton pRipple type="button" icon="pi pi-eye text-gray-500 text-xl hover:text-blue-500 transition duration-200 cursor-pointer"
                                 class="p-button p-component p-button-text p-button-icon-only"></button>
                         </td>
                     </tr>

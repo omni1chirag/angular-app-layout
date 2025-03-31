@@ -1,0 +1,119 @@
+<div pageHeader>
+    <p-toolbar>
+        <ng-template #start>
+            <p class="text-2xl font-bold sm:truncate sm:text-3xl sm:tracking-tight">
+                Appointment Add
+            </p>
+        </ng-template>
+
+        <ng-template #center>
+        </ng-template>
+
+        <ng-template #end>
+            <div class="flex space-x-3 justify-items-end">
+                <p-button label="Save" (onClick)="save()" />
+                <p-button label="Cancel" variant="outlined" severity="danger" (onClick)="cancel()" />
+            </div>
+        </ng-template>
+    </p-toolbar>
+</div>
+
+<div class="card">
+    <div>
+        <h3 class="text-base/7 font-semibold ">Basic Details</h3>
+        <p class="mt-1 text-sm/6 ">Please fill in the following details to add a new appointment.
+        </p>
+    </div>
+    <p-divider></p-divider>
+    <div class="mt-10 grid grid-cols-12 gap-6">
+        <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-3">
+            <label for="PatientName">Patient Name<span class="text-red-500">*</span></label>
+            <div class="mt-2">
+                <p-autoComplete dropdown id="patientName" [(ngModel)]="appointment.patientName"
+                    class="width-full w-full" [style]="{'width': '100%'}" [suggestions]="patientSuggestions"
+                    optionLabel="name" optionValue="name" placeholder="Soft Search"
+                    (completeMethod)="searchPatientName($event)">
+                </p-autoComplete>
+            </div>
+        </div>
+        <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-2">
+            <label for="appointmentType">Appointment Type<span class="text-red-500">*</span></label>
+            <div class="mt-2">
+                <p-selectbutton [options]="appointmentTypeOption" optionLabel="name" class="w-full md:w-56"
+                    [(ngModel)]="appointment.appointmentType" [style]="{'width':'100%'}" optionValue="code"
+                    aria-labelledby="dateAndTime" />
+            </div>
+        </div>
+        <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-3">
+            <label for="providerName">Select Practice<span class="text-red-500">*</span></label>
+            <div class="mt-2">
+                <p-select [options]="practiceList" optionLabel="name" optionValue="name" placeholder="Select a Practice"
+                    [(ngModel)]="appointment.practice" class="w-full md:w-56" [style]="{'width':'100%'}" />
+
+            </div>
+        </div>
+        <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-3">
+            <label for="providerName">Provider Name<span class="text-red-500">*</span></label>
+            <div class="mt-2">
+                <p-select [options]="providerList" optionLabel="name" optionValue="name"
+                    placeholder="Select a Provider Name" [(ngModel)]="appointment.providerName" class="w-full md:w-56"
+                    [style]="{'width':'100%'}" />
+
+            </div>
+        </div>
+
+        <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-2">
+            <label for="providerName">Appointment Date<span class="text-red-500">*</span></label>
+            <div class="mt-2">
+                <p-datepicker [(ngModel)]="appointment.appointmentDate" class="w-full" [style]="{'width':'100%'}"
+                    [iconDisplay]="'input'" [showIcon]="true" inputId="icondisplay" />
+
+            </div>
+        </div>
+        <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-3">
+            <label class="font-medium">Appointment Time<span class="text-red-500">*</span></label>
+            <div class="mt-2 flex items-center gap-4">
+                <p-datepicker inputId="calendar-12h" [iconDisplay]="'input'" [(ngModel)]="appointment.startTime"
+                    [showIcon]="true" [timeOnly]="true" [showTime]="true" [hourFormat]="'12'"
+                    (onSelect)="setDuration($event,true)">
+                    <ng-template #inputicon let-clickCallBack="clickCallBack">
+                        <i class="pi pi-clock" (click)="clickCallBack($event)"></i>
+                    </ng-template>
+                </p-datepicker>
+                <span>to</span>
+                <p-datepicker inputId="calendar-12h" [iconDisplay]="'input'" [(ngModel)]="appointment.endTime"
+                    [minDate]="appointment.startTime" [showIcon]="true" [timeOnly]="true" [showTime]="true"
+                    (onSelect)="setDuration($event)" [hourFormat]="'12'">
+                    <ng-template #inputicon let-clickCallBack="clickCallBack">
+                        <i class="pi pi-clock" (click)="clickCallBack($event)"></i>
+                    </ng-template>
+                </p-datepicker>
+            </div>
+        </div>
+
+        <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-2">
+            <label for="Duration">Duration<span class="text-red-500">*</span></label>
+            <div class="mt-2">
+                <p-inputnumber [(ngModel)]="appointment.duration" mode="decimal" suffix=" Minutes"
+                    inputId="withoutgrouping" [useGrouping]="false" [readonly]="true" />
+            </div>
+        </div>
+        <div class="flex flex-col col-span-full col-start-1 sm:col-start-1 md:col-start-1 sm:col-span-6 md:col-span-3">
+            <label for="reasonForVisits">Reason for Visit <span class="text-red-500">*</span></label>
+            <div class="mt-2">
+                <p-select [options]="reasonForVisits" optionLabel="name" optionValue="name"
+                    placeholder="Select a Reason for Visit " [(ngModel)]="appointment.reasonForVisit"
+                    class="w-full md:w-56" [style]="{'width':'100%'}" />
+
+            </div>
+        </div>
+        <div
+            class="flex flex-col  col-start-1 sm:col-start-1 md:col-start-1  col-span-full sm:col-span-6 md:col-span-6">
+            <label for="notes">Notes</label>
+            <div class="mt-2">
+                <textarea rows="5" cols="30" pTextarea name="notes" id="notes" autocomplete="notes" [maxlength]="500"
+                    [(ngModel)]="appointment.notes" class="w-full"></textarea>
+            </div>
+        </div>
+    </div>
+</div>

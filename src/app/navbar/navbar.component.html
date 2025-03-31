@@ -3,7 +3,7 @@
         <button class="layout-menu-button layout-topbar-action" (click)="layoutService.onMenuToggle()">
             <i class="pi pi-bars"></i>
         </button>
-        <a class="layout-topbar-logo" routerLink="/">
+        <a class="layout-topbar-logo" routerLink="/home/admin-dashboard">
             <img alt="" width="120">
         </a>
     </div>
@@ -25,7 +25,17 @@
 
 <p-drawer [(visible)]="visibleProfile" header="User Profile" position="right">
     <div class="flex flex-col h-full">
-        <p-panelmenu [model]="items"  styleClass="w-full md:w-20rem" />
+        <p-panelmenu [model]="items"  [multiple]="true"  styleClass="w-full md:w-20rem">
+            <ng-template #item let-item>
+                <a pRipple class="flex items-center px-4 py-2 cursor-pointer group">
+                    <i [class]="item.icon + ' text-primary group-hover:text-inherit'"></i>
+                    <span class="ml-2">
+                        {{ item.label }}
+                    </span>
+                    <i *ngIf="item.items" class="pi pi-angle-down text-primary ml-auto"></i>
+                </a>
+            </ng-template>
+        </p-panelmenu>
         <div class="mt-auto w-full">
             <p-divider /> <!-- Divider at the bottom -->
             <div class="flex justify-center">

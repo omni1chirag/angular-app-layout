@@ -4,38 +4,34 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { CheckboxModule } from 'primeng/checkbox';
-import { DatePickerModule } from 'primeng/datepicker';
-import { DividerModule } from 'primeng/divider';
-import { DropdownModule } from 'primeng/dropdown';
 import { InputGroupModule } from 'primeng/inputgroup';
 import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 import { InputOtpModule } from 'primeng/inputotp';
 import { InputTextModule } from 'primeng/inputtext';
 import { PasswordModule } from 'primeng/password';
-import { SelectModule } from 'primeng/select';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { TabsModule } from 'primeng/tabs';
 import { interval, Subscription } from 'rxjs';
 import { ImageModule } from 'primeng/image';
+import { StyleClassModule } from 'primeng/styleclass';
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule,
+  imports: [
+    CommonModule,
     FormsModule,
-    DropdownModule,
-    SelectModule,
-    InputTextModule,
+    ImageModule,
+    TabsModule,
+    PasswordModule,
+    ButtonModule,
+    SelectButtonModule,
     CheckboxModule,
-    DatePickerModule,
+    InputTextModule,
     InputGroupModule,
     InputGroupAddonModule,
-    ButtonModule,
     InputOtpModule,
-    SelectButtonModule,
-    TabsModule,
-    ImageModule,
-    PasswordModule,
-    DividerModule],
+    StyleClassModule
+  ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
 })
@@ -44,8 +40,8 @@ export class LoginComponent {
   currentTab = "login";
   otp: number | undefined = undefined;
   formattedTime = '01:30';
-  loginOption = [{ name: 'Patient', code: 'Patient' }, { name: 'Provider', code: 'Provider' }];
-  loginType = 'Provider';
+  stateOptions: any[] = [{ label: 'Provider', value: 'provider' }, { label: 'Patient', value: 'patient' }];
+  loginMode: string = 'provider';
   loginwithOtp = false;
   registrationForm: {
     firstName: string;
@@ -58,7 +54,6 @@ export class LoginComponent {
       email: '',
       mobile: ''
     }
-
   private countdownTime = 90;
   private subscription!: Subscription;
   constructor(private router: Router) { }

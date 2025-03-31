@@ -203,7 +203,22 @@ export class MenuComponent {
           {
             label: 'Patient',
             icon: 'pi pi-fw pi-user',
-            routerLink: ['/home/patient/list']
+            routerLink: ['/home/patient/list'],
+            singleItem: {
+              label: 'Add Patient',
+              icon: 'pi pi-fw pi-plus-circle',
+              routerLink: ['/home/patient/add-edit']
+            },
+          },
+          {
+            label: 'Appointment',
+            icon: 'pi pi-fw pi-calendar-plus',
+            routerLink: ['/home/appointment/list'],
+            singleItem: {
+              label: 'Add Appointment',
+              icon: 'pi pi-fw pi-plus-circle',
+              routerLink: ['/home/appointment/add-edit']
+            },
           }
         ]
       }

@@ -18,6 +18,7 @@ import { ToolbarModule } from 'primeng/toolbar';
 import { DividerModule } from 'primeng/divider';
 import { PageHeaderDirective } from '../directive/page-header.directive';
 import { Router } from '@angular/router';
+import { SelectButtonModule } from 'primeng/selectbutton';
 interface Service {
   name: string;
   code: string;
@@ -43,6 +44,7 @@ interface Service {
   ToolbarModule,
   DividerModule,
   PageHeaderDirective,
+  SelectButtonModule
 ],
   templateUrl: './add-edit-organization.component.html',
   styleUrl: './add-edit-organization.component.scss',
@@ -60,6 +62,11 @@ export class AddEditOrganizationComponent {
   uploadedFiles: any[] = [];
   displayConfirmDialog: boolean = false;
   selectedOptions: any[] = [];
+  statusOptions: any[] = [
+    { name: 'Active', value: 1 },
+    { name: 'InActive', value: 2 },
+  ];
+  statusValue!: number;
   dropdownItems = [
     { name: 'Hospital', code: 'Hospital' },
     { name: 'Clinic', code: 'Clinic' },

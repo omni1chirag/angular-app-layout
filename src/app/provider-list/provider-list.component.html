@@ -45,23 +45,23 @@
             </tr>
             <tr>
                 <th pFrozenColumn>
-                    <p-columnFilter type="text" field="providerName" placeholder="Search by providerName"
+                    <p-columnFilter type="text" field="providerName" placeholder="Search by ProviderName"
                         ariaLabel="Filter Provider"></p-columnFilter>
                 </th>
                 <th>
-                    <p-columnFilter type="text" field="specialization" placeholder="Search by specialization"
+                    <p-columnFilter type="text" field="specialization" placeholder="Search by Specialization"
                         ariaLabel="Filter specialization"></p-columnFilter>
                 </th>
                 <th>
-                    <p-columnFilter type="text" field="practiceName" placeholder="Search by practiceName"
+                    <p-columnFilter type="text" field="practiceName" placeholder="Search by PracticeName"
                         ariaLabel="Filter practiceName"></p-columnFilter>
                 </th>
                 <th>
-                    <p-columnFilter type="text" field="organizationName" placeholder="Search by organizationName"
+                    <p-columnFilter type="text" field="organizationName" placeholder="Search by OrganizationName"
                         ariaLabel="Filter organizationName"></p-columnFilter>
                 </th>
                 <th>
-                    <p-columnFilter type="text" field="consultationMode" placeholder="Search by consultationMode"
+                    <p-columnFilter type="text" field="consultationMode" placeholder="Search by ConsultationMode"
                         ariaLabel="Filter consultationMode"></p-columnFilter>
 
                 </th>
@@ -69,7 +69,7 @@
                     <p-columnFilter field="Status" matchMode="equals" [showMenu]="false">
                         <ng-template #filter let-value let-filter="filterCallback">
                             <p-select [ngModel]="value" [options]="statusList" (onChange)="filter($event.value)"
-                                placeholder="Any" [style]="{ 'min-width': '12rem' }">
+                                placeholder="Search by Status" [style]="{ 'min-width': '12rem' }">
                                 <ng-template let-option #item>
                                     <div class="flex justify-center gap-2">
                                         <p-tag [value]="option.label" [severity]="getSeverity(option.value)" />

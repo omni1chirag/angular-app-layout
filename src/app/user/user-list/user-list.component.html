@@ -51,18 +51,18 @@
                         ariaLabel="Filter userType"></p-columnFilter>
                 </th>
                 <th>
-                    <p-columnFilter type="text" field="practiceName" placeholder="Search by practiceName"
+                    <p-columnFilter type="text" field="practiceName" placeholder="Search by PracticeName"
                         ariaLabel="Filter practiceName"></p-columnFilter>
                 </th>
                 <th>
-                    <p-columnFilter type="text" field="organizationName" placeholder="Search by organizationName"
+                    <p-columnFilter type="text" field="organizationName" placeholder="Search by OrganizationName"
                         ariaLabel="Filter organizationName"></p-columnFilter>
                 </th>
                 <th>
                     <p-columnFilter field="status" matchMode="equals" [showMenu]="false">
                         <ng-template #filter let-value let-filter="filterCallback">
                             <p-select [ngModel]="value" [options]="statusList" (onChange)="filter($event.value)"
-                                placeholder="Any" [style]="{ 'min-width': '12rem' }">
+                                placeholder="Search by Status" [style]="{ 'min-width': '12rem' }">
                                 <ng-template let-option #item>
                                     <div class="flex justify-center gap-2">
                                         <p-tag [value]="option.label" [severity]="getSeverity(option.value)" />

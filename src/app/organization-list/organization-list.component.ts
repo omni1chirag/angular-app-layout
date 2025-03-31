@@ -46,7 +46,7 @@ export interface Organization {
 export class OrganizationListComponent {
 
   organizations!: Organization[];
-  actions: boolean = false;
+  actions: boolean = true;
   @ViewChild('filter') filter!: ElementRef;
   displayApproveConfirmation: boolean = false;
   displayRejectConfirmation: boolean = false;

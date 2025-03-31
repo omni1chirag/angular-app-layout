@@ -24,11 +24,11 @@ import { PageHeaderDirective } from '../directive/page-header.directive';
 })
 export class AddEditRoleComponent {
   constructor(private router: Router) { }  
-  genderOptions: any[] = [
+  statusOptions: any[] = [
     { name: 'Active', value: 1 },
     { name: 'InActive', value: 2 },
   ];
-  genderValue!: number;
+  statusValue!: number;
 
   navigateToListPage(){
     this.router.navigateByUrl('/home/role/list');

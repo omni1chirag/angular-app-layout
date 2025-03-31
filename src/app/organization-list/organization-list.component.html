@@ -34,7 +34,7 @@
         <ng-template #header>
             <tr>
                 <th style="min-width:200px" class="font-bold">Organization Name</th>
-                <th style="min-width:200px" class="font-bold">Type of Organization</th>
+                <!-- <th style="min-width:200px" class="font-bold">Type of Organization</th> -->
                 <th style="min-width:200px" class="font-bold">Subscription Plan</th>
                 <th style="min-width:200px">Status</th>
                 <th style="min-width:100px; text-align: center;" alignFrozen="right" pFrozenColumn [frozen]="actions"
@@ -42,19 +42,19 @@
             </tr>
             <tr>
                 <th>
-                    <p-columnFilter type="text" field="organizationName" placeholder="Search by organizationName"
+                    <p-columnFilter type="text" field="organizationName" placeholder="Search by OrganizationName"
                         ariaLabel="Filter Organization"></p-columnFilter>
                 </th>
-                <th>
-                    <p-columnFilter type="text" field="typeOfOrganization" placeholder="Search by typeOfOrganization"
+                <!-- <th>
+                    <p-columnFilter type="text" field="typeOfOrganization" placeholder="Search by TypeOfOrganization"
                         ariaLabel="Filter typeOfOrganization"></p-columnFilter>
-                </th>
+                </th> -->
                 <th></th>
                 <th>
                     <p-columnFilter field="status" matchMode="equals" [showMenu]="false">
                         <ng-template #filter let-value let-filter="filterCallback">
                             <p-select [ngModel]="value" [options]="statusList" (onChange)="filter($event.value)"
-                                placeholder="Any" [style]="{ 'min-width': '12rem' }">
+                                placeholder="Select Status" [style]="{ 'min-width': '12rem' }">
                                 <ng-template let-option #item>
                                     <div class="flex justify-center gap-2">
                                         <p-tag [value]="option.label" [severity]="getSeverity(option.value)" />
@@ -76,7 +76,7 @@
                     <p-button label="{{ organization.organizationName }}" [link]="true"
                         (onClick)="navigateTo('/home/organization')" />
                 </td>
-                <td>{{ organization.typeOfOrganization }}</td>
+                <!-- <td>{{ organization.typeOfOrganization }}</td> -->
                 <td>{{ organization.subscriptionPlan }}</td>
                 <td>
                     <span class="flex">

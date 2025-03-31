@@ -84,6 +84,13 @@ export class PracticeAddEditComponent {
     { name: 'All', key: 'R' }
 ];
 selectedPaymentMode: any = null;
+paymentoptions = [
+  { name: 'Cash', code: 'Cash' },
+  { name: 'Credit Card', code: 'Credit Card' },
+  { name: 'Debit Card', code: 'Debit Card' },
+  { name: 'UPI', code: 'UPI' }
+];
+Paymentopt: any = null;
 
 
 

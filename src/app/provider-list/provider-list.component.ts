@@ -49,7 +49,7 @@ export class ProviderListComponent {
   providers!: Provider[];
   @ViewChild('filter') filter!: ElementRef;
   selectedprovider: Provider[] = []; 
-  actions: boolean = false; 
+  actions: boolean = true; 
   isBrowser: boolean;
   statusList: any[] = [];
   // private subscription!: Subscription;
