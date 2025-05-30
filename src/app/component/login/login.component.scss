@@ -1,0 +1,25 @@
+.login-main-container {
+    height: calc(100vh - var(--navbar-height));
+    padding: var(--navbar-height) 1rem 0;
+    position: relative;
+  }
+  
+  .login-main-container > div {
+    height: 100%;
+  }
+  
+  /* Remove if not needed - background image is now inline styled */
+  /* .background-image-container { ... } */
+  
+  .bg-white\/30 {
+    box-sizing: border-box;
+    min-height: 300px; /* Fallback for mobile */
+  }
+  
+  @media (min-width: 768px) {
+    .bg-white\/30 {
+      min-height: 500px;
+    }
+  }
+
+

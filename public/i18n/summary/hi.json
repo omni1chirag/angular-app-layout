@@ -1,0 +1,216 @@
+{
+  "MEDICATION": {
+    "MEDICATIONS": "दवाएं",
+    "MEDICATION_NAME": "दवा का नाम",
+    "ROUTE_OF_ADMINISTRATION": "प्रशासन का मार्ग",
+    "TIMING": "समय",
+    "FREQUENCY": "आवृत्ति",
+    "DURATION": "अवधि",
+    "QUANTITY": "मात्रा",
+    "START_DATE": "प्रारंभ तिथि",
+    "INSTRUCTIONS": "निर्देश",
+    "STATUS": "स्थिति",
+    "PRESCRIBED_BY": "लिखने वाला डॉक्टर",
+    "REASON": "कारण",
+    "MORNING": "सुबह",
+    "EVENING": "शाम",
+    "NIGHT": "रात",
+    "UNIT": "इकाई",
+    "ADD_MEDICATION": "दवा जोड़ें",
+    "EDIT_MEDICATION": "दवा संपादित करें",
+    "PLACE_HOLDER": {
+      "MEDICATION_NAME": "दवा का नाम दर्ज करें",
+      "ROUTE_OF_ADMINISTRATION": "प्रशासन के मार्ग का चयन करें",
+      "TIMING": "समय का चयन करें",
+      "FREQUENCY": "आवृत्ति का चयन करें",
+      "DURATION": "अवधि का चयन करें",
+      "QUANTITY": "मात्रा दर्ज करें",
+      "UNIT": "इकाई का चयन करें",
+      "START_DATE": "प्रारंभ तिथि का चयन करें",
+      "INSTRUCTIONS": "निर्देश दर्ज करें",
+      "STATUS": "स्थिति का चयन करें",
+      "PRESCRIBED_BY": "लिखने वाले डॉक्टर को दर्ज करें",
+      "REASON": "कारण दर्ज करें",
+      "SEARCH_MEDICINES": "दवाएं खोजें"
+    },
+    "RESPONSE": {
+      "MEDICATION_DETAIL_ADD_SUCCESS": "दवा सफलतापूर्वक जोड़ी गई",
+      "MEDICATION_DETAIL_UPDATE_SUCCESS": "दवा सफलतापूर्वक अपडेट की गई",
+      "MEDICATION_DETAIL_DELETE_SUCCESS": "दवा सफलतापूर्वक हटा दी गई",
+      "MEDICATION_NOT_FOUND": "दवा नहीं मिली",
+      "MEDICATION_ALREADY_EXISTS": "दवा पहले से मौजूद है"
+    },
+    "TABLE": {
+      "EMPTY_MESSAGE": "इस मरीज के लिए कोई दवा नहीं जोड़ी गई।"
+    }
+  },
+  "DIAGNOSIS": {
+    "DIAGNOSIS": "निदान",
+    "CURRENT_DIAGNOSIS": "वर्तमान निदान",
+    "DIAGNOSIS_NAME": "निदान नाम",
+    "ONSET_DATE": "शुरुआत तिथि",
+    "REPORTED_DATE": "रिपोर्ट की गई तिथि",
+    "END_DATE": "अंतिम तिथि",
+    "STATUS": "स्थिति",
+    "NOTES": "नोट",
+    "ADD_DIAGNOSIS": "निदान जोड़ें",
+    "EDIT_DIAGNOSIS": "निदान संपादित करें",
+    "PLACE_HOLDER": {
+      "DIAGNOSIS_NAME": "निदान नाम दर्ज करें",
+      "ONSET_DATE": "शुरुआत तिथि का चयन करें",
+      "REPORTED_DATE": "रिपोर्ट की गई तिथि का चयन करें",
+      "END_DATE": "अंतिम तिथि का चयन करें",
+      "STATUS": "स्थिति का चयन करें",
+      "NOTES": "नोट दर्ज करें",
+      "SEARCH_DIAGNOSIS": "निदान खोजें"
+    },
+    "RESPONSE": {
+      "DIAGNOSIS_DETAIL_ADD_SUCCESS": "निदान सफलतापूर्वक बनाया गया",
+      "DIAGNOSIS_DETAIL_UPDATE_SUCCESS": "निदान सफलतापूर्वक अपडेट किया गया",
+      "DIAGNOSIS_DETAIL_DELETE_SUCCESS": "निदान सफलतापूर्वक हटा दिया गया",
+      "DIAGNOSIS_NOT_FOUND": "रोग निदान नहीं मिला"
+    },
+    "TABLE": {
+      "EMPTY_MESSAGE": "इस मरीज के लिए कोई निदान नहीं मिला।"
+    }
+  },
+  "LAB": {
+    "Labs": "प्रयोगशालाएं",
+    "Test_Name": "परीक्षण का नाम",
+    "Test_Type": "परीक्षण प्रकार",
+    "Order_Date": "आदेश तिथि",
+    "Test_Date": "परीक्षण तिथि",
+    "Select_Appointment": "नियुक्ति चुनें",
+    "Reason_For_Test": "परीक्षण का कारण",
+    "Ordering_Provider": "परीक्षण आदेश देने वाला",
+    "Sample_Required": "नमूना आवश्यक है",
+    "Sample_Collection_Location": "नमूना संग्रह स्थान",
+    "Test_Instructions": "परीक्षण निर्देश",
+    "Status": "स्थिति",
+    "Add_Lab": "प्रयोगशाला जोड़ें",
+    "Edit_Lab": "प्रयोगशाला संपादित करें",
+    "PLACE_HOLDER": {
+      "Test_Name": "परीक्षण का नाम दर्ज करें",
+      "Test_Type": "परीक्षण प्रकार चुनें",
+      "Order_Date": "आदेश तिथि चुनें",
+      "Test_Date": "परीक्षण तिथि चुनें",
+      "Select_Appointment": "नियुक्ति चुनें",
+      "Reason_For_Test": "परीक्षण का कारण दर्ज करें",
+      "Ordering_Provider": "परीक्षण आदेश देने वाला दर्ज करें",
+      "Sample_Required": "आवश्यक नमूना दर्ज करें",
+      "Sample_Collection_Location": "नमूना संग्रह स्थान दर्ज करें",
+      "Test_Instructions": "परीक्षण निर्देश दर्ज करें",
+      "Status": "स्थिति चुनें"
+    },
+    "RESPONSE": {
+      "LAB_DETAIL_ADD_SUCCESS": "प्रयोगशाला सफलतापूर्वक जोड़ी गई",
+      "LAB_DETAIL_UPDATE_SUCCESS": "प्रयोगशाला सफलतापूर्वक अपडेट की गई",
+      "LAB_DETAIL_DELETE_SUCCESS": "प्रयोगशाला सफलतापूर्वक हटा दी गई",
+      "LAB_NOT_FOUND": "प्रयोगशाला नहीं मिली"
+    }
+  },
+  "ALLERGY": {
+    "ALLERGIES": "एलर्जी",
+    "ALLERGY_NAME": "एलर्जी का नाम",
+    "ALLERGEN_TYPE": "एलर्जेन प्रकार",
+    "REACTION_STATUS": "प्रतिक्रिया स्थिति",
+    "REACTION_SYMPTOMS": "प्रतिक्रिया लक्षण",
+    "SEVERITY": "गंभीरता",
+    "STATUS": "स्थिति",
+    "ONSET_DATE": "प्रारंभ तिथि",
+    "RECORDED_DATE": "रिकॉर्ड की गई तिथि",
+    "REPORTS": "रिपोर्ट्स",
+    "NOTES": "टिप्पणियाँ",
+    "ADD_ALLERGY": "एलर्जी जोड़ें",
+    "EDIT_ALLERGY": "एलर्जी संपादित करें",
+    "SAVE": "सहेजें",
+    "CANCEL": "रद्द करें",
+    "PLACE_HOLDER": {
+      "ONSET_DATE": "प्रारंभ तिथि चुनें",
+      "NOTES": "टिप्पणियाँ दर्ज करें",
+      "SEARCH_ALLERGENS": "एलर्जेन्स खोजें",
+      "SELECT_SYMPTOMS": "लक्षण चुनें",
+      "SELECT_ONSET_DATE": "प्रारंभ तिथि चुनें",
+      "SELECT_RECORDED_DATE": "रिकॉर्ड की गई तिथि चुनें"
+    },
+    "TABLE": {
+      "TYPE": "प्रकार",
+      "EMTPY_MESSAGE": "कोई एलर्जी नहीं मिली।"
+    },
+    "RESPONSE": {
+      "ALLERGY_DETAIL_ADD_SUCCESS": "एलर्जी सफलतापूर्वक जोड़ी गई",
+      "ALLERGY_DETAIL_UPDATE_SUCCESS": "एलर्जी सफलतापूर्वक अपडेट की गई",
+      "ALLERGY_NOT_FOUND": "एलर्जी नहीं मिली",
+      "ALLERGY_ALREADY_EXISTS": "एलर्जी पहले से मौजूद है"
+    }
+  },
+  "IMMUNIZATION": {
+    "IMMUNIZATION": "टीकाकरण",
+    "ADD_IMMUNIZATION": "टीकाकरण जोड़ें",
+    "EDIT_IMMUNIZATION": "टीकाकरण संपादित करें",
+    "IMMUNIZATION_NAME": "टीके का नाम",
+    "DOSE_NUMBER": "खुराक संख्या",
+    "DOSE_NAME": "खुराक का नाम",
+    "DATE_OF_VACCINATION": "टीकाकरण की तारीख",
+    "ADMINISTERED_BY": "प्रशासित करने वाला",
+    "ROUTE": "मार्ग",
+    "SITE": "स्थान",
+    "STATUS": "स्थिति",
+    "COMMENTS": "टिप्पणियाँ",
+    "PLACE_HOLDER": {
+      "SEARCH_IMMUNIZATION": "टीकाकरण खोजें",
+      "IMMUNIZATION_NAME": "टीके का नाम दर्ज करें",
+      "DOSE_NUMBER": "खुराक संख्या चुनें",
+      "DOSE_NAME": "खुराक का नाम दर्ज करें",
+      "DATE_OF_VACCINATION": "टीकाकरण की तारीख चुनें",
+      "ADMINISTERED_BY": "प्रशासित करने वाले का नाम दर्ज करें",
+      "ROUTE": "मार्ग चुनें",
+      "SITE": "स्थान चुनें",
+      "STATUS": "स्थिति चुनें",
+      "COMMENTS": "टिप्पणियाँ दर्ज करें"
+    },
+    "RESPONSE": {
+      "IMMUNIZATION_DETAIL_ADD_SUCCESS": "टीकाकरण विवरण सफलतापूर्वक जोड़ा गया।",
+      "IMMUNIZATION_DETAIL_UPDATE_SUCCESS": "टीकाकरण विवरण सफलतापूर्वक अपडेट किया गया।",
+      "IMMUNIZATION_DETAIL_DELETE_SUCCESS": "टीकाकरण विवरण सफलतापूर्वक हटाया गया।",
+      "IMMUNIZATION_NOT_FOUND": "टीकाकरण नहीं मिला।"
+    },
+    "TABLE": {
+      "EMPTY_MESSAGE": "इस मरीज के लिए कोई टीकाकरण नहीं मिला।"
+    }
+  },
+  "DOCUMENT": {
+    "DOCUMENTS": "दस्तावेज़",
+    "NAME": "नाम",
+    "DOCUMENT_NAME": "दस्तावेज़ का नाम",
+    "DOCUMENT_TYPE": "दस्तावेज़ का प्रकार",
+    "UPLOAD_DATE": "अपलोड की तिथि",
+    "UPLOADED_BY": "अपलोड किया गया",
+    "UPLOAD_DCUMENT": "दस्तावेज़ अपलोड करें",
+    "LAST_MODIFIED_DATE": "अंतिम संशोधित तिथि",
+    "DESCRIPTION": "विवरण",
+    "ADD_DOCUMENT": "दस्तावेज़ जोड़ें",
+    "EDIT_DOCUMENT": "दस्तावेज़ संपादित करें",
+    "PLACE_HOLDER": {
+      "SEARCH_NAME": "नाम खोजें",
+      "DOCUMENT_NAME": "दस्तावेज़ का नाम दर्ज करें",
+      "DOCUMENT_TYPE": "दस्तावेज़ का प्रकार चुनें",
+      "ENTER_DOCUMENT_TYPE": "दस्तावेज़ का प्रकार दर्ज करें",
+      "UPLOAD_DATE": "अपलोड तिथि चुनें",
+      "DESCRIPTION": "विवरण दर्ज करें"
+    },
+    "RESPONSE": {
+      "DOCUMENT_UPLOADED_SUCCESS": "दस्तावेज़ सफलतापूर्वक अपलोड किया गया.",
+      "DOCUMENT_UPDATED_SUCCESS": "दस्तावेज़ सफलतापूर्वक अपडेट किया गया.",
+      "DOCUMENT_DELETED_SUCCESS": "दस्तावेज़ सफलतापूर्वक हटा दिया गया!",
+      "DOCUMENT_NOT_FOUND": "दस्तावेज़ नहीं मिला",
+      "FILE_NOT_FOUND": "फ़ाइल नहीं मिली"
+    },
+    "TABLE": {
+      "EMPTY_MESSAGE": "इस रोगी के लिए कोई दस्तावेज़ नहीं जोड़ा गया."
+    },
+    "TOOLTIP": {
+      "NOT_AUTHORIZED": "आप इस क्रिया को करने के लिए अधिकृत नहीं हैं"
+    }
+  }
+}

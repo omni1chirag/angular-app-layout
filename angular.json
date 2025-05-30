@@ -3,11 +3,21 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "ehr-lite-prototype-india": {
+    "omnihealth-india-ui": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
-          "style": "scss"
+          "style": "scss",
+          "skipTests": true
+        },
+        "@schematics/angular:directive": {
+          "skipTests": true
+        },
+        "@schematics/angular:pipe": {
+          "skipTests": true
+        },
+        "@schematics/angular:service": {
+          "skipTests": true
         }
       },
       "root": "",
@@ -17,7 +27,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/ehr-lite-prototype-india",
+            "outputPath": "dist/omnihealth-india-ui",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
@@ -70,10 +80,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "ehr-lite-prototype-india:build:production"
+              "buildTarget": "omnihealth-india-ui:build:production"
             },
             "development": {
-              "buildTarget": "ehr-lite-prototype-india:build:development"
+              "buildTarget": "omnihealth-india-ui:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -94,6 +104,11 @@
               {
                 "glob": "**/*",
                 "input": "public"
+              },
+              {
+                "glob": "**/*.json",
+                "input": "public/i18n",
+                "output": "/i18n/"
               }
             ],
             "styles": [

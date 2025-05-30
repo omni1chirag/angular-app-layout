@@ -1,0 +1,59 @@
+{
+  "notification": {
+    "title": "સૂચના ચેતવણી ઉમેરો",
+    "configuration": "કન્ફિગરેશન",
+    "info": "આ માહિતી જાહેરમાં પ્રદર્શિત કરવામાં આવશે, તેથી તમે શું શેર કરો છો તે અંગે સાવચેત રહો.",
+    "eventName": "ઇવેન્ટનું નામ",
+    "eventType": "ઇવેન્ટનો પ્રકાર",
+    "targetAudience": "લક્ષિત પ્રેક્ષક",
+    "whenToTrigger": "ક્યારે ટ્રિગર કરવું",
+    "dateAndTime": "તારીખ અને સમય",
+    "status": "સ્થિતિ",
+    "message": "સંદેશ"
+  },
+  "success": {
+    "user": {
+      "statusUpdate": "તારીખ અને સમય"
+    }
+  },
+  "ADDRESS": {
+    "ADDRESS1": "સરનામું 1",
+    "ADDRESS2": "સરનામું 2",
+    "ENTER_ADDRESS": "સરનામું દાખલ કરો",
+    "PINCODE": "પિનકોટ",
+    "ENTER_PINCODE": "પિનકોટ દાખલ કરો",
+    "CITY": "શહેર",
+    "SELECT_CITY": "શહેર પસંદ કરો",
+    "STATE": "રાજ્ય",
+    "SELECT_STATE": "રાજ્ય પસંદ કરો",
+    "COUNTRY": "દેશ",
+    "SELECT_COUNTRY": "દેશ પસંદ કરો",
+    "MOBILE_NUMBER": "મોબાઇલ નંબર",
+    "ALT_MOBILE_NUMBER": "વૈકલ્પિક મોબાઇલ નંબર",
+    "ENTER_MOBILE": "મોબાઇલ નંબર દાખલ કરો",
+    "CONTACT_NUMBER": "સંપર્ક નંબર",
+    "ENTER_CONTACT": "સંપર્ક નંબર દાખલ કરો",
+    "EMAIL": "ઈમેલ સરનામું",
+    "ENTER_EMAIL": "ઈમેલ સરનામું દાખલ કરો"
+  },
+  "NAME": "નામ",
+  "ADD": "ઉમેરો",
+  "EDIT": "સંપાદિત કરો",
+  "SAVE": "સાચવો",
+  "CANCEL": "રદ કરો",
+  "EMAIL": "ઈમેલ",
+  "MOBILE_NUMBER": "મોબાઇલ નંબર",
+  "ACTIONS": "ક્રિયાઓ",
+  "STATUS": "દરજ્જો",
+  "ACTIVATE": "સક્રિય કરો",
+  "DE_ACTIVATE": "નિષ્ક્રિય કરો",
+  "CLINICAL_SUMMARY": "રણનાશક સારાંશ",
+  "NO_DATA_FOUND": "કોઈ ડેટા મળ્યો નથી.",
+  
+  "CLINIC": "ક્લિનિક",
+  "DOCTOR_NAME": "ડોક્ટરનું નામ",
+  "PLACE_HOLDER": {
+    "CLINIC": "ક્લિનિક પસંદ કરો",
+    "DOCTOR": "ડોક્ટર પસંદ કરો"
+  }
+}

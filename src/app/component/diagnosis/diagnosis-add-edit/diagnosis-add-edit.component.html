@@ -1,0 +1,118 @@
+<p-drawer [(visible)]="isVisible" position="right" appendTo="body" closable="false" blockScroll="true"
+    styleClass="!w-[90vw] sm:!w-[80vw] md:!w-[40rem] lg:!w-[50rem] custom-drawer">
+
+    <ng-template #header>
+        <span class="flex flex-col w-full">
+
+            <span class="flex w-full justify-between">
+                <h4 *ngIf="selectedDiagnosisId" class="flex w-full text-base/7 font-semibold text-gray-900">{{
+                    'DIAGNOSIS.EDIT_DIAGNOSIS' | translate }}</h4>
+                <h4 *ngIf="!selectedDiagnosisId" class="flex w-full text-base/7 font-semibold text-gray-900">{{
+                    'DIAGNOSIS.ADD_DIAGNOSIS' | translate }}</h4>
+                <p-button icon="pi pi-times" class="flex justify-self-end" (onClick)="isVisible.set(false)"
+                    severity="secondary" [rounded]="true" [text]="true" />
+            </span>
+
+            <p-divider class="flex col-span-full w-full" />
+        </span>
+
+    </ng-template>
+
+    <form [formGroup]="diagnosisForm">
+
+        <div class="mt-5 grid grid-cols-12 gap-6">
+
+            <div
+                class="flex flex-col col-start-1 sm:col-start-1 md:col-start-1 lg:col-start-1 col-span-full sm:col-span-12 md:col-span-6 lg:col-span-6">
+
+                <label mandatoryFieldLabel for="diagnosisName">{{ 'DIAGNOSIS.DIAGNOSIS_NAME' | translate }}</label>
+                <div class="mt-2">
+                    <p-autocomplete id="diagnosisName" formControlName="diagnosisName" [forceSelection]="false"
+                        [suggestions]="diagnosisSuggestion" (completeMethod)="searchDiagnoses($event.query)"
+                        optionLabel="label" optionValue="value" (onSelect)="onSelectDiagnosis($event)"
+                        placeholder="{{ 'DIAGNOSIS.PLACE_HOLDER.DIAGNOSIS_NAME' | translate }}" class="w-full"
+                        [style]="{'width':'100%'}" [inputStyle]="{ width: '100%' }" minLength="3" maxLength="100"/>
+
+                </div>
+
+            </div>
+
+            <div class="flex flex-col col-span-full sm:col-span-12 md:col-span-6 lg:col-span-6">
+
+                <label mandatoryFieldLabel for="onsetDate">{{ 'DIAGNOSIS.ONSET_DATE' | translate }}</label>
+                <div class="mt-2">
+                    <p-datepicker dateMask dateFormat="dd/mm/yy" class="w-full" [iconDisplay]="'input'"
+                        [maxDate]="today" formControlName="onsetDate" [showIcon]="true" [style]="{'width': '100%'}"
+                        placeholder="{{ 'DIAGNOSIS.PLACE_HOLDER.ONSET_DATE' | translate }}" />
+                </div>
+
+            </div>
+
+            <div
+                class="flex flex-col col-start-1 sm:col-start-1 md:col-start-1 lg:col-start-1 col-span-full sm:col-span-12 md:col-span-6 lg:col-span-6">
+
+                <label mandatoryFieldLabel for="reportedDate">{{ 'DIAGNOSIS.REPORTED_DATE' | translate }}</label>
+                <div class="mt-2">
+                    <p-datepicker dateMask dateFormat="dd/mm/yy" class="w-full" [iconDisplay]="'input'"
+                        [maxDate]="today" formControlName="reportedDate" [showIcon]="true" [style]="{'width': '100%'}"
+                        placeholder="{{ 'DIAGNOSIS.PLACE_HOLDER.REPORTED_DATE' | translate }}" />
+                </div>
+
+            </div>
+
+            <div class="flex flex-col col-span-full sm:col-span-12 md:col-span-6 lg:col-span-6">
+
+                <label *ngIf="getStatus?.value !== 2" for="endDate"> {{ 'DIAGNOSIS.END_DATE' | translate }}</label>
+                <label *ngIf="getStatus?.value === 2" mandatoryFieldLabel for="endDate"> {{ 'DIAGNOSIS.END_DATE' |
+                    translate }}</label>
+                <div class="mt-2">
+                    <p-datepicker dateMask dateFormat="dd/mm/yy" class="w-full" [iconDisplay]="'input'"
+                        [maxDate]="today" formControlName="endDate" [showIcon]="true" [style]="{'width': '100%'}"
+                        placeholder="{{ 'DIAGNOSIS.PLACE_HOLDER.END_DATE' | translate }}" />
+                </div>
+
+            </div>
+
+            <div
+                class="flex flex-col col-start-1 sm:col-start-1 md:col-start-1 lg:col-start-1 col-span-full sm:col-span-12 md:col-span-6 lg:col-span-6">
+
+                <label mandatoryFieldLabel for="status">{{ 'DIAGNOSIS.STATUS' | translate }}</label>
+                <div class="mt-2">
+                    <p-select id="status" formControlName="status" [options]="statusOptions" optionLabel="label"
+                        optionValue="value" placeholder="{{ 'DIAGNOSIS.PLACE_HOLDER.STATUS' | translate }}"
+                        class="w-full" (onChange)="updateStatus($event)">
+                    </p-select>
+
+                </div>
+
+            </div>
+
+            <div class="flex flex-col col-span-full sm:col-span-12 md:col-span-6 lg:col-span-6">
+
+                <label for="notes">{{ 'DIAGNOSIS.NOTES' | translate }}</label>
+                <div class="mt-2">
+                    <input pInputText type="text" name="notes" id="notes" formControlName="notes" class="w-full"
+                        placeholder="{{ 'DIAGNOSIS.PLACE_HOLDER.NOTES' | translate }}" maxlength="1000">
+                </div>
+
+            </div>
+
+        </div>
+
+    </form>
+
+    <ng-template #footer>
+        <p-divider />
+        <div class="grid grid-cols-12 gap-2">
+            <div class="flex col-span-full sm:col-span-12 md:col-span-6 lg:col-span-6"></div>
+            <div class="flex col-span-full sm:col-span-12 md:col-span-6 lg:col-span-6 items-center gap-1">
+                <p-button label="{{'SAVE'| translate }}" size="small" (onClick)="save()" class="w-full"
+                    [styleClass]="'w-full sm:w-full md:w-full lg:w-full'" [disabled]="isCallInitiated" />
+                <p-button label="{{'CANCEL'| translate }}" severity="danger" class="w-full"
+                    [styleClass]="'w-full sm:w-full md:w-full lg:w-full'" [outlined]="true"
+                    (onClick)="isVisible.set(false)" size="small" />
+            </div>
+        </div>
+    </ng-template>
+
+</p-drawer>

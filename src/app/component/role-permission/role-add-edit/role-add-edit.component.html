@@ -1,0 +1,19 @@
+<form [formGroup]="roleForm">
+    <div class="flex flex-col gap-6 w-full">
+        <div class="flex flex-col ">
+            <label for="name" mandatoryFieldLabel>Name</label>
+            <div class="mt-2">
+                <input pInputText id="name" type="text" placeholder="Enter name" formControlName="roleName"
+                    class="w-full" />
+            </div>
+        </div>
+        <div class="flex flex-col ">
+            <label for="description">Description</label>
+            <div class="mt-2">
+                <textarea rows="5" cols="30" pTextarea id="description" placeholder="Enter description"
+                    formControlName="description" class="w-full"></textarea>
+            </div>
+        </div>
+        <p-button label="Save" (onClick)="createRole()"></p-button>
+    </div>
+</form>

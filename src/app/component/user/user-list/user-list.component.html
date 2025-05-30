@@ -1,0 +1,168 @@
+<div pageHeader="list">
+    <p-toolbar>
+        <ng-template #start>
+            <div class="flex items-center gap-2">
+                <p class="text-2xl font-bold sm:truncate sm:text-3xl sm:tracking-tight">
+                    User List</p>
+            </div>
+        </ng-template>
+
+        <ng-template #end>
+            <div class="flex items-center gap-2">
+                <p-button label="Add User" (onClick)="navigateTo('/home/user/add')" />
+            </div>
+        </ng-template>
+    </p-toolbar>
+</div>
+<div class="card user-list">
+    <p-table [value]="users" [size]="'small'" [totalRecords]="totalRecords" [paginator]="true" [loading]="showLoader"
+        [first]="first" [lazy]="true" [rows]="size" (onLazyLoad)="loadUsers($event)" [scrollable]="true" tableAutoScroll
+        #userTable stripedRows>
+        <ng-template #caption>
+            <div class="flex justify-between table-options pb-1">
+                <button pButton label="Clear" class="p-button-outlined" icon="pi pi-filter-slash"
+                    (click)="userTable.clear()"></button>
+            </div>
+        </ng-template>
+        <ng-template #header>
+            <tr>
+                <th class="font-bold">Name
+                </th>
+                <th class="font-bold">Role
+                </th>
+                <th class="font-bold">Organization Name
+                </th>
+                <th class="font-bold">Clinic Name</th>
+                <th class="font-bold">Status</th>
+                <th style="text-align: center;" alignFrozen="right" pFrozenColumn [frozen]="actions"
+                    [ngClass]="{ 'font-bold': actions }" *ngIf="isBrowser">Actions</th>
+            </tr>
+            <tr>
+                <th>
+                    <p-columnFilter field="user" [showMenu]="false"  [showClearButton]="false">
+                        <ng-template #filter let-value let-filter="filterCallback">
+                            <p-autoComplete dropdown id="userName" [ngModel]="value"
+                                [style]="{'width': columnWidth+'px'}" inputStyleClass="w-full"
+                                [suggestions]="userSuggestions" optionLabel="label" optionValue="value"
+                                placeholder="Search Name" [dropdown]="false" [minLength]="3"
+                                [forceSelection]="true" (onClear)="filter(undefined)"
+                                (onSelect)="filter($event.value.value)" (completeMethod)="searchUsers($event)" />
+                        </ng-template>
+                    </p-columnFilter>
+                </th>
+                <th>
+                    <p-columnFilter field="role" [showMenu]="false"  [showClearButton]="false">
+                        <ng-template #filter let-value let-filter="filterCallback">
+                            <p-multiselect dropdown [options]="roles" id="role" placeholder="Select Role"
+                                optionLabel="label" [ngModel]="value" optionValue="value" display="chip" [filter]="true"
+                                (onChange)="filter($event.value)" [style]="{'width': columnWidth+'px'}" class="w-full"
+                                appendTo="body" />
+
+                        </ng-template>
+                    </p-columnFilter>
+                </th>
+                <th>
+                    <p-columnFilter field="organization" [showMenu]="false"  [showClearButton]="false">
+                        <ng-template #filter let-value let-filter="filterCallback">
+                            <p-select [options]="organizations" id="organization" placeholder="Select Organization"
+                                optionLabel="label" [ngModel]="value" optionValue="value" [filter]="true"
+                                [showClear]="true" (onChange)="setClinics($event.value,filter)" class="w-full"
+                                [style]="{'width': columnWidth+'px'}" appendTo="body" />
+                        </ng-template>
+                    </p-columnFilter>
+                </th>
+                <th>
+                    <p-columnFilter field="clinic" [showMenu]="false"  [showClearButton]="false">
+                        <ng-template #filter let-value let-filter="filterCallback">
+                            <p-multiselect [options]="clinics" id="clinic" placeholder="Select Clinic"
+                                optionLabel="label" [ngModel]="value" optionValue="value" display="chip" [filter]="true"
+                                (onChange)="filter($event.value)" [style]="{'width': columnWidth+'px'}" class="w-full"
+                                appendTo="body" />
+                        </ng-template>
+                    </p-columnFilter>
+                </th>
+                <th>
+                    <p-columnFilter field="status" [showMenu]="false"  [showClearButton]="false">
+                        <ng-template #filter let-value let-filter="filterCallback">
+                            <p-select [options]="statuses" id="status" placeholder="Select Status"
+                                optionLabel="label" [ngModel]="value" optionValue="label"
+                                (onChange)="filter($event.value)"  class="w-full"
+                                [style]="{'width': (columnWidth * 0.60)+'px'}" appendTo="body" />
+                        </ng-template>
+                    </p-columnFilter>
+                </th>
+                <th style="text-align: center;" pFrozenColumn alignFrozen="right" [frozen]="actions">
+                    <p-columnFilter field="toggle" [showMenu]="false">
+                        <ng-template #filter let-value let-filter="filterCallback">
+                            <p-togglebutton [(ngModel)]="actions" [onIcon]="'pi pi-lock'"
+                                [style]="{'width': (columnWidth * .30)+'px'}" offIcon="pi pi-lock-open" [onLabel]="'Unlock'"
+                                offLabel="Lock" />
+                        </ng-template>
+                    </p-columnFilter>
+
+                </th>
+            </tr>
+        </ng-template>
+        <ng-template #body let-user>
+            <tr>
+                <td>
+                    {{ user.firstName + ' ' + user.lastName }}
+                </td>
+                <td>{{ user.role }}</td>
+                <td>{{ user.organization }}</td>
+                <td [pTooltip]="user.clinics" tooltipPosition="right">
+                    <div style="min-height: 40px;  overflow: hidden;
+                    display: -webkit-box;
+                    -webkit-line-clamp: 2;
+                    -webkit-box-orient: vertical;
+                    display: box;
+                    line-clamp: 2; 
+                    box-orient: vertical;
+                    white-space: normal;
+                    align-content:center;
+                    width: 100%">
+                        {{ user.clinics }}
+                    </div>
+                </td>
+                <td>
+                    <p-tag [severity]="user.status === 1 ? 'success' : 'danger'"
+                        [value]="user.status == 1 ? 'Active':'Inactive'">
+                    </p-tag>
+                </td>
+                <td alignFrozen="right" pFrozenColumn [frozen]="actions" [ngClass]="{ 'font-bold': actions }"
+                    *ngIf="isBrowser">
+                    <p-menu #menu [popup]="true" [model]="optionsItems" appendTo="body">
+                        <ng-template #item let-item>
+                            <ng-container *ngIf="item.label =='Edit' ; else elseBlock">
+                                <span class="p-menu-item-link" (click)="editUser(user)">
+                                    <span [class]="item.icon"></span>
+                                    <span class="ml-2">{{ item.label }}</span>
+                                </span>
+                            </ng-container>
+                            <ng-template #elseBlock>
+                                <span class="p-menu-item-link"
+                                    (click)="updateStatus(user.userId,user.status == 1 ? 0 : 1)">
+                                    <span
+                                        [class]="user.status == 1 ? 'pi pi-times-circle': 'pi pi-check-circle' "></span>
+                                    <span class="ml-2">{{ user.status == 1 ? 'Deactivate': 'Activate' }}</span>
+                                </span>
+                            </ng-template>
+                        </ng-template>
+                    </p-menu>
+                    <div class="flex justify-center">
+                        <p-button icon="pi  pi-ellipsis-v" severity="secondary" rounded (click)="menu.toggle($event)"
+                            [raised]="true" />
+                    </div>
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template #emptymessage>
+            <tr>
+                <td colspan="6" style="text-align:center;">
+                    <span>No Data Found.</span>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+
+</div>

@@ -1,5 +1,5 @@
 {
-  "name": "ehr-lite-prototype-india",
+  "name": "omnihealth-india-ui",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
@@ -7,7 +7,8 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "serve:ssr:ehr-lite-prototype-india": "node dist/ehr-lite-prototype-india/server/server.mjs"
+    "serve:ssr:omnihealth-india-ui": "node dist/omnihealth-india-ui/server/server.mjs",
+    "ng-high-memory": "set NODE_OPTIONS=--max_old_space_size=6144 & D:\\Mittal\\node\\v22.11.0\\node D:\\Mittal\\EHR_India\\omnihealth-india-ui\\node_modules\\@angular\\cli\\bin\\ng s --host 10.10.2.11"
   },
   "private": true,
   "dependencies": {
@@ -23,12 +24,20 @@
     "@angular/router": "^19.2.1",
     "@angular/ssr": "^19.2.1",
     "@colsen1991/ngx-translate-extract-marker": "^3.0.1",
+    "@fullcalendar/angular": "^6.1.17",
+    "@fullcalendar/core": "^6.1.17",
+    "@fullcalendar/daygrid": "^6.1.17",
+    "@fullcalendar/interaction": "^6.1.17",
+    "@fullcalendar/timegrid": "^6.1.17",
     "@ngx-translate/core": "^16.0.4",
     "@ngx-translate/http-loader": "^16.0.1",
     "@primeng/themes": "^19.0.9",
     "@tailwindcss/postcss": "^4.0.11",
     "chart.js": "^4.4.8",
+    "dayjs": "^1.11.13",
     "express": "^4.18.2",
+    "inputmask": "^5.0.9",
+    "keycloak-js": "^25.0.6",
     "postcss": "^8.5.3",
     "primeicons": "^7.0.0",
     "primeng": "^19.0.9",

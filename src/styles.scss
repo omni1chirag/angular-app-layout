@@ -1,7 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
-@use './assets/layout/layout.scss';
+@use '@assets/layout/layout.scss';
 @use 'primeicons/primeicons.css';
-@use './assets/demo/demo.scss';
+@use '@assets/demo/demo.scss';
 // @use './tailwind.css';
 @import "tailwindcss";
 
@@ -39,5 +39,9 @@
 
 .app-dark .menu-svg-icon {
     filter: invert(1) brightness(2);
+}
+
+h4 {
+    margin: 0 0 0 0 !important;
 }
 /* sidebar menu items svg icons css for dark and light mode:end*/

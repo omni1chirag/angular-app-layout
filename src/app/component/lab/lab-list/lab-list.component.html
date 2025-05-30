@@ -1,0 +1,126 @@
+<div pageHeader="list">
+    <p-toolbar>
+        <ng-template #start>
+            <div class="flex items-center gap-2">
+                <div class="text-2xl font-bold sm:truncate sm:text-3xl sm:tracking-tight">Lab List</div>
+            </div>
+        </ng-template>
+
+        <ng-template #end>
+            <div class="flex items-center gap-2">
+                <p-button label="Add Lab" (click)="addLab()" />
+            </div>
+        </ng-template>
+    </p-toolbar>
+</div>
+
+<div class="card">
+    <p-table [value]="lab" styleClass="mt-4" [paginator]="true" [totalRecords]="totalRecords"
+     [first]="first" [rows]="size" [size]="'small'" [lazy]="true" (onLazyLoad)="loadLabs($event)"
+     [loading]="showLoader" [scrollable]="true" tableAutoScroll #labTable stripedRows>
+        <ng-template #caption>
+            <div class="flex justify-between table-options pb-1">
+                <button pButton label="Clear" class="p-button-outlined" icon="pi pi-filter-slash"
+                    (click)="labTable.clear()"></button>
+            </div>
+        </ng-template>
+        <ng-template #header>
+            <tr>
+                <th style="min-width:170px" class="font-bold">Order ID
+                </th>
+                <th>Test Name
+                </th>
+                <th>Test Type
+                </th>
+                <th style="min-width:150px">Order Date
+                </th>
+                <th style="min-width:150px">Test Date
+                </th>
+                <th style="min-width:200px">Sample Collection Location
+                </th>
+                <th>Status
+                </th>
+                <th alignFrozen="right" pFrozenColumn [frozen]="actions"
+                    [ngClass]="{ 'font-bold': actions }" *ngIf="isBrowser">Actions
+                </th>
+            </tr>
+            <tr>
+            <tr>
+                <th></th>
+                <th>
+                    <p-columnFilter field="testName" matchMode="in" [showMenu]="false">
+                        <ng-template #filter let-value let-filter="filterCallback">
+                            <p-select dropdown [options]="testName" id="testName" placeholder="Select Test Name" optionLabel="label"
+                                [ngModel]="value" optionValue="label" [filter]="true" [showClear]="true"
+                                (onChange)="filter($event.value)" appendTo="body" />
+                        </ng-template>
+                    </p-columnFilter>
+                </th>
+                <th>
+                    <p-columnFilter field="testTypes" matchMode="in" [showMenu]="false">
+                        <ng-template #filter let-value let-filter="filterCallback">
+                            <p-select dropdown [options]="testTypes" id="testTypes" placeholder="Select Test Type"
+                                optionLabel="label" [ngModel]="value" optionValue="label" [filter]="true" [showClear]="true"
+                                (onChange)="filter($event.value)" appendTo="body" />
+                        </ng-template>
+                    </p-columnFilter>
+                </th>
+                <th>
+                    <p-columnFilter type="date" field="orderDate" placeholder="mm/dd/yyyy"></p-columnFilter>
+                </th>
+                <th>
+                    <p-columnFilter type="date" field="testDate" placeholder="mm/dd/yyyy"></p-columnFilter>
+                </th>
+                <th></th>
+                <th>
+                    <p-columnFilter field="status" [showMenu]="false" [showClearButton]="false">
+                        <ng-template #filter let-value let-filter="filterCallback">
+                            <p-select [options]="statuses" id="status" placeholder="Select Status" optionLabel="label"
+                                [ngModel]="value" optionValue="label" (onChange)="filter($event.value)" class="w-full"
+                                appendTo="body" />
+                        </ng-template>
+                    </p-columnFilter>
+                </th>
+                <th></th>
+            </tr>
+        </ng-template>
+        <ng-template #body let-lab>
+            <tr>
+                <td>{{ lab.labId }}</td>
+                <td>{{ lab.testName }}</td>
+                <td>{{ lab.testType }}</td>
+                <td>{{ lab.orderDate | date: 'MM/dd/yyyy' }}</td>
+                <td>{{ lab.testDate | date: 'MM/dd/yyyy' }}</td>
+                <td>{{ lab.sampleCollectionLocation }}</td>
+                <td>{{ lab.status }}</td>
+                <td alignFrozen="right" pFrozenColumn [frozen]="actions" [ngClass]="{ 'font-bold': actions }" *ngIf="isBrowser">
+                    <p-menu #menu [popup]="true" [model]="optionsItems" appendTo="body">
+                        <ng-template #item let-item>
+                            <ng-container *ngIf="item.label == 'Edit'">
+                                <span class="p-menu-item-link" (click)="editLab(lab)">
+                                    <span [class]="item.icon"></span>
+                                    <span class="ml-2">{{ item.label }}</span>
+                                </span>
+                            </ng-container>                                           
+                        </ng-template>
+                    </p-menu>
+                    <div class="flex justify-center">
+                        <p-button icon="pi pi-ellipsis-v" severity="secondary" rounded
+                            (click)="selectedLab = lab; menu.toggle($event)" [raised]="true" />
+                    </div>
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+            <tr>
+                <td colspan="8">
+                    <div class="text-center">
+                        <span class="text-lg">No Labs Found for this Patient.</span>
+                    </div>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>
+
+<app-lab-add-edit *ngIf="visible" [(isVisible)]="visible" [selectedLab]="selectedLab"></app-lab-add-edit>

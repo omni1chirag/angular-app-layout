@@ -1,0 +1,88 @@
+<div pageHeader>
+    <p-toolbar>
+        <ng-template #start>
+            <p class="text-2xl font-bold sm:truncate sm:text-3xl sm:tracking-tight">
+                {{ 'notification.title' | translate }}
+            </p>
+        </ng-template>
+
+        <ng-template #center>
+        </ng-template>
+
+        <ng-template #end>
+            <div class="flex space-x-3 justify-items-end">
+                <p-button label="Save"  (onClick)="save()" />
+                <p-button label="Cancel" variant="outlined" severity="danger" (onClick)="cancel()" />
+            </div>
+        </ng-template>
+    </p-toolbar>
+</div>
+<div class="card">
+    <div>
+        <h3 class="text-base/7 font-semibold "> {{ 'notification.configuration' | translate }}</h3>
+        <p class="mt-1 text-sm/6 ">{{ 'notification.info' | translate }}
+        </p>
+    </div>
+
+    <p-divider></p-divider>
+    <div class="mt-10 grid grid-cols-12 gap-6">
+        <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-4">
+            <label for="EventName">{{ 'notification.eventName' | translate }}<span class="text-red-500">*</span></label>
+            <div class="mt-2">
+                <input pInputText type="text" name="event-name" id="event-name" autocomplete="event-name"
+                    [(ngModel)]="notification.name" class="w-full">
+            </div>
+        </div>
+        <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-2">
+            <label for="EventType">{{ 'notification.eventType' | translate }}<span class="text-red-500">*</span></label>
+            <div class="mt-2">
+                <p-select [options]="eventType" optionLabel="name" optionValue="name" placeholder="Select a Type"
+                    class="w-full md:w-56" [(ngModel)]="notification.type" [style]="{'width':'100%'}" />
+
+            </div>
+        </div>
+        <div class="flex flex-col  col-span-full sm:col-span-6 md:col-span-2">
+            <label for="targetAudience">{{ 'notification.targetAudience' | translate }}<span
+                    class="text-red-500">*</span></label>
+            <div class="mt-2">
+                <p-select [options]="targetAudience" optionLabel="name" optionValue="name" placeholder="Select a Type"
+                    [(ngModel)]="notification.audience" class="w-full md:w-56" [style]="{'width':'100%'}" />
+
+            </div>
+        </div>
+
+        <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-2">
+            <label for="whenToTrigger">{{ 'notification.whenToTrigger' | translate }}<span
+                    class="text-red-500">*</span></label>
+            <div class="mt-2">
+                <p-select [options]="TriggerTime" optionLabel="name" optionValue="name" placeholder="Select a Trigger"
+                    [(ngModel)]="notification.trigger" class="w-full md:w-56" [style]="{'width':'100%'}" />
+
+            </div>
+        </div>
+
+        <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-2">
+            <label for="dateAndTime">{{ 'notification.dateAndTime' | translate }}<span
+                    class="text-red-500">*</span></label>
+            <div class="mt-2">
+                <p-datepicker inputId="calendar-12h" [showTime]="true" [hourFormat]="'12'" class="w-full md:w-56"
+                    [(ngModel)]="notification.datetime" [style]="{'width':'100%'}" />
+            </div>
+        </div>
+        <div class="flex flex-col  col-span-full sm:col-span-6 md:col-span-2">
+            <label for="dateAndTime">{{ 'notification.status' | translate }}<span class="text-red-500">*</span></label>
+            <div class="mt-2">
+                <p-selectbutton [options]="stateOptions" optionLabel="name" class="w-full md:w-56"
+                    [(ngModel)]="notification.status" [style]="{'width':'100%'}" optionValue="code"
+                    aria-labelledby="dateAndTime" />
+            </div>
+        </div>
+        <div class="flex flex-col col-start-1 sm:col-start-1 md:col-start-1  col-span-full sm:col-span-6 md:col-span-6">
+            <label for="Message">{{ 'notification.message' | translate }}<span class="text-red-500">*</span></label>
+            <div class="mt-2">
+                <textarea rows="5" cols="30" pTextarea name="message" id="message" autocomplete="message"
+                    [(ngModel)]="notification.message" class="w-full"></textarea>
+            </div>
+        </div>
+    </div>
+</div>

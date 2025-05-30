@@ -1,0 +1,13 @@
+<div class="card mt-4 w-full h-[calc(100vh-var(--navbar-height)-2.25rem)] flex flex-col">
+  <div #calendarContainer class="calendar-wrapper flex-grow p-4 flex flex-col">
+    <full-calendar #calendar [options]="calendarOptions" class="w-full h-full"></full-calendar>
+  </div>
+</div>
+
+<p-popover #op>
+  <div [innerHTML]="tooltipContent"></div>
+</p-popover>
+
+
+<app-appointment-add-edit *ngIf="isVisible" (onAppointmentUpdate)="isVisible=false; refreshCalendar();"
+  [(isVisible)]="isVisible" [appointment]="appointment"></app-appointment-add-edit>

@@ -1,0 +1,11 @@
+<div class="flex flex-col sm:flex-row min-h-screen w-full ">
+    <!-- Sidebar -->
+    <div class="w-full flex sm:w-64 sm:flex md:sticky lg:sticky top-[calc(var(--navbar-height)+1rem)] sm:h-[calc(100vh-var(--navbar-height)-2.25rem)]">
+        <app-patient-menu class="w-full h-full"></app-patient-menu>
+    </div>
+
+    <!-- Main Content -->
+    <div class="flex-1 ml-0 sm:ml-4 mt-4">
+        <router-outlet></router-outlet>
+    </div>
+</div>

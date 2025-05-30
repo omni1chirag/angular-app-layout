@@ -1,0 +1,74 @@
+<ng-container>
+    <div class="flex-1 space-y-8">
+        <div id="medication" scrollSpy="medication">
+            <app-medication-list *ngIf="reloadKey" [appointmentId]="appointmentId" [patientId]="patientId"></app-medication-list>
+        </div>
+
+        <div id="allergy" scrollSpy="allergy">
+            <app-allergy-list *ngIf="reloadKey" [appointmentId]="appointmentId" [patientId]="patientId"></app-allergy-list>
+        </div>
+
+        <div id="lab" scrollSpy="lab">
+            <app-lab-list *ngIf="reloadKey" [appointmentId]="appointmentId" [patientId]="patientId"></app-lab-list>
+        </div>
+
+        <div id="diagnosis" scrollSpy="diagnosis">
+            <app-diagnosis-list *ngIf="reloadKey" [appointmentId]="appointmentId" [patientId]="patientId"></app-diagnosis-list>
+        </div>
+  
+        <div id="immunization" scrollSpy="immunization">
+            <app-immunization-list *ngIf="reloadKey" [appointmentId]="appointmentId" [patientId]="patientId"></app-immunization-list>
+        </div>
+
+        <div id="document" scrollSpy="document">
+            <app-document-list *ngIf="reloadKey" [appointmentId]="appointmentId" [patientId]="patientId"></app-document-list>
+        </div>
+        
+        <div class="card h-[400px]" id="vitals" scrollSpy="vitals">
+            <div>
+                <h4 class="text-base/7 font-semibold text-gray-900">Vitals</h4>
+            </div>
+            <p-divider></p-divider>
+
+            <div class="mt-5 grid grid-cols-12 gap-3">
+                <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-4">
+                    <label for="organizationName" mandatoryFieldLabel>Organization Name</label>
+                    <div class="mt-2">
+                        <input pInputText id="organizationName" type="text" placeholder="Enter Organization Name"
+                            class="w-full" />
+                    </div>
+                </div>
+                <div class="flex flex-col col-span-full sm:col-span-4 md:col-span-2">
+                    <label for="gstin" mandatoryFieldLabel>GSTIN</label>
+                    <div class="mt-2">
+                        <input pInputText id="gstin" type="text" placeholder="Enter GSTIN" class="w-full" />
+                    </div>
+                </div>
+                <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-4">
+                    <label for="legalOrganizationName" mandatoryFieldLabel>Legal Organization Name</label>
+                    <div class="mt-2">
+                        <input pInputText id="legalOrganizationName" type="text"
+                            placeholder="Enter Legal Organization Name" class="w-full" />
+                    </div>
+                </div>
+                <div class="flex flex-col col-span-full sm:col-span-4 md:col-span-2">
+                    <label for="yearEstablishment">Year of Establishment <span class="text-red-500">*</span></label>
+                    <div class="mt-2">
+
+                    </div>
+                </div>
+                <div class="flex flex-col col-span-full  sm:col-span-6 md:col-span-2">
+                    <label>Upload Business Logo</label>
+                    <div class="mt-2">
+                    </div>
+                </div>
+
+                <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-3">
+                    <label class="font-medium">Status <span class="text-red-500">*</span></label>
+                    <div class="mt-2">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-container>

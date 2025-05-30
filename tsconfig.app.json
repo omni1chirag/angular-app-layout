@@ -6,7 +6,23 @@
     "outDir": "./out-tsc/app",
     "types": [
       "node"
-    ]
+    ],
+    "baseUrl": "./",
+    "paths": {
+      "@assets/*":["src/assets/*"],
+      "@component/*": ["src/app/component/*"],
+      "@service/*": ["src/app/service/*"],
+      "@guard/*": ["src/app/guard/*"],
+      "@directive/*": ["src/app/directive/*"],
+      "@interceptor/*": ["src/app/interceptor/*"],
+      "@model/*":["src/app/model/*"],
+      "@pipe/*":["src/app/pipe/*"],
+      "@interface/*":["src/app/interface/*"],
+      "@validator/*":["src/app/validator/*"],
+      "@constants/*":["src/app/constants/*"],
+      "@environment/*":["src/environments/*"],
+
+    }
   },
   "files": [
     "src/main.ts",

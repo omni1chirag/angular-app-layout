@@ -1,0 +1,119 @@
+{
+  "PATIENT": {
+    "PROFILE_DETAIL": "પ્રોફાઇલ વિગતો",
+    "PATIENT": "રોગી",
+    "TITLE": "શીર્ષક",
+    "FIRST_NAME": "પ્રથમ નામ",
+    "MIDDLE_NAME": "મધ્યમ નામ",
+    "LAST_NAME": "છેલ્લું નામ",
+    "DATE_OF_BIRTH": "જન્મ તારીખ",
+    "AGE": "ઉંમર",
+    "GENDER": "લિંગ",
+    "GENDER_FREE_TEXT": "લિંગ દાખલ કરો",
+    "MARITAL_STATUS": "વૈવાહિક સ્થિતિ",
+    "MARITAL_STATUS_FREE_TEXT": "વૈવાહિક સ્થિતિ દાખલ કરો",
+    "AADHAAR_NUMBER": "આધાર નંબર",
+    "ABHA_ID": "આભા આઈડી",
+    "PREFERRED_LANGUAGE": "પસંદી ભાષા",
+    "BLOOD_GROUP": "રક્ત જૂથ",
+    "BASIC_DETAILS": "મૂળભૂત વિગતો",
+    "CONTACT_DETAILS": "સંપર્ક વિગતો",
+    "EMERGENCY_CONTACT_DETAILS": "જરૂરી સંપર્ક વિગતો",
+    "EMERGENCY_CONTACT_NAME": "જરૂરી સંપર્ક નામ",
+    "EMERGENCY_CONTACT_NUMBER": "જરૂરી સંપર્ક નંબર",
+    "RELATIONSHIP_TO_PATIENT": "રોગી સાથે સંબંધ",
+    "PATIENT_LIST": "દર્દીઓની યાદી",
+    "ADD_PATIENT": "દર્દીઓ ઉમેરો",
+    "EDIT_PATIENT": "દર્દી સંપાદિત કરો",
+    "PLACE_HOLDER": {
+      "FIRST_NAME": "પ્રથમ નામ દાખલ કરો",
+      "MIDDLE_NAME": "મધ્યમ નામ દાખલ કરો",
+      "LAST_NAME": "છેલ્લું નામ દાખલ કરો",
+      "DATE_OF_BIRTH": "જન્મ તારીખ દાખલ કરો",
+      "GENDER": "લિંગ પસંદ કરો",
+      "GENDER_FREE_TEXT": "લિંગ દાખલ કરો",
+      "MARITAL_STATUS": "વૈવાહિક સ્થિતિ પસંદ કરો",
+      "MARITAL_STATUS_FREE_TEXT": "વૈવાહિક સ્થિતિ દાખલ કરો",
+      "EMERGENCY_CONTACT_NAME": "જરૂરી સંપર્ક નામ દાખલ કરો",
+      "EMERGENCY_CONTACT_NUMBER": "સંપર્ક નંબર દાખલ કરો",
+      "RELATIONSHIP_TO_PATIENT": "સંબંધ પસંદ કરો",
+      "TITLE": "શીર્ષક પસંદ કરો",
+      "PREFERRED_LANGUAGE": "ભાષા પસંદ કરો",
+      "BLOOD_GROUP": "રક્ત જૂથ પસંદ કરો",
+      "SEARCH_NAME": "શોધ નામ",
+      "SEARCH_MOBILE_NUMBER": "મોબાઇલ નંબર શોધ"
+    },
+    "RESPONSE": {
+      "ACTIVE_STATUS_UPDATE": "દર્દીને સફળતાપૂર્વક સક્રિય કરવામાં આવ્યો છે",
+      "INACTIVE_STATUS_UPDATE": "દર્દીને સફળતાપૂર્વક નિષ્ક્રિય કરવામાં આવ્યું છે",
+      "NOT_FOUND": "દર્દી મળી નથી",
+      "PATIENT_DETAIL_ADD_SUCCESS": "દર્દીએ સફળતાપૂર્વક બનાવ્યું!",
+      "PATIENT_DETAIL_UPDATE_SUCCESS": "દર્દીની વિગતો સફળતાપૂર્વક અપડેટ થઈ છે",
+      "EMAIL_ALREADY_EXISTS": "આ ઇમેઇલ પહેલાથી જ બીજા દર્દી સાથે નોંધાયેલ છે",
+      "MOBILE_ALREADY_EXISTS": "આ મોબાઇલ નંબર પહેલાથી બીજા દર્દી સાથે નોંધાયેલ છે",
+      "AADHAAR_ALREADY_EXISTS": "આ આધાર નંબર પહેલાથી જ બીજા દર્દી સાથે નોંધાયેલ છે",
+      "ABHA_ALREADY_EXISTS": "આ એબીએચએ નંબર પહેલાથી બીજા દર્દી સાથે નોંધાયેલ છે"
+    }
+  },
+  "INSURANCE": {
+    "ADD_PATIENT_INSURANCE": "દર્દીનો વીમો ઉમેરો",
+    "EDIT_PATIENT_INSURANCE": "દર્દીનો વીમો સંપાદિત કરો",
+    "INSURANCE": "વીમો",
+    "PATIENT_INSURANCE": "દર્દી -વીમો",
+    "INSURANCE_PROVIDER_NAME": "વીમા પ્રદાતા નામ",
+    "POLICY_NUMBER": "નીતિ નંબર",
+    "POLICY_START_DATE": "નીતિ પ્રારંભ તારીખ",
+    "POLICY_EXPIRY_DATE": "નીતિ અંતિમ તારીખ",
+    "INSURANCE_FRONT_SIDE": "વીમાનો આગળનો ભાગ",
+    "INSURANCE_BACK_SIDE": "વીમા પાછળ",
+    "PLACE_HOLDER": {
+      "INSURANCE_PROVIDER_NAME": "વીમા પ્રદાતાનું નામ પસંદ કરો",
+      "POLICY_NUMBER": "નીતિ નંબર દાખલ કરો",
+      "POLICY_START_DATE": "નીતિ પ્રારંભ તારીખ પસંદ કરો",
+      "POLICY_EXPIRY_DATE": "નીતિ સમાપ્તિ તારીખ પસંદ કરો"
+    },
+    "RESPONSE": {
+      "ACTIVE_STATUS_UPDATE": "વીમો સફળતાપૂર્વક સક્રિય કરવામાં આવ્યો છે",
+      "INACTIVE_STATUS_UPDATE": "વીમા સફળતાપૂર્વક નિષ્ક્રિય કરવામાં આવ્યો છે",
+      "NOT_FOUND": "વીમો મળ્યો નથી",
+      "INSURANCE_DETAIL_ADD_SUCCESS": "વીમા વિગતો સફળતાપૂર્વક ઉમેરી",
+      "INSURANCE_DETAIL_UPDATE_SUCCESS": "વીમા વિગતો સફળતાપૂર્વક અપડેટ થઈ",
+      "ALREADY_EXISTS": "આ વીમા પ policy લિસી પહેલાથી જ તમારા એકાઉન્ટ સાથે જોડાયેલી છે."
+    }
+  },
+  "APPOINTMENT": {
+    "ADD_APPOINTMENT": "મુલાકાત ઉમેરો",
+    "EDIT_APPOINTMENT": "મુલાકાત સંપાદિત કરો",
+    "SELECT_PATIENT": "રોગી પસંદ કરો",
+    "RELATION": "સંબંધ",
+    "FORM_LABELS": {
+      "REASON_FOR_VISIT": "મુલાકાતનો કારણ",
+      "APPOINTMENT_TYPE": "મુલાકાતનો પ્રકાર",
+      "APPOINTMENT_DATE": "મુલાકાતની તારીખ",
+      "APPOINTMENT_TIME": "મુલાકાતનો સમય",
+      "DURATION": "અવધિ",
+      "APPOINTMENT_STATUS": "મુલાકાતની સ્થિતિ",
+      "NOTES": "નોંધો"
+    },
+    "PLACE_HOLDER": {
+      "PATIENT_NAME": "પ્રથમ નામ, છેલ્લું નામ",
+      "APPOINTMENT_STATUS": "મુલાકાતની સ્થિતિ પસંદ કરો",
+      "REASON_FOR_VISIT": "મુલાકાતના કારણ માટે શોધો",
+      "APPOINTMENT_DATE": "સેવાની તારીખ દાખલ કરો",
+      "NOTES": "અહીં કોઈ નોંધો લખો"
+    },
+    "RESPONSE": {
+      "APPOINTMENT_CREATE_SUCCESS": "મુલાકાત સફળતાપૂર્વક બનાવવામાં આવી!",
+      "APPOINTMENT_UPDATE_SUCCESS": "મુલાકાત સફળતાપૂર્વક અપડેટ કરવામાં આવી",
+      "APPOINTMENT_DELETE_SUCCESS": "મુલાકાત સફળતાપૂર્વક કાઢી નાખવામાં આવી",
+      "APPOINTMENT_NOT_FOUND": "મુલાકાત મળી નથી",
+      "APPOINTMENT_STATUS_UPDATE_SUCCESS": "મુલાકાતની સ્થિતિ સફળતાપૂર્વક અપડેટ થઈ",
+      "APPOINTMENT_ALREADY_EXISTS": "પસંદ કરેલી તારીખ અને સમય માટે પહેલેથીજ એક મુલાકાત છે",
+      "APPOINTMENT_SLOT_UNAVAILABLE": "પસંદ કરેલ મુલાકાત સમય ઉપલબ્ધ નથી",
+      "APPOINTMENT_TIME_INVALID": "શરૂઆતનો સમય અંતના સમય કરતાં પહેલા હોવો જોઈએ",
+      "APPOINTMENT_DURATION_INVALID": "અયોગ્ય મુલાકાત સમયગાળો",
+      "APPOINTMENT_PATIENT_NOT_MAPPED": "રોગી તમારી સંસ્થાથી જોડાયેલો નથી",
+      "APPOINTMENT_MAP_SUCCESS": "મુલાકાત સફળતાપૂર્વક ક્લિનિક સાથે નકશામાં મૂકી"
+    }
+  }
+}

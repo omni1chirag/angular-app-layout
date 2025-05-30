@@ -1,0 +1,120 @@
+{
+  "PATIENT": {
+    "PROFILE_DETAIL": "प्रोफ़ाइल विवरण",
+    "PATIENT": "रोगी",
+    "TITLE": "शीर्षक",
+    "PATIENT_NAME": "रोगी का नाम",
+    "FIRST_NAME": "पहला नाम",
+    "MIDDLE_NAME": "मध्य नाम",
+    "LAST_NAME": "उपनाम",
+    "DATE_OF_BIRTH": "जन्म तिथि",
+    "AGE": "आयु",
+    "GENDER": "लिंग",
+    "GENDER_FREE_TEXT": "लिंग दर्ज करें",
+    "MARITAL_STATUS": "वैवाहिक स्थिति",
+    "MARITAL_STATUS_FREE_TEXT": "वैवाहिक स्थिति दर्ज करें",
+    "AADHAAR_NUMBER": "आधार संख्या",
+    "ABHA_ID": "अबा आईडी",
+    "PREFERRED_LANGUAGE": "पसंदीदा भाषा",
+    "BLOOD_GROUP": "ब्लड ग्रुप",
+    "BASIC_DETAILS": "मूल विवरण",
+    "CONTACT_DETAILS": "सम्पर्क करने का विवरण",
+    "EMERGENCY_CONTACT_DETAILS": "आपातकालीन संपर्क विवरण",
+    "EMERGENCY_CONTACT_NAME": "आपातकालीन संपर्क नाम",
+    "EMERGENCY_CONTACT_NUMBER": "आपातकालीन संपर्क नंबर",
+    "RELATIONSHIP_TO_PATIENT": "रोगी से संबंध",
+    "PATIENT_LIST": "रोगी सूची",
+    "ADD_PATIENT": "रोगी जोड़ें",
+    "EDIT_PATIENT": "रोगी संपादित करें",
+    "PLACE_HOLDER": {
+      "FIRST_NAME": "प्रथम नाम दर्ज करें",
+      "MIDDLE_NAME": "मध्य नाम दर्ज करें",
+      "LAST_NAME": "अंतिम नाम दर्ज करो",
+      "DATE_OF_BIRTH": "जन्म तारीख दर्ज करें",
+      "GENDER": "लिंग का चयन करें",
+      "GENDER_FREE_TEXT": "लिंग दर्ज करें",
+      "MARITAL_STATUS": "वैवाहिक स्थिति का चयन करें",
+      "MARITAL_STATUS_FREE_TEXT": "वैवाहिक स्थिति दर्ज करें",
+      "EMERGENCY_CONTACT_NAME": "आपातकालीन संपर्क नाम दर्ज करें",
+      "EMERGENCY_CONTACT_NUMBER": "संपर्क नंबर दर्ज करें",
+      "RELATIONSHIP_TO_PATIENT": "रोगी के लिए संबंध का चयन करें",
+      "TITLE": "शीर्षक का चयन करें",
+      "PREFERRED_LANGUAGE": "पसंदीदा भाषा का चयन करें",
+      "BLOOD_GROUP": "रक्त समूह का चयन करें",
+      "SEARCH_NAME": "खोज नाम",
+      "SEARCH_MOBILE_NUMBER": "मोबाइल नंबर खोजें"
+    },
+    "RESPONSE": {
+      "ACTIVE_STATUS_UPDATE": "रोगी को सफलतापूर्वक सक्रिय कर दिया गया है",
+      "INACTIVE_STATUS_UPDATE": "रोगी को सफलतापूर्वक निष्क्रिय कर दिया गया है",
+      "NOT_FOUND": "रोगी नहीं मिला",
+      "PATIENT_DETAIL_ADD_SUCCESS": "रोगी को सफलतापूर्वक बनाया गया!",
+      "PATIENT_DETAIL_UPDATE_SUCCESS": "रोगी का विवरण सफलतापूर्वक अपडेट किया गया",
+      "EMAIL_ALREADY_EXISTS": "यह ईमेल पहले से ही किसी अन्य मरीज के साथ पंजीकृत है",
+      "MOBILE_ALREADY_EXISTS": "यह मोबाइल नंबर पहले से ही किसी अन्य रोगी के साथ पंजीकृत है",
+      "AADHAAR_ALREADY_EXISTS": "यह आधार संख्या पहले से ही किसी अन्य रोगी के साथ पंजीकृत है",
+      "ABHA_ALREADY_EXISTS": "यह ABHA नंबर पहले से ही किसी अन्य मरीज के साथ पंजीकृत है"
+    }
+  },
+  "INSURANCE": {
+    "ADD_PATIENT_INSURANCE": "रोगी बीमा जोड़ें",
+    "EDIT_PATIENT_INSURANCE": "रोगी बीमा संपादित करें",
+    "INSURANCE": "बीमा",
+    "PATIENT_INSURANCE": "रोगी बीमा",
+    "INSURANCE_PROVIDER_NAME": "बीमा प्रदाता नाम",
+    "POLICY_NUMBER": "नीति संख्या",
+    "POLICY_START_DATE": "नीति प्रारंभ तिथि",
+    "POLICY_EXPIRY_DATE": "नीति अंत तिथि",
+    "INSURANCE_FRONT_SIDE": "बीमा सामने की ओर",
+    "INSURANCE_BACK_SIDE": "बीमा बैक साइड",
+    "PLACE_HOLDER": {
+      "INSURANCE_PROVIDER_NAME": "बीमा प्रदाता का नाम चुनें",
+      "POLICY_NUMBER": "नीति संख्या दर्ज करें",
+      "POLICY_START_DATE": "पॉलिसी स्टार्ट डेट का चयन करें",
+      "POLICY_EXPIRY_DATE": "नीति समाप्ति तिथि का चयन करें"
+    },
+    "RESPONSE": {
+      "ACTIVE_STATUS_UPDATE": "बीमा को सफलतापूर्वक सक्रिय कर दिया गया है",
+      "INACTIVE_STATUS_UPDATE": "बीमा को सफलतापूर्वक निष्क्रिय कर दिया गया है",
+      "NOT_FOUND": "बीमा नहीं मिला",
+      "INSURANCE_DETAIL_ADD_SUCCESS": "बीमा विवरण सफलतापूर्वक जोड़ा गया",
+      "INSURANCE_DETAIL_UPDATE_SUCCESS": "बीमा विवरण सफलतापूर्वक अपडेट किया गया",
+      "ALREADY_EXISTS": "यह बीमा पॉलिसी पहले से ही आपके खाते से जुड़ी हुई है।"
+    }
+  },
+  "APPOINTMENT": {
+    "ADD_APPOINTMENT": "नियुक्ति जोड़ें",
+    "EDIT_APPOINTMENT": "नियुक्ति संपादित करें",
+    "SELECT_PATIENT": "रोगी चुनें",
+    "RELATION": "रिश्ता",
+    "FORM_LABELS": {
+      "REASON_FOR_VISIT": "मुलाकात का कारण",
+      "APPOINTMENT_TYPE": "नियुक्ति का प्रकार",
+      "APPOINTMENT_DATE": "नियुक्ति की तिथि",
+      "APPOINTMENT_TIME": "नियुक्ति का समय",
+      "DURATION": "अवधि",
+      "APPOINTMENT_STATUS": "नियुक्ति की स्थिति",
+      "NOTES": "नोट्स"
+    },
+    "PLACE_HOLDER": {
+      "PATIENT_NAME": "प्रथम नाम, अंतिम नाम",
+      "APPOINTMENT_STATUS": "नियुक्ति की स्थिति चुनें",
+      "REASON_FOR_VISIT": "मुलाकात का कारण खोजें",
+      "APPOINTMENT_DATE": "सेवा की तिथि दर्ज करें",
+      "NOTES": "यहां कोई नोट दर्ज करें"
+    },
+    "RESPONSE": {
+      "APPOINTMENT_CREATE_SUCCESS": "नियुक्ति सफलतापूर्वक बनाई गई!",
+      "APPOINTMENT_UPDATE_SUCCESS": "नियुक्ति सफलतापूर्वक अपडेट की गई",
+      "APPOINTMENT_DELETE_SUCCESS": "नियुक्ति सफलतापूर्वक हटाई गई",
+      "APPOINTMENT_NOT_FOUND": "नियुक्ति नहीं मिली",
+      "APPOINTMENT_STATUS_UPDATE_SUCCESS": "नियुक्ति की स्थिति सफलतापूर्वक अपडेट की गई",
+      "APPOINTMENT_ALREADY_EXISTS": "चयनित तिथि और समय के लिए पहले से ही एक नियुक्ति मौजूद है",
+      "APPOINTMENT_SLOT_UNAVAILABLE": "चयनित नियुक्ति स्लॉट उपलब्ध नहीं है",
+      "APPOINTMENT_TIME_INVALID": "प्रारंभ समय समाप्ति समय से पहले होना चाहिए",
+      "APPOINTMENT_DURATION_INVALID": "अमान्य नियुक्ति अवधि",
+      "APPOINTMENT_PATIENT_NOT_MAPPED": "रोगी आपकी संस्था से संबद्ध नहीं है",
+      "APPOINTMENT_MAP_SUCCESS": "नियुक्ति को क्लिनिक से सफलतापूर्वक जोड़ा गया"
+    }
+  }
+}

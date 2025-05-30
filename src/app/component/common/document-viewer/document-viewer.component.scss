@@ -1,0 +1,10 @@
+::ng-deep {
+    .p-dialog-header{
+        display: none;;
+    }
+    .p-dialog-content{
+        overflow-x: hidden;
+        overflow-y: hidden;
+
+    }
+}

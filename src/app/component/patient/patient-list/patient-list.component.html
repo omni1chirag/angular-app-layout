@@ -1,0 +1,125 @@
+<div pageHeader="list">
+    <p-toolbar>
+        <ng-template #start>
+            <div class="flex items-center gap-2">
+                <p class="text-2xl font-bold sm:truncate sm:text-3xl sm:tracking-tight">
+                    {{'PATIENT.PATIENT_LIST' | translate}}
+                </p>
+            </div>
+        </ng-template>
+
+        <ng-template #end>
+            <div class="flex items-center gap-2">
+                <p-button label="{{'PATIENT.ADD_PATIENT' | translate}}" (onClick)="addEditMode()" />
+            </div>
+        </ng-template>
+    </p-toolbar>
+</div>
+<div class="card">
+    <p-table [value]="patients" [size]="'small'" [totalRecords]="totalRecords" [paginator]="true" [loading]="showLoader"
+        [first]="first" [lazy]="true" [rows]="size" (onLazyLoad)="loadPatients($event)" [scrollable]="true"
+        tableAutoScroll #patientTable stripedRows>
+        <ng-template pTemplate="caption">
+            <div class="flex justify-between table-options pb-1">
+                <button pButton label="Clear" class="p-button-outlined" icon="pi pi-filter-slash"
+                    (click)="patientTable.clear()"></button>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th style="width:20%" class="font-bold">{{'NAME' | translate}}
+                </th>
+                <th style="width:20%">{{'MOBILE_NUMBER' | translate}}
+                </th>
+                <th style="width:25%">{{'EMAIL' | translate}}
+                </th>
+                <th style="width:27%"></th>
+                <th style="width:8%; text-align: center;" alignFrozen="right" pFrozenColumn [frozen]="true"
+                    [ngClass]="{ 'font-bold': true }" *ngIf="isBrowser">{{'ACTIONS' | translate}}</th>
+            </tr>
+            <tr>
+                <th>
+                    <p-columnFilter field="patient" [showMenu]="false" [showClearButton]="false">
+                        <ng-template #filter let-value let-filter="filterCallback">
+                            <p-autoComplete dropdown id="patient" [ngModel]="value" inputStyleClass="w-full"
+                                [suggestions]="patientSuggestions" optionLabel="label" optionValue="value"
+                                [placeholder]="'PATIENT.PLACE_HOLDER.SEARCH_NAME' | translate" [dropdown]="false" [minLength]="3" [forceSelection]="true"
+                                (onClear)="filter(undefined)" (onSelect)="filter($event.value.value)"
+                                (completeMethod)="searchPatients($event)" />
+                        </ng-template>
+                    </p-columnFilter>
+                </th> 
+                <th>
+                    <p-columnFilter field="mobileNumber" [showMenu]="false" [showClearButton]="false">
+                        <ng-template #filter let-value let-filter="filterCallback">
+                            <p-inputmask inputId="mobileNumber" name="mobileNumber" [ngModel]="value"
+                                (onClear)="filter(undefined)" [unmask]="true"
+                                [placeholder]="'PATIENT.PLACE_HOLDER.SEARCH_MOBILE_NUMBER' | translate"
+                                (onInput)="onMobileNumberEnter($event,filter)" mask="99999 99999" class="w-full">
+                            </p-inputmask>
+                        </ng-template>
+                    </p-columnFilter>
+                </th>
+                <th></th>
+                <th></th>
+                <th style="text-align: center;" pFrozenColumn alignFrozen="right" [frozen]="actions">
+                    <p-columnFilter field="toggle" [showMenu]="false">
+                        <ng-template #filter let-value let-filter="filterCallback">
+                            <p-togglebutton [(ngModel)]="actions" [onIcon]="'pi pi-lock'" offIcon="pi pi-lock-open"
+                                [onLabel]="'Unlock'" offLabel="Lock" />
+                        </ng-template>
+                    </p-columnFilter>
+
+                </th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-patient>
+            <tr>
+                <td>{{ patient.firstName }} {{patient.lastName}}</td>
+                <td>{{ patient.mobileNumber}}</td>
+                <td>{{ patient.email }}</td>
+                <td></td>
+                <td alignFrozen="right" pFrozenColumn [frozen]="actions" [ngClass]="{ 'font-bold': actions }"
+                    *ngIf="isBrowser">
+                    <p-menu #menu [popup]="true" [model]="optionsItems" appendTo="body">
+                        <ng-template #item let-item>
+                            <ng-container *ngIf="item.label =='EDIT'">
+                                <span class="p-menu-item-link" (click)="addEditMode(patient.patientId)">
+                                    <span [class]="item.icon"></span>
+                                    <span class="ml-2">{{ item.label | translate }}</span>
+                                </span>
+                            </ng-container>
+                            <ng-container *ngIf="item.label =='CLINICAL_SUMMARY'">
+                                <span class="p-menu-item-link" (click)="navigageToSummary(patient.patientId)">
+                                    <span [class]="item.icon"></span>
+                                    <span class="ml-2">{{ item.label | translate }}</span>
+                                </span>
+                            </ng-container>
+                            <ng-container *ngIf="item.label =='ADD_APPOINTMENT'">
+                                <span class="p-menu-item-link" (click)="addAppointment(patient)">
+                                    <span [class]="item.icon"></span>
+                                    <span class="ml-2">{{ item.label | translate }}</span>
+                                </span>
+                            </ng-container>
+
+                        </ng-template>
+                    </p-menu>
+                    <div class="flex justify-center">
+                        <p-button icon="pi  pi-ellipsis-v" severity="secondary" rounded (click)="menu.toggle($event)"
+                            [raised]="true" />
+                    </div>
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+            <tr>
+                <td colspan="5" style="text-align:center;">
+                    <span>{{ 'NO_DATA_FOUND' | translate }}</span>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>
+
+
+<app-appointment-add-edit *ngIf="isAppointmentVisible" [(isVisible)]="isAppointmentVisible" [patient]="selectedPatient" [isMobileNumberVisible]="false"></app-appointment-add-edit>

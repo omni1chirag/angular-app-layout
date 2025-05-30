@@ -1,0 +1,86 @@
+<div class="card">
+    <div>
+        <h4 class="text-base/7 font-semibold text-gray-900">{{'ALLERGY.ALLERGIES' | translate}}</h4>
+    </div>
+    <p-divider></p-divider>
+
+    <div class="mt-5 flex flex-col gap-2">
+        <ng-container >
+            <p-table [value]="patientAllergies" size="small" [paginator]="true" [rows]="rowsPerPage" [totalRecords]="totalRecords"
+                [lazy]="true" (onLazyLoad)="loadPatientAllergies($event)" [loading]="showLoader"
+                [first]="first" [sortField]="defaultSortField" [sortOrder]="defaultSortOrder">
+                <ng-template #body let-item let-index="rowIndex">
+                    <tr>
+                        <td>
+                            <strong> {{ item.allergenName }} </strong>
+                        </td>
+
+                        <td>
+                            <span>{{'ALLERGY.TABLE.TYPE' | translate}}:{{item.allergenType}}</span> 
+                            <span> | {{'ALLERGY.SEVERITY' | translate}}: <p-tag [severity]="getSeverityTagColor(item.severity)" [value]="getSeverity(item.severity)"  [rounded]="true"></p-tag></span>
+                            <span *ngIf="item.onsetDate != null"> | {{'ALLERGY.ONSET_DATE' | translate}}: {{item.onsetDate | date: 'shortDate'}}</span> 
+                            <span *ngIf="item.recordedDate != null"> | {{'ALLERGY.RECORDED_DATE' | translate}}: {{item.recordedDate | date: 'shortDate'}}</span>
+                        </td>
+
+                        <td style="width: 1%; text-align: right;">
+                            <p-tag [severity]="getStatusTagColor(item.allergyStatus)"
+                                [value]="getStatus(item.allergyStatus)" [rounded]="true">
+                            </p-tag>
+                        </td>
+
+                        <td class="flex justify-center gap-2">
+                            <p-button icon="pi pi-pencil" variant="outlined" [rounded]="true" severity="info"
+                                (onClick)="editAllergy(item)" />
+                        </td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage">
+                    <tr>
+                        <td colspan="4">
+                            <div class="text-center">
+                                <span class="text-lg">{{'ALLERGY.TABLE.EMTPY_MESSAGE' | translate}}</span>
+                            </div>
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </ng-container>
+        
+        <p-divider  *ngIf="patientAllergies.length > 0"></p-divider>
+
+        <div class="mt-4 flex flex-wrap gap-6 ">
+            <div class="flex-1">
+                <label for="Search Allergy">{{'ALLERGY.PLACE_HOLDER.SEARCH_ALLERGENS' | translate}}</label>
+                <div class="mt-2">
+                    <p-autoComplete id="allergenName" class="w-full" [suggestions]="allergenSuggestions"
+                        [style]="{width:'100%'}" optionLabel="allergenName" optionValue="allergenName"
+                        placeholder="{{'ALLERGY.PLACE_HOLDER.SEARCH_ALLERGENS' | translate}}" [dropdown]="false" minLength="3" [minLength]="3"
+                        [inputStyle]="{ width: '100%' }" appendTo="body" inputStyleClass="w-full"
+                        (onSelect)="allergenToAllergy($event.value)" (completeMethod)="searchAllergens($event.query)">
+                    </p-autoComplete>
+                </div>
+            </div>
+
+            <div class=" flex-none">
+                <label for="Search Allergy">{{'ALLERGY.ALLERGEN_TYPE' | translate}}</label>
+                <div class="mt-2 flex flex-wrap gap-2">
+                    <p-button label="{{category.label}}"  (onClick)="onChangeAllergy(category)"
+                        [severity]="selectedCategory === category.value ? 'primary' : 'secondary'"
+                        *ngFor="let category of categories">
+                    </p-button>
+                </div>
+            </div>
+        </div>
+
+        <p-divider></p-divider>
+
+        <div class="mt-2 flex flex-wrap gap-2">
+            <p-button label="{{item.allergenName}}" [rounded]="true" variant="outlined" (click)="allergenToAllergy(item)"
+                *ngFor="let item of allergens" />
+        </div>
+    </div>
+</div>
+
+<app-allergy-add-edit [isVisible]="isAllergyOpen" (isVisibleChange)="handleAllergyVisibility($event)"
+    [selectedAllergy]="selectedAllergy" [patientId]="patientId()" [appointmentId]="appointmentId()">  
+</app-allergy-add-edit>

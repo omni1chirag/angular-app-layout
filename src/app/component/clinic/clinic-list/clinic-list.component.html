@@ -1,0 +1,160 @@
+<div pageHeader="list">
+    <p-toolbar>
+        <ng-template #start>
+            <div class="flex items-center gap-2">
+                <div class="text-2xl font-bold sm:truncate sm:text-3xl sm:tracking-tight">Clinic List</div>
+            </div>
+        </ng-template>
+
+        <ng-template #end>
+            <div class="flex items-center gap-2">
+                <p-button label="Add Clinic" (onClick)="navigateTo('/home/clinic/add')" />
+            </div>
+        </ng-template>
+    </p-toolbar>
+</div>
+
+<div class="card">
+    <p-table [value]="clinics" styleClass="mt-4" [paginator]="true" [totalRecords]="totalRecords"
+        [loading]="showLoader" [first]="first" [rows]="10" stripedRows [columns]="cols" [size]="'small'" [lazy]="true"
+        (onLazyLoad)="loadClinics($event)" [scrollable]="true" tableAutoScroll #clinicTable>
+        <ng-template #caption>
+            <div class="flex justify-between table-options pb-1">
+                <button pButton label="Clear" class="p-button-outlined" icon="pi pi-filter-slash"
+                    (click)="clinicTable.clear()"></button>
+            </div>
+        </ng-template>
+        <ng-template #header>
+            <tr>
+                <th style="min-width:200px" class="font-bold" pFrozenColumn>Clinic Name
+                </th>
+                <th style="min-width:200px">Organization Name
+                </th>
+                <th style="min-width:200px">Speciality
+                </th>
+                <th style="min-width:150px">State
+                </th>
+                <th style="min-width:150px">Status
+                </th>
+                <th style="text-align: center;" alignFrozen="right" pFrozenColumn [frozen]="actions"
+                    [ngClass]="{ 'font-bold': actions }" *ngIf="isBrowser">Actions</th>
+                </tr>
+            <tr>
+                <th pFrozenColumn>
+                    <p-columnFilter field="clinic" [showMenu]="false">
+                        <ng-template #filter let-value let-filter="filterCallback">
+                            <p-autoComplete dropdown id="clinic" [ngModel]="value" [style]="{'width': columnWidth+'px'}"
+                                inputStyleClass="w-full" [suggestions]="clinicSuggestions" optionLabel="label"
+                                optionValue="value" placeholder="Search clinic Name" [dropdown]="false" [minLength]="3"
+                                [forceSelection]="true" (onClear)="filter(undefined)" (onSelect)="filter($event.value.value)"
+                                (completeMethod)="searchClinic($event)" />
+                        </ng-template>
+                    </p-columnFilter>
+                </th>
+                <th>
+                    <p-columnFilter field="organization" matchMode="in" [showMenu]="false">
+                        <ng-template #filter let-value let-filter="filterCallback">
+                            <p-select dropdown [options]="organizations" id="organization" placeholder="Select Organization"
+                                optionLabel="label" [ngModel]="value" optionValue="value" [filter]="true" [showClear]="true"
+                                (onChange)="filter($event.value)" class="w-full" [style]="{'width': columnWidth+'px'}" appendTo="body" />
+                        </ng-template>
+                    </p-columnFilter>
+                </th>
+                <th>
+                    <p-columnFilter field="speciality" matchMode="in" [showMenu]="false">
+                        <ng-template #filter let-value let-filter="filterCallback">
+                            <p-multiselect dropdown [options]="specialities" id="speciality" placeholder="Select Specialities"
+                                optionLabel="label" [ngModel]="value" optionValue="label" display="chip" [filter]="true"
+                                (onChange)="filter($event.value)" [style]="{'width': columnWidth+'px'}" [showClear]="true" class="w-full"
+                                appendTo="body" />
+                        </ng-template>
+                    </p-columnFilter>
+                </th>
+                <th></th>
+                <th>
+                    <p-columnFilter field="status" [showMenu]="false"  [showClearButton]="false">
+                        <ng-template #filter let-value let-filter="filterCallback">
+                            <p-select [options]="statuses" id="status" placeholder="Select Status"
+                                optionLabel="label" [ngModel]="value" optionValue="label"
+                                (onChange)="filter($event.value)"  class="w-full"
+                                [style]="{'width': (columnWidth * 0.60)+'px'}" appendTo="body" />
+                        </ng-template>
+                    </p-columnFilter>
+                </th>
+                <!-- <th pFrozenColumn alignFrozen="right" [frozen]="actions" style="text-align: center;">
+                    <p-togglebutton [(ngModel)]="actions" [onIcon]="'pi pi-lock'" offIcon="pi pi-lock-open" [onLabel]="'Unlock'"
+                        offLabel="Lock" />
+                </th> -->
+                <th style="text-align: center;" pFrozenColumn alignFrozen="right" [frozen]="actions">
+                    <p-columnFilter field="toggle" [showMenu]="false">
+                        <ng-template #filter let-value let-filter="filterCallback">
+                            <p-togglebutton [(ngModel)]="actions" [onIcon]="'pi pi-lock'"
+                                [style]="{'width': (columnWidth * .30)+'px'}" offIcon="pi pi-lock-open" [onLabel]="'Unlock'"
+                                offLabel="Lock" />
+                        </ng-template>
+                    </p-columnFilter>
+                </th>
+            </tr>
+        </ng-template>
+        <ng-template #body let-clinic>
+            <tr>
+                <td pFrozenColumn>{{ clinic.clinicName }}</td>
+                <td>{{ clinic.organizationName }}</td>
+                <td>{{ clinic.speciality }}</td>
+                <td>{{clinic.state}}</td>
+                <td>
+                    <p-tag [severity]="clinic.status === 1 ? 'success' : 'danger'"
+                        [value]="clinic.status == 1 ? 'Active':'Inactive'">
+                    </p-tag>                    
+                </td>
+                <td alignFrozen="right" pFrozenColumn [frozen]="actions" [ngClass]="{ 'font-bold': actions }" *ngIf="isBrowser">
+                    <p-menu #menu [popup]="true" [model]="optionsItems" appendTo="body">
+                        <ng-template #item let-item>
+                            <ng-container *ngIf="item.label == 'Edit'; else elseBlock">
+                                <span class="p-menu-item-link" (click)="editClinic(selectedClinic)">
+                                    <span [class]="item.icon"></span>
+                                    <span class="ml-2">{{ item.label }}</span>
+                                </span>
+                            </ng-container>
+                
+                            <ng-container *ngIf="item.label == 'Add Doctor'">
+                                <span class="p-menu-item-link" (click)="addDoctor(selectedClinic)">
+                                    <span [class]="item.icon"></span>
+                                    <span class="ml-2">{{ item.label }}</span>
+                                </span>
+                            </ng-container>
+                
+                            <ng-template #elseBlock>
+                                <span class="p-menu-item-link" *ngIf="selectedClinic?.status == 1 && item.label == 'Deactivate'"
+                                    (click)="updateStatus(selectedClinic.clinicId, '0')">
+                                    <span [class]="item.icon"></span>
+                                    <span class="ml-2">{{ item.label }}</span>
+                                </span>
+                
+                                <span class="p-menu-item-link" *ngIf="selectedClinic?.status != 1 && item.label == 'Activate'"
+                                    (click)="updateStatus(selectedClinic.clinicId, '1')">
+                                    <span [class]="item.icon"></span>
+                                    <span class="ml-2">{{ item.label }}</span>
+                                </span>
+                            </ng-template>
+                        </ng-template>
+                    </p-menu>
+                    <div class="flex justify-center">
+                        <p-button icon="pi pi-ellipsis-v" severity="secondary" rounded
+                            (click)="selectedClinic = clinic; menu.toggle($event)" [raised]="true" />
+                    </div>
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template #emptymessage>
+            <tr>
+                <td colspan="6" style="text-align:center;">
+                    <span>No Data Found.</span>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+
+    
+    <p-toast position="bottom-right" key="toasterKey" />
+</div>

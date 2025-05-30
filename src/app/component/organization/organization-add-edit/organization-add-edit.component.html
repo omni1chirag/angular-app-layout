@@ -1,0 +1,169 @@
+<form [formGroup]="organizationForm" (ngSubmit)="submitOrganizationForm(organizationForm.value.organizationId)"
+  *ngIf="organizationForm">
+  <div pageHeader>
+    <p-toolbar>
+      <ng-template #start>
+        <p class="text-2xl font-bold sm:truncate sm:text-3xl sm:tracking-tight">
+          {{mode}} Organization
+        </p>
+      </ng-template>
+
+      <ng-template #center>
+        <!-- <p>is form valid: {{organizationForm.valid}}</p> -->
+      </ng-template>
+
+      <ng-template #end>
+        <div class="flex space-x-3 justify-items-end">
+          <p-button label="Save" type="submit" [disabled]="false"></p-button>
+          <p-button label="Cancel" variant="outlined" severity="danger" (onClick)="navigateToListPage()"></p-button>
+        </div>
+      </ng-template>
+    </p-toolbar>
+  </div>
+  <!-- Basic Details -->
+  <div class="card">
+    <div>
+      <h4 class="text-base/7 font-semibold text-gray-900">Basic Details</h4>
+    </div>
+    <p-divider></p-divider>
+
+    <div class="mt-5 grid grid-cols-12 gap-3">
+      <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-4">
+        <label for="organizationName" mandatoryFieldLabel>Organization Name</label>
+        <div class="mt-2">
+          <input pInputText id="organizationName" type="text" placeholder="Enter Organization Name" class="w-full"
+            formControlName="organizationName" />
+        </div>
+      </div>
+      <div class="flex flex-col col-span-full sm:col-span-4 md:col-span-2">
+        <label for="gstin" mandatoryFieldLabel>GSTIN</label>
+        <div class="mt-2">
+          <input pInputText id="gstin" type="text" placeholder="Enter GSTIN" class="w-full" formControlName="gstin" />
+        </div>
+      </div>
+      <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-4">
+        <label for="legalOrganizationName" mandatoryFieldLabel>Legal Organization Name</label>
+        <div class="mt-2">
+          <input pInputText id="legalOrganizationName" type="text" placeholder="Enter Legal Organization Name"
+            class="w-full" formControlName="legalOrganizationName" />
+        </div>
+      </div>
+
+      <div class="flex flex-col col-span-full sm:col-span-4 md:col-span-2">
+        <label for="yearEstablishment">Year of Establishment <span class="text-red-500">*</span></label>
+        <div class="mt-2">
+          <p-datepicker dateMask id="yearEstablishment" view="month" type="month" dateFormat="mm/yy"
+            [iconDisplay]="'input'" [showIcon]="true" placeholder="Select Month and Year" [style]="{'width': '100%'}"
+            formControlName="yearOfEstablishment" />
+        </div>
+      </div>
+      <div class="flex flex-col col-span-full  sm:col-span-6 md:col-span-2">
+        <label>Upload Business Logo</label>
+        <div class="mt-2">
+          <app-file-upload formControlName="logo" moduleId="1" [fileSize]="10" subModuleId="1" source="Admin"
+            [objectId]="organizationId" [fileTypeSupported]="documentTypes">
+          </app-file-upload>
+
+        </div>
+      </div>
+
+      <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-3">
+        <label class="font-medium">Status <span class="text-red-500">*</span></label>
+        <div class="mt-2">
+          <p-selectbutton [options]="organizationStatusOptions" optionLabel="name" optionValue="value"
+            formControlName="organizationStatus" />
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Contact Details -->
+  <div class="card">
+    <div>
+      <h4 class="text-base/7 font-semibold text-gray-900">Contact Details</h4>
+    </div>
+    <p-divider></p-divider>
+    <app-address></app-address>
+    <div class="mt-5 grid grid-cols-12 gap-3 w-full">
+      <div class="flex flex-col col-span-full  sm:col-span-6 md:col-span-2">
+        <label for="website">Website</label>
+        <div class="mt-2">
+          <input pInputText id="website" type="text" placeholder="Enter Website" class="w-full"
+            formControlName="website" />
+        </div>
+      </div>
+      <div class="flex flex-col col-span-full  sm:col-span-6 md:col-span-2">
+        <label>Upload Business License</label>
+        <div class="mt-2 justify-start">
+          <app-file-upload formControlName="logo" moduleId="1" [fileSize]="10" subModuleId="2" source="Admin"
+            [objectId]="organizationId" [fileTypeSupported]="documentTypes">
+          </app-file-upload>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Payment Details -->
+  <div class="card">
+    <div>
+      <h4 class="text-base/7 font-semibold text-gray-900">Payment Details</h4>
+    </div>
+    <p-divider></p-divider>
+    <div class="mt-5 grid grid-cols-12 gap-3">
+      <div class="flex flex-col col-start-1 sm:col-start-1 md:col-start-1 col-span-full sm:col-span-6 md:col-span-4">
+        <label for="paymentMode" mandatoryFieldLabel>Accepted Payment Mode</label>
+        <div class="mt-2">
+          <p-multiselect [options]="paymentoptions" placeholder="Select Accepted Payment Mode" optionLabel="name"
+            optionValue="name" display="chip" [filter]="true" class="w-full"
+            formControlName="acceptedPaymentModes"></p-multiselect>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div>
+      <h4 class="text-base/7 font-semibold text-gray-900">Subscription Details</h4>
+    </div>
+    <p-divider></p-divider>
+    <!-- form group 'organizationSubscription' start -->
+    <div class="mt-5 grid grid-cols-12 gap-3" formGroupName="organizationSubscription">
+      <div class="flex flex-col col-span-full  sm:col-span-6 md:col-span-3">
+        <label for="subscriptionPlanId">Subscription Plan</label>
+        <div class="mt-2">
+          <p-select id="subscriptionPlanId" [options]="subscriptionPlanOptions" formControlName="subscriptionPlanId"
+            optionLabel="planName" optionValue="subscriptionPlanId" placeholder="Select Subscription Plan"
+            class="w-full" [showClear]="true" (onChange)="onSubscriptionPlanChange($event)">
+          </p-select>
+        </div>
+      </div>
+      <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-3" *ngIf="isSubscriptionPlanSelected">
+        <label class="font-medium" mandatoryFieldLabel>Status</label>
+        <div class="mt-2">
+          <p-selectbutton [options]="subscriptionStatusOptions" optionLabel="name" optionValue="value"
+            formControlName="subscriptionStatus" />
+        </div>
+      </div>
+      <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-3" *ngIf="isSubscriptionPlanSelected">
+        <label class="font-medium" mandatoryFieldLabel>Start Date</label>
+        <div class="mt-2">
+          <p-datepicker dateMask id="startDate" [iconDisplay]="'input'" [showIcon]="true"
+            placeholder="Select Start Date" [style]="{'width': '100%'}" formControlName="startDate" />
+        </div>
+      </div>
+      <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-3" *ngIf="isSubscriptionPlanSelected">
+        <label class="font-medium" mandatoryFieldLabel>Expiry Date</label>
+        <div class="mt-2">
+          <p-datepicker dateMask id="expiryDate" [iconDisplay]="'input'" [showIcon]="true"
+            placeholder="Select Expiry Date" [style]="{'width': '100%'}" formControlName="expiryDate" />
+        </div>
+      </div>
+      <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-3" *ngIf="isSubscriptionPlanSelected">
+        <label class="font-medium" mandatoryFieldLabel>Payment Method</label>
+        <div class="mt-2">
+          <p-select id="paymentMethod" [options]="paymentoptions" formControlName="paymentMethod" optionLabel="name"
+            optionValue="name" placeholder="Select Payment Method" class="w-full">
+          </p-select>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

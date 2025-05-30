@@ -1,0 +1,39 @@
+<p-menu [model]="modules" #menu id="patient-menu" class="w-full h-full" styleClass="w-full h-full">
+    <ng-template pTemplate="start">
+        <div class="flex flex-col items-center p-2"  *ngIf="patientInfo">
+            <span class="grid flex w-full items-center justify-items-stretch">
+                <p-button icon="pi pi-arrow-left" class="" severity="secondary" [rounded]="true" [text]="true"
+                    size="small" (onClick)="cancel()"/>
+                <p-avatar [image]="blobUrl" *ngIf="blobUrl" class=" justify-self-center"
+                    shape="circle" size="xlarge"/>
+                <p-avatar icon="pi pi-user" [style]="{ 'background-color': 'var(--p-button-outlined-primary-active-background)', 'color': 'var(--p-button-outlined-primary-color)' }" [label]="patientInitials"  *ngIf="!blobUrl" class=" justify-self-center"
+                    shape="circle" size="xlarge"/>
+            </span>
+            <br>
+            <span class="flex w-full flex-col items-center ">
+                <span class="font-bold"> {{ patientInfo?.firstName }} {{patientInfo?.lastName}}</span>
+                <span class="text-sm mb-1"> {{ patientInfo?.dateOfBirth }} | {{patientInfo?.age}} | {{ patientInfo?.gender }}</span>
+                <span class="text-sm"> {{ patientInfo?.city }} - {{ patientInfo?.pincode }} </span>
+                <span class="text-sm"> {{patientInfo?.state}}, {{patientInfo?.country}} </span>
+                <span class="mt-2">
+                    <p-button label="Clinic Summary" (onClick)="changePage('summary')" [link]="true" *ngIf="!isClinicSummary"/>
+                    <p-button label="Patient Profile" (onClick)="changePage('profile')" [link]="true" *ngIf="isClinicSummary"/>
+                </span>
+                <p-select *ngIf="isClinicSummary" [showClear]="true" [options]="appointmentList" [(ngModel)]="selectedAppointment" optionLabel="label"  optionValue="value" (onChange)="appointmentChange($event)"
+                 placeholder="Select a Appointment" class="w-full" />
+                
+            </span>
+        </div>
+    </ng-template>
+
+    <ng-template pTemplate="submenuheader" let-item>
+        <span class="font-bold hidden sm:block">{{ item.label }} </span>
+    </ng-template>
+
+    <ng-template pTemplate="item" let-item>
+            <a pRipple class="items-center hidden sm:block" (click)="scrollTo(item.value)"
+                [attr.data-section]="item.value">
+                <span class="ml-2 p-menu-item-link">{{ item.label }}</span>
+            </a>
+    </ng-template>
+</p-menu>

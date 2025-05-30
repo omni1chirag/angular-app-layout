@@ -1,0 +1,202 @@
+<div class="layout-topbar">
+    <div class="layout-topbar-logo-container">
+        <a class="layout-topbar-logo" routerLink="/home/admin-dashboard">
+            <img alt="" width="120" />
+        </a>
+    </div>
+
+    <div class="layout-topbar-actions">
+        <button class="layout-topbar-menu-button layout-topbar-action" pStyleClass="@next" enterFromClass="hidden"
+            enterActiveClass="animate-scalein" leaveToClass="hidden" leaveActiveClass="animate-fadeout"
+            [hideOnOutsideClick]="true">
+            <i class="pi pi-ellipsis-v"></i>
+        </button>
+
+        <div class="layout-topbar-menu hidden lg:block">
+            <div class="layout-topbar-menu-content">
+                <span>Find Doctors</span>
+                <span>Video Consultantion</span>
+                <span>Services</span>
+                <span>About Us</span>
+                <span>Contact US</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="relative w-full h-screen overflow-hidden">
+    <div class="absolute inset-0 bg-cover bg-center md:blur-sm bg-[url('/assets/images/login-bg-2-ghibli.png')]"></div>
+    <div class="absolute inset-0 md:bg-white/50"></div>
+
+    <div class="login-main-container">
+        <div class="flex items-center justify-center h-full md:py-20 py-4">
+            <div
+                class="bg-white/50 backdrop-blur-sm shadow-md rounded-3xl p-8 w-full flex flex-col md:flex-row h-full max-w-full md:max-w-4xl lg:max-w-6xl mx-auto justify-center items-center">
+                <div class="hidden md:flex md:w-1/2 md:pr-8 h-full">
+                    <div class="h-full w-full relative">
+                        <p-image src="/assets/images/login-bg-2-ghibli.png" alt="Image"
+                            styleClass="h-full w-full absolute inset-0 md:rounded-3xl" [imageStyle]="{
+                'border-radius': '1rem',
+                height: '100%',
+                'object-fit': 'cover',
+                'object-position': 'center'
+              }" />
+                    </div>
+                </div>
+                <div class="w-full md:w-1/2 flex flex-col justify-center items-center">
+
+                    <div class="flex flex-col justify-center items-center col-span-12 gap-6 pb-8"
+                        *ngIf="currentTab !== 'otpVerification' && currentTab !== 'registration'">
+                        <p-selectbutton [options]="stateOptions" [(ngModel)]="loginMode" optionLabel="label"
+                            optionValue="value" size="large" aria-labelledby="basic" />
+                    </div>
+                    <div class="grid grid-cols-12 w-full">
+
+                        <div [ngSwitch]="currentTab" class="relative col-span-12">
+
+                            <div class="">
+                                <ng-container *ngSwitchCase="'registration'">
+                                    <ng-container *ngTemplateOutlet="registration"></ng-container>
+                                </ng-container>
+                                <ng-container *ngSwitchCase="'otpVerification'">
+                                    <ng-container *ngTemplateOutlet="verification"></ng-container>
+                                </ng-container>
+                                <ng-container *ngSwitchCase="'login'">
+                                    <ng-container *ngTemplateOutlet="login"></ng-container>
+                                </ng-container>
+                                <ng-container *ngSwitchDefault>
+                                    <ng-container *ngTemplateOutlet="login"></ng-container>
+                                </ng-container>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<ng-template #registration>
+    <div class="p-5 grid grid-cols-12 gap-3">
+        <div class="col-span-12 col-start-1 mt-2">
+            <span class="flex justify-center w-full text-muted-color text-2xl font-bold">Sign up to continue</span>
+        </div>
+        <div class="col-span-12 col-start-1">
+            <div class="mt-5 grid grid-cols-12 gap-3">
+                <div class="flex flex-col col-span-full sm:col-span-12 md:col-span-6 md:col-span-6">
+                    <label for="firstName">First Name </label>
+                    <div class="mt-2">
+                        <input pInputText id="firstName" type="text" [(ngModel)]="registrationForm.firstName"
+                            placeholder="Enter First name" class="w-full" />
+                    </div>
+                </div>
+                <div class="flex flex-col sm:col-start-1 col-span-full sm:col-span-12 md:col-span-6 md:col-span-6">
+                    <label for="LastName">Last Name </label>
+                    <div class="mt-2">
+                        <input pInputText id="LastName" type="text" [(ngModel)]="registrationForm.lastName"
+                            placeholder="Enter LastName name" class="w-full" />
+                    </div>
+                </div>
+                <div
+                    class="flex flex-col col-start-1 sm:col-start-1 md:col-start-1 col-span-full sm:col-span-12 md:col-span-12 md:col-span-12">
+                    <label for="city">Email Address </label>
+                    <div class="mt-2">
+                        <input pInputText id="Email" type="text" [(ngModel)]="registrationForm.email"
+                            placeholder="Enter Email Address" class="w-full" />
+                    </div>
+                </div>
+                <div
+                    class="flex flex-col col-start-1 sm:col-start-1 md:col-start-1 col-span-full sm:col-span-12 md:col-span-12 md:col-span-12">
+                    <label for="MobileNumber">Mobile Number </label>
+                    <div class="mt-2">
+                        <p-inputgroup>
+                            <p-inputgroup-addon>+91</p-inputgroup-addon>
+                            <input pInputText id="MobileNumber" [(ngModel)]="registrationForm.mobile" type="text"
+                                placeholder="Enter Mobile Number" class="w-full" />
+                        </p-inputgroup>
+                    </div>
+                </div>
+                <div
+                    class="flex flex-col col-start-1 sm:col-start-1 md:col-start-1 col-span-full sm:col-span-12 md:col-span-12 md:col-span-12">
+                    <label for="password">Create Password </label>
+                    <div class="mt-2">
+                        <input pInputText id="password" type="password" placeholder="Enter Password" class="w-full" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="flex flex-col col-span-12 col-start-1 gap-3 mt-1">
+            <div class="flex items-center">
+                <p-checkbox id="tearmsAndConditions" name="option" value="Agree to Terms and Conditions"
+                    [(ngModel)]="selectedOptions" binary="false"></p-checkbox>
+                <label for="tearmsAndConditions" class="ml-2">I Agree the Terms and Conditions</label>
+            </div>
+            <div class="flex items-center">
+                <p-checkbox id="dataPrivacy" name="option" value="Agree to Data Privacy Policy"
+                    [(ngModel)]="selectedOptions" binary="false"></p-checkbox>
+                <label for="dataPrivacy" class="ml-2">Agree to Data Privacy Policy(HIPPA, GDPR,
+                    Compliance)</label>
+            </div>
+        </div>
+        <div class="col-span-12 col-start-1">
+            <p-button label="Send OTP" styleClass="w-full" (onClick)="sendOTP()"></p-button>
+            <div class="col-span-12 col-start-1 flex items-center justify-between mt-2 mb-6 gap-8">
+                <span class="font-medium no-underline  text-primary">
+                    Already have an account??<p-button label="Login" [link]="true" (click)="currentTab = 'login'" />
+                </span>
+            </div>
+        </div>
+    </div>
+</ng-template>
+<ng-template #verification>
+    <div class="p-5 grid grid-cols-12 gap-3 ">
+        <div class="flex flex-col justify-center col-span-12 col-start-1  gap-3 w-full">
+            <p class="flex justify-center font-extrabold text-2xl w-full text-[var(--primary-color)]">
+                Verification</p>
+            <p class="flex justify-center w-full">We have sent 6 digit Verification code to {{registrationForm.email}}
+            </p>
+            <p class="flex justify-center font-extrabold text-2xl w-full">Enter OTP</p>
+            <p-inputotp class="flex justify-center w-full" [(ngModel)]="otp" [length]="6" [mask]="true" />
+            <p class="flex justify-center w-full">Resend OTP in {{formattedTime}}</p>
+            <p-button label="Submit" styleClass="flex justify-center w-full" (onClick)="submitOTP()"></p-button>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #login>
+    <div class="p-5 grid grid-cols-12 gap-3 items-center">
+        <div class="flex flex-col  items-center col-span-12  w-full mt-2">
+            <span class="text-muted-color text-2xl font-bold">Sign in to continue</span>
+        </div>
+        <div class="flex flex-col justify-center col-span-12 w-full">
+            <label for="email1">Mobile Number /
+                Email ID</label>
+            <input pInputText id="email1" type="text" class="mt-2" style="width: 100%;" />
+        </div>
+        <div class="flex flex-col col-span-12 w-full mt-2">
+            <label for="password1">Password</label>
+            <p-password id="password1" placeholder="Password" [toggleMask]="true" [fluid]="true" class="mt-2"
+                [feedback]="false" [disabled]="loginwithOtp"></p-password>
+        </div>
+        <div class="flex col-span-12 mt-2">
+            <p-checkbox id="tearmsAndConditions" name="option" value="Remember me" [(ngModel)]="selectedOptions"
+                binary="false"></p-checkbox>
+            <label for="tearmsAndConditions" class="ml-2">Remember me</label>
+        </div>
+        <div class="flex col-span-12">
+            <p-checkbox id="loginwithOtp" name="option" [(ngModel)]="loginwithOtp" binary="true"></p-checkbox>
+            <label for="tearmsAndConditions" class="ml-2">Login with OTP instead of password</label>
+        </div>
+        <div class="flex col-span-12 justify-between items-center mt-2">
+            <p-button label="Sign In" (onClick)="onLogin()" routerLink="/"></p-button>
+            <span class="font-medium no-underline cursor-pointer text-primary">
+                Don't have an account?<p-button label="Sign Up" [link]="true" (click)="currentTab = 'registration'" />
+            </span>
+        </div>
+        <div class="flex col-span-12  items-center">
+            <span class="font-medium no-underline cursor-pointer text-primary">Forgot Credentials ?</span>
+        </div>
+    </div>
+</ng-template>
+
+
+

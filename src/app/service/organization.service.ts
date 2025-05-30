@@ -1,221 +1,62 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
+import { ApiService } from '../service/api.service';
+import { Organization } from '@model/organization.model';
+import { Observable, tap } from 'rxjs';
+import { NotificationService } from '../service/notification.service';
+import { HttpParams } from '@angular/common/http';
 
-
-export interface Organization{
-  organizationName: string;
-  typeOfOrganization: string;
-  subscriptionPlan: string;
-  status: string;
-}
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
+  
 })
 export class OrganizationService {
+  private notificationService = inject(NotificationService);
+  private apiService = inject (ApiService)
 
-  getClientMedium() {
-    return Promise.resolve(this.getClientsData().slice(0, 30));
+  get endpoints() {
+    const base = 'ebplp-api/organizations';
+    return {
+      base,
+      byId: (id: string) => `${base}/${id}`,
+      list: `${base}/list`,
+      search: `${base}/search`,
+      status: `${base}/status`,
+    };
   }
 
-  getClientsData() {
-    return [
-      {        
-        organizationName: 'St. John Hospital',
-        typeOfOrganization: 'Hospital',
-        subscriptionPlan: 'Basic',        
-        status: 'Active',
-      },
-      {        
-        organizationName: 'Apollo clinics',
-        typeOfOrganization: 'clinic',
-        subscriptionPlan: 'Advanced',        
-        status: 'Inactive',
-      },
-      {        
-        organizationName: 'Shalby Hospitals',
-        typeOfOrganization: 'Hospital',
-        subscriptionPlan: 'Premium',        
-        status: 'Active',
-      },
-      {        
-        organizationName: 'HCG Diagnostics',
-        typeOfOrganization: 'Diagnostics',
-        subscriptionPlan: 'Advanced',        
-        status: 'Active',
-      },
-      {        
-        organizationName: 'Epic Speciality',
-        typeOfOrganization: 'Hospital',
-        subscriptionPlan: 'Basic',        
-        status: 'Inactive',
-      },
-      {        
-        organizationName: 'Test Organization 2',
-        typeOfOrganization: 'Hospital',
-        subscriptionPlan: 'Premium',        
-        status: 'Inactive',
-      },
-      {        
-        organizationName: 'Cardio Vascular',
-        typeOfOrganization: 'Clinic',
-        subscriptionPlan: 'Advanced',        
-        status: 'Active',
-      },
-      {        
-        organizationName: 'Test Hospital 2',
-        typeOfOrganization: 'Hospital',
-        subscriptionPlan: 'Basic',        
-        status: 'Active',
-      },
-      {        
-        organizationName: 'Cerner Clinics',
-        typeOfOrganization: 'Clinic',
-        subscriptionPlan: 'Premium',        
-        status: 'Inactive',
-      },
-      {        
-        organizationName: 'Wellness Hospital',
-        typeOfOrganization: 'Hospital',
-        subscriptionPlan: 'Basic',        
-        status: 'Active',
-      },
-      {        
-        organizationName: 'Zydus Hospital',
-        typeOfOrganization: 'Hospital',
-        subscriptionPlan: 'Premium',        
-        status: 'Active',
-      }, 
-      {        
-        organizationName: 'St. John Hospital',
-        typeOfOrganization: 'Hospital',
-        subscriptionPlan: 'Basic',        
-        status: 'Active',
-      },
-      {        
-        organizationName: 'Apollo clinics',
-        typeOfOrganization: 'clinic',
-        subscriptionPlan: 'Advanced',        
-        status: 'Inactive',
-      },
-      {        
-        organizationName: 'Shalby Hospitals',
-        typeOfOrganization: 'Hospital',
-        subscriptionPlan: 'Premium',        
-        status: 'Active',
-      },
-      {        
-        organizationName: 'HCG Diagnostics',
-        typeOfOrganization: 'Diagnostics',
-        subscriptionPlan: 'Advanced',        
-        status: 'Active',
-      },
-      {        
-        organizationName: 'Epic Speciality',
-        typeOfOrganization: 'Hospital',
-        subscriptionPlan: 'Basic',        
-        status: 'Inactive',
-      },
-      {        
-        organizationName: 'Test Organization 2',
-        typeOfOrganization: 'Hospital',
-        subscriptionPlan: 'Premium',        
-        status: 'Inactive',
-      },
-      {        
-        organizationName: 'Cardio Vascular',
-        typeOfOrganization: 'Clinic',
-        subscriptionPlan: 'Advanced',        
-        status: 'Active',
-      },
-      {        
-        organizationName: 'Test Hospital 2',
-        typeOfOrganization: 'Hospital',
-        subscriptionPlan: 'Basic',        
-        status: 'Active',
-      },
-      {        
-        organizationName: 'Cerner Clinics',
-        typeOfOrganization: 'Clinic',
-        subscriptionPlan: 'Premium',        
-        status: 'Inactive',
-      },
-      {        
-        organizationName: 'Wellness Hospital',
-        typeOfOrganization: 'Hospital',
-        subscriptionPlan: 'Basic',        
-        status: 'Active',
-      },
-      {        
-        organizationName: 'Zydus Hospital',
-        typeOfOrganization: 'Hospital',
-        subscriptionPlan: 'Premium',        
-        status: 'Active',
-      },
-      {        
-        organizationName: 'St. John Hospital',
-        typeOfOrganization: 'Hospital',
-        subscriptionPlan: 'Basic',        
-        status: 'Active',
-      },
-      {        
-        organizationName: 'Apollo clinics',
-        typeOfOrganization: 'clinic',
-        subscriptionPlan: 'Advanced',        
-        status: 'Inactive',
-      },
-      {        
-        organizationName: 'Shalby Hospitals',
-        typeOfOrganization: 'Hospital',
-        subscriptionPlan: 'Premium',        
-        status: 'Active',
-      },
-      {        
-        organizationName: 'HCG Diagnostics',
-        typeOfOrganization: 'Diagnostics',
-        subscriptionPlan: 'Advanced',        
-        status: 'Active',
-      },
-      {        
-        organizationName: 'Epic Speciality',
-        typeOfOrganization: 'Hospital',
-        subscriptionPlan: 'Basic',        
-        status: 'Inactive',
-      },
-      {        
-        organizationName: 'Test Organization 2',
-        typeOfOrganization: 'Hospital',
-        subscriptionPlan: 'Premium',        
-        status: 'Inactive',
-      },
-      {        
-        organizationName: 'Cardio Vascular',
-        typeOfOrganization: 'Clinic',
-        subscriptionPlan: 'Advanced',        
-        status: 'Active',
-      },
-      {        
-        organizationName: 'Test Hospital 2',
-        typeOfOrganization: 'Hospital',
-        subscriptionPlan: 'Basic',        
-        status: 'Active',
-      },
-      {        
-        organizationName: 'Cerner Clinics',
-        typeOfOrganization: 'Clinic',
-        subscriptionPlan: 'Premium',        
-        status: 'Inactive',
-      },
-      {        
-        organizationName: 'Wellness Hospital',
-        typeOfOrganization: 'Hospital',
-        subscriptionPlan: 'Basic',        
-        status: 'Active',
-      },
-      {        
-        organizationName: 'Zydus Hospital',
-        typeOfOrganization: 'Hospital',
-        subscriptionPlan: 'Premium',        
-        status: 'Active',
-      },   
-    ]; 
-}
+  constructor() {
+  }
+
+  createOrganization(org: Omit<Organization, 'id'>): Observable<Organization> {
+    return this.apiService.post<Organization>(this.endpoints.base, org).pipe(
+      tap(() => this.notificationService.showSuccess('Organization created successfully'))
+    );
+  }
+
+  getOrganizations<T>(params?): Observable<any> {
+    return this.apiService.get<any[]>(this.endpoints.base, {params});
+  }
+
+  getOrganizationById(id: string): Observable<any> {
+    return this.apiService.get<any>(this.endpoints.byId(id));
+  }
+
+  updateOrganization(id: string, org: Partial<Organization>): Observable<Organization> {
+    return this.apiService.put<Organization>(this.endpoints.byId(id), org);
+  }
+
+  deleteOrganization(id: string): Observable<void> {
+    return this.apiService.delete<void>(this.endpoints.byId(id));
+  }
+
+  searchOrganizations<T>(query: any):  Observable<T> {
+    let params = new HttpParams().append('organizationName', query);
+    return this.apiService.get(this.endpoints.search, { params });
+  }
+
+  updateOrganizationStatus(id:string, status:string): Observable<any> {
+    let data = {organizationId: id, organizationStatus: status}
+    return this.apiService.patch(this.endpoints.status,data);
+  }
+  
 }

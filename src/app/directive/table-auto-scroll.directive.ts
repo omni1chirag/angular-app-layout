@@ -59,9 +59,9 @@ export class TableAutoScrollDirective implements AfterViewInit, OnDestroy {
       if (!this.tableBody) return;
 
       const windowHeight = window.innerHeight;
-      console.log("windowHeight : ", windowHeight);
+      //console.log("windowHeight : ", windowHeight);
       const totalHeight = windowHeight - this.calculateHeightReduction();
-      this.tableBody.style.maxHeight = `${totalHeight + 10}px`;
+      this.tableBody.style.height = `${totalHeight + 10}px`;
     });
   }
 
@@ -76,29 +76,29 @@ export class TableAutoScrollDirective implements AfterViewInit, OnDestroy {
       switch (selector) {
         case this.SELECTORS.MAIN_CONTAINER:
           reduction = parseFloat(styles.paddingTop);
-          console.log(selector + " reduction: ", reduction);
+          //console.log(selector + " reduction: ", reduction);
           break;
 
         case this.SELECTORS.PAGE_HEADER:
           reduction = element.offsetHeight + parseFloat(styles.marginBottom);
-          console.log(selector + " reduction: ", reduction);
+          //console.log(selector + " reduction: ", reduction);
           break;
 
         case this.SELECTORS.TABLE_HEADER:
           // Handle potential hidden header with transition
           reduction = Math.max(element.offsetHeight, parseFloat(styles.height));
-          console.log(selector + " reduction: ", reduction);
+          //console.log(selector + " reduction: ", reduction);
           break;
 
         case this.SELECTORS.PAGINATOR:
           // Use scrollHeight instead of offsetHeight for hidden elements
           reduction = element.offsetHeight > 0 ? element.offsetHeight : (element as HTMLElement).scrollHeight;
-          console.log(selector + " reduction: ", reduction);
+          //console.log(selector + " reduction: ", reduction);
           break;
 
         default:
           reduction = element.offsetHeight;
-          console.log(selector + " reduction: ", reduction);
+          //console.log(selector + " reduction: ", reduction);
       }
 
       // Add safety checks for NaN values

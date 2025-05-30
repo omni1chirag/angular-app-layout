@@ -1,0 +1,146 @@
+<p-drawer [(visible)]="isVisible" position="right" appendTo="body" closable="false"
+    styleClass="!w-[90vw] sm:!w-[80vw] md:!w-[40rem] lg:!w-[50rem] custom-drawer">
+
+    <ng-template #header>
+        <span class="flex flex-col w-full">
+
+            <span class="flex w-full justify-between">
+                <h4 *ngIf="immunizationId" class="flex w-full text-base/7 font-semibold text-gray-900">{{
+                    'IMMUNIZATION.EDIT_IMMUNIZATION' | translate }}</h4>
+                <h4 *ngIf="!immunizationId" class="flex w-full text-base/7 font-semibold text-gray-900">{{
+                    'IMMUNIZATION.ADD_IMMUNIZATION' | translate }}</h4>
+                <p-button icon="pi pi-times" class="flex justify-self-end" (onClick)="isVisible.set(false)"
+                    severity="secondary" [rounded]="true" [text]="true" />
+            </span>
+
+            <p-divider class="flex col-span-full w-full" />
+        </span>
+
+    </ng-template>
+
+    <form [formGroup]="immunizationForm">
+
+        <div class="mt-5 grid grid-cols-12 gap-6">
+
+            <div
+                class="flex flex-col col-start-1 sm:col-start-1 md:col-start-1 lg:col-start-1 col-span-full sm:col-span-12 md:col-span-6 lg:col-span-6">
+
+                <label mandatoryFieldLabel for="immunizationName">{{ 'IMMUNIZATION.IMMUNIZATION_NAME' | translate
+                    }}</label>
+                <div class="mt-2">
+                    <p-autocomplete id="immunizationName" formControlName="immunizationName" [forceSelection]="false"
+                        [suggestions]="vaccineSuggestions" (completeMethod)="searchVaccine($event.query)"
+                        optionLabel="label" optionValue="value" (onSelect)="onSelectImmunization($event)"
+                        placeholder="{{ 'IMMUNIZATION.PLACE_HOLDER.IMMUNIZATION_NAME' | translate }}" class="w-full"
+                        [style]="{'width':'100%'}" [inputStyle]="{ width: '100%' }" minLength="3" />
+                </div>
+
+            </div>
+
+            <div class="flex flex-col col-span-full sm:col-span-12 md:col-span-6 lg:col-span-6">
+
+                <label mandatoryFieldLabel for="doseNumber">{{ 'IMMUNIZATION.DOSE_NUMBER' | translate }}</label>
+                <div class="mt-2">
+                    <p-autocomplete id="doseNumber" formControlName="doseNumber" [forceSelection]="false"
+                        [suggestions]="doseNumberSuggestions" [dropdown]="true"
+                        (completeMethod)="searchDoseNumber($event.query)" optionLabel="label" optionValue="value"
+                        (onSelect)="onSelectDoseNumber($event)"
+                        placeholder="{{ 'IMMUNIZATION.PLACE_HOLDER.DOSE_NUMBER' | translate }}" class="w-full"
+                        [style]="{'width':'100%'}" [inputStyle]="{ width: '100%' }" minLength="3" />
+                </div>
+
+            </div>
+
+            <div
+                class="flex flex-col col-start-1 sm:col-start-1 md:col-start-1 lg:col-start-1 col-span-full sm:col-span-12 md:col-span-6 lg:col-span-6">
+
+                <label mandatoryFieldLabel for="dateOfVaccination">{{ 'IMMUNIZATION.DATE_OF_VACCINATION' | translate
+                    }}</label>
+                <div class="mt-2">
+                    <p-datepicker dateMask dateFormat="dd/mm/yy" class="w-full" [iconDisplay]="'input'"
+                        [minDate]="minDate" [maxDate]="maxDate" formControlName="dateOfVaccination" [showIcon]="true"
+                        [style]="{'width': '100%'}"
+                        placeholder="{{ 'IMMUNIZATION.PLACE_HOLDER.DATE_OF_VACCINATION' | translate }}" />
+                </div>
+
+            </div>
+
+            <div class="flex flex-col col-span-full sm:col-span-12 md:col-span-6 lg:col-span-6">
+
+                <label mandatoryFieldLabel for="administeredBy">{{ 'IMMUNIZATION.ADMINISTERED_BY' | translate }}</label>
+                <div class="mt-2">
+                    <input pInputText type="text" name="administeredBy" id="administeredBy"
+                        formControlName="administeredBy" class="w-full"
+                        placeholder="{{ 'IMMUNIZATION.PLACE_HOLDER.ADMINISTERED_BY' | translate }}" maxlength="100">
+                </div>
+
+            </div>
+
+            <div
+                class="flex flex-col col-start-1 sm:col-start-1 md:col-start-1 lg:col-start-1 col-span-full sm:col-span-12 md:col-span-6 lg:col-span-6">
+
+                <label for="routeId">{{ 'IMMUNIZATION.ROUTE' | translate }}</label>
+                <div class="mt-2">
+                    <p-select id="routeId" formControlName="routeId" [options]="routeOptions" optionLabel="label"
+                        optionValue="value" placeholder="{{ 'IMMUNIZATION.PLACE_HOLDER.ROUTE' | translate }}"
+                        class="w-full">
+                    </p-select>
+                </div>
+
+            </div>
+
+            <div class="flex flex-col col-span-full sm:col-span-12 md:col-span-6 lg:col-span-6">
+
+                <label for="siteId">{{ 'IMMUNIZATION.SITE' | translate }}</label>
+                <div class="mt-2">
+                    <p-select id="siteId" formControlName="siteId" [options]="siteOptions" optionLabel="label"
+                        optionValue="value" placeholder="{{ 'IMMUNIZATION.PLACE_HOLDER.SITE' | translate }}"
+                        class="w-full">
+                    </p-select>
+                </div>
+
+            </div>
+
+            <div
+                class="flex flex-col col-start-1 sm:col-start-1 md:col-start-1 lg:col-start-1 col-span-full sm:col-span-12 md:col-span-6 lg:col-span-6">
+
+                <label for="status">{{ 'IMMUNIZATION.STATUS' | translate }}</label>
+                <div class="mt-2">
+                    <p-select id="status" formControlName="status" [options]="statusOptions" optionLabel="label"
+                        optionValue="value" placeholder="{{ 'IMMUNIZATION.PLACE_HOLDER.STATUS' | translate }}"
+                        class="w-full">
+                    </p-select>
+                </div>
+
+            </div>
+
+            <div class="flex flex-col col-span-full sm:col-span-12 md:col-span-6 lg:col-span-6">
+
+                <label for="comments">{{ 'IMMUNIZATION.COMMENTS' | translate }}</label>
+                <div class="mt-2">
+                    <input pInputText type="text" name="comments" id="comments" formControlName="comments"
+                        class="w-full" placeholder="{{ 'IMMUNIZATION.PLACE_HOLDER.COMMENTS' | translate }}"
+                        maxlength="500">
+                </div>
+
+            </div>
+
+        </div>
+
+    </form>
+
+    <ng-template #footer>
+        <p-divider />
+        <div class="grid grid-cols-12 gap-2">
+            <div class="flex col-span-full sm:col-span-12 md:col-span-6 lg:col-span-6"></div>
+            <div class="flex col-span-full sm:col-span-12 md:col-span-6 lg:col-span-6 items-center gap-1">
+                <p-button label="{{'SAVE'| translate }}" size="small" (onClick)="save()" class="w-full"
+                    [styleClass]="'w-full sm:w-full md:w-full lg:w-full'" [disabled]="isCallInitiated" />
+                <p-button label="{{'CANCEL'| translate }}" severity="danger" class="w-full"
+                    [styleClass]="'w-full sm:w-full md:w-full lg:w-full'" [outlined]="true"
+                    (onClick)="isVisible.set(false)" size="small" />
+            </div>
+        </div>
+    </ng-template>
+
+</p-drawer>

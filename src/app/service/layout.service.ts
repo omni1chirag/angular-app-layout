@@ -1,26 +1,8 @@
 import { Injectable, effect, signal, computed } from '@angular/core';
+import { layoutConfig, LayoutState, MenuChangeEvent } from '@interface/layout.interface';
 import { Subject } from 'rxjs';
 
-export interface layoutConfig {
-    preset?: string;
-    primary?: string;
-    surface?: string | undefined | null;
-    darkTheme?: boolean;
-    menuMode?: string;
-}
 
-interface LayoutState {
-    staticMenuDesktopInactive?: boolean;
-    overlayMenuActive?: boolean;
-    configSidebarVisible?: boolean;
-    staticMenuMobileActive?: boolean;
-    menuHoverActive?: boolean;
-}
-
-interface MenuChangeEvent {
-    key: string;
-    routeEvent?: boolean;
-}
 
 @Injectable({
     providedIn: 'root'
@@ -39,7 +21,8 @@ export class LayoutService {
         overlayMenuActive: false,
         configSidebarVisible: false,
         staticMenuMobileActive: false,
-        menuHoverActive: false
+        menuHoverActive: false,
+        userMenuVisible: false,
     };
 
     layoutConfig = signal<layoutConfig>(this._config);
@@ -174,5 +157,11 @@ export class LayoutService {
 
     reset() {
         this.resetSource.next(true);
+    }
+
+    onToggleUserMenu() {
+        if (this.isOverlay()) {
+            this.layoutState.update((prev) => ({ ...prev, userMenuVisible: !this.layoutState().userMenuVisible }));
+        }
     }
 }

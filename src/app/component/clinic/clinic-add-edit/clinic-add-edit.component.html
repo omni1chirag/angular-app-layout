@@ -1,0 +1,117 @@
+<div pageHeader>
+    <p-toolbar>
+        <ng-template #start>
+            <p class="text-2xl font-bold sm:truncate sm:text-3xl sm:tracking-tight">
+                {{mode}} Clinic
+            </p>
+        </ng-template>
+
+        <ng-template #center>
+        </ng-template>
+
+        <ng-template #end>
+            <div class="flex space-x-3 justify-items-end">
+                <p-button label="Save" (onClick)="save()" [disabled]="clinicForm?.invalid"></p-button>
+                <p-button label="Cancel" variant="outlined" severity="danger"
+                    (onClick)="navigateToListPage()"></p-button>
+            </div>
+        </ng-template>
+    </p-toolbar>
+</div>
+
+<form [formGroup]="clinicForm" *ngIf="clinicForm">
+    <div class="card">
+        <div>
+            <h4 class="text-base/7 font-semibold ">Basic Details</h4>
+        </div>
+
+        <p-divider></p-divider>
+
+        <div class="mt-5 grid grid-cols-12 gap-3">
+            <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-4" formGroupName="organization">
+                <label mandatoryFieldLabel for="organization">Organization Name</label>
+                <div class="mt-2">
+                    <p-select [options]="organizations" id="organization" placeholder="Select Organization" optionLabel="label"
+                        optionValue="value" formControlName="organizationId" [filter]="true" [disabled]="mode == 'Edit'" class="w-full" />
+                </div>
+            </div>
+
+            <div class="flex flex-col col-span-full  sm:col-span-6 md:col-span-4">
+                <label mandatoryFieldLabel for="first-name">Clinic Name</label>
+                <div class="mt-2">
+                    <input pInputText formControlName="clinicName" class="w-full" placeholder="Enter Clinic Name" />
+                </div>
+            </div>            
+
+            <div class="flex flex-col col-span-full  sm:col-span-6 md:col-span-2">
+                <label for="clinicRegistrationId" class="">Clinic Registration ID</label>
+                <div class="mt-2">
+                    <input pInputText formControlName="clinicRegistrationId" class="w-full" placeholder="Enter Registration ID" />
+                </div>
+            </div>
+
+            <div class="flex flex-col col-span-full  sm:col-span-6 md:col-span-2">
+                <label for="first-name" class="">GSTIN</label>
+                <div class="mt-2">
+                    <input pInputText formControlName="gstin" class="w-full" placeholder="Enter GSTIN" />
+                </div>
+            </div>
+
+            <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-4 lg:col-span-2">
+                <label for="last-name">Year of Establishment</label>                
+                <div class="mt-2">
+                    <p-datepicker id="yearEstablishment" view="month" type="month" dateFormat="mm/yy" class="w-full" [iconDisplay]="'input'"
+                        [showIcon]="true" placeholder="Select Month and Year" [style]="{'width': '100%'}"
+                        formControlName="yearOfEstablishment" />
+                </div>
+            </div>
+
+            <div class="flex flex-col col-span-full  sm:col-span-6 md:col-span-2">
+                <label>Clinic Logo</label>
+                <div class="mt-2 flex justify-start">
+                    <app-file-upload formControlName="clinicLogo" moduleId="1" [fileSize]="10" subModuleId="2"
+                        source="Admin" [objectId]="clinicId" [fileTypeSupported]="documentTypes"></app-file-upload>
+                </div>
+            </div>
+            <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-2">
+                <label mandatoryFieldLabel for="state">Speciality</label>
+                <div class="mt-2">
+                    <p-multiselect formControlName="speciality" [options]="specialities" optionLabel="label" optionValue="label"
+                        placeholder="Select Specialities" display="chip" [filter]="true" class="w-full"></p-multiselect>
+                </div>
+            </div>
+            <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-6  lg:col-span-2" *ngIf="mode == 'Edit'">
+                <label mandatoryFieldLabel for="last-name" class="">Status</label>
+                <div class="mt-2">
+                    <p-selectbutton [options]="statuses" formControlName="status" optionLabel="label" class="w-full"
+                        optionValue="value" size="large" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div>
+            <h4 class="text-base/7 font-semibold ">Contact Details</h4>
+        </div>
+        <p-divider></p-divider>
+        <app-address></app-address>
+    </div>
+
+    <div class="card">
+        <div>
+            <h4 class="text-base/7 font-semibold text-gray-900">Payment Details</h4>
+        </div>
+        <p-divider></p-divider>
+        <div class="mt-5 grid grid-cols-12 gap-3">
+            <div class="flex flex-col col-start-1 sm:col-start-1 md:col-start-1 col-span-full sm:col-span-6 md:col-span-4">
+                <label for="paymentMode" mandatoryFieldLabel>Accepted Payment Mode</label>
+                <div class="mt-2">
+                    <p-multiselect [options]="paymentoptions" placeholder="Select Accepted Payment Mode" optionLabel="name"
+                        optionValue="name" display="chip" [filter]="true" class="w-full"
+                        formControlName="acceptedPaymentModes"></p-multiselect>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

@@ -1,56 +1,52 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { map, Observable } from 'rxjs';
-
-export interface Practice {
-  id: number;
-  name: string;
-  type: string;
-  organization: string;
-  state: string;
-  status: string;
-  statusBoolean: boolean;
-}
+import { Observable } from 'rxjs';
+import { ApiService } from './api.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PracticeService {
-  private jsonUrl = '/data/practices.json';
-  constructor(private http: HttpClient) { }
+ 
+  private apiUrls = {
+    practice: 'ebplp-api/practices',
+    getOrganizationLabels: 'ebplp-api/organizations/labels',
+    getPracticeLabels: 'ebplp-api/practices/labels/',
+  }
+  constructor(private http: HttpClient,
+      private apiService: ApiService) {}
 
-  getPractices(): Observable<Practice[]> {
-    return this.http.get<Practice[]>(this.jsonUrl).pipe(
-      map(practices => practices)
-    );
+  getOrganizationLabels<T>(): Observable<T> {
+    return this.apiService.get(this.apiUrls.getOrganizationLabels)
   }
 
-  getPracticesMedium(): Observable<Practice[]> {
-    return this.http.get<Practice[]>(this.jsonUrl).pipe(
-      map(practices => practices.slice(0, 30))
-    );
+  createPractice<T>(practice): Observable<T> {
+    return this.apiService.post(this.apiUrls.practice, practice);
   }
 
-  getPracticeTypeList() {
-    return [
-      { "label": "Cancer Institute", "value": "cancerInstitute" },
-      { "label": "Diagnostic Center", "value": "diagnosticCenter" },
-      { "label": "Homeopathy Clinic", "value": "homeopathyClinic" },
-      { "label": "Dental Clinic", "value": "dentalClinic" },
-      { "label": "Clinic", "value": "clinic" },
-      { "label": "Polyclinic", "value": "polyclinic" },
-      { "label": "Physiotherapy Center", "value": "physiotherapyCenter" },
-      { "label": "Ayurvedic Clinic", "value": "ayurvedicClinic" },
-      { "label": "Wellness Center", "value": "wellnessCenter" },
-      { "label": "Hospital", "value": "hospital" },
-      { "label": "Cardiology Clinic", "value": "cardiologyClinic" },
-      { "label": "Pediatric Hospital", "value": "pediatricHospital" },
-      { "label": "Neurology Clinic", "value": "neurologyClinic" },
-      { "label": "Eye Hospital", "value": "eyeHospital" }
-    ]
+  updatePractice<T>(practiceId, practice): Observable<T> {  
+    return this.apiService.put(`${this.apiUrls.practice}/${practiceId}`, practice);
   }
 
-  getPracticeTypes() {
-    return Promise.resolve(this.getPracticeTypeList());
-}
+  getPracticeById<T>(practiceId): Observable<T> {
+    return this.apiService.get(`${this.apiUrls.practice}/${practiceId}`);
+  }
+
+  getAllPractices<T>(params?): Observable<T> {
+    return this.apiService.get(this.apiUrls.practice,{params});
+  }
+
+  updatePracticeStatus(practiceId, data): Observable<any> {
+    return this.apiService.patch(`${this.apiUrls.practice}/${practiceId}/status`, data);
+  }
+
+  getPracticeLabels<T>(organizationId): Observable<T> {
+    return this.apiService.get( `${this.apiUrls.getPracticeLabels}${organizationId}`)
+  }
+
+  searchPractices<T>(query: any): Observable<T> {
+    let params = new HttpParams().append('practiceName', query);
+    return this.apiService.get(`${this.apiUrls.practice}/search`, {params});
+  }
+
 }

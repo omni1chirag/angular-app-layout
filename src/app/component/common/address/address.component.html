@@ -1,0 +1,93 @@
+<div class="mt-5 grid grid-cols-12 gap-3 w-full">
+    <div class="flex flex-col col-span-full md:col-span-6 lg:col-span-4" *ngIf="address1">
+        <label for="address1" mandatoryFieldLabel>{{ 'ADDRESS.ADDRESS1' | translate }}</label>
+        <div class="mt-2">
+            <input pInputText type="text" name="street-address" id="address1" [formControl]="address1" class="w-full"
+                [placeholder]="'ADDRESS.ENTER_ADDRESS' | translate">
+        </div>
+    </div>
+
+    <div class="flex flex-col col-span-full md:col-span-6 lg:col-span-4" *ngIf="address2">
+        <label for="address2">{{ 'ADDRESS.ADDRESS2' | translate }}</label>
+        <div class="mt-2">
+            <input pInputText type="text" name="street-address" id="address2" [formControl]="address2" class="w-full"
+                [placeholder]="'ADDRESS.ENTER_ADDRESS' | translate">
+        </div>
+    </div>
+    <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-3 lg:col-span-2" *ngIf="pincode">
+        <label for="postal-code" mandatoryFieldLabel>{{ 'ADDRESS.PINCODE' | translate }}</label>
+        <div class="mt-2">
+            <p-inputnumber inputId="integeronly" name="pin-code" id="postal-code" [formControl]="pincode"
+                [maxlength]="6" (onInput)="onPincodeChange($event)" class="w-full" [useGrouping]="false"
+                [placeholder]="'ADDRESS.ENTER_PINCODE' | translate" />
+        </div>
+    </div>
+
+    <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-3 lg:col-span-2" *ngIf="city">
+        <label for="city" mandatoryFieldLabel>{{ 'ADDRESS.CITY' | translate }}</label>
+        <div class="mt-2">
+            <p-select [options]="cities" optionLabel="label" optionValue="value" [formControl]="city"
+                [placeholder]="'ADDRESS.SELECT_CITY' | translate" class="w-full" [style]="{'width':'100%'}" />
+        </div>
+    </div>
+
+    <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-3 lg:col-span-2" *ngIf="state">
+        <label for="State" mandatoryFieldLabel>{{ 'ADDRESS.STATE' | translate }}</label>
+        <div class="mt-2">
+            <p-select [options]="states" optionLabel="label" optionValue="value" [formControl]="state"
+                [placeholder]="'ADDRESS.SELECT_STATE' | translate" class="w-full" [style]="{'width':'100%'}" />
+        </div>
+    </div>
+
+    <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-3 lg:col-span-2 flex" *ngIf="country">
+        <label for="country" mandatoryFieldLabel>{{ 'ADDRESS.COUNTRY' | translate }}</label>
+        <div class="mt-2 justify-center">
+            <p-select [options]="countries" optionLabel="label" optionValue="value" [formControl]="country"
+                [placeholder]="'ADDRESS.SELECT_COUNTRY' | translate" class="w-full" [style]="{'width':'100%'}" />
+        </div>
+    </div>
+
+    <div class="flex flex-col  col-span-full sm:col-span-6 md:col-span-3 lg:col-span-2" *ngIf="mobileNumber">
+        <label for="mobileNumber" mandatoryFieldLabel>{{ 'ADDRESS.MOBILE_NUMBER' | translate }}</label>
+        <div class="mt-2">
+            <p-inputgroup>
+                <p-inputgroup-addon>+91</p-inputgroup-addon>
+                <p-inputNumber phoneNumberMask inputId="mobileNumber" name="mobileNumber" [formControl]="mobileNumber"
+                    [maxlength]="10" [minlength]="10" class="w-full" [useGrouping]="false"
+                    [placeholder]="'ADDRESS.ENTER_MOBILE' | translate" >
+                </p-inputNumber>
+            </p-inputgroup>
+        </div>
+    </div>
+
+    <div class="flex flex-col  col-span-full sm:col-span-6 md:col-span-3 lg:col-span-2" *ngIf="alternateMobileNumber">
+        <label for="alternateMobileNumber">{{ 'ADDRESS.ALT_MOBILE_NUMBER' | translate }}</label>
+        <div class="mt-2">
+            <p-inputgroup>
+                <p-inputgroup-addon>+91</p-inputgroup-addon>
+                <p-inputNumber phoneNumberMask inputId="alternateMobileNumber" name="alternateMobileNumber" [formControl]="alternateMobileNumber"
+                    [maxlength]="10" [minlength]="10" class="w-full" [useGrouping]="false"
+                    [placeholder]="'ADDRESS.ENTER_MOBILE' | translate" >
+                </p-inputNumber>
+            </p-inputgroup>
+        </div>
+    </div>
+
+    <div class="flex flex-col col-start-1 sm:col-start-1 md:col-start-1 lg:col-start-1 col-span-full sm:col-span-6 md:col-span-3 lg:col-span-2"
+        *ngIf="contactNumber">
+        <label for="contactNumber" mandatoryFieldLabel>{{ 'ADDRESS.CONTACT_NUMBER' | translate }}</label>
+        <div class="mt-2">
+            <p-inputnumber inputId="integeronly" name="contactNumber" id="contactNumber" [formControl]="contactNumber"
+                [maxlength]="10" [minlength]="10" class="w-full" [useGrouping]="false"
+                [placeholder]="'ADDRESS.ENTER_CONTACT' | translate" />
+        </div>
+    </div>
+
+    <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-3 lg:col-span-2" *ngIf="email">
+        <label for="email" mandatoryFieldLabel>{{ 'ADDRESS.EMAIL' | translate }}</label>
+        <div class="mt-2">
+            <input pInputText id="email" name="email" type="email" class="w-full" [formControl]="email"
+                [placeholder]="'ADDRESS.ENTER_EMAIL' | translate">
+        </div>
+    </div>
+</div>

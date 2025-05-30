@@ -1,0 +1,54 @@
+{
+  "notification": {
+    "title": "अधिसूचना चेतावनी जोड़ें",
+    "configuration": "विन्यास",
+    "info": "यह जानकारी सार्वजनिक रूप से प्रदर्शित की जाएगी, इसलिए सावधान रहें कि आप क्या साझा करते हैं।",
+    "eventName": "कार्यक्रम का नाम",
+    "eventType": "घटना का प्रकार",
+    "targetAudience": "लक्षित दर्शक",
+    "whenToTrigger": "कब ट्रिगर करें",
+    "dateAndTime": "तारीख और समय",
+    "status": "स्थिति",
+    "message": "संदेश"
+  },
+  "ADDRESS": {
+    "ADDRESS1": "पता 1",
+    "ADDRESS2": "पता 2",
+    "ENTER_ADDRESS": "पता दर्ज करें",
+    "PINCODE": "पिन कोड",
+    "ENTER_PINCODE": "पिन कोड दर्ज करें",
+    "CITY": "शहर",
+    "SELECT_CITY": "शहर चुनें",
+    "STATE": "राज्य",
+    "SELECT_STATE": "राज्य चुनें",
+    "COUNTRY": "देश",
+    "SELECT_COUNTRY": "देश चुनें",
+    "MOBILE_NUMBER": "मोबाइल नंबर",
+    "ALT_MOBILE_NUMBER": "वैकल्पिक मोबाइल नंबर",
+    "ENTER_MOBILE": "मोबाइल नंबर दर्ज करें",
+    "CONTACT_NUMBER": "संपर्क नंबर",
+    "ENTER_CONTACT": "संपर्क नंबर दर्ज करें",
+    "EMAIL": "ईमेल पता",
+    "ENTER_EMAIL": "ईमेल पता दर्ज करें"
+  },
+  "NAME": "नाम",
+  "ADD": "जोड़ें",
+  "EDIT": "संपादित करें",
+  "SAVE": "सहेजें",
+  "CANCEL": "रद्द करें",
+  "EMAIL": "ईमेल",
+  "MOBILE_NUMBER": "मोबाइल नंबर",
+  "ACTIONS": "कार्रवाईयाँ",
+  "STATUS": "स्थिति",
+  "ACTIVATE": "सक्रिय करें",
+  "DE_ACTIVATE": "निष्क्रिय करें",
+  "CLINICAL_SUMMARY": "नैदानिक ​​सारांश",
+  "NO_DATA_FOUND": "डाटा प्राप्त नहीं हुआ।",
+  
+  "CLINIC": "क्लिनिक",
+  "DOCTOR_NAME": "डॉक्टर का नाम",
+  "PLACE_HOLDER": {
+    "CLINIC": "क्लिनिक चुनें",
+    "DOCTOR": "डॉक्टर चुनें"
+  }
+}

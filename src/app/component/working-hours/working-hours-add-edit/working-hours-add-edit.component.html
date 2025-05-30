@@ -1,0 +1,130 @@
+<div pageHeader>
+    <p-toolbar>
+        <ng-template #start>
+            <p class="text-2xl font-bold sm:truncate sm:text-3xl sm:tracking-tight">
+                Working Hours
+            </p>
+        </ng-template>
+
+        <ng-template #center>
+        </ng-template>
+
+        <ng-template #end>
+            <div class="flex space-x-3 justify-items-end">
+                <p-button label="Save" (onClick)="save()" />
+                <p-button label="Cancel" variant="outlined" severity="danger" (onClick)="cancel()" />
+            </div>
+        </ng-template>
+    </p-toolbar>
+</div>
+<div class="card mt-6">
+    <div>
+        <h3 class="text-base/7 font-semibold ">Mapping</h3>
+        <p class="mt-1 text-sm/6 ">This information will be displayed publicly so be careful what you
+            share.
+        </p>
+    </div>
+    <p-divider></p-divider>
+    <div class="mt-10 grid grid-cols-12 gap-6">
+        <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-3 lg:col-span-2">
+            <label for="Practice ">Practice<span class="text-red-500">*</span></label>
+            <div class="mt-2">
+                <p-select [options]="practiceOption" optionLabel="name" optionValue="name"
+                    placeholder="Select a Practice" class="w-full md:w-56" [(ngModel)]="workingHour.practice"
+                    [style]="{'width':'100%'}" />
+
+            </div>
+        </div>
+        <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-3 lg:col-span-2">
+            <label for="Location ">Location<span class="text-red-500">*</span></label>
+            <div class="mt-2">
+                <p-select [options]="locationOption" optionLabel="name" optionValue="name"
+                    placeholder="Select a Location" class="w-full md:w-56" [(ngModel)]="workingHour.location"
+                    [style]="{'width':'100%'}" />
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card mt-6">
+    <div>
+        <h3 class="text-base/7 font-semibold ">Configuration</h3>
+        <p class="mt-1 text-sm/6 ">This information will be displayed publicly so be careful what you
+            share.
+        </p>
+    </div>
+    <p-divider></p-divider>
+    <div class="mt-10 grid grid-cols-12 gap-6">
+
+        <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-3 lg:col-span-2">
+            <label for="Appointment Type">Appointment Type<span class="text-red-500">*</span></label>
+            <div class="mt-2">
+                <p-multiselect id="mapped" [(ngModel)]="workingHour.appointmentType" [options]="appointmentTypeOption"
+                    optionValue="name" optionLabel="name" placeholder="Select a Appointment Type" class="w-full"
+                    class="w-full">
+                </p-multiselect>
+
+            </div>
+        </div>
+        <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-6 lg:col-span-6">
+            <label class="font-medium">Available Days <span class="text-red-500">*</span></label>
+            <div class="mt-2">
+                <p-selectbutton [options]="daysoptions" [(ngModel)]="workingHour.days" [multiple]="true"
+                    optionLabel="name" optionValue="name" />
+
+            </div>
+        </div>
+        <div class="flex flex-col col-start-1 sm:col-start-1 md:col-start-1 col-span-full sm:col-span-6 md:col-span-2 lg:col-span-2">
+            <label class="font-medium">Start Time<span class="text-red-500">*</span></label>
+            <div class="mt-2">
+                <p-datepicker inputId="calendar-timeonly" class="w-full" [(ngModel)]="workingHour.startTime"
+                    [hourFormat]="'12'" [timeOnly]="true" />
+            </div>
+        </div>
+        <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-2 lg:col-span-2">
+            <label class="font-medium">End Time<span class="text-red-500">*</span></label>
+            <div class="mt-2">
+                <p-datepicker inputId="calendar-timeonly" class="w-full" [(ngModel)]="workingHour.endTime"
+                    [hourFormat]="'12'" [timeOnly]="true" />
+            </div>
+        </div>
+        <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-2 lg:col-span-2">
+            <label class="font-medium">Double booking allowed?<span class="text-red-500">*</span></label>
+            <div class="mt-2">
+                <p-selectbutton [options]="yesNoOption" [(ngModel)]="workingHour.doubleBooking" optionLabel="name"
+                    optionValue="name" />
+
+            </div>
+        </div>
+        <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-2 lg:col-span-2"
+            *ngIf=" workingHour.doubleBooking== 'Yes'">
+            <label class="font-medium">Max Appointments per slot<span class="text-red-500">*</span></label>
+            <div class="mt-2">
+                <p-inputnumber [(ngModel)]="workingHour.maxBooking" inputId="minmax" mode="decimal" [min]="1"
+                    [max]="100" />
+            </div>
+        </div>
+        <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-3 lg:col-span-2">
+            <label for="Slot Duration (Mins) ">Slot Duration (Mins)<span class="text-red-500">*</span></label>
+            <div class="mt-2">
+                <p-select [options]="slotDurations" optionLabel="name" optionValue="name"
+                    placeholder="Select a Slot Duration" class="w-full md:w-56" [(ngModel)]="workingHour.slotDuration"
+                    [style]="{'width':'100%'}" />
+            </div>
+        </div>
+        <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-3 lg:col-span-2">
+            <label for="Break Duration">Break Duration<span class="text-red-500">*</span></label>
+            <div class="mt-2">
+                <p-datepicker [(ngModel)]="workingHour.breakDuration" selectionMode="range" inputId="calendar-timeonly"
+                    class="w-full" [hourFormat]="'12'" [timeOnly]="true" [readonlyInput]="true" />
+            </div>
+        </div>
+        <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-2 lg:col-span-2">
+            <label class="font-medium">Max Appointments Per Day<span class="text-red-500">*</span></label>
+            <div class="mt-2">
+                <p-inputnumber [(ngModel)]="workingHour.maxAppointmentsPerDay" inputId="minmax" mode="decimal" [min]="1"
+                    [max]="20" />
+            </div>
+        </div>
+    </div>
+</div>

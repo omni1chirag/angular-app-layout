@@ -7,9 +7,8 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class MultiLangService {
   private isBrowser: boolean;
-  private translateService = inject(TranslateService);
 
-  constructor(@Inject(PLATFORM_ID) private platformId: object) {
+  constructor(private translateService: TranslateService,@Inject(PLATFORM_ID) private platformId: object) {
     this.isBrowser = isPlatformBrowser(this.platformId);
 
     if (this.isBrowser) {
@@ -31,10 +30,25 @@ export class MultiLangService {
   updateLanguageSignal(language: string) {
     if (!this.isBrowser) return;
 
-    const validLanguages = ['en', 'hi', 'gj'];
+    const validLanguages = ['en', 'hi', 'gu'];
     this.languageSignal.set(validLanguages.includes(language) ? language : 'en');
 
     localStorage.setItem('languageSignal', this.languageSignal());
     this.translateService.use(this.languageSignal());
+  }
+
+  getTranslateMsgFromKey(key): Promise<string> {
+    return new Promise((resolve) => {
+      if (!key) {
+        resolve(null);
+      }
+      this.translateService.get(key).subscribe({
+        next: (translatedMsg: string) => { resolve(translatedMsg) },
+        error: (error: any) => {
+          console.log(error)
+          resolve(null)
+        }
+      })
+    })
   }
 }

@@ -1,0 +1,21 @@
+.login-main-container {
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh - var(--navbar-height)); 
+    padding-top: var(--navbar-height);
+    padding-left: 1rem;
+    padding-right: 1rem;
+    overflow: auto; 
+}
+
+.login-main-container > div {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.background-image-container {
+    background-image: url('/assets/images/login-bg-2.jpg');
+    filter: blur(2px) top;
+}

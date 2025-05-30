@@ -1,0 +1,60 @@
+{
+  "notification": {
+    "title": "Add Notification Alert",
+    "configuration": "Configuration",
+    "info": "This information will be displayed publicly so be careful what you share.",
+    "eventName": "Event Name",
+    "eventType": "Event Type",
+    "targetAudience": "Target Audience",
+    "whenToTrigger": "When to Trigger",
+    "dateAndTime": "Date and Time",
+    "status": "Status",
+    "message": "Message"
+  },
+  "success": {
+    "user": {
+      "statusUpdate": "User status updated successfully"
+    }
+  },
+  "ADDRESS": {
+    "ADDRESS1": "Address 1",
+    "ADDRESS2": "Address 2",
+    "ENTER_ADDRESS": "Enter Address",
+    "PINCODE": "Pincode",
+    "ENTER_PINCODE": "Enter Pincode",
+    "CITY": "City",
+    "SELECT_CITY": "Select City",
+    "STATE": "State",
+    "SELECT_STATE": "Select State",
+    "COUNTRY": "Country",
+    "SELECT_COUNTRY": "Select Country",
+    "MOBILE_NUMBER": "Mobile Number",
+    "ALT_MOBILE_NUMBER": "Alternate Mobile Number",
+    "ENTER_MOBILE": "Enter Mobile Number",
+    "CONTACT_NUMBER": "Contact Number",
+    "ENTER_CONTACT": "Enter Contact Number",
+    "EMAIL": "Email Address",
+    "ENTER_EMAIL": "Enter Email Address"
+  },
+  "NAME":"Name",
+  "ADD":"Add",
+  "EDIT": "Edit",
+  "SAVE": "Save",
+  "CANCEL": "Cancel",
+  "EMAIL":"Email",
+  "MOBILE_NUMBER":"Mobile Number",
+  "ACTIONS":"Actions",
+  "STATUS":"Status",
+  "ACTIVATE":"Activate",
+  "DE_ACTIVATE":"Inactivate",
+  "CLINICAL_SUMMARY":"Clinical Summary",
+  "NO_DATA_FOUND":"No Data Found.",
+  "ADD_APPOINTMENT":"Add Appointment",
+  "CLINIC": "Clinic",
+  "DOCTOR_NAME": "Doctor Name",
+  "NO_FILE_CHOSEN": "No file chosen",
+  "PLACE_HOLDER": {
+    "CLINIC": "Select Clinic",
+    "DOCTOR": "Select Doctor"
+  }
+}

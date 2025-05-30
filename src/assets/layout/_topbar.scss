@@ -12,6 +12,7 @@
     transition: left var(--layout-section-transition-duration);
     display: flex;
     align-items: center;
+    border-bottom: 1px solid var(--surface-border);
 
     .layout-topbar-logo-container {
         width: 20rem;

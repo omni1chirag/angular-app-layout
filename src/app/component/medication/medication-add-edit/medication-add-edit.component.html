@@ -1,0 +1,219 @@
+<p-drawer [(visible)]="isVisible" position="right" appendTo="body" closable="false" blockScroll="true"
+    styleClass="!w-[90vw] sm:!w-[80vw] md:!w-[40rem] lg:!w-[50rem] custom-drawer">
+
+    <ng-template #header>
+        <span class="flex flex-col w-full">
+
+            <span class="flex w-full justify-between">
+                <h4 *ngIf="medicationId" class="flex w-full text-base/7 font-semibold text-gray-900">{{
+                    'MEDICATION.EDIT_MEDICATION' |
+                    translate }}</h4>
+                <h4 *ngIf="!medicationId" class="flex w-full text-base/7 font-semibold text-gray-900">{{
+                    'MEDICATION.ADD_MEDICATION' |
+                    translate }}</h4>
+                <p-button icon="pi pi-times" class="flex justify-self-end" (onClick)="isVisible.set(false)"
+                    severity="secondary" [rounded]="true" [text]="true" />
+
+            </span>
+            <p-divider class="flex col-span-full w-full" />
+        </span>
+
+    </ng-template>
+
+    <form [formGroup]="medicationForm">
+
+        <div class="mt-5 grid grid-cols-12 gap-6">
+
+            <div
+                class="flex flex-col col-start-1 sm:col-start-1 md:col-start-1 lg:col-start-1 col-span-full sm:col-span-12 md:col-span-6 lg:col-span-6">
+
+                <label mandatoryFieldLabel for="medicationName">{{ 'MEDICATION.MEDICATION_NAME' | translate }}</label>
+                <div class="mt-2">
+                    <p-autocomplete id="medicationName" formControlName="medicationName" [forceSelection]="false"
+                        [suggestions]="medicationSuggestion" (completeMethod)="searchMedicines($event.query)"
+                        optionLabel="label" optionValue="value" (onSelect)="onSelectMedication($event)"
+                        placeholder="{{ 'MEDICATION.PLACE_HOLDER.MEDICATION_NAME' | translate }}" class="w-full"
+                        [style]="{'width':'100%'}" [inputStyle]="{ width: '100%' }" minLength="3" />
+                </div>
+
+            </div>
+
+            <div class="flex flex-col col-span-full sm:col-span-12 md:col-span-6 lg:col-span-6">
+
+                <label mandatoryFieldLabel for="routeId">{{ 'MEDICATION.ROUTE_OF_ADMINISTRATION' | translate }}</label>
+                <div class="mt-2">
+                    <p-select id="routeId" formControlName="routeId" [options]="routeOptions" optionLabel="label"
+                        optionValue="value"
+                        placeholder="{{ 'MEDICATION.PLACE_HOLDER.ROUTE_OF_ADMINISTRATION' | translate }}"
+                        class="w-full">
+                    </p-select>
+                </div>
+
+            </div>
+
+            <div
+                class="flex flex-col col-start-1 sm:col-start-1 md:col-start-1 lg:col-start-1 col-span-full sm:col-span-12 md:col-span-6 lg:col-span-6">
+
+                <label for="timing" mandatoryFieldLabel>{{ 'MEDICATION.TIMING' | translate }}</label>
+                <div class="mt-2">
+                    <p-selectbutton [options]="timingOptions" optionLabel="label" optionValue="value"
+                        formControlName="timing" />
+                </div>
+
+            </div>
+
+            <div class="flex flex-col col-span-full sm:col-span-12 md:col-span-6 lg:col-span-6">
+
+                <label for="frequency" mandatoryFieldLabel>{{ 'MEDICATION.FREQUENCY' | translate }}</label>
+                <div class="flex flex-col grid grid-cols-6 mt-2">
+
+                    <div class="flex flex-col col-span-full sm:col-span-2 md:col-span-2 lg:col-span-2">
+                        <p-inputGroup>
+                            <p-floatlabel variant="on">
+                                <p-inputNumber formControlName="morningFrequency" inputId="morningFrequency"
+                                    class="w-full" [useGrouping]="false" [min]="0" [max]="20" />
+                                <label for="morningFrequency">{{ 'MEDICATION.MORNING' | translate }}</label>
+                            </p-floatlabel>
+                        </p-inputGroup>
+                    </div>
+
+                    <div class="flex flex-col col-span-full sm:col-span-2 md:col-span-2 lg:col-span-2">
+                        <p-inputGroup>
+                            <p-floatlabel variant="on">
+                                <p-inputNumber formControlName="eveningFrequency" inputId="eveningFrequency"
+                                    class="w-full" [useGrouping]="false" [min]="0" [max]="20" />
+                                <label for="eveningFrequency">{{ 'MEDICATION.EVENING' | translate }}</label>
+                            </p-floatlabel>
+                        </p-inputGroup>
+                    </div>
+
+                    <div class="flex flex-col col-span-full sm:col-span-2 md:col-span-2 lg:col-span-2">
+                        <p-inputGroup>
+                            <p-floatlabel variant="on">
+                                <p-inputNumber formControlName="nightFrequency" inputId="nightFrequency" class="w-full"
+                                    [useGrouping]="false" [min]="0" [max]="20" />
+                                <label for="nightFrequency">{{ 'MEDICATION.NIGHT' | translate }}</label>
+                            </p-floatlabel>
+                        </p-inputGroup>
+                    </div>
+
+                </div>
+            </div>
+
+            <div
+                class="flex flex-col col-start-1 sm:col-start-1 md:col-start-1 lg:col-start-1 col-span-full sm:col-span-12 md:col-span-6 lg:col-span-6">
+
+                <label for="duration" mandatoryFieldLabel>{{ 'MEDICATION.DURATION' | translate }}</label>
+                <div class="flex flex-wrap grid grid-cols-12 gap-2 mt-2">
+
+                    <div class="col-span-full sm:col-span-6 md:col-span-6 lg:col-span-6">
+                        <p-select id="duration" formControlName="duration" [options]="durationOptions"
+                            optionLabel="label" optionValue="value"
+                            placeholder="{{ 'MEDICATION.PLACE_HOLDER.DURATION' | translate }}" class="w-full">
+                        </p-select>
+                    </div>
+
+                    <div class="col-span-full sm:col-span-6 md:col-span-6 lg:col-span-6">
+                        <p-select id="durationUnit" formControlName="durationUnit" [options]="durationUnitOptions"
+                            optionLabel="label" optionValue="value"
+                            placeholder="{{ 'MEDICATION.PLACE_HOLDER.UNIT' | translate }}" class="w-full">
+                        </p-select>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="flex flex-col col-span-full sm:col-span-12 md:col-span-6 lg:col-span-6">
+
+                <label mandatoryFieldLabel for="quantity">{{ 'MEDICATION.QUANTITY' | translate }}</label>
+                <div class="flex flex-wrap grid grid-cols-12 gap-2 mt-2">
+
+                    <div class="col-span-full sm:col-span-6 md:col-span-6 lg:col-span-6">
+                        <p-inputGroup>
+                            <p-inputNumber formControlName="quantity" inputId="quantity" class="w-full"
+                                [useGrouping]="false" [min]="0" [max]="50"
+                                placeholder="{{ 'MEDICATION.PLACE_HOLDER.QUANTITY' | translate }}" />
+                        </p-inputGroup>
+                    </div>
+
+                    <div class="col-span-full sm:col-span-6 md:col-span-6 lg:col-span-6">
+                        <p-select id="quantityUnit" formControlName="quantityUnit" [options]="quantityUnitOptions"
+                            optionLabel="label" optionValue="value"
+                            placeholder="{{ 'MEDICATION.PLACE_HOLDER.UNIT' | translate }}" class="w-full">
+                        </p-select>
+                    </div>
+
+                </div>
+            </div>
+
+            <div
+                class="flex flex-col col-start-1 sm:col-start-1 md:col-start-1 lg:col-start-1 col-span-full sm:col-span-12 md:col-span-6 lg:col-span-6">
+
+                <label mandatoryFieldLabel for="startDate">{{ 'MEDICATION.START_DATE' | translate }}</label>
+                <div class="mt-2">
+                    <p-datepicker dateMask dateFormat="dd/mm/yy" class="w-full" [iconDisplay]="'input'"
+                        [minDate]="minDate" [maxDate]="maxDate" formControlName="startDate" [showIcon]="true"
+                        [style]="{'width': '100%'}"
+                        placeholder="{{ 'MEDICATION.PLACE_HOLDER.START_DATE' | translate }}" />
+                </div>
+            </div>
+
+            <div class="flex flex-col col-span-full sm:col-span-12 md:col-span-6 lg:col-span-6">
+
+                <label for="instructions">{{ 'MEDICATION.INSTRUCTIONS' | translate }}</label>
+                <div class="mt-2">
+                    <input pInputText type="text" name="instructions" id="instructions" formControlName="instructions"
+                        class="w-full" placeholder="{{ 'MEDICATION.PLACE_HOLDER.INSTRUCTIONS' | translate }}"
+                        maxlength="1000">
+                </div>
+
+            </div>
+
+            <div
+                class="flex flex-col col-start-1 sm:col-start-1 md:col-start-1 lg:col-start-1 col-span-full sm:col-span-12 md:col-span-12 lg:col-span-12">
+
+                <label mandatoryFieldLabel for="status">{{ 'MEDICATION.STATUS' | translate }}</label>
+                <div class="mt-2">
+                    <p-selectbutton [options]="statusOptions" optionLabel="label" optionValue="value"
+                        formControlName="status" (click)="updateStatus($event)" />
+                </div>
+            </div>
+
+            <div
+                class="flex flex-col col-start-1 sm:col-start-1 md:col-start-1 lg:col-start-1 col-span-full sm:col-span-12 md:col-span-6 lg:col-span-6">
+                <label mandatoryFieldLabel for="prescribedBy">{{ 'MEDICATION.PRESCRIBED_BY' | translate }}</label>
+                <div class="mt-2">
+                    <input pInputText type="text" name="prescribedBy" id="prescribedBy" formControlName="prescribedBy"
+                        class="w-full" placeholder="{{ 'MEDICATION.PLACE_HOLDER.PRESCRIBED_BY' | translate }}"
+                        maxlength="100">
+                </div>
+            </div>
+
+            <div *ngIf="isShowReason" class="flex flex-col col-span-full sm:col-span-12 md:col-span-6 lg:col-span-6">
+
+                <label mandatoryFieldLabel for="reason">{{ 'MEDICATION.REASON' | translate }}</label>
+                <div class="mt-2">
+                    <input pInputText type="text" name="reason" id="reason" formControlName="reason" class="w-full"
+                        placeholder="{{ 'MEDICATION.PLACE_HOLDER.REASON' | translate }}" maxlength="100">
+                </div>
+            </div>
+
+        </div>
+
+    </form>
+
+    <ng-template #footer>
+        <p-divider />
+        <div class="grid grid-cols-12 gap-2">
+            <div class="flex col-span-full sm:col-span-12 md:col-span-6 lg:col-span-6"></div>
+            <div class="flex col-span-full sm:col-span-12 md:col-span-6 lg:col-span-6 items-center gap-1">
+                <p-button label="{{'SAVE'| translate }}" size="small" (onClick)="save()" class="w-full"
+                    [styleClass]="'w-full sm:w-full md:w-full lg:w-full'" [disabled]="isCallInitiated" />
+                <p-button label="{{'CANCEL'| translate }}" severity="danger" class="w-full"
+                    [styleClass]="'w-full sm:w-full md:w-full lg:w-full'" [outlined]="true"
+                    (onClick)="isVisible.set(false)" size="small" />
+            </div>
+        </div>
+    </ng-template>
+
+</p-drawer>

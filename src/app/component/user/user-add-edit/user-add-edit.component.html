@@ -1,0 +1,252 @@
+<div pageHeader>
+    <p-toolbar>
+        <ng-template #start>
+            <p class="text-2xl font-bold sm:truncate sm:text-3xl sm:tracking-tight">
+                {{mode}} User
+            </p>
+        </ng-template>
+
+        <ng-template #center>
+        </ng-template>
+
+        <ng-template #end>
+            <div class="flex space-x-3 justify-items-end">
+                <p-button label="Save" (onClick)="save()" [loading]="isCallInitiated"
+                    [disabled]="isCallInitiated"></p-button>
+                <p-button label="Cancel" variant="outlined" severity="danger" (onClick)="cancel()"></p-button>
+            </div>
+        </ng-template>
+    </p-toolbar>
+</div>
+
+
+<form [formGroup]="userForm" *ngIf="userForm">
+    <div class="card">
+        <div>
+            <h4 class="text-base/7 font-semibold text-gray-900">Basic Details</h4>
+        </div>
+        <p-divider></p-divider>
+
+        <div class="mt-5 grid grid-cols-12 gap-3">
+            <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-4 lg:col-span-3"
+                formGroupName="organization">
+                <label mandatoryFieldLabel for="organization">Select Organization</label>
+                <div class="mt-2">
+                    <p-select [options]="organizations" id="organization" placeholder="Select Organization"
+                        optionLabel="label" formControlName="organizationId" optionValue="value" [filter]="true"
+                        class="w-full" />
+                </div>
+            </div>
+            <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-3 lg:col-span-2">
+                <label mandatoryFieldLabel for="clinicName">Select Clinic</label>
+                <div class="mt-2">
+                    <p-multiselect [options]="clinics" id="clinic" placeholder="Select Clinic" optionLabel="label"
+                        formControlName="clinics" optionValue="value" display="chip" [filter]="true" class="w-full" />
+                </div>
+            </div>
+
+            <div
+                class="flex flex-col col-start-1 sm:col-start-1 md:col-start-1 lg:col-start-1 col-span-full sm:col-span-6 md:col-span-1 lg:col-span-1">
+                <label for="state">Title</label>
+                <div class="mt-2">
+                    <p-select id="title" formControlName="title" [options]="titles" optionLabel="label"
+                        optionValue="value" placeholder="Select Title" class="w-full" class="w-full">
+                    </p-select>
+                </div>
+            </div>
+
+            <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-3 lg:col-span-2">
+                <label mandatoryFieldLabel for="firstName" class="">First Name</label>
+                <div class="mt-2">
+                    <input pInputText type="text" name="firstName" id="firstName" formControlName="firstName"
+                        autocomplete="family-name" class="w-full" placeholder="Enter First Name">
+                </div>
+            </div>
+            <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-3  lg:col-span-2">
+                <label for="middleName" class="">Middle Name</label>
+                <div class="mt-2">
+                    <input pInputText type="text" name="middleName" id="middleName" formControlName="middleName"
+                        autocomplete="family-name" class="w-full" placeholder="Enter Middle Name">
+                </div>
+            </div>
+            <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-3  lg:col-span-2">
+                <label mandatoryFieldLabel for="last-name" class="">Last Name</label>
+                <div class="mt-2">
+                    <input pInputText type="text" name="lastName" id="last-name" formControlName="lastName"
+                        autocomplete="family-name" class="w-full" placeholder="Enter Last Name">
+                </div>
+            </div>
+
+            <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-2">
+                <label mandatoryFieldLabel for="last-name">Date of Birth</label>
+                <div class="mt-2">
+                    <p-datepicker dateMask dateFormat="dd/mm/yy" class="w-full" [iconDisplay]="'input'"
+                        [maxDate]="currentDate" formControlName="dateOfBirth" [showIcon]="true"
+                        [style]="{'width': '100%'}" (onSelect)="calculateAge()" (onClose)="calculateAge()"
+                        placeholder="Enter Date of Birth" />
+                </div>
+            </div>
+
+            <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-1">
+                <label for="age" class="">Age</label>
+                <div class="mt-2">
+                    <input pInputText formControlName="age" name="age" id="age" class="w-full" placeholder="Age">
+                </div>
+            </div>
+
+            <div
+                class="flex flex-col col-start-1 sm:col-start-1 md:col-start-1 lg:col-start-1 col-span-full sm:col-span-6 md:col-span-1 lg:col-span-1">
+                <label mandatoryFieldLabel for="gender">Gender</label>
+                <div class="mt-2">
+                    <p-select id="gender" formControlName="gender" [options]="genders" optionLabel="label"
+                        optionValue="value" placeholder="Select Gender" class="w-full">
+                    </p-select>
+                </div>
+            </div>
+            <div class="flex flex-col col-span-full sm:col-span-6  md:col-span-6 lg:col-span-2" *ngIf="gender">
+                <label for="genderFreeText">&nbsp;</label>
+                <div class="mt-2">
+                    <input pInputText type="text" name="genderFreeText" id="genderFreeText"
+                        formControlName="genderFreeText" class="w-full" placeholder="Enter Gender">
+                </div>
+            </div>
+            <div class="flex flex-col col-span-full md:col-span-6 lg:col-span-2">
+                <label for="department">Department</label>
+                <div class="mt-2">
+                    <p-select [options]="departments" optionLabel="label" optionValue="value"
+                        formControlName="departmentId" placeholder="Select Department" class="w-full"
+                        [style]="{'width':'100%'}" />
+                </div>
+            </div>
+
+            <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-6  lg:col-span-2">
+                <label mandatoryFieldLabel for="yearOfExperience" class="">Years of Experience</label>
+                <div class="mt-2">
+                    <p-inputnumber inputId="minmax" mode="decimal" formControlName="yearOfExperience" [min]="0"
+                        [max]="maxYearOfExperience" class="w-full" placeholder="Enter Year of experience" />
+                </div>
+            </div>
+
+            <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-6  lg:col-span-2" *ngIf="mode == 'Edit'">
+                <label mandatoryFieldLabel for="status" class="">Status</label>
+                <div class="mt-2">
+                    <p-selectbutton [options]="statuses" formControlName="status" optionLabel="label" class="w-full"
+                        optionValue="value" size="large" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card">
+        <div>
+            <h4 class="text-base/7 font-semibold text-gray-900">Contact Details</h4>
+        </div>
+        <p-divider></p-divider>
+        <app-address></app-address>
+    </div>
+
+    <div class="card">
+        <div>
+            <h4 class="text-base/7 font-semibold text-gray-900">Documents</h4>
+        </div>
+        <p-divider></p-divider>
+
+        <div class="mt-5 grid grid-cols-12 gap-3">
+
+            <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-3">
+                <label>Profile Picture</label>
+                <div class="mt-2 flex justify-start">
+                    <app-file-upload formControlName="profilePicture" [moduleId]="5" [fileSize]="10" [subModuleId]="5"
+                        source="Admin" [objectId]="userId" [fileTypeSupported]="documentTypes"></app-file-upload>
+                </div>
+            </div>
+            <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-3">
+                <label for="cover-photo" class="">ID Proof</label>
+                <div class="mt-2 flex justify-start">
+                    <app-file-upload formControlName="idProof" [moduleId]="5" [fileSize]="10" [subModuleId]="6"
+                        source="Admin" [objectId]="userId" [fileTypeSupported]="documentTypes"></app-file-upload>
+                </div>
+            </div>
+            <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-3">
+                <label for="cover-photo" class="">Nursing License</label>
+                <div class="mt-2 flex justify-start">
+                    <app-file-upload formControlName="nursingLicense" [moduleId]="5" [fileSize]="10" [subModuleId]="7"
+                        source="Admin" [objectId]="userId" [fileTypeSupported]="documentTypes"></app-file-upload>
+
+                </div>
+            </div>
+            <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-3">
+                <label for="cover-photo" class="">Certification Document</label>
+                <div class="mt-2 flex justify-start">
+                    <app-file-upload formControlName="certificationDocument" [moduleId]="5" [fileSize]="10"
+                        [subModuleId]="8" source="Admin" [objectId]="userId"
+                        [fileTypeSupported]="documentTypes"></app-file-upload>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="card">
+        <div>
+            <h4 class="text-base/7 font-semibold text-gray-900">User Preferences</h4>
+        </div>
+        <p-divider></p-divider>
+
+        <div class="mt-5 grid grid-cols-12 gap-3">
+            <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-3">
+                <label mandatoryFieldLabel for="organization">Preferred Language</label>
+                <div class="mt-2">
+                    <p-multiselect [options]="languages" placeholder="Select Preferred Language" optionLabel="label"
+                        formControlName="preferredLanguages" optionValue="value" display="chip" [filter]="true"
+                        class="w-full">
+                    </p-multiselect>
+
+                </div>
+            </div>
+
+            <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-3">
+                <label mandatoryFieldLabel for="organization">Mode of Communication</label>
+                <div class="mt-2">
+                    <p-multiselect [options]="communicationModes" placeholder="Select Mode of communication"
+                        formControlName="communicationModes" optionLabel="label" optionValue="value" display="chip"
+                        [filter]="true" class="w-full">
+                    </p-multiselect>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div>
+            <h4 class="text-base/7 font-semibold text-gray-900">User Permissions</h4>
+        </div>
+
+        <p-divider></p-divider>
+
+        <div class="mt-5 grid grid-cols-12 gap-3">
+            <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-4 lg:col-span-3" formGroupName="role">
+                <label mandatoryFieldLabel for="role">Role</label>
+                <div class="mt-2">
+                    <p-select id="role" formControlName="roleId" [options]="roles" optionLabel="label"
+                        optionValue="value" placeholder="Select Role" class="w-full" class="w-full" />
+                </div>
+            </div>
+            <div
+                class="flex flex-col  col-start-1 sm:col-start-1 md:col-start-1 lg:col-start-1 col-span-full sm:col-span-12 md:col-span-6 lg:col-span-6">
+                <label mandatoryFieldLabel for="Permissions">Permissions</label>
+                <div class="mt-2">
+                    <p-tree [value]="sourcePermissions" selectionMode="checkbox" styleClass="w-full p-permission-box"
+                        [filter]="true" filterPlaceholder="Search Permission" scrollHeight="400px"
+                        [(selection)]="selectedPermissions">
+                        <ng-template let-item #empty>
+                            <div class="p-tree-root grid p-5 justify-items-center">
+                                No results found
+                            </div>
+                        </ng-template>
+                    </p-tree>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

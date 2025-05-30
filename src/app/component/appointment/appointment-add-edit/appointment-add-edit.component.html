@@ -1,0 +1,220 @@
+<p-drawer [(visible)]="isVisible" position="right" appendTo="body" closable="false" blockScroll="true"
+    styleClass="!w-full sm:!w-80 md:!w-80 lg:!w-[40rem]">
+    <ng-template #header>
+        <span class="flex flex-col w-full">
+            <h4 class="text-base/7 font-semibold text-gray-900">{{ 'APPOINTMENT.'+mode | translate }}</h4>
+            <p-divider />
+        </span>
+
+    </ng-template>
+
+    <form *ngIf="searchPatientForm &&  isMobileNumberVisible" [formGroup]="searchPatientForm">
+        <div class="p-inputgroup flex space-x-3 mb-5">
+            <p-inputgroup>
+                <p-inputgroup-addon>+91</p-inputgroup-addon>
+                <p-inputNumber formControlName="mobileNumber" [maxlength]="10" mask="99999-99999" [showButtons]="false"
+                    inputId="mobileNumber" [placeholder]="'ADDRESS.ENTER_MOBILE' | translate"></p-inputNumber>
+            </p-inputgroup>
+            <p-button icon="pi pi-search" variant="outlined" severity="info" [raised]="false" pTooltip="Search Patient"
+                (onClick)="searchPatient(searchPatientForm.get('mobileNumber')?.value)" />
+            <p-button icon="pi pi-fw pi-plus-circle" variant="outlined" severity="danger" [raised]="false"
+                (onClick)="addPatient()" pTooltip="Add Patient" />
+        </div>
+    </form>
+
+    <form [formGroup]="appointmentForm" *ngIf="appointmentForm">
+        <div class="grid grid-cols-12 gap-4">
+            <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-12">
+                <label for="PatientName">{{'PATIENT.PATIENT_NAME' | translate}}<span
+                        class="text-red-500">*</span></label>
+                <div class="mt-2" formGroupName="patient">
+                    <input pInputText text id="patientName" formControlName="patientName" [readonly]="true"
+                        class="w-full" [style]="{'width': '100%'}"
+                        [placeholder]="'APPOINTMENT.PLACE_HOLDER.PATIENT_NAME' | translate" />
+                </div>
+            </div>
+
+            <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-6">
+                <label for="clinic">{{'CLINIC' | translate}}<span class="text-red-500">*</span></label>
+                <div class="mt-2">
+                    <p-select [options]="clinics" id="clinic" [placeholder]="'PLACE_HOLDER.CLINIC' | translate"
+                        optionLabel="label" formControlName="clinicId" optionValue="value" [filter]="true"
+                        class="w-full md:w-56" [style]="{'width':'100%'}" />
+                </div>
+            </div>
+            <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-6">
+                <label for="doctor">{{'DOCTOR_NAME' | translate}}<span class="text-red-500">*</span></label>
+                <div class="mt-2">
+                    <p-select [options]="doctors" id="doctor" [placeholder]="'PLACE_HOLDER.DOCTOR' | translate"
+                        optionLabel="label" formControlName="doctorId" optionValue="value" [filter]="true"
+                        class="w-full md:w-56" [style]="{'width':'100%'}" />
+                </div>
+            </div>
+            <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-6">
+                <label for="appointmentStatus">{{'APPOINTMENT.FORM_LABELS.APPOINTMENT_STATUS' | translate}}<span
+                        class="text-red-500">*</span></label>
+                <div class="mt-2">
+                    <p-select [options]="appointmentStatus" id="appointmentStatus"
+                        [placeholder]="'APPOINTMENT.PLACE_HOLDER.APPOINTMENT_STATUS' | translate" optionLabel="label"
+                        formControlName="appointmentStatus" optionValue="value" [filter]="true" class="w-full md:w-56"
+                        [style]="{'width':'100%'}" />
+                </div>
+            </div>
+
+            <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-6">
+                <label for="appointmentType">{{'APPOINTMENT.FORM_LABELS.APPOINTMENT_TYPE' | translate}}<span
+                        class="text-red-500">*</span></label>
+                <div class="mt-2">
+                    <p-selectbutton id="appointmentType" [options]="appointmentTypes" formControlName="appointmentType"
+                        optionLabel="label" class="w-full md:w-56" optionValue="value" [style]="{'width':'100%'}" [unselectable]="false" 
+                        aria-labelledby="dateAndTime" />
+                </div>
+            </div>
+
+            <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-6">
+                <label for="appointmentDate">{{'APPOINTMENT.FORM_LABELS.APPOINTMENT_DATE' | translate}}<span
+                        class="text-red-500">*</span></label>
+                <div class="mt-2">
+                    <p-datepicker dateMask dateFormat="dd/mm/yy" class="w-full" [iconDisplay]="'input'" appendTo="body"
+                        [minDate]="currentDate" formControlName="appointmentDate" [showIcon]="true"
+                        [style]="{'width': '100%'}" dataType="string"
+                        [placeholder]="'APPOINTMENT.PLACE_HOLDER.APPOINTMENT_DATE' | translate" [showButtonBar]="true"
+                        id="appointmentDate" />
+                </div>
+            </div>
+            <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-6">
+                <label class="font-medium">{{'APPOINTMENT.FORM_LABELS.APPOINTMENT_TIME' | translate}}<span
+                        class="text-red-500">*</span></label>
+                <div class="mt-2 flex items-center gap-2">
+                    <input pInputText type="time" name="startTime" id="startTime" formControlName="startTime"
+                        class="w-full" [max]="appointmentForm.value.endTime" />
+                    <span>-</span>
+                    <input pInputText type="time" name="endTime" id="endTime" formControlName="endTime" class="w-full"
+                        [min]="appointmentForm.value.startTime" />
+                </div>
+                <div *ngIf="appointmentForm.errors?.['invalidTimeRange']">
+                    <small class="text-red-500">Start time must be before end time</small>
+                </div>
+            </div>
+
+            <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-12">
+                <label for="reasonForVisit">{{'APPOINTMENT.FORM_LABELS.REASON_FOR_VISIT' | translate}} <span
+                        class="text-red-500">*</span></label>
+                <div class="mt-2">
+                    <p-autoComplete dropdown id="reasonForVisit" formControlName="reasonForVisit" multiple
+                        inputStyleClass="w-full" [style]="{'width': '100%'}" [suggestions]="rfvSuggestions"
+                        [placeholder]="'APPOINTMENT.PLACE_HOLDER.REASON_FOR_VISIT' | translate" [dropdown]="false"
+                        [minLength]="3" [forceSelection]="true" (onClear)="clearRFV()"
+                        (completeMethod)="searchRFV($event)" />
+                </div>
+            </div>
+
+            <div
+                class="flex flex-col  col-start-1 sm:col-start-1 md:col-start-1  col-span-full sm:col-span-6 md:col-span-12">
+                <label for="notes">{{'APPOINTMENT.FORM_LABELS.NOTES' | translate}}</label>
+                <div class="mt-2">
+                    <textarea rows="5" cols="30" pTextarea name="notes" id="notes" autocomplete="notes"
+                        [maxlength]="300" formControlName="notes" class="w-full"
+                        [placeholder]="'APPOINTMENT.PLACE_HOLDER.NOTES' | translate"></textarea>
+                </div>
+            </div>
+        </div>
+    </form>
+    <ng-template #footer>
+        <p-divider />
+        <div class="grid grid-cols-12 gap-2">
+            <div class="flex col-span-full sm:col-span-12 md:col-span-6 lg:col-span-6"></div>
+            <div class="flex col-span-full sm:col-span-12 md:col-span-6 lg:col-span-6 items-center gap-1">
+                <p-button label="{{'SAVE'| translate }}" size="small" (onClick)="save()" class="w-full"
+                    [styleClass]="'w-full sm:w-full md:w-full lg:w-full'" [loading]="isCallInitiated"
+                    [disabled]="isCallInitiated" />
+                <p-button label="{{'CANCEL'| translate }}" severity="danger" class="w-full"
+                    [styleClass]="'w-full sm:w-full md:w-full lg:w-full'" [outlined]="true"
+                    (onClick)="isVisible.set(false)" size="small" />
+            </div>
+        </div>
+    </ng-template>
+</p-drawer>
+
+<p-dialog [header]="'APPOINTMENT.SELECT_PATIENT' | translate" [modal]="true" [(visible)]="visible"
+    [style]="{ width: '70rem' }" [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }" [maximizable]="true"
+    [resizable]="false" appendTo="body">
+    <!--  -->
+    <p-table [value]="patientSuggestions" stripedRows [tableStyle]="{'min-width': '60rem'}" [scrollable]="true"
+        scrollHeight="flex" [scrollHeight]="'30rem'" selectionMode="single" [(selection)]="selectedPatient"
+        dataKey="patientId" (onRowSelect)="onRowSelect($event)" (onRowUnselect)="onRowUnselect($event)">
+        <ng-template #header>
+            <tr>
+                <th style="width: 4rem"></th>
+                <th>{{'PATIENT.PATIENT_NAME' | translate}}</th>
+                <th>{{'PATIENT.DATE_OF_BIRTH' | translate}}</th>
+                <th>{{'PATIENT.GENDER' | translate}}</th>
+                <th>{{'PATIENT.RELATION' | translate}}</th>
+                <th>{{'ADDRESS.CITY' | translate}}</th>
+                <th></th>
+            </tr>
+        </ng-template>
+        <ng-template #body let-product>
+            <tr>
+                <td>
+                    <p-tableRadioButton [value]="product" />
+                </td>
+                <td>{{product.patientFullName}}</td>
+                <td>{{product.dateOfBirth}}</td>
+                <td>{{product.gender}}</td>
+                <td>{{product.relation}}</td>
+                <td>{{product.city}}</td>
+            </tr>
+        </ng-template>
+    </p-table>
+</p-dialog>
+
+<p-confirmdialog key="patient-map-doctor" [position]="'top'" styleClass="w-[80vw] sm:w-[70vw] md:w-[35vw] lg:w-[28vw]">
+    <ng-template #message let-message>
+        <div class="flex flex-col col-span-full w-full gap-4 m-1 pb-1" *ngIf="!isOTPSent">
+            <span>This patient is already registered on the platform but not yet mapped to your clinic.</span>
+            <span>To proceed, you must obtain the patient's consent.</span>
+            <strong class="mt-4">Send OTP on:</strong>
+            <div class="grid grid-cols-12 gap-3 w-full">
+                <div class="flex flex-col col-span-full sm:col-span-12 md:col-span-6 lg:col-span-6"
+                    *ngIf="selectedPatient?.mobileNumber">
+                    <div class="flex w-full items-center">
+                        <p-checkbox inputId="otpSMS" name="otpType" value="SMS" [(ngModel)]="otpType"
+                            (onChange)=" changeOPTPlatForm($event,'SMS')" />
+                        <label for="otpType" class="ml-2">Mobile Number</label>
+                    </div>
+                </div>
+                <div class="flex flex-col col-span-full sm:col-span-12 md:col-span-6 lg:col-span-6"
+                    *ngIf="selectedPatient?.email">
+                    <div class="flex w-full items-center">
+                        <p-checkbox inputId="otpEmail" name="otpType" value="EMAIL" [(ngModel)]="otpType"
+                            (onChange)=" changeOPTPlatForm($event,'EMAIL')" />
+                        <label for="otpType" class="ml-2">Email Address</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="flex flex-col col-span-full items-center w-full gap-4 m-1"
+            *ngIf="isOTPSent && otpType && otpType.length > 0">
+            <span style="text-align: center;" class="w-full">We have sent 6 digit Verification code to
+                <strong>{{otpType[0] == 'SMS' ? selectedPatient?.mobileNumber : selectedPatient?.email}}</strong>
+            </span>
+            <span class="flex justify-center w-full">Enter OTP</span>
+            <p-inputotp class="flex justify-center w-full" [(ngModel)]="patientMapOTP" [integerOnly]="true" [length]="6"
+                [mask]="false" />
+            <span class="flex justify-center w-full">Resend OTP in {{formattedTime}}</span>
+        </div>
+    </ng-template>
+    <ng-template #footer>
+        <div class="flex items-center gap-2 w-full" *ngIf="!isOTPSent">
+            <p-button label="Send OTP" class="w-full" [styleClass]="'w-full sm:w-full md:w-full lg:w-full'"
+                [disabled]="!otpType || otpType.length == 0" (onClick)="resendOTP()" />
+
+        </div>
+        <div class="flex w-full justify-between mt-8 self-stretch" *ngIf="isOTPSent">
+            <p-button label="Resend OTP" [link]="true" class="p-0" [disabled]="formattedTime != '00:00'"
+                (onClick)="resendOTP()" />
+            <p-button label="Submit" [disabled]="patientMapOTP?.length < 6" (onClick)="submitOTP($event)" />
+        </div>
+    </ng-template>
+</p-confirmdialog>

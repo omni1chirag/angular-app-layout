@@ -1,0 +1,18 @@
+<p-inputgroup>
+    <p-button label="Choose" icon="pi pi-upload" [disabled]="disabled()" (onClick)="openFileSelector()" />
+    <input pInputText [value]="fileName" [placeholder]="'NO_FILE_CHOSEN' | translate" readonly />
+    <p-inputgroup-addon *ngIf="isView()">
+        <p-button icon="pi pi-eye" severity="contrast" variant="text" (onClick)="openViewModal()" [disabled]="!value" />
+    </p-inputgroup-addon>
+    <p-inputgroup-addon *ngIf="isDelete()">
+        <p-button icon="pi pi-trash" severity="contrast" variant="text" (onClick)="deleteDocument()"  [disabled]="!value" />
+    </p-inputgroup-addon>
+</p-inputgroup>
+<div class="hidden">
+    <p-fileUpload #hiddenUpload styleClass="display: none" mode="basic" [auto]="true" [multiple]="false"
+        [id]="currentUploadId" [accept]="fileTypeSupported()" [maxFileSize]="fileSizeInBytes"
+        (onSelect)="onFileSelect($event)" (onClear)="clearFile()" [showUploadButton]="false" [showCancelButton]="false">
+    </p-fileUpload>
+</div>
+
+<p-confirmdialog key="document-delete" [position]="'top'"/>

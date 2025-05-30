@@ -1,0 +1,217 @@
+{
+  "MEDICATION": {
+    "MEDICATIONS": "Medications",
+    "MEDICATION_NAME": "Medication Name",
+    "ROUTE_OF_ADMINISTRATION": "Route of Administration",
+    "TIMING": "Timing",
+    "FREQUENCY": "Frequency",
+    "DURATION": "Duration",
+    "QUANTITY": "Quantity",
+    "START_DATE": "Start Date",
+    "INSTRUCTIONS": "Instructions",
+    "STATUS": "Status",
+    "PRESCRIBED_BY": "Prescribed By",
+    "REASON": "Reason",
+    "MORNING": "Morning",
+    "EVENING": "Evening",
+    "NIGHT": "Night",
+    "UNIT": "Unit",
+    "ADD_MEDICATION": "Add Medication",
+    "EDIT_MEDICATION": "Edit Medication",
+    "PLACE_HOLDER": {
+      "MEDICATION_NAME": "Enter Medication Name",
+      "ROUTE_OF_ADMINISTRATION": "Select Route of Administration",
+      "TIMING": "Select Timing",
+      "FREQUENCY": "Select Frequency",
+      "DURATION": "Select Duration",
+      "QUANTITY": "Enter Quantity",
+      "UNIT": "Select Unit",
+      "START_DATE": "Select Start Date",
+      "INSTRUCTIONS": "Enter Instructions",
+      "STATUS": "Select Status",
+      "PRESCRIBED_BY": "Enter Prescribed By",
+      "REASON": "Enter Reason",
+      "SEARCH_MEDICINES": "Search Medicines"
+    },
+    "RESPONSE": {
+      "MEDICATION_DETAIL_ADD_SUCCESS": "Medication created successfully",
+      "MEDICATION_DETAIL_UPDATE_SUCCESS": "Medication updated successfully",
+      "MEDICATION_DETAIL_DELETE_SUCCESS": "Medication deleted successfully",
+      "MEDICATION_NOT_FOUND": "Medication not found",
+      "MEDICATION_ALREADY_EXISTS": "Medication already exists"
+    },
+    "TABLE": {
+      "EMPTY_MESSAGE": "No medication added for this patient."
+    }
+  },
+  "DIAGNOSIS": {
+    "DIAGNOSIS": "Diagnosis",
+    "CURRENT_DIAGNOSIS": "Current Diagnosis",
+    "DIAGNOSIS_NAME": "Diagnosis Name",
+    "ONSET_DATE": "Onset Date",
+    "REPORTED_DATE": "Reported Date",
+    "END_DATE": "End Date",
+    "STATUS": "Status",
+    "NOTES": "Notes",
+    "ADD_DIAGNOSIS": "Add Diagnosis",
+    "EDIT_DIAGNOSIS": "Edit Diagnosis",
+    "PLACE_HOLDER": {
+      "DIAGNOSIS_NAME": "Enter Diagnosis Name",
+      "ONSET_DATE": "Select Onset Date",
+      "REPORTED_DATE": "Select Reported Date",
+      "END_DATE": "Select End Date",
+      "STATUS": "Select Status",
+      "NOTES": "Enter Notes",
+      "SEARCH_DIAGNOSIS": "Search Diagnosis"
+    },
+    "RESPONSE": {
+      "DIAGNOSIS_DETAIL_ADD_SUCCESS": "Diagnosis created successfully",
+      "DIAGNOSIS_DETAIL_UPDATE_SUCCESS": "Diagnosis updated successfully",
+      "DIAGNOSIS_DETAIL_DELETE_SUCCESS": "Diagnosis deleted successfully",
+      "DIAGNOSIS_NOT_FOUND": "Diagnosis not found"
+    },
+    "TABLE": {
+      "EMPTY_MESSAGE": "No diagnosis added for this patient."
+    }
+  },
+  "LAB": {
+    "Labs": "Labs",
+    "Test_Name": "Test Name",
+    "Test_Type": "Test Type",
+    "Order_Date": "Order Date",
+    "Test_Date": "Test Date",
+    "Select_Appointment": "Select Appointment",
+    "Reason_For_Test": "Reason for Test",
+    "Ordering_Provider": "Ordering Provider",
+    "Sample_Required": "Sample Required",
+    "Sample_Collection_Location": "Sample Collection Location",
+    "Test_Instructions": "Test Instructions",
+    "Status": "Status",
+    "Add_Lab": "Add Lab",
+    "Edit_Lab": "Edit Lab",
+    "PLACE_HOLDER": {
+      "Test_Name": "Enter Test Name",
+      "Test_Type": "Select Test Type",
+      "Order_Date": "Select Order Date",
+      "Test_Date": "Select Test Date",
+      "Select_Appointment": "Select Appointment",
+      "Reason_For_Test": "Enter Reason for Test",
+      "Ordering_Provider": "Enter Ordering Provider",
+      "Sample_Required": "Enter Sample Required",
+      "Sample_Collection_Location": "Enter Sample Collection Location",
+      "Test_Instructions": "Enter Test Instructions",
+      "Status": "Select Status"
+    },
+    "RESPONSE": {
+      "LAB_DETAIL_ADD_SUCCESS": "Lab created successfully",
+      "LAB_DETAIL_UPDATE_SUCCESS": "Lab updated successfully",
+      "LAB_DETAIL_DELETE_SUCCESS": "Lab deleted successfully",
+      "LAB_NOT_FOUND": "Lab not found"
+    }
+  },
+  "ALLERGY": {
+    "ALLERGIES": "Allergies",
+    "ALLERGY_NAME": "Allergy Name",
+    "ALLERGEN_TYPE": "Allergen Type",
+    "REACTION_STATUS": "Reaction Status",
+    "REACTION_SYMPTOMS": "Reaction Symptoms",
+    "SEVERITY": "Severity",
+    "STATUS": "Status",
+    "ONSET_DATE": "Onset Date",
+    "RECORDED_DATE": "Recorded Date",
+    "REPORTS": "Reports",
+    "NOTES": "Notes",
+    "ADD_ALLERGY": "Add Allergy",
+    "EDIT_ALLERGY": "Edit Allergy",
+    "SAVE": "Save",
+    "CANCEL": "Cancel",
+    "PLACE_HOLDER": {
+      "ONSET_DATE": "Select Onset Date",
+      "NOTES": "Enter Notes",
+      "SEARCH_ALLERGENS": "Search Allergens",
+      "SELECT_SYMPTOMS": "Select Symptoms",
+      "SELECT_ONSET_DATE": "Select Onset Date",
+      "SELECT_RECORDED_DATE": "Select Recorded Date"
+    },
+    "TABLE": {
+      "TYPE": "Type",
+      "EMTPY_MESSAGE": "No allergies found."
+    },
+    "RESPONSE": {
+      "ALLERGY_DETAIL_ADD_SUCCESS": "Allergy created successfully",
+      "ALLERGY_DETAIL_UPDATE_SUCCESS": "Allergy updated successfully",
+      "ALLERGY_NOT_FOUND": "Allergy not found",
+      "ALLERGY_ALREADY_EXISTS": "Allergy already exists"
+    }
+  },
+  "IMMUNIZATION": {
+    "IMMUNIZATION": "Immunization",
+    "ADD_IMMUNIZATION": "Add Immunization",
+    "EDIT_IMMUNIZATION": "Edit Immunization",
+    "IMMUNIZATION_NAME": "Immunization Name",
+    "DOSE_NUMBER": "Dose Number",
+    "DOSE_NAME": "Dose Name",
+    "DATE_OF_VACCINATION": "Date of Vaccination",
+    "ADMINISTERED_BY": "Administered By",
+    "ROUTE": "Route",
+    "SITE": "Site",
+    "STATUS": "Status",
+    "COMMENTS": "Comments",
+    "PLACE_HOLDER": {
+      "SEARCH_IMMUNIZATION": "Search Immunization",
+      "IMMUNIZATION_NAME": "Enter Immunization Name",
+      "DOSE_NUMBER": "Select Dose Number",
+      "DOSE_NAME": "Enter Dose Name",
+      "DATE_OF_VACCINATION": "Select Date of Vaccination",
+      "ADMINISTERED_BY": "Enter Administered By",
+      "ROUTE": "Select Route",
+      "SITE": "Select Site",
+      "STATUS": "Select Status",
+      "COMMENTS": "Enter Comments"
+    },
+    "RESPONSE": {
+      "IMMUNIZATION_DETAIL_ADD_SUCCESS": "Immunization details added successfully.",
+      "IMMUNIZATION_DETAIL_UPDATE_SUCCESS": "Immunization details updated successfully.",
+      "IMMUNIZATION_DETAIL_DELETE_SUCCESS": "Immunization details deleted successfully.",
+      "IMMUNIZATION_NOT_FOUND": "Immunization not found."
+    },
+    "TABLE": {
+      "EMPTY_MESSAGE": "No immunization added for this patient."
+    }
+  },
+  "DOCUMENT": {
+    "DOCUMENTS": "Documents",
+    "NAME": "Name",
+    "DOCUMENT_NAME": "Document Name",
+    "DOCUMENT_TYPE": "Document Type",
+    "UPLOAD_DATE": "Upload Date",
+    "UPLOADED_BY": "Uploaded By",
+    "UPLOAD_DCUMENT": "Upload Document",
+    "LAST_MODIFIED_DATE":"Last Modified Date",
+    "DESCRIPTION": "Description",
+    "ADD_DOCUMENT": "Add Document",
+    "EDIT_DOCUMENT": "Edit Document",
+    "PLACE_HOLDER": {
+      "SEARCH_NAME": "Search Name",
+      "DOCUMENT_NAME": "Enter Document Name",
+      "DOCUMENT_TYPE": "Select Document Type",
+      "ENTER_DOCUMENT_TYPE": "Enter Document Type",
+      "UPLOAD_DATE": "Select Upload Date",
+      "DESCRIPTION": "Enter Description"
+    },
+    "RESPONSE": {
+      "DOCUMENT_UPLOADED_SUCCESS": "Document uploaded successfully.",
+      "DOCUMENT_UPDATED_SUCCESS": "Document updated successfully.",
+      "DOCUMENT_DELETED_SUCCESS": "Document deleted successfully!",
+      "DOCUMENT_NOT_FOUND": "Document not found",
+      "FILE_NOT_FOUND": "File not found"
+    },
+    "TABLE": {
+      "EMPTY_MESSAGE": "No documents added for this patient."
+    },
+    "TOOLTIP": {
+      "NOT_AUTHORIZED": "You are not authorized to perform this action"
+    }
+  }
+
+}

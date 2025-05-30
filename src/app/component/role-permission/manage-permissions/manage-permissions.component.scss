@@ -1,0 +1,12 @@
+::ng-deep app-manage-permissions {
+    .p-listbox-option-selected {
+        color: var(--p-button-primary-color)!important;
+        background: var(--p-button-primary-background) !important;
+    }
+
+    .p-tree {
+        padding-top: 0.5rem !important;
+        padding-bottom: 0.5rem !important;
+        width: 100% !important;
+    }
+}

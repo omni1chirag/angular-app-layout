@@ -1,4 +1,5 @@
 import { AfterViewInit, Directive, ElementRef, Input, OnInit, Renderer2 } from '@angular/core';
+import { i } from 'node_modules/@angular/cdk/data-source.d-7cab2c9d';
 
 @Directive({
   selector: '[pageHeader]',
@@ -26,11 +27,13 @@ export class PageHeaderDirective implements OnInit, AfterViewInit {
     );
 
     const toolbar = this.el.nativeElement.querySelector('p-toolbar .p-toolbar');
+    if (!toolbar) return;
     this.renderer.setStyle(toolbar, 'background-color', 'rgba(255,255,255,0.1)')
     this.renderer.setStyle(toolbar, 'backdrop-filter', 'blur(0.5rem)');
     this.renderer.setStyle(toolbar, '-webkit-backdrop-filter', 'blur(0.5rem)');
-    this.renderer.setStyle(toolbar, 'border-radius', '0 0 1rem 1rem');
+    this.renderer.setStyle(toolbar, 'border-radius', '0 0 0.5rem 0.5rem');
     this.renderer.setStyle(toolbar, 'padding', '0.50rem 0.75rem 0.50rem 0.75rem');
+    this.renderer.setStyle(toolbar, 'border-top', 'none');
 
 
   }

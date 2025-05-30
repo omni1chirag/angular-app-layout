@@ -1,0 +1,179 @@
+<div pageHeader="list">
+    <p-toolbar>
+        <ng-template #start>
+            <div class="flex items-center gap-2">
+                <p class="text-2xl font-bold sm:truncate sm:text-3xl sm:tracking-tight">
+                    Appointment List
+                </p>
+            </div>
+        </ng-template>
+
+        <ng-template #end>
+            <div class="flex items-center gap-2">
+                <p-button label="Add Appointment" (onClick)="addEditAppointment(undefined)" />
+            </div>
+        </ng-template>
+    </p-toolbar>
+</div>
+<div class="card">
+    <div class="flex justify-between table-options">
+        <button pButton label="Clear" class="p-button-outlined" icon="pi pi-filter-slash"
+            (click)="clear(appointmentTable)"></button>
+        <!-- <div class="flex justify-between items-center flex-column sm:flex-row gap-2">
+            <div class="flex items-center gap-2">
+                <button pButton label="Export" class="p-button-outlined" icon="pi pi-external-link"
+                    (click)="exportCSV(appointmentTable)"></button>
+            </div>
+        </div> -->
+    </div>
+    <p-divider></p-divider>
+    <p-table [value]="appointments" styleClass="mt-4" [paginator]="true" [totalRecords]="totalRecords"
+        [loading]="showLoader" [first]="first" [lazy]="true" [rows]="size" stripedRows
+        (onLazyLoad)="loadAppointments($event)" [(selection)]="selectedAppointment"
+        (selectionChange)="onSelectionChange()" [size]="'small'" [scrollable]="true" tableAutoScroll #appointmentTable>
+        <ng-template #header>
+            <tr>
+                <th style="width: 4rem" pFrozenColumn><p-tableHeaderCheckbox /></th>
+                <th style="min-width:200px" class="font-bold" pFrozenColumn>Patient Name
+                </th>
+                <th style="min-width:150px">Appointment Type
+                </th>
+                <th style="min-width:200px">Clinic
+                </th>
+                <th style="min-width:200px">Doctor
+                </th>
+                <th style="min-width:200px">Appointment Date
+                </th>
+                <th style="min-width:200px">Reason for Visit
+
+                </th>
+                <th style="min-width:150px">Appointment Status</th>
+                <th style="min-width:100px; text-align: center;" alignFrozen="right" pFrozenColumn [frozen]="actions"
+                    [ngClass]="{ 'font-bold': actions }" *ngIf="isBrowser">Actions</th>
+            </tr>
+            <tr>
+                <th pFrozenColumn></th>
+                <th pFrozenColumn>
+                    <p-columnFilter field="patient" [showMenu]="false" [showClearButton]="false">
+                        <ng-template #filter let-value let-filter="filterCallback">
+                            <p-autoComplete dropdown id="patient" [ngModel]="value" inputStyleClass="w-full"
+                                [suggestions]="patientSuggestions" optionLabel="label" optionValue="value"
+                                placeholder="Search by Patient Name" [dropdown]="false" [minLength]="3"
+                                [forceSelection]="true" (onClear)="filter(undefined)"
+                                (onSelect)="filter($event.value.value)" (completeMethod)="searchPatientName($event)"
+                                appendTo="body" />
+                        </ng-template>
+                    </p-columnFilter>
+                </th>
+                <th>
+                    <p-columnFilter field="appointmentType" [showMenu]="false" [showClearButton]="false">
+                        <ng-template #filter let-value let-filter="filterCallback">
+                            <p-multiselect dropdown [options]="appointmentTypeOptions" id="appointmentType"
+                                placeholder="Select Type" optionLabel="label" [ngModel]="value" optionValue="value"
+                                display="chip" [filter]="true" (onChange)="filter($event.value)"
+                                [style]="{'width': columnWidth/2+'px'}" class="w-full" appendTo="body" />
+                        </ng-template>
+                    </p-columnFilter>
+                </th>
+                <th>
+                    <p-columnFilter field="clinic" [showMenu]="false" [showClearButton]="false">
+                        <ng-template #filter let-value let-filter="filterCallback">
+                            <p-multiselect dropdown [options]="clinicOptions" id="clinic" placeholder="Select Clinic"
+                                optionLabel="label" [ngModel]="value" optionValue="value" display="chip" [filter]="true"
+                                (onChange)="onClinicChange($event.value); filter($event.value)"
+                                [style]="{'width': columnWidth+'px'}" class="w-full" appendTo="body" />
+                        </ng-template>
+                    </p-columnFilter>
+                </th>
+                <th>
+                    <p-columnFilter field="doctor" [showMenu]="false" [showClearButton]="false">
+                        <ng-template #filter let-value let-filter="filterCallback">
+                            <p-multiselect dropdown [options]="doctorOptions" id="doctor" placeholder="Select Doctor"
+                                optionLabel="label" [ngModel]="value || []" optionValue="value" display="chip"
+                                [filter]="true" (onChange)="filter($event.value)" [style]="{'width': columnWidth+'px'}"
+                                class="w-full" appendTo="body" />
+                        </ng-template>
+                    </p-columnFilter>
+                </th>
+                <th>
+                    <p-columnFilter type="date" field="appointmentDate" [showMenu]="false" [showClearButton]="false"
+                        ariaLabel="Filter Appointment Date">
+                        <ng-template #filter let-value let-filter="filterCallback">
+                            <p-datepicker inputId="calendar-12h" appendTo="body"
+                                (onSelect)="onDateRangeSelect(filterDate, filter)" placeholder="Select Date Range"
+                                [style]="{'width': columnWidth +'px'}" class="w-full" [(ngModel)]="filterDate"
+                                selectionMode="range" [readonlyInput]="true" dataType="string" [showTime]="false" />
+                        </ng-template>
+                    </p-columnFilter>
+
+                </th>
+                <th>
+                    <p-columnFilter field="reasonForVisit" [showMenu]="false" [showClearButton]="false"
+                        ariaLabel="Filter Reason For Visits">
+                        <ng-template #filter let-value let-filter="filterCallback">
+                            <p-autoComplete dropdown id="reasonForVisit" [ngModel]="value || []" multiple
+                                inputStyleClass="w-full" [style]="{'width': columnWidth+'px'}"
+                                [suggestions]="rfvSuggestions" placeholder="Search Reason for Visit" [dropdown]="false"
+                                [minLength]="3" [forceSelection]="true" (onClear)="filter(undefined)"
+                                (completeMethod)="searchRFV($event)" (ngModelChange)="filter($event)" />
+                        </ng-template>
+                    </p-columnFilter>
+                </th>
+                <th>
+                    <p-columnFilter field="appointmentStatus" [showMenu]="false" [showClearButton]="false">
+                        <ng-template #filter let-value let-filter="filterCallback">
+                            <p-multiselect [options]="appointmentStatusOptions" id="appointmentStatus"
+                                placeholder="Select Status" optionLabel="label" [ngModel]="value" optionValue="value"
+                                display="chip" [filter]="true" (onChange)="filter($event.value)"
+                                [style]="{'width': columnWidth/2 +'px'}" class="w-full" appendTo="body" />
+                        </ng-template>
+                    </p-columnFilter>
+                </th>
+                <th alignFrozen="right" pFrozenColumn [frozen]="actions"></th>
+            </tr>
+        </ng-template>
+        <ng-template #body let-appointment>
+            <tr>
+                <td pFrozenColumn><p-tableCheckbox [value]="appointment"></p-tableCheckbox></td>
+                <td pFrozenColumn>{{ appointment?.patient?.fullName }}</td>
+                <td>{{ appointment?.appointmentType }}</td>
+                <td>{{ appointment?.clinic?.clinicName }}</td>
+                <td>{{ appointment?.doctor?.fullName }}</td>
+                <td>{{ appointment?.appointmentDateTime | date: 'dd/MM/yyyy' }} {{ appointment?.appointmentDateTime |
+                    date: 'hh:mm a' }}
+                </td>
+                <td>{{ appointment?.rfv }}</td>
+                <td>{{ appointment?.appointmentStatus }}</td>
+                <td alignFrozen="right" pFrozenColumn [frozen]="actions" [ngClass]="{ 'font-bold': actions }"
+                    *ngIf="isBrowser">
+                    <p-menu #menu [popup]="true" [model]="optionsItems" appendTo="body">
+                        <ng-template #item let-item>
+                            <ng-container *ngIf="item.label =='Edit' ; else elseBlock">
+                                <span class="p-menu-item-link" (click)="addEditAppointment(appointment)">
+                                    <span [class]="item.icon"></span>
+                                    <span class="ml-2">{{ item.label }}</span>
+                                </span>
+                            </ng-container>
+                            <ng-template #elseBlock>
+                                <span class="p-menu-item-link"
+                                    (click)="updateAppointmentStatus([appointment?.appointmentId], 'CANCELLED')">
+                                    <span [class]="item.icon"></span>
+                                    <span class="ml-2">{{ item.label }}</span>
+                                </span>
+                            </ng-template>
+                        </ng-template>
+                    </p-menu>
+                    <div class="flex justify-center">
+                        <p-button icon="pi  pi-ellipsis-v" severity="secondary" rounded (click)="menu.toggle($event)"
+                            [raised]="true" />
+                    </div>
+                </td>
+            </tr>
+
+        </ng-template>
+    </p-table>
+
+</div>
+
+<app-appointment-add-edit *ngIf="isVisible" [appointment]="appointment" (onAppointmentUpdate)="reloadTable();"
+    [(isVisible)]="isVisible" [patient]="patientDetail"></app-appointment-add-edit>

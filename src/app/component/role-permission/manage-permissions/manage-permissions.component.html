@@ -1,0 +1,85 @@
+<div pageHeader>
+    <p-toolbar>
+        <ng-template #start>
+            <p class="text-2xl font-bold sm:truncate sm:text-3xl sm:tracking-tight">
+                Manage Permissions
+            </p>
+        </ng-template>
+        <ng-template #end>
+            <div class="flex space-x-3 justify-items-end">
+                <p-button label="Save" type="button" (onClick)="savePermission()" [loading]="isCallInitiated"
+                    [disabled]="isCallInitiated"></p-button>
+            </div>
+        </ng-template>
+    </p-toolbar>
+</div>
+
+
+<div class="card" style="margin-bottom: 0px!important;">
+    <div class="grid grid-cols-12 gap-6 flex-1 min-h-0">
+        <div
+            class="flex flex-col col-start-1 sm:col-start-1 md:col-start-1 col-span-full sm:col-span-full md:col-span-4 lg:col-span-5  roleGrid">
+            <p-listbox [options]="roles" [(ngModel)]="selectedRole" optionLabel="roleName" optionValue="roleId"
+                [highlightOnSelect]="true" [checkbox]="false" #roleListBox [multiple]="false"
+                (onClick)="roleChange($event)" [striped]="true" filterPlaceHolder="Search Role" [filter]="true"
+                class="w-full h-full">
+                <ng-template #header>
+                    <div class="flex justify-between w-full">
+                        <div class="text-xl font-bold sm:truncate sm:text-2xl sm:tracking-tight">Roles</div>
+                        <p-button label="Add Role" size="small" (onClick)="addRole()"></p-button>
+                    </div>
+                </ng-template>
+                <ng-template let-role #item>
+                    <div class="flex items-center justify-between gap-2 w-full">
+                        {{ role.roleName }}
+                        <div class="flex justify-center">
+                            <p-tag class="mr-3" [severity]="role.status === 1 ? 'success' : 'danger'"
+                                [value]="role.status == 1 ? 'Active':'Inactive'">
+                            </p-tag>
+                            <p-button icon="pi  pi-ellipsis-v" severity="secondary" rounded
+                                (click)=" $event.stopPropagation();menu.toggle($event);" [raised]="true" />
+                            <p-menu #menu [popup]="true" [model]="optionsItems" appendTo="body">
+                                <ng-template #item let-item>
+                                    <ng-container>
+                                        <span class="p-menu-item-link"
+                                            (click)="updateStatus(role.roleId,role.status == 1 ? 0 : 1)">
+                                            <span
+                                                [class]="role.status == 1 ? 'pi pi-times-circle': 'pi pi-check-circle' "></span>
+                                            <span class="ml-2">{{ role.status == 1 ? 'Deactivate': 'Activate'
+                                                }}</span>
+                                        </span>
+                                    </ng-container>
+                                </ng-template>
+                            </p-menu>
+                        </div>
+                    </div>
+                </ng-template>
+                <ng-template let-item #empty>
+                    <div class="grid justify-items-center">
+                        No results found
+                    </div>
+                </ng-template>
+            </p-listbox>
+        </div>
+
+        <div class="flex flex-col col-span-full sm:col-span-full md:col-span-8 lg:col-span-7 ">
+            <p-tree [value]="sourcePermissions" selectionMode="checkbox" styleClass="w-full p-listbox" [filter]="true"
+                filterPlaceholder="Search Permission" [loading]="isPermissionLoading" (onFilter)="onResize()"
+                scrollHeight="500px" [(selection)]="selectedPermissions">
+                <ng-template let-item #header>
+                    <div class="flex items-center gap-2 p-tree-header pb-2">
+                        <p class="text-xl font-bold sm:truncate sm:text-2xl sm:tracking-tight">Permissions
+                        </p>
+                    </div>
+                </ng-template>
+                <ng-template let-item #empty>
+                    <div class="p-tree-root grid p-5 justify-items-center">
+                        No results found
+                    </div>
+                </ng-template>
+            </p-tree>
+        </div>
+    </div>
+</div>
+
+<p-confirmdialog key="role-delete-confirmation" [position]="'top'" />

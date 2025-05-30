@@ -1,0 +1,30 @@
+<div class="sticky top-0 pt-2 pb-2 flex justify-between items-center gap-4">
+    <span class="text-lg font-semibold">
+        {{ title() }}
+    </span>
+    <div class="flex items-center gap-2">
+        <p-button icon="pi pi-search-plus" size="small" [rounded]="true" [text]="true"
+            [severity]="isZoomIn ?'primary':'secondary'" class="mr-3" (onClick)="activateZoom('In')" />
+        <p-button icon="pi pi-search-minus" size="small" [rounded]="true" [text]="true"
+            [severity]="isZoomOut ?'primary':'secondary'" class="mr-3" (onClick)="activateZoom('Out')" />
+        <p-button icon="pi pi-times" size="small" severity="secondary" [rounded]="true" [text]="true" class="mr-3"
+            (onClick)="onClose()" />
+    </div>
+</div>
+<div class="image-box h-full w-full pb-10">
+    <div class="h-full w-full overflow-x-hidden overflow-y-auto">
+        <p-image [src]="blobUrl" alt="Preview" class="w-full h-full" #imgComp>
+            <ng-template #image let-style="style">
+                <div class="overflow-hidden relative h-full" (mousedown)="startPan($event)" (mousemove)="doPan($event)"
+                    (mouseup)="endPan($event)" (mouseleave)="endPan($event)" style="cursor: grab;">
+
+                    <img [src]="blobUrl" [style]="style" [classList]="isPanning ? 'cursor-grabbing': 
+                                    isZoomOut ? 'cursor-zoom-out':
+                                    isZoomIn ? 'cursor-zoom-out':'cursor-default'" (click)="onPreviewClick($event)"
+                        #previewImg />
+                </div>
+            </ng-template>
+        </p-image>
+    </div>
+
+</div>

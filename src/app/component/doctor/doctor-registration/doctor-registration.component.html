@@ -1,0 +1,304 @@
+<div class="p-3">
+    <div class="card" style="background-color: #e2e8f0;padding :1rem;">
+        <div class="p-0">
+            <h3 class="text-base/7 font-semibold text-gray-900">Hello, {{doctor.firstName || 'doe'}}
+                {{doctor.lastName || 'john'}} Complete your profile to continue
+                <!-- <div class="flex col-span-full">
+                    <p-button label="Save" styleClass="w-full" size="large" (onClick)="submit()"></p-button>
+                </div> -->                
+            </h3>            
+            <p-divider></p-divider>
+            <form [formGroup]="doctorForm" *ngIf="doctorForm">
+                <div class="card">
+                    <div>
+                        <h3 class="text-base/7 font-semibold text-gray-900">Basic Details</h3>
+                    </div>
+                    <p-divider></p-divider>
+                    <div class="mt-5     grid grid-cols-12 gap-3">
+                        <div class="flex flex-col col-start-1 sm:col-start-1 md:col-start-1 col-span-full sm:col-span-6 md:col-span-1">
+                            <label for="title">Title</label>
+                            <div class="mt-2">
+                                <p-select id="title" formControlName="title" [options]="titles" optionLabel="label"
+                                    optionValue="value" placeholder="Select Title" class="w-full">
+                                </p-select>
+                            </div>
+                        </div>
+                        <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-2">
+                            <label mandatoryFieldLabel for="firstName">First Name</label>
+                            <div class="mt-2">
+                                <input pInputText type="text" id="firstName" formControlName="firstName" autocomplete="family-name"
+                                    class="w-full" placeholder="Enter First Name">
+                            </div>
+                        </div>
+                        <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-2">
+                            <label for="middleName">Middle Name</label>
+                            <div class="mt-2">
+                                <input pInputText type="text" id="middleName" formControlName="middleName" autocomplete="family-name"
+                                    class="w-full" placeholder="Enter Middle Name">
+                            </div>
+                        </div>
+                        <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-2">
+                            <label mandatoryFieldLabel for="lastName">Last Name</label>
+                            <div class="mt-2">
+                                <input pInputText type="text" id="lastName" formControlName="lastName" autocomplete="family-name"
+                                    class="w-full" placeholder="Enter Last Name">
+                            </div>
+                        </div>
+                        <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-2">
+                            <label mandatoryFieldLabel for="dateOfBirth">Date of Birth</label>
+                            <div class="mt-2">
+                                <p-datepicker dateMask  dateFormat="dd/mm/yy" class="w-full" [iconDisplay]="'input'" [maxDate]="currentDate"
+                                    formControlName="dateOfBirth" [showIcon]="true" [style]="{'width': '100%'}" dataType="string"
+                                    (onSelect)="calculateAge()" placeholder="Enter Date of Birth" [showButtonBar]="true" />
+                            </div>
+                        </div> 
+                        <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-1">
+                            <label for="age">Age</label>
+                            <div class="mt-2">
+                                <input pInputText type="text" formControlName="age" name="age" id="age" class="w-full"
+                                    placeholder="Enter Age">
+                            </div>
+                        </div>
+                        <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-1">
+                            <label mandatoryFieldLabel for="gender">Gender</label>
+                            <div class="mt-2">
+                                <p-select id="gender" formControlName="gender" [options]="genders" optionLabel="label"
+                                    optionValue="value" placeholder="Select Gender" class="w-full">
+                                </p-select>
+                            </div>
+                        </div>
+                        <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-6 lg:col-span-1" *ngIf="gender">
+                            <label for="genderFreeText">&nbsp;</label>
+                            <div class="mt-2">
+                                <input pInputText type="text" id="genderFreeText" formControlName="genderFreeText" class="w-full"
+                                    placeholder="Enter Gender">
+                            </div>
+                        </div>
+                        <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-3 lg:col-span-3">
+                            <label for="email" mandatoryFieldLabel>Email</label>
+                            <div class="mt-2">
+                                <input pInputText id="email" name="email" type="email" class="w-full" formControlname="email"
+                                    placeholder="Enter Email">
+                            </div>
+                        </div>
+                        <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-6 lg:col-span-2">
+                            <label for="MobileNumber" mandatoryFieldLabel>Mobile Number</label>
+                            <div class="mt-2">
+                                <p-inputgroup>
+                                    <p-inputgroup-addon>+91</p-inputgroup-addon>
+                                    <p-inputNumber phoneNumberMask  type="text" name="mobileNumber" id="mobileNumber"
+                                        formControlName="mobileNumber" class="w-full" placeholder="Enter Mobile Number"></p-inputNumber>
+                                </p-inputgroup>
+                            </div>
+                        </div>
+                        <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-6 lg:col-span-2">
+                            <label for="MedicalRegNumber" mandatoryFieldLabel>Medical Registration Number</label>
+                            <div class="mt-2">
+                                <input pInputText type="text" name="medicalRegNumber" id="medicalRegNumber"
+                                    formControlName="medicalRegNumber" class="w-full" placeholder="Enter Medical Registration Number">
+                            </div>
+                        </div>
+                        <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-2">
+                            <label mandatoryFieldLabel for="licenceExpiry">Licence Expiry Date</label>
+                            <div class="mt-2">
+                                <p-datepicker dateMask id="licenseExpiryDate" placeholder="Enter Licence Expiry Date" formControlName="licenseExpiryDate" [showIcon]="true" [showButtonBar]="true"
+                                    class="w-full"></p-datepicker>
+                            </div>
+                        </div>
+                        <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-3">
+                            <label mandatoryFieldLabel for="licence">Licence Issuing Authority</label>
+                            <div class="mt-2">
+                                <p-select id="licence" formControlName="licenceIssuingAuthority" [options]="LicenceList"
+                                    optionLabel="label" optionValue="value" placeholder="Select Licence Issuing Authority"
+                                    [filter]="true" class="w-full">
+                                </p-select>
+                            </div>
+                        </div>
+                        <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-2">
+                            <label for="Years">Years of Experience</label>
+                            <div class="mt-2">
+                                <input pInputText type="number" formControlName="yearsOfExp" id="Years" class="w-full"
+                                    placeholder="Enter Experience">
+                            </div>
+                        </div>
+                        <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-2">
+                            <label>Profile Picture</label>
+                            <div class="mt-2 flex justify-start">
+                                <app-file-upload formControlName="profilePicture" moduleId="1" [fileSize]="10" subModuleId="1"
+                                    source="Admin" [objectId]="doctorId" [fileTypeSupported]="documentTypes"></app-file-upload>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Specialization Details -->
+                <div class="card">
+                    <div>
+                        <h3 class="text-base/7 font-semibold text-gray-900">Specialization Details</h3>
+                    </div>
+                    <p-divider></p-divider>
+                    <div class="mt-5 grid grid-cols-12 gap-3">
+                        <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-3">
+                            <label mandatoryFieldLabel for="speciality">Speciality</label>
+                            <div class="mt-2">
+                                <p-select formControlName="speciality" [options]="specialities" optionLabel="label"
+                                    optionValue="label" placeholder="Select Specialities" display="chip" [filter]="true"
+                                    class="w-full"></p-select>
+                            </div>
+                        </div>
+                        <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-3">
+                            <label for="subSpeciality">Sub Speciality</label>
+                            <div class="mt-2">
+                                <p-select formControlName="subSpeciality" [options]="subSpecialities" optionLabel="label"
+                                    optionValue="label" placeholder="Select Sub Speciality" display="chip" [filter]="true"
+                                    class="w-full"></p-select>
+                            </div>
+                        </div>
+                        <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-3">
+                            <label mandatoryFieldLabel for="medicalDegree">Medical Degree</label>
+                            <div class="mt-2">
+                                <p-select formControlName="medicalDegree" [options]="medicalDegree" optionLabel="label"
+                                    optionValue="label" placeholder="Select Medical Degree" display="chip" [filter]="true"
+                                    class="w-full"></p-select>
+                            </div>
+                        </div>
+                        <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-3">
+                            <label for="practicingSince">Practicing Since</label>
+                            <div class="mt-2">
+                                <p-datepicker dateMask id="practicingSince" placeholder="Enter Practicing Since" formControlName="practicingSince" [showIcon]="true"
+                                    [showButtonBar]="true" class="w-full"></p-datepicker>
+                            </div>
+                        </div>
+                    </div>
+                </div>                
+                <!-- Practice Details -->
+                <div class="card">
+                    <div>
+                        <h3 class="text-base/7 font-semibold text-gray-900">Practice Details</h3>
+                    </div>
+                    <p-divider></p-divider>
+                    <div class="mt-5 grid grid-cols-12 gap-3">
+                        <div class="flex flex-col col-span-full sm:col-span-4 md:col-span-2">
+                            <label mandatoryFieldLabel for="gstin" >GSTIN</label>
+                            <div class="mt-2">
+                                <input pInputText id="gstin" type="text" placeholder="Enter GSTIN" class="w-full" formControlName="gstin" />
+                                <small class="text-red-600" *ngIf="doctorForm.get('gstin')?.invalid && doctorForm.get('gstin')?.touched">
+                                    Invalid GSTIN format
+                                </small>
+                            </div>
+                        </div>
+                        <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-2">
+                            <label mandatoryFieldLabel for="legalBusinessName">Legal Business Name</label>
+                            <div class="mt-2">
+                                <input pInputText id="legalBusinessName" type="text" placeholder="Enter Legal Organization Name"
+                                    class="w-full" formControlName="legalBusinessName" />
+                            </div>
+                        </div>
+                        <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-2">
+                            <label mandatoryFieldLabel for="PracticeName">Clinic Name</label>
+                            <div class="mt-2">
+                                <input pInputText id="PracticeName" type="text" placeholder="Enter Practice Name" class="w-full" formControlName="clinicName" />
+                            </div>
+                        </div>
+                        <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-2">
+                            <label>Upload Practice Logo</label>
+                            <div class="mt-2 flex justify-start">
+                                <app-file-upload formControlName="clinicLogo" moduleId="1" [fileSize]="10" subModuleId="2"
+                                    source="Admin" [objectId]="clinicId" [fileTypeSupported]="documentTypes"></app-file-upload>
+                            </div>
+                        </div>
+                        <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-2">
+                            <label>Upload Practice License</label>
+                            <div class="mt-2 flex justify-start">
+                                <app-file-upload formControlName="clinicLicense" moduleId="1" [fileSize]="10" subModuleId="2"
+                                    source="Admin" [objectId]="clinicId" [fileTypeSupported]="documentTypes"></app-file-upload>
+                            </div>
+                        </div>
+                    </div>
+                    <app-address></app-address>
+                </div>
+                <!-- Consultation Details -->
+                <div class="card">
+                    <div>
+                        <h3 class="text-base/7 font-semibold text-gray-900">Consultation Details</h3>
+                    </div>
+                    <p-divider></p-divider>
+                    <div class="mt-5 grid grid-cols-12 gap-3">
+                        <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-3">
+                            <label mandatoryFieldLabel class="font-medium">Consultation Mode</label>
+                            <div class="mt-2">
+                                <div class="flex gap-4" formGroupName="consultationMode">
+                                    <div class="flex items-center">
+                                        <p-checkbox inputId="checkOption1" value="In Person" formControlName="inPerson"></p-checkbox>
+                                        <label for="checkOption1" class="ml-2">In Person</label>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <p-checkbox inputId="checkOption2" value="Virtual" formControlName="virtual"></p-checkbox>
+                                        <label for="checkOption2" class="ml-2">Virtual</label>
+                                    </div>
+                                    <!-- <div class="flex items-center">
+                                        <p-checkbox inputId="checkOption3" value="Both" formControlName="both"></p-checkbox>
+                                        <label for="checkOption3" class="ml-2">Both</label>
+                                    </div> -->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-6">
+                            <label mandatoryFieldLabel class="font-medium">Available Days</label>
+                            <div class="mt-2">
+                                <p-selectButton [options]="daysoptions" formControlName="availableDays" [multiple]="true" optionLabel="label" optionValue="value"></p-selectButton>
+                            </div>
+                        </div>
+                        <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-2">
+                            <label mandatoryFieldLabel class="font-medium">Available Time</label>
+                            <div class="mt-2">
+                                <div class="flex items-center gap-4">
+                                    <input pInputText type="time" class="w-full" formControlName="startTime" />
+                                    <span>to</span>
+                                    <input pInputText type="time" class="w-full" formControlName="endTime" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex flex-col col-span-full col-start-1 sm:col-start-1 md:col-start-1 sm:col-span-6 md:col-span-2">
+                            <label mandatoryFieldLabel class="font-medium">Consultation Fee</label>
+                            <div class="mt-2">
+                                <input pInputText type="number" placeholder="Enter fee amount" class="w-full" formControlName="consultationFee" />
+                            </div>
+                        </div>
+                        <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-2">
+                            <label mandatoryFieldLabel for="paymentMode">Accepted Payment Mode</label>
+                            <div class="mt-2">
+                                <p-multiSelect [options]="paymentoptions" optionLabel="label" optionValue="label" placeholder="Select Accepted Payment Mode" display="chip" [filter]="true" class="w-full" formControlName="paymentMode"></p-multiSelect>
+                            </div>
+                        </div>
+                        <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-3">
+                            <label>Accepted Insurance Providers</label>
+                            <div class="mt-2">
+                                <p-select [options]="insuranceProviders" optionLabel="label" optionValue="label" placeholder="Select Accepted Insurance Providers" display="chip" [filter]="true" class="w-full" formControlName="insuranceProviders"></p-select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div>
+                        <h3 class="text-base/7 font-semibold text-gray-900">Terms and Conditions</h3>
+                    </div>
+                    <p-divider></p-divider>
+                    <div class="mt-5 grid grid-cols-12 gap-3">
+                        <div class="flex col-span-full">
+                            <p-checkbox inputId="agreeTC" formControlName="tc" binary="true"></p-checkbox>
+                            <label for="agreeTC" class="ml-2">I Agree the Terms and Conditions</label>
+                        </div>
+                        <div class="flex col-span-full">
+                            <p-checkbox inputId="agreeAC" formControlName="ac" binary="true"></p-checkbox>
+                            <label for="agreeAC" class="ml-2">Agree to Data Privacy Policy (HIPPA, GDPR, Compliance)</label>
+                        </div>                          
+                    </div>                    
+                        <div class="flex space-x-3 justify-items-end">
+                            <p-button label="Save" (onClick)="save()" [disabled]="doctorForm?.invalid" onclick="navigateToSubscriptionScreen()"></p-button>
+                            <p-button label="Cancel" variant="outlined" severity="danger"></p-button>
+                        </div>                    
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

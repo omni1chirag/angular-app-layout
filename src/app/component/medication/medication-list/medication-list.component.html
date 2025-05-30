@@ -1,0 +1,82 @@
+<div class="card">
+
+    <div>
+        <h4 class="text-base/7 font-semibold text-gray-900">{{ 'MEDICATION.MEDICATIONS' | translate }}</h4>
+    </div>
+    <p-divider />
+
+    <ng-container>
+        <p-table [value]="medicationsList" [reorderableColumns]="true" size="small" [paginator]="true"
+            [rows]="rowsPerPage" [totalRecords]="medicationsList.length">
+
+            <ng-template #body let-item let-index="rowIndex">
+                <tr [pReorderableRow]="index">
+                    <td>
+                        <span class="pi pi-bars" pReorderableRowHandle></span>
+                    </td>
+                    <td>
+                        <strong> {{ item.medicationName }} </strong>
+                    </td>
+                    <td>
+                        {{ 'MEDICATION.FREQUENCY' | translate }} : {{ item.morningFrequency }}-{{
+                        item.eveningFrequency}}-{{
+                        item.nightFrequency}} |
+
+                        {{ 'MEDICATION.TIMING' | translate }} : {{ getTiming(item.timing) }} |
+
+                        {{ 'MEDICATION.DURATION' | translate }} : {{ item.duration }} - {{
+                        getDurationUnit(item.durationUnit) }} |
+
+                        {{ 'MEDICATION.QUANTITY' | translate }} : {{ item.quantity }} - {{
+                        getQuantityUnit(item.quantityUnit) }}
+                    </td>
+                    <td style="width: 1%; text-align: right;">
+                        <p-tag [severity]="getTagSeverity(item.status)" [value]="getStatus(item.status)"
+                            [rounded]="true">
+                        </p-tag>
+                    </td>
+                    <td class="flex justify-center gap-2">
+                        <p-button icon="pi pi-pencil" variant="outlined" severity="info" [raised]="false"
+                            (onClick)="editMedication(item)" [rounded]="true" />
+                        <p-button icon="pi pi-trash" variant="outlined" severity="danger" [raised]="false"
+                            (onClick)="removeMedication(index, item)" [rounded]="true" />
+                    </td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+                <tr>
+                    <td colspan="4">
+                        <div class="text-center">
+                            <span class="text-lg">{{'MEDICATION.TABLE.EMPTY_MESSAGE' | translate}}</span>
+                        </div>
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </ng-container>
+
+    <span *ngIf="appointmentId()">
+
+        <div class="mt-5"></div>
+
+        <p-autoComplete class="w-full" [style]="{width:'100%'}" id="medicationName" [suggestions]="medicationSuggestion"
+            optionLabel="label" optionValue="value"
+            placeholder="{{ 'MEDICATION.PLACE_HOLDER.SEARCH_MEDICINES' | translate }}" [dropdown]="false" minLength="3"
+            (onSelect)="addMedication($event.value)" (completeMethod)="searchMedicines($event.query)"
+            [inputStyle]="{ width: '100%' }" appendTo="body">
+        </p-autoComplete>
+
+        <div class="mt-5">
+            <div class="flex flex-wrap gap-2">
+                <button *ngFor="let med of frequentlyUsedMedicines" type="button" pButton [rounded]="true"
+                    class="p-button p-button-outlined" (click)="addMedication(med)">
+                    {{ med.label }}
+                </button>
+            </div>
+        </div>
+    </span>
+</div>
+
+<app-medication-add-edit *ngIf="visible" [(isVisible)]="visible" [selectedMedication]="selectedMedication"
+    [appointmentId]="appointmentId()" [patientId]="patientId()"
+    (onMedicationUpdate)="loadMedications($event)"></app-medication-add-edit>

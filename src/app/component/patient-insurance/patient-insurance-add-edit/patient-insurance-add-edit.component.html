@@ -1,0 +1,111 @@
+<p-drawer [(visible)]="isVisible" position="right" appendTo="body" closable="false" blockScroll="true"
+    styleClass="!w-full sm:!w-80 md:!w-80 lg:!w-[40rem]">
+    <ng-template #header>
+        <span class="flex flex-col w-full">
+            <span class="flex w-full justify-between">
+                <h4 class="flex w-full text-base/7 font-semibold text-gray-900">{{'INSURANCE.' + mode | translate}}</h4>
+                <p-button icon="pi pi-times" class="flex justify-self-end" (onClick)="isVisible.set(false)"
+                    severity="secondary" [rounded]="true" [text]="true" />
+            </span>
+            <p-divider class="flex col-span-full w-full " />
+        </span>
+
+    </ng-template>
+
+    <form [formGroup]="insuranceForm" *ngIf="insuranceForm">
+        <div class="grid grid-cols-12 gap-6">
+            <div class="flex flex-col col-span-full">
+                <label mandatoryFieldLabel for="state">{{'INSURANCE.INSURANCE_PROVIDER_NAME' | translate}}</label>
+                <div class="mt-2">
+                    <p-select id="insuranceProviderName" formControlName="insuranceId" [options]="insuranceProviders"
+                        optionLabel="label" optionValue="value" [filter]="true" [resetFilterOnHide]="true"
+                        placeholder="{{ 'INSURANCE.PLACE_HOLDER.INSURANCE_PROVIDER_NAME' | translate }}" class="w-full"
+                        class="w-full">
+                        <ng-template #emptyfilter>
+                            <div class="flex items-center gap-2" (click)="setInsuranceToOther()">
+                                <div>Others</div>
+                            </div>
+                        </ng-template>
+                    </p-select>
+                </div>
+            </div>
+            <div class="flex flex-col col-span-full" *ngIf="insuranceProvider == 0">
+                <div>
+                    <input pInputText type="text" name="insuranceFreeText" id="insuranceFreeText"
+                        formControlName="insuranceFreeText" class="w-full"
+                        placeholder="{{ 'INSURANCE.PLACE_HOLDER.INSURANCE_PROVIDER_NAME_FREE_TEXT' | translate }}">
+                </div>
+            </div>
+            <div class="flex flex-col col-span-full">
+                <label mandatoryFieldLabel for="state">{{ 'INSURANCE.POLICY_NUMBER' | translate }}</label>
+                <div class="mt-2">
+                    <input pInputText type="text" name="policyNumber" id="policyNumber" formControlName="policyNumber"
+                        [maxlength]="30" class="w-full"
+                        placeholder="{{ 'INSURANCE.PLACE_HOLDER.POLICY_NUMBER' | translate }}">
+                </div>
+            </div>
+            <div class="flex flex-col col-span-full md:col-span-6 lg:col-span-6">
+                <label mandatoryFieldLabel for="last-name">{{'INSURANCE.POLICY_START_DATE' | translate }}</label>
+                <div class="mt-2">
+                    <p-datepicker dateMask dateFormat="dd/mm/yy" class="w-full" [iconDisplay]="'input'"
+                        formControlName="policyStartDate" [showIcon]="true" [style]="{'width': '100%'}"
+                        placeholder="{{ 'INSURANCE.PLACE_HOLDER.POLICY_START_DATE' | translate }}" />
+                </div>
+            </div>
+            <div class="flex flex-col col-span-full md:col-span-6 lg:col-span-6">
+                <label mandatoryFieldLabel for="last-name">{{ 'INSURANCE.POLICY_EXPIRY_DATE' | translate }}</label>
+                <div class="mt-2">
+                    <p-datepicker dateMask dateFormat="dd/mm/yy" class="w-full" [iconDisplay]="'input'"
+                        [minDate]="policyStartDate" formControlName="policyExpiryDate" [showIcon]="true"
+                        [style]="{'width': '100%'}"
+                        placeholder="{{ 'INSURANCE.PLACE_HOLDER.POLICY_EXPIRY_DATE' | translate }}" />
+                </div>
+            </div>
+            <div class="flex flex-col col-span-full">
+                <label for="policyBackSide">{{ 'INSURANCE.UPLOAD_INSURANCE_CARD_OR_POLICY' | translate }}</label>
+                <div class="mt-2 pt-2 grid grid-cols-12 gap-6">
+                    <div class="flex flex-col col-span-full">
+                        <label for="policyFrontSide">{{ 'INSURANCE.FRONT_SIDE' | translate }}</label>
+                        <div class="mt-2">
+                            <app-file-upload formControlName="policyFrontSide" [moduleId]="3" [fileSize]="10"
+                                [subModuleId]="9" source="Insurance" [objectId]="patientInsuranceId()" [isView]="true"
+                                [isDelete]="true" [fileTypeSupported]="documentTypes"></app-file-upload>
+                        </div>
+                    </div>
+                    <div class="flex flex-col col-span-full">
+                        <label for="policyBackSide">{{ 'INSURANCE.FRONT_SIDE' | translate }}</label>
+                        <div class="mt-2">
+                            <app-file-upload formControlName="policyBackSide" [moduleId]="3" [fileSize]="10"
+                                [subModuleId]="10" source="Insurance" [objectId]="patientInsuranceId()" [isView]="true"
+                                [isDelete]="true" [fileTypeSupported]="documentTypes"></app-file-upload>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex flex-col col-span-full sm:col-span-12 md:col-span-6  lg:col-span-6"
+                *ngIf="mode == 'EDIT_PATIENT_INSURANCE'">
+                <label mandatoryFieldLabel for="last-name" class="">{{ 'STATUS' | translate }}</label>
+                <div class="mt-2">
+                    <p-selectbutton [options]="statuses" formControlName="status" optionLabel="label" class="w-full"
+                        optionValue="value" size="large" />
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <ng-template #footer>
+        <p-divider />
+        <div class="grid grid-cols-12 gap-2">
+            <div class="hidden md:flex col-span-12 md:col-span-6"></div>
+            <div class="flex col-span-12 md:col-span-6 items-center gap-2">
+                <p-button label="{{'SAVE'| translate }}" size="small" (onClick)="save()" class="w-full"
+                    [styleClass]="'w-full sm:w-full md:w-full lg:w-full'" [loading]="isCallInitiated"
+                    [disabled]="isCallInitiated" />
+                <p-button label="{{'CANCEL'| translate }}" severity="danger" class="w-full"
+                    [styleClass]="'w-full sm:w-full md:w-full lg:w-full'" [outlined]="true"
+                    (onClick)="isVisible.set(false)" size="small" />
+            </div>
+        </div>
+    </ng-template>
+</p-drawer>

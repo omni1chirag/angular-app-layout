@@ -1,0 +1,121 @@
+<div class="mt-[1rem] grid grid-cols-12 gap-5 grid-flow-dense">
+
+    <!-- Practice Widget - Mobile first, then right side on desktop -->
+    <div class="col-span-12 lg:col-span-6 xl:col-span-3 xl:row-span-2 xl:col-start-10 lg:col-start-7 lg:row-span-2 order-first lg:order-none">
+        <div class="card mb-0 h-full">
+            <div class="grid grid-cols-12 gap-5 w-full"> <!-- Fixed gap typo and added w-full -->
+                <div class="flex flex-col col-span-8">
+                    <div class="text-surface-900 dark:text-surface-0 font-medium flex flex-col w-full">
+                        <label for="state">Selected Practice <span class="text-red-500">*</span></label>
+                        <div class="mt-2 w-full">
+                            <div class="text-surface-900 dark:text-surface-0 font-medium text-xl">Practice Name</div>
+                        </div>
+                    </div>
+                    <div class="text-surface-900 dark:text-surface-0 font-medium flex flex-col w-full mt-8">
+                        <label for="state">Select Practice <span class="text-red-500">*</span></label>
+                        <div class="mt-2 w-full">
+                            <p-select id="mapped" [(ngModel)]="practice" [options]="practices" optionLabel="name"
+                                placeholder="Enter Practice" class="w-full">
+                            </p-select>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex col-span-2 col-start-[-3] ml-auto items-center justify-center bg-orange-100 dark:bg-orange-400/10 rounded-border"
+                    style="width: 2.5rem; height: 2.5rem">
+                    <img svgIcon src="/assets/svg/clinic-svg-icon.svg" width="25" height="25" class="text-orange-500" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Other Widgets -->
+    <div class="col-span-12 lg:col-span-6 xl:col-span-3">
+        <div class="card mb-0">
+            <div class="flex justify-between mb-4">
+                <div>
+                    <span class="block text-muted-color font-medium mb-4">Today's appointment</span>
+                    <div class="text-surface-900 dark:text-surface-0 font-medium text-xl">30</div>
+                </div>
+                <div class="flex items-center justify-center bg-orange-100 dark:bg-orange-400/10 rounded-border"
+                    style="width: 2.5rem; height: 2.5rem">
+                    <i class="pi pi-indian-rupee text-orange-500 !text-xl"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-span-12 lg:col-span-6 xl:col-span-3">
+        <div class="card mb-0">
+            <div class="flex justify-between mb-4">
+                <div>
+                    <span class="block text-muted-color font-medium mb-4">Notifications & Alerts</span>
+                    <div class="text-surface-900 dark:text-surface-0 font-medium text-xl">₹42,111</div>
+                </div>
+                <div class="flex items-center justify-center bg-lime-100 dark:bg-lime-400/10 rounded-border"
+                    style="width: 2.5rem; height: 2.5rem">
+                    <i class="pi pi-wallet text-lime-500 !text-xl"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-span-12 lg:col-span-6 xl:col-span-3">
+        <div class="card mb-0">
+            <div class="flex justify-between mb-4">
+                <div>
+                    <span class="block text-muted-color font-medium mb-4">Pending Lab Test</span>
+                    <div class="text-surface-900 dark:text-surface-0 font-medium text-xl">132</div>
+                </div>
+                <div class="flex items-center justify-center bg-blue-100 dark:bg-blue-400/10 rounded-border"
+                    style="width: 2.5rem; height: 2.5rem">
+                    <i class="pi pi-user text-blue-500 !text-xl"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-span-12 lg:col-span-6 xl:col-span-3">
+        <div class="card mb-0">
+            <div class="flex justify-between mb-4">
+                <div>
+                    <span class="block text-muted-color font-medium mb-4">Prescription Refill Requests</span>
+                    <div class="text-surface-900 dark:text-surface-0 font-medium text-xl">152</div>
+                </div>
+                <div class="flex items-center justify-center bg-purple-100 dark:bg-purple-400/10 rounded-border"
+                    style="width: 2.5rem; height: 2.5rem">
+                    <i class="pi pi-check-circle text-purple-500 !text-xl"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-span-12 lg:col-span-6 xl:col-span-3">
+        <div class="card mb-0">
+            <div class="flex justify-between mb-4">
+                <div>
+                    <span class="block text-muted-color font-medium mb-4">Pending Claims & Payments</span>
+                    <div class="text-surface-900 dark:text-surface-0 font-medium text-xl">22</div>
+                </div>
+                <div class="flex items-center justify-center bg-amber-100 dark:bg-amber-400/10 rounded-border"
+                    style="width: 2.5rem; height: 2.5rem">
+                    <i class="pi pi-undo text-amber-500 !text-xl"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-span-12 lg:col-span-6 xl:col-span-3">
+        <div class="card mb-0">
+            <div class="flex justify-between mb-4">
+                <div>
+                    <span class="block text-muted-color font-medium mb-4">Today's & This Month's Revenue</span>
+                    <div class="text-surface-900 dark:text-surface-0 font-medium text-xl">152</div>
+                </div>
+                <div class="flex items-center justify-center bg-purple-100 dark:bg-purple-400/10 rounded-border"
+                    style="width: 2.5rem; height: 2.5rem">
+                    <i class="pi pi-check-circle text-purple-500 !text-xl"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
