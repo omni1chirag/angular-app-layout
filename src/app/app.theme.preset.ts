@@ -1,11 +1,8 @@
 
-import Aura from '@primeng/themes/aura';
-import Material from '@primeng/themes/Material';
-import Lara from '@primeng/themes/Lara';
-import Nora from '@primeng/themes/Nora';
+import Lara from '@primeng/themes/aura';
 import { definePreset } from "@primeng/themes";
 
-export const AppThemePreset = definePreset(Aura, {
+export const AppThemePreset = definePreset(Lara, {
     primitive: {
         borderRadius: {
             none: "0",

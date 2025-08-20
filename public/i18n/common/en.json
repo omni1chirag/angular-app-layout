@@ -33,28 +33,54 @@
     "ENTER_MOBILE": "Enter Mobile Number",
     "CONTACT_NUMBER": "Contact Number",
     "ENTER_CONTACT": "Enter Contact Number",
-    "EMAIL": "Email Address",
-    "ENTER_EMAIL": "Enter Email Address"
+    "EMAIL": "Email",
+    "ENTER_EMAIL": "Enter Email"
   },
-  "NAME":"Name",
-  "ADD":"Add",
+  "NAME": "Name",
+  "ADD": "Add",
+  "BACK": "Back",
   "EDIT": "Edit",
+  "ASSIGN": "assign",
   "SAVE": "Save",
   "CANCEL": "Cancel",
-  "EMAIL":"Email",
-  "MOBILE_NUMBER":"Mobile Number",
-  "ACTIONS":"Actions",
-  "STATUS":"Status",
-  "ACTIVATE":"Activate",
-  "DE_ACTIVATE":"Inactivate",
-  "CLINICAL_SUMMARY":"Clinical Summary",
-  "NO_DATA_FOUND":"No Data Found.",
-  "ADD_APPOINTMENT":"Add Appointment",
+  "EMAIL": "Email",
+  "MOBILE_NUMBER": "Mobile Number",
+  "ACTIONS": "Actions",
+  "STATUS": "Status",
+  "ACTIVATE": "Activate",
+  "DE_ACTIVATE": "Inactivate",
+  "CLINICAL_SUMMARY": "Clinical Summary",
+  "NO_DATA_FOUND": "No Data Found.",
+  "ADD_APPOINTMENT": "Add Appointment",
   "CLINIC": "Clinic",
+  "DOCTOR": "doctor",
   "DOCTOR_NAME": "Doctor Name",
   "NO_FILE_CHOSEN": "No file chosen",
+  "PATIENT_PROFILE": "Patient Profile",
+  "CLEAR": "Clear",
+  "LOCK": "Lock",
+  "UNLOCK": "Unlock",
   "PLACE_HOLDER": {
     "CLINIC": "Select Clinic",
     "DOCTOR": "Select Doctor"
+  },
+  "TOOLTIP": {
+    "NOT_AUTHORIZED": "You are not authorized to perform this action",
+    "LOCKED_CHART": "Chart is locked. Editing is not allowed at this time."
+  },
+  "CHARTING": {
+    "SIGN_OFF": "Sign Off",
+    "LOCKED": "Locked",
+    "UNLOCK": "Unlock",
+    "CONFIRM": "Confirm",
+    "CONFIRM_SIGNOFF_MESSAGE": "Are you sure you want to sign off this chart?",
+    "YES": "Yes",
+    "CONFIRM_UNLOCK": "Confirm Unlock",
+    "UNLOCK_CHART_REASON_HEADING": "Please provide a reason for unlocking this chart:",
+    "UNLOCK_CHART": "Unlock Chart",
+    "START_VISIT": "Start Visit",
+    "PLACE_HOLDER": {
+      "APPOINTMENT": "Select Appointment"
+    }
   }
 }

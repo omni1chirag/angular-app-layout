@@ -1,24 +1,18 @@
-import { ApplicationConfig, importProvidersFrom, provideZoneChangeDetection, APP_INITIALIZER } from '@angular/core';
-import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { APP_INITIALIZER, ApplicationConfig, importProvidersFrom, provideZoneChangeDetection } from '@angular/core';
 import { provideRouter, withEnabledBlockingInitialNavigation, withInMemoryScrolling } from '@angular/router';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import Aura from '@primeng/themes/aura';
 
-import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/http';
-import { provideClientHydration } from '@angular/platform-browser';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { providePrimeNG } from 'primeng/config';
 import { routes } from './app.routes';
-import { AppThemePreset } from './app.theme.preset';
-import { KeycloakService } from '@service/keycloak.service';
-import { MessageService } from 'primeng/api';
-import { NgxTranslateService } from '@service/ngx-translate.service';
+import { provideClientHydration, withEventReplay } from '@angular/platform-browser';
+import { providePrimeNG } from 'primeng/config';
+import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/http';
 import { HttpResponseInterceptor } from '@interceptor/http-response.interceptor';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { NgxTranslateService } from '@service/ngx-translate.service';
+import { MessageService } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
-
-export function kcFactory(kcService: KeycloakService) {
-  return () => kcService.init().catch(err => {
-    console.error('Keycloak initialization failed:', err);
-  });
-}
+import { AppThemePreset } from './app.theme.preset';
 
 export function ngxFactory(service: NgxTranslateService) {
   return () => service.init().catch(err => {
@@ -30,7 +24,7 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes, withInMemoryScrolling({ anchorScrolling: 'enabled', scrollPositionRestoration: 'enabled' }), withEnabledBlockingInitialNavigation()),
-    provideClientHydration(),
+    provideClientHydration(withEventReplay()),
     provideAnimationsAsync(),
     provideHttpClient(withFetch(), withInterceptors([
       HttpResponseInterceptor
@@ -56,12 +50,6 @@ export const appConfig: ApplicationConfig = {
     },
     {
       provide: APP_INITIALIZER,
-      useFactory: kcFactory,
-      deps: [KeycloakService],
-      multi: true,
-    },
-    {
-      provide: APP_INITIALIZER,
       useFactory: ngxFactory,
       deps: [NgxTranslateService],
       multi: true,
@@ -70,6 +58,3 @@ export const appConfig: ApplicationConfig = {
     DialogService
   ]
 };
-
-
-

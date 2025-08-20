@@ -13,11 +13,15 @@
     "PRESCRIBED_BY": "लिखने वाला डॉक्टर",
     "REASON": "कारण",
     "MORNING": "सुबह",
+    "AFTERNOON": "दोपहर",
     "EVENING": "शाम",
     "NIGHT": "रात",
     "UNIT": "इकाई",
     "ADD_MEDICATION": "दवा जोड़ें",
     "EDIT_MEDICATION": "दवा संपादित करें",
+    "PATIENT_NAME": "रोगी का नाम",
+    "LAST_UPDATED_DATE": "अंतिम अपडेट तिथि",
+    "APPOINTMENT": "नियुक्ति",
     "PLACE_HOLDER": {
       "MEDICATION_NAME": "दवा का नाम दर्ज करें",
       "ROUTE_OF_ADMINISTRATION": "प्रशासन के मार्ग का चयन करें",
@@ -31,17 +35,25 @@
       "STATUS": "स्थिति का चयन करें",
       "PRESCRIBED_BY": "लिखने वाले डॉक्टर को दर्ज करें",
       "REASON": "कारण दर्ज करें",
-      "SEARCH_MEDICINES": "दवाएं खोजें"
+      "SEARCH_MEDICINES": "दवाएं खोजें",
+      "SEARCH_PATIENT_NAME": "रोगी का नाम खोजें",
+      "APPOINTMENT": "नियुक्ति का चयन करें",
+      "OTHER": "अन्य",
+      "HOURS": "घंटे दर्ज करें"
     },
     "RESPONSE": {
       "MEDICATION_DETAIL_ADD_SUCCESS": "दवा सफलतापूर्वक जोड़ी गई",
       "MEDICATION_DETAIL_UPDATE_SUCCESS": "दवा सफलतापूर्वक अपडेट की गई",
       "MEDICATION_DETAIL_DELETE_SUCCESS": "दवा सफलतापूर्वक हटा दी गई",
       "MEDICATION_NOT_FOUND": "दवा नहीं मिली",
-      "MEDICATION_ALREADY_EXISTS": "दवा पहले से मौजूद है"
+      "MEDICATION_ALREADY_EXISTS": "दवा पहले से मौजूद है",
+      "ADD_CHART_IS_LOCKED": "नियुक्ति चार्ट लॉक किया गया है। इस समय दवा जोड़ने की अनुमति नहीं है।",
+      "EDIT_CHART_IS_LOCKED": "नियुक्ति चार्ट लॉक किया गया है। इस समय दवा संपादित करने की अनुमति नहीं है।",
+      "SUBSTANCE_PRESENT_IN_PATIENT_ALLERGIES": "चयनित दवा (दवा का नाम) रोगी की एलर्जी के समान पदार्थ है। कृपया वैकल्पिक दवा/ब्रांड या समान वर्ग की अन्य दवा चुनें।"
     },
     "TABLE": {
-      "EMPTY_MESSAGE": "इस मरीज के लिए कोई दवा नहीं जोड़ी गई।"
+      "EMPTY_MESSAGE": "इस मरीज के लिए कोई दवा नहीं जोड़ी गई।",
+      "LIST_EMTPY_MESSAGE": "कोई दवाएं दर्ज नहीं की गई हैं।"
     }
   },
   "DIAGNOSIS": {
@@ -75,6 +87,7 @@
     }
   },
   "LAB": {
+    "Order_Id": "आदेश आईडी",
     "Labs": "प्रयोगशालाएं",
     "Test_Name": "परीक्षण का नाम",
     "Test_Type": "परीक्षण प्रकार",
@@ -87,6 +100,7 @@
     "Sample_Collection_Location": "नमूना संग्रह स्थान",
     "Test_Instructions": "परीक्षण निर्देश",
     "Status": "स्थिति",
+    "Action": "कार्रवाई",
     "Add_Lab": "प्रयोगशाला जोड़ें",
     "Edit_Lab": "प्रयोगशाला संपादित करें",
     "PLACE_HOLDER": {
@@ -106,7 +120,9 @@
       "LAB_DETAIL_ADD_SUCCESS": "प्रयोगशाला सफलतापूर्वक जोड़ी गई",
       "LAB_DETAIL_UPDATE_SUCCESS": "प्रयोगशाला सफलतापूर्वक अपडेट की गई",
       "LAB_DETAIL_DELETE_SUCCESS": "प्रयोगशाला सफलतापूर्वक हटा दी गई",
-      "LAB_NOT_FOUND": "प्रयोगशाला नहीं मिली"
+      "LAB_NOT_FOUND": "प्रयोगशाला नहीं मिली",
+      "ADD_CHART_IS_LOCKED": "नियुक्ति चार्ट लॉक किया गया है। इस समय प्रयोगशाला जोड़ने की अनुमति नहीं है।",
+      "EDIT_CHART_IS_LOCKED": "नियुक्ति चार्ट लॉक किया गया है। इस समय प्रयोगशाला संपादित करने की अनुमति नहीं है।"
     }
   },
   "ALLERGY": {
@@ -173,7 +189,9 @@
       "IMMUNIZATION_DETAIL_ADD_SUCCESS": "टीकाकरण विवरण सफलतापूर्वक जोड़ा गया।",
       "IMMUNIZATION_DETAIL_UPDATE_SUCCESS": "टीकाकरण विवरण सफलतापूर्वक अपडेट किया गया।",
       "IMMUNIZATION_DETAIL_DELETE_SUCCESS": "टीकाकरण विवरण सफलतापूर्वक हटाया गया।",
-      "IMMUNIZATION_NOT_FOUND": "टीकाकरण नहीं मिला।"
+      "IMMUNIZATION_NOT_FOUND": "टीकाकरण नहीं मिला।",
+      "ADD_CHART_IS_LOCKED": "नियुक्ति चार्ट लॉक किया गया है। इस समय टीकाकरण जोड़ने की अनुमति नहीं है।",
+      "EDIT_CHART_IS_LOCKED": "नियुक्ति चार्ट लॉक किया गया है। इस समय टीकाकरण संपादित करने की अनुमति नहीं है।"
     },
     "TABLE": {
       "EMPTY_MESSAGE": "इस मरीज के लिए कोई टीकाकरण नहीं मिला।"
@@ -211,6 +229,47 @@
     },
     "TOOLTIP": {
       "NOT_AUTHORIZED": "आप इस क्रिया को करने के लिए अधिकृत नहीं हैं"
+    }
+  },
+  "CHARTING": {
+    "GENERATE_VISIT_REPORT": "विज़िट रिपोर्ट जनरेट करें",
+    "RESPONSE": {
+      "CHART_SIGNOFF_SUCCESS": "चार्ट सफलतापूर्वक साइन ऑफ किया गया",
+      "CHART_UNLOCK_SUCCESS": "चार्ट सफलतापूर्वक अनलॉक किया गया"
+    }
+  },
+  "VITAL": {
+    "VITALS": "महत्वपूर्ण संकेत",    
+    "ADD_VITAL": "महत्वपूर्ण संकेत जोड़ें",
+    "EDIT_VITAL": "महत्वपूर्ण संकेत संपादित करें",
+    "RECORDED_DATE":"रिकॉर्ड की गई तिथि",
+    "VITALS_ID": "महत्वपूर्ण संकेत आईडी",
+    "BODY_TEMPERATURE": "शरीर का तापमान",
+    "HEART_RATE": "दिल की धड़कन",
+    "RESPIRATORY_RATE": "श्वसन दर",
+    "BLOOD_PRESSURE": "रक्तचाप",
+    "SPO2": "ऑक्सीजन संतृप्ति",
+    "HEIGHT": "ऊंचाई",
+    "WEIGHT": "वजन",
+    "PLACE_HOLDER": {
+      "RECORDED_DATE": "रिकॉर्ड की गई तिथि चुनें",
+      "VITALS_ID": "महत्वपूर्ण संकेत आईडी दर्ज करें",
+      "BODY_TEMPERATURE": "शरीर का तापमान दर्ज करें",
+      "HEART_RATE": "दिल की धड़कन दर्ज करें",
+      "RESPIRATORY_RATE": "श्वसन दर दर्ज करें",
+      "BLOOD_PRESSURE": "रक्तचाप दर्ज करें",
+      "SPO2": "ऑक्सीजन संतृप्ति दर्ज करें",
+      "HEIGHT": "ऊंचाई दर्ज करें",
+      "WEIGHT": "वजन दर्ज करें"
+    },
+    "RESPONSE": {
+      "VITAL_DETAIL_ADD_SUCCESS": "महत्वपूर्ण संकेत सफलतापूर्वक जोड़ा गया.",
+      "VITAL_DETAIL_UPDATE_SUCCESS": "महत्वपूर्ण संकेत सफलतापूर्वक अपडेट किया गया.",
+      "VITAL_DETAIL_DELETE_SUCCESS": "महत्वपूर्ण संकेत सफलतापूर्वक हटाया गया.",
+      "VITAL_NOT_FOUND": "महत्वपूर्ण संकेत नहीं मिला."
+    },
+    "TABLE": {
+      "EMPTY_MESSAGE": "इस रोगी के लिए कोई महत्वपूर्ण संकेत नहीं जोड़ा गया."
     }
   }
 }

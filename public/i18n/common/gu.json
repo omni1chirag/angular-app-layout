@@ -20,7 +20,7 @@
     "ADDRESS1": "સરનામું 1",
     "ADDRESS2": "સરનામું 2",
     "ENTER_ADDRESS": "સરનામું દાખલ કરો",
-    "PINCODE": "પિનકોટ",
+    "PINCODE": "પિનકોડ",
     "ENTER_PINCODE": "પિનકોટ દાખલ કરો",
     "CITY": "શહેર",
     "SELECT_CITY": "શહેર પસંદ કરો",
@@ -49,11 +49,31 @@
   "DE_ACTIVATE": "નિષ્ક્રિય કરો",
   "CLINICAL_SUMMARY": "રણનાશક સારાંશ",
   "NO_DATA_FOUND": "કોઈ ડેટા મળ્યો નથી.",
-  
   "CLINIC": "ક્લિનિક",
   "DOCTOR_NAME": "ડોક્ટરનું નામ",
+  "NO_FILE_CHOSEN": "કોઈ ફાઇલ પસંદ કરેલ નથી",
+  "PATIENT_PROFILE": "રોગીની પ્રોફાઇલ",
   "PLACE_HOLDER": {
     "CLINIC": "ક્લિનિક પસંદ કરો",
     "DOCTOR": "ડોક્ટર પસંદ કરો"
+  },
+  "TOOLTIP": {
+    "NOT_AUTHORIZED": "તમે આ ક્રિયા કરવા માટે અધિકૃત નથી.",
+    "LOCKED_CHART": "આ ચાર્ટ લૉક કરેલો છે. તમે ફેરફારો કરી શકતા નથી."
+  },
+  "CHARTING": {
+    "SIGN_OFF": "સાઇન ઑફ",
+    "LOCKED": "લૉક થયેલ",
+    "UNLOCK": "અનલૉક કરો",
+    "CONFIRM": "પુષ્ટિ કરો",
+    "CONFIRM_SIGNOFF_MESSAGE": "શું તમે ખરેખર આ ચાર્ટ સાઇન ઑફ કરવા માંગો છો?",
+    "YES": "હાં",
+    "CONFIRM_UNLOCK": "અનલૉકની પુષ્ટિ કરો",
+    "UNLOCK_CHART_REASON_HEADING": "કૃપા કરીને આ ચાર્ટને અનલૉક કરવાનું કારણ આપો :",
+    "UNLOCK_CHART": "ચાર્ટ અનલૉક કરો",
+    "START_VISIT": "મુલાકાત શરૂ કરો",
+    "PLACE_HOLDER": {
+      "APPOINTMENT": "અપોઇન્ટમેન્ટ પસંદ કરો"
+    }
   }
 }

@@ -1,8 +1,7 @@
 /** @type {import('tailwindcss').Config} */
-import PrimeUI from 'tailwindcss-primeui';
 
 export default {
-    darkMode: ['selector', '[class="app-dark"]'],
+    darkMode: "class",
     content: ['./src/**/*.{html,ts,scss,css}', './index.html'],
     plugins: [],
     theme: {
@@ -13,5 +12,5 @@ export default {
             xl: '1200px',
             '2xl': '1920px'
         }
-    }
+    },
 };

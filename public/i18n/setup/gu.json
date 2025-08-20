@@ -1,0 +1,75 @@
+{
+  "CARE_PLAN_SETUP": {
+    "LIST_TITLE": "કેરપ્લેન સૂચિ",
+    "CARE_PLAN": "કવચ",
+    "ADD_CARE_PLAN": "કેરપ્લાન ઉમેરો",
+    "EDIT_CARE_PLAN": "કેરપ્લાન સંપાદિત કરો",
+    "SEARCH_FROM_MASTER": "માસ્ટરથી શોધ",
+    "DIAGNOSIS": "નિદાન",
+    "GOALS": "ધ્યેયો",
+    "GOAL": "ધ્યેય",
+    "SPECIALITY": "વિશેષતા",
+    "BASIC_DETAILS": "મૂળ વિગતો",
+    "DESCRIPTION": "વર્ણન",
+    "ACTIVE_PROBLEMS_DIAGNOSIS": "સક્રિય સમસ્યાઓ / નિદાન",
+    "VITALS_TASKS_TO_BE_MONITORED": "દ્રષ્ટિકોણ / કાર્યોનું નિરીક્ષણ કરવું",
+    "MONITOR_TYPE": "નિરીક્ષણ પ્રકાર",
+    "VITAL_TASK_NAME": "મહત્વપૂર્ણ / કાર્ય નામ",
+    "LOWER_THRESHOLD": "નીચો થ્રેશોલ્ડ",
+    "UPPER_THRESHOLD": "ઉપલા થ્રેશોલ્ડ",
+    "START_DATE": "પ્રારંભ તારીખ",
+    "END_DATE": "છેવર",
+    "ESCALATION_SETTINGS": "વધારાનું સેટિંગ્સ",
+    "ESCALATION_TRIGGER": "વધારાનું કારણ",
+    "ESCALATION_RECIPIENTS": "વધારાના પ્રાપ્તકર્તાઓ",
+    "COMMUNICATION_PREFERENCES": "સંદેશાવ્યવહાર પસંદગીઓ",
+    "MODE_OF_COMMUNICATION": "સંચારની પદ્ધતિ",
+    "PLACE_HOLDER": {
+      "SEARCH_NAME": "શોધ નામ",
+      "SELECT_SPECIALITY": "વિશેષતા પસંદ કરો",
+      "SEARCH_DIAGNOSIS": "નિદાન નિદાન",
+      "SEARCH_GOAL": "શોધ -ધ્યેય",
+      "SEARCH_CLINIC": "શોધ ક્લિનિક",
+      "SELECT_DOCTOR": "ડોક્ટર પસંદ કરો",
+      "ENTER_CARE_PLAN_NAME": "કેરપ્લાન નામ દાખલ કરો",
+      "ENTER_DESCRIPTION": "વર્ણન દાખલ કરો",
+      "SELECT_VITAL": "મહત્વપૂર્ણ પસંદ કરો",
+      "SELECT_TASK": "કાર્ય પસંદ કરો",
+      "ENTER_LOWER_THRESHOLD": "નીચલા થ્રેશોલ્ડ દાખલ કરો",
+      "ENTER_UPPER_THRESHOLD": "ઉપલા થ્રેશોલ્ડ દાખલ કરો"
+    },
+    "VALIDATION": {
+      "LOWER_THRESHOLD": "નીચલા થ્રેશોલ્ડ ઉપલા થ્રેશોલ્ડ કરતા ઓછું હોવું જોઈએ",
+      "UPPER_THRESHOLD": "ઉપલા થ્રેશોલ્ડ નીચલા થ્રેશોલ્ડ કરતા વધારે હોવો જોઈએ",
+      "DIAGNOSIS": "કૃપા કરીને ઓછામાં ઓછું એક નિદાન પસંદ કરો.",
+      "GOAL": "કૃપા કરીને ઓછામાં ઓછું એક ધ્યેય પસંદ કરો.",
+      "RECIPIENTS": "કૃપા કરીને ઓછામાં ઓછા એક પ્રાપ્તકર્તાઓ પસંદ કરો.",
+      "COMMUNICATION_MODE": "કૃપા કરીને ઓછામાં ઓછું એક સંદેશાવ્યવહાર પસંદ કરો."
+    },
+    "ESCALATION_TRIGGER_OPTION": {
+      "ABOVE": "ઉપલા મર્યાદા ઉપર",
+      "BELOW": "નીચી મર્યાદાની નીચે",
+      "BOTH": "બંને"
+    },
+    "ESCALATION_RECIPIENT": {
+      "NOTIFY_CARE_TEAM": "સાવચેતીભર્યું ટીમ",
+      "NOTIFY_DOCTOR": "ડોક્ટર",
+      "NOTIFY_AMBULANCE": "એમ્બ્યુલન્સ",
+      "NOTIFY_FAMILY_MEMBER": "કુટુંબનો સભ્ય"
+    },
+    "COMMUNICATION_MODE": {
+      "SMS": "એસ.એમ.એસ.",
+      "EMAIL": "ઇમેઇલ",
+      "PHONE_CALL": "ફોન ક call",
+      "APP_ALERT": "અરજી -ચેતવણી"
+    },
+    "RESPONSE": {
+      "CARE_PLAN_SETUP_ADD_SUCCESS": "કેરપ્લેન સેટઅપ સફળતાપૂર્વક બનાવેલ છે!",
+      "CARE_PLAN_SETUP_UPDATE_SUCCESS": "કેરપ્લેન સેટઅપ સફળતાપૂર્વક અપડેટ થયું!",
+      "CARE_PLAN_SETUP_ASSIGN_SUCCESS": "કેરપ્લેન સેટઅપ સફળતાપૂર્વક સોંપો!",
+      "CARE_PLAN_SETUP_NOT_FOUND": "કેરપ્લેન સેટઅપ મળ્યું નથી",
+      "CARE_PLAN_SETUP_MASTER_ALREADY_EXISTS": "કેરપ્લેન સેટઅપ પહેલેથી જ અસ્તિત્વમાં છે.",
+      "CARE_PLAN_SETUP_ALREADY_EXISTS": "કેરપ્લેન સેટઅપ પહેલેથી જ અસ્તિત્વમાં છે."
+    }
+  }
+}

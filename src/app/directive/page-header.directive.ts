@@ -1,5 +1,4 @@
 import { AfterViewInit, Directive, ElementRef, Input, OnInit, Renderer2 } from '@angular/core';
-import { i } from 'node_modules/@angular/cdk/data-source.d-7cab2c9d';
 
 @Directive({
   selector: '[pageHeader]',

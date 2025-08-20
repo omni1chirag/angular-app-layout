@@ -9,6 +9,8 @@ export interface AuthUserResponse {
         menuItems: any[]; // Replace 'any' with proper type if available
         user: any;        // Replace with actual user type
         dashboardRoute: string;
-        userClinics:any[]
+        userClinics:any[];
+        preferredClinicId: string;
+        doctorId: string;
     };
 }

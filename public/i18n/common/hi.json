@@ -44,11 +44,31 @@
   "DE_ACTIVATE": "निष्क्रिय करें",
   "CLINICAL_SUMMARY": "नैदानिक ​​सारांश",
   "NO_DATA_FOUND": "डाटा प्राप्त नहीं हुआ।",
-  
   "CLINIC": "क्लिनिक",
   "DOCTOR_NAME": "डॉक्टर का नाम",
+  "NO_FILE_CHOSEN": "कोई फ़ाइल नहीं चुनी गई",
+  "PATIENT_PROFILE": "मरीज़ की प्रोफ़ाइल",
   "PLACE_HOLDER": {
     "CLINIC": "क्लिनिक चुनें",
     "DOCTOR": "डॉक्टर चुनें"
+  },
+  "TOOLTIP": {
+    "NOT_AUTHORIZED": "आप इस क्रिया को करने के लिए अधिकृत नहीं हैं।",
+    "LOCKED_CHART": "यह चार्ट लॉक किया गया है। आप परिवर्तन नहीं कर सकते।"
+  },
+  "CHARTING": {
+    "SIGN_OFF": "साइन ऑफ",
+    "LOCKED": "लॉक किया गया",
+    "UNLOCK": "अनलॉक करें",
+    "CONFIRM": "पुष्टि करें",
+    "CONFIRM_SIGNOFF_MESSAGE": "क्या आप वाकई इस चार्ट को साइन ऑफ करना चाहते हैं?",
+    "YES": "हाँ",
+    "CONFIRM_UNLOCK": "अनलॉक की पुष्टि करें",
+    "UNLOCK_CHART_REASON_HEADING": "कृपया इस चार्ट को अनलॉक करने का कारण बताएं:",
+    "UNLOCK_CHART": "चार्ट अनलॉक करें",
+    "START_VISIT": "मुलाकात शुरू करें",
+    "PLACE_HOLDER": {
+      "APPOINTMENT": "नियुक्ति चुनें"
+    }
   }
 }

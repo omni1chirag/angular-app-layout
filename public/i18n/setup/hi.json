@@ -1,0 +1,75 @@
+{
+  "CARE_PLAN_SETUP": {
+    "LIST_TITLE": "केयरप्लेन सूची",
+    "CARE_PLAN": "केयरप्लेन",
+    "ADD_CARE_PLAN": "देखभाल योजना जोड़ें",
+    "EDIT_CARE_PLAN": "देखभाल योजना संपादित करें",
+    "SEARCH_FROM_MASTER": "मास्टर से खोजें",
+    "DIAGNOSIS": "निदान",
+    "GOALS": "लक्ष्य",
+    "GOAL": "लक्ष्य",
+    "SPECIALITY": "स्पेशलिटी",
+    "BASIC_DETAILS": "मूल विवरण",
+    "DESCRIPTION": "विवरण",
+    "ACTIVE_PROBLEMS_DIAGNOSIS": "सक्रिय समस्याएं / निदान",
+    "VITALS_TASKS_TO_BE_MONITORED": "विटाल / कार्यों की निगरानी की जानी चाहिए",
+    "MONITOR_TYPE": "मॉनिटर प्रकार",
+    "VITAL_TASK_NAME": "महत्वपूर्ण / कार्य नाम",
+    "LOWER_THRESHOLD": "निचली दहलीज",
+    "UPPER_THRESHOLD": "ऊपरी दहलीज",
+    "START_DATE": "आरंभ करने की तिथि",
+    "END_DATE": "अंतिम तिथि",
+    "ESCALATION_SETTINGS": "वृद्धि सेटिंग्स",
+    "ESCALATION_TRIGGER": "वृद्धि ट्रिगर",
+    "ESCALATION_RECIPIENTS": "वृद्धि प्राप्तकर्ता",
+    "COMMUNICATION_PREFERENCES": "संचार प्राथमिकताएं",
+    "MODE_OF_COMMUNICATION": "संचार का तरीका",
+    "PLACE_HOLDER": {
+      "SEARCH_NAME": "खोज नाम",
+      "SELECT_SPECIALITY": "विशेषता का चयन करें",
+      "SEARCH_DIAGNOSIS": "खोज निदान",
+      "SEARCH_GOAL": "खोज लक्ष्य",
+      "SEARCH_CLINIC": "खोज क्लिनिक",
+      "SELECT_DOCTOR": "डॉक्टर का चयन करें",
+      "ENTER_CARE_PLAN_NAME": "देखभाल योजना नाम दर्ज करें",
+      "ENTER_DESCRIPTION": "विवरण दर्ज करें",
+      "SELECT_VITAL": "एक महत्वपूर्ण का चयन करें",
+      "SELECT_TASK": "एक कार्य का चयन करें",
+      "ENTER_LOWER_THRESHOLD": "निचले दहलीज दर्ज करें",
+      "ENTER_UPPER_THRESHOLD": "ऊपरी दहलीज दर्ज करें"
+    },
+    "VALIDATION": {
+      "LOWER_THRESHOLD": "निचली सीमा ऊपरी सीमा से कम होनी चाहिए",
+      "UPPER_THRESHOLD": "ऊपरी सीमा निचली सीमा से अधिक होनी चाहिए",
+      "DIAGNOSIS": "कृपया कम से कम एक निदान चुनें।",
+      "GOAL": "कृपया कम से कम एक लक्ष्य चुनें।",
+      "RECIPIENTS": "कृपया कम से कम एक प्राप्तकर्ता का चयन करें।",
+      "COMMUNICATION_MODE": "कृपया कम से कम एक संचार का चयन करें।"
+    },
+    "ESCALATION_TRIGGER_OPTION": {
+      "ABOVE": "ऊपरी सीमा से ऊपर",
+      "BELOW": "निचली सीमा से नीचे",
+      "BOTH": "दोनों"
+    },
+    "ESCALATION_RECIPIENT": {
+      "NOTIFY_CARE_TEAM": "देखभाल दल",
+      "NOTIFY_DOCTOR": "चिकित्सक",
+      "NOTIFY_AMBULANCE": "एम्बुलेंस",
+      "NOTIFY_FAMILY_MEMBER": "परिवार सदस्य"
+    },
+    "COMMUNICATION_MODE": {
+      "SMS": "स्वामी",
+      "EMAIL": "ईमेल",
+      "PHONE_CALL": "फोन कॉल",
+      "APP_ALERT": "अनुप्रयोग अलर्ट"
+    },
+    "RESPONSE": {
+      "CARE_PLAN_SETUP_ADD_SUCCESS": "Care Plan सेटअप सफलतापूर्वक बनाया गया!",
+      "CARE_PLAN_SETUP_UPDATE_SUCCESS": "Care Plan सेटअप सफलतापूर्वक अपडेट किया गया!",
+      "CARE_PLAN_SETUP_ASSIGN_SUCCESS": "Care Plan सेटअप सफलतापूर्वक असाइन करें!",
+      "CARE_PLAN_SETUP_NOT_FOUND": "Care Plan सेटअप नहीं मिला",
+      "CARE_PLAN_SETUP_MASTER_ALREADY_EXISTS": "केयरप्लान सेटअप पहले से मौजूद है।",
+      "CARE_PLAN_SETUP_ALREADY_EXISTS": "केयरप्लान सेटअप पहले से मौजूद है।"
+    }
+  }
+}

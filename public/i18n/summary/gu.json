@@ -13,11 +13,15 @@
     "PRESCRIBED_BY": "લખનાર ડૉક્ટર",
     "REASON": "કારણ",
     "MORNING": "સવાર",
+    "AFTERNOON": "બપોર",
     "EVENING": "સાંજ",
     "NIGHT": "રાત",
     "UNIT": "એકમ",
     "ADD_MEDICATION": "દવા ઉમેરો",
     "EDIT_MEDICATION": "દવા સંપાદિત કરો",
+    "PATIENT_NAME": "રોગી નું નામ",
+    "LAST_UPDATED_DATE": "છેલ્લી અપડેટ તારીખ",
+    "APPOINTMENT": "નિયુક્તિ",
     "PLACE_HOLDER": {
       "MEDICATION_NAME": "દવા નું નામ દાખલ કરો",
       "ROUTE_OF_ADMINISTRATION": "આપવાનો માર્ગ પસંદ કરો",
@@ -31,17 +35,25 @@
       "STATUS": "સ્થિતિ પસંદ કરો",
       "PRESCRIBED_BY": "લખનાર ડૉક્ટર દાખલ કરો",
       "REASON": "કારણ દાખલ કરો",
-      "SEARCH_MEDICINES": "દવાઓ શોધો"
+      "SEARCH_MEDICINES": "દવાઓ શોધો",
+      "SEARCH_PATIENT_NAME": "રોગી નું નામ શોધો",
+      "APPOINTMENT": "નિયુક્તિ પસંદ કરો",
+      "OTHER": "અન્ય",
+      "HOURS": "કલાક દાખલ કરો"
     },
     "RESPONSE": {
       "MEDICATION_DETAIL_ADD_SUCCESS": "દવા સફળતાપૂર્વક ઉમેરવામાં આવી",
       "MEDICATION_DETAIL_UPDATE_SUCCESS": "દવા સફળતાપૂર્વક અપડેટ કરવામાં આવી",
       "MEDICATION_DETAIL_DELETE_SUCCESS": "દવા સફળતાપૂર્વક કાઢી નાખવામાં આવી",
       "MEDICATION_NOT_FOUND": "દવા મળી નથી",
-      "MEDICATION_ALREADY_EXISTS": "દવા પહેલેથી જ અસ્તિત્વમાં છે"
+      "MEDICATION_ALREADY_EXISTS": "દવા પહેલેથી જ અસ્તિત્વમાં છે",
+      "ADD_CHART_IS_LOCKED": "નિયુક્તિ ચાર્ટ લૉક થયેલ છે. આ સમયે દવા ઉમેરવાની મંજૂરી નથી.",
+      "EDIT_CHART_IS_LOCKED": "નિયુક્તિ ચાર્ટ લૉક થયેલ છે. આ સમયે દવા સંપાદિત કરવાની મંજૂરી નથી.",
+      "SUBSTANCE_PRESENT_IN_PATIENT_ALLERGIES": "પસંદ કરેલ દવા (દવા નું નામ) દર્દીની એલર્જી સાથે સમાન પદાર્થ ધરાવે છે. વિકલ્પ તરીકે, તમે અન્ય દવા/બ્રાન્ડ અથવા સમાન વર્ગની બીજી દવા પસંદ કરી શકો છો."
     },
     "TABLE": {
-      "EMPTY_MESSAGE": "આ દર્દી માટે કોઈ દવા ઉમેરવામાં આવી નથી."
+      "EMPTY_MESSAGE": "આ દર્દી માટે કોઈ દવા ઉમેરવામાં આવી નથી.",
+      "LIST_EMTPY_MESSAGE": "કોઈ દવાઓ નોંધાયેલ નથી."
     }
   },
   "DIAGNOSIS": {
@@ -75,6 +87,7 @@
     }
   },
   "LAB": {
+    "Order_Id": "ઓર્ડર આઈડી",
     "Labs": "લેબ્સ",
     "Test_Name": "પરીક્ષણનું નામ",
     "Test_Type": "પરીક્ષણ પ્રકાર",
@@ -87,6 +100,7 @@
     "Sample_Collection_Location": "નમૂનો એકત્રિત કરવાની જગ્યા",
     "Test_Instructions": "પરીક્ષણ સૂચનાઓ",
     "Status": "સ્થિતિ",
+    "Actions": "ક્રિયાઓ",
     "Add_Lab": "લેબ ઉમેરો",
     "Edit_Lab": "લેબ સંપાદિત કરો",
     "PLACE_HOLDER": {
@@ -107,7 +121,9 @@
       "LAB_DETAIL_UPDATE_SUCCESS": "લેબ્સ સફળતાપૂર્વક અપડેટ કરવામાં આવી",
       "LAB_DETAIL_DELETE_SUCCESS": "લેબ્સ સફળતાપૂર્વક કાઢી નાખવામાં આવી",
       "LAB_NOT_FOUND": "લેબ્સ મળી નથી",
-      "LAB_ALREADY_EXISTS": "લેબ્સ પહેલેથી જ અસ્તિત્વમાં છે"
+      "LAB_ALREADY_EXISTS": "લેબ્સ પહેલેથી જ અસ્તિત્વમાં છે",
+      "ADD_CHART_IS_LOCKED": "નિયુક્તિ ચાર્ટ લૉક થયેલ છે. આ સમયે લેબ ઉમેરવાની મંજૂરી નથી.",
+      "EDIT_CHART_IS_LOCKED": "નિયુક્તિ ચાર્ટ લૉક થયેલ છે. આ સમયે લેબ સંપાદિત કરવાની મંજૂરી નથી."
     }
   },
   "ALLERGY": {
@@ -171,10 +187,12 @@
       "COMMENTS": "ટિપ્પણીઓ દાખલ કરો"
     },
     "RESPONSE": {
-      "IMMUNIZATION_DETAIL_ADD_SUCCESS": "टीकाकरण विवरण सफलतापूर्वक जोड़ा गया।",
-      "IMMUNIZATION_DETAIL_UPDATE_SUCCESS": "टीकाकरण विवरण सफलतापूर्वक अपडेट किया गया।",
-      "IMMUNIZATION_DETAIL_DELETE_SUCCESS": "टीकाकरण विवरण सफलतापूर्वक हटाया गया।",
-      "IMMUNIZATION_NOT_FOUND": "टीकाकरण नहीं मिला।"
+      "IMMUNIZATION_DETAIL_ADD_SUCCESS": "ટીકાકરણ વિગતો સફળતાપૂર્વક ઉમેરાઈ.",
+      "IMMUNIZATION_DETAIL_UPDATE_SUCCESS": "ટીકાકરણ વિગતો સફળતાપૂર્વક અપડેટ થઈ.",
+      "IMMUNIZATION_DETAIL_DELETE_SUCCESS": "ટીકાકરણ વિગતો સફળતાપૂર્વક દૂર થઈ.",
+      "IMMUNIZATION_NOT_FOUND": "ટીકાકરણ મળ્યું નથી.",
+      "ADD_CHART_IS_LOCKED": "નિયુક્તિ ચાર્ટ લૉક થયેલ છે. આ સમયે ટીકાકરણ ઉમેરવાની મંજૂરી નથી.",
+      "EDIT_CHART_IS_LOCKED": "નિયુક્તિ ચાર્ટ લૉક થયેલ છે. આ સમયે ટીકાકરણ સંપાદિત કરવાની મંજૂરી નથી."
     },
     "TABLE": {
       "EMPTY_MESSAGE": "આ દર્દી માટે કોઈ ટીકાકરણ ઉમેરવામાં આવ્યું નથી."
@@ -213,5 +231,50 @@
     "TOOLTIP": {
       "NOT_AUTHORIZED": "તમે આ ક્રિયા કરવા માટે અધિકૃત નથી"
     }
+  },
+  "CHARTING": {
+    "GENERATE_VISIT_REPORT": "વીઝિટ રિપોર્ટ જનરેટ કરો",
+    "RESPONSE": {
+      "CHART_SIGNOFF_SUCCESS": "ચાર્ટ સફળતાપૂર્વક સાઇન ઓફ કરી",
+      "CHART_UNLOCK_SUCCESS": "ચાર્ટ સફળતાપૂર્વક અનલોક કરી"
+    }
+  },
+ "VITALS": {
+  "VITAL_SETUP": "જીવલક્ષણો સેટઅપ",
+  "VITALS": "જીવલક્ષણો",
+  "ADD_VITALS": "જીવલક્ષણો ઉમેરો",
+  "EDIT_VITALS": "જીવલક્ષણો સુધારો",
+  "RECORDED_DATE": "રેકાર્ડ થયેલી તારીખ",
+  "VITALS_ID": "જીવલક્ષણ આઈડી",
+  "BODY_TEMPERATURE": "શરીરનું તાપમાન",
+  "HEART_RATE": "હ્રદયની ગતિ",
+  "RESPIRATORY_RATE": "શ્વસન દર",
+  "BLOOD_PRESSURE": "લોહીનો દબાણ",
+  "SPO2": "ઓક્સિજન સેચ્યુરેશન",
+  "HEIGHT": "ઉંચાઈ",
+  "WEIGHT": "વજન",
+  "BMI": "બીએમઆઈ",
+  "BLOOD_GLUCOSE": "બ્લડ ગ્લૂકોઝ",
+  "ACTION": "ક્રિયા",
+  "PLACE_HOLDER": {
+    "BODY_TEMPERATURE": "શરીરનું તાપમાન દાખલ કરો (°C)",
+    "HEART_RATE": "હ્રદયની ગતિ દાખલ કરો (bpm)",
+    "RESPIRATORY_RATE": "શ્વસન દર દાખલ કરો (breaths/min)",
+    "BLOOD_PRESSURE": "લોહીનો દબાણ દાખલ કરો (mmHg)",
+    "SPO2": "ઓક્સિજન સેચ્યુરેશન (SpO2) દાખલ કરો (%)",
+    "HEIGHT": "ઉંચાઈ દાખલ કરો (cm)",
+    "WEIGHT": "વજન દાખલ કરો (kg)",
+    "BMI": "બીએમઆઈ દાખલ કરો",
+    "BLOOD_GLUCOSE": "બ્લડ ગ્લૂકોઝ દાખલ કરો (mg/dL)"
+  },
+  "RESPONSE": {
+    "VITALS_DETAIL_ADD_SUCCESS": "જીવલક્ષણો સફળતાપૂર્વક ઉમેરવામાં આવ્યા.",
+    "VITALS_DETAIL_UPDATE_SUCCESS": "જીવલક્ષણો સફળતાપૂર્વક અપડેટ થયા.",
+    "VITALS_DETAIL_DELETE_SUCCESS": "જીવલક્ષણો સફળતાપૂર્વક કાઢી નાખ્યા.",
+    "VITALS_NOT_FOUND": "જીવલક્ષણો મળ્યા નથી."
+  },
+  "TABLE": {
+    "EMPTY_MESSAGE": "આ દર્દી માટે જીવલક્ષણો ઉમેર્યા નથી."
   }
+}
 }

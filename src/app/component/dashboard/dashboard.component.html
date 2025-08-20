@@ -1,20 +1,36 @@
-<div class="card mt-[2rem] h-full">
-    <!-- <div class="font-semibold text-xl mb-4">Dashboard</div> -->
-    <div class="p-6">
-        <div class="flex mb-4">
-            <p-skeleton shape="circle" size="4rem" styleClass="mr-2"></p-skeleton>
-            <div>
-                <p-skeleton width="10rem" styleClass="mb-2"></p-skeleton>
-                <p-skeleton width="5rem" styleClass="mb-2"></p-skeleton>
-                <p-skeleton height=".5rem"></p-skeleton>
+<div class="grid grid-cols-12 gap-5 row-gap-5 mt-[1rem] grid-flow-dense">
+    <div class="col-span-12 lg:col-span-6 xl:col-span-3 h-full">
+        <div class="card mb-0 h-full">
+            <div class="flex justify-between mb-4">
+                <div>
+                    <span class="block text-muted-color font-medium mb-4">Balance</span>
+                    <div class="text-surface-900 dark:text-surface-0 font-medium text-xl">₹1000</div>
+                </div>
+                <div class="flex items-center justify-center bg-orange-100 dark:bg-orange-400/10 rounded-border"
+                    style="width: 2.5rem; height: 2.5rem">
+                    <i class="pi pi-indian-rupee text-orange-500 !text-xl"></i>
+                </div>
             </div>
-        </div>
-        <p-skeleton width="100%" height="200px"></p-skeleton>
-        <div class="m-[2rem]"></div>
-        <p-skeleton width="100%" height="100px"></p-skeleton>
-        <div class="flex justify-between mt-4">
-            <p-skeleton width="4rem" height="2rem"></p-skeleton>
-            <p-skeleton width="4rem" height="2rem"></p-skeleton>
+            <span class="text-muted-color"><p-button label="Pay now" [link]="true" (click)="showDialog()" /></span>
         </div>
     </div>
 </div>
+
+
+
+
+<p-dialog header="Pay Now" [modal]="true" [(visible)]="payNowDialogVisible" [style]="{ width: '25rem' }">
+    <span class="p-text-secondary block mb-8">Make payment</span>
+    <div class="flex items-center gap-4 mb-4">
+        <label for="amount" class="font-semibold w-24">Amount</label>
+        <p-inputnumber id="amount" class="flex-auto" autocomplete="off" [(ngModel)]="amount" maxlength="5" />
+    </div>
+    <div class="flex items-center gap-4 mb-8">
+        <label for="email" class="font-semibold w-24">Recipient</label>
+        <input pInputText id="email" class="flex-auto" autocomplete="off" [(ngModel)]="recipientId" />
+    </div>
+    <div class="flex justify-end gap-2">
+        <p-button label="Cancel" severity="secondary" (onClick)="payNowDialogVisible = false" />
+        <p-button label="Save" (onClick)="createOrder()" />
+    </div>
+</p-dialog>

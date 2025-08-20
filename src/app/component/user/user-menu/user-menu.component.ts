@@ -8,6 +8,7 @@ import { LayoutService } from '@service/layout.service';
 import { Router } from '@angular/router';
 import { MultiLangService } from '@service/multi-lang.service';
 import { KeycloakService } from '@service/keycloak.service';
+import { APP_ROUTES } from '@constants/app.constants';
 
 @Component({
   selector: 'app-user-menu',
@@ -61,33 +62,6 @@ export class UserMenuComponent {
           }
         ]
       },
-      {
-        label: 'Setup',
-        icon: 'pi pi-fw pi-cog',
-        items: [
-          {
-            label: 'Working Hours',
-            command: () => {
-              this.router.navigate(['home/setup/working-hours']);
-              this.hideUserMenu();
-            }
-          },
-          {
-            label: 'Consultation Charges',
-            command: () => {
-              this.router.navigate(['home/setup/consultation-charges']);
-              this.hideUserMenu();
-            }
-          },
-          {
-            label: 'Subscription',
-            command: () => {
-              this.router.navigate(['home/setup/subscription']);
-              this.hideUserMenu();
-            }
-          }
-        ]
-      }
     ];
 
     this.bottomItems = [
@@ -101,14 +75,13 @@ export class UserMenuComponent {
     ]
   }
 
-
   hideUserMenu() {
     this.layoutService.onToggleUserMenu();
   }
 
   editProfile() {
     this.hideUserMenu();
-    this.router.navigate(['home/profile']);
+    this.router.navigate([APP_ROUTES.APP+ '/profile']);
   }
 
   languageChange(language?: any) {
@@ -121,6 +94,6 @@ export class UserMenuComponent {
 
   onSignOut() {
     this.hideUserMenu();
-    this.keycloakService.logout('/logout');
+    this.keycloakService.logout(APP_ROUTES.APP);
   }
 }

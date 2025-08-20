@@ -1,0 +1,23 @@
+# Dependency directories
+node_modules/
+dist/
+e2e/
+
+# Editor and IDE files
+.vscode/
+.idea/
+
+# Environment variables
+.env
+.env.*
+
+# Git
+.git/
+.gitignore
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.nyc_output/
+coverage/

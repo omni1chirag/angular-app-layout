@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { ROUTES } from '@constants/app-routes.constant';
-import { KeycloakService } from '@service/keycloak.service';
+import { APP_ROUTES } from '@constants/app.constants';
+// import { KeycloakService } from '@service/keycloak.service';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 
 @Component({
@@ -12,20 +12,25 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
 })
 export class LoadingComponent {
   constructor(private router: Router,
-    private keycloakService: KeycloakService,
+    // private keycloakService: KeycloakService,
   ) {
 
   }
   ngOnInit(): void {
-    this.keycloakService.init().then(() => {
-      if (this.keycloakService.isAuthenticated()) {
-        console.log('User is authenticated, redirecting to dashboard...');
-        this.router.navigateByUrl(ROUTES.HOME+ROUTES.DASHBOARD)
-      } else {
-        console.log('User is not authenticated, redirecting to home...');
-        this.keycloakService.login(ROUTES.HOME);
-      }
-    });
+    console.log('Loading component initialized, redirecting to app...');
+
+    this.router.navigateByUrl(APP_ROUTES.APP)
+
+    
+    // this.keycloakService.init().then(() => {
+    //   if (this.keycloakService.isAuthenticated()) {
+    //     console.log('User is authenticated, redirecting to dashboard...');
+    //     this.router.navigateByUrl(ROUTES.HOME+ROUTES.DASHBOARD)
+    //   } else {
+    //     console.log('User is not authenticated, redirecting to home...');
+    //     this.keycloakService.login(ROUTES.HOME);
+    //   }
+    // });
   }
 
 }

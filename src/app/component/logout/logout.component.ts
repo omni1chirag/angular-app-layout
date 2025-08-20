@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { ROUTES } from '@constants/app-routes.constant';
+import { APP_ROUTES } from '@constants/app.constants';
 import { ErrorState } from '@interface/error-state.interface';
 import { KeycloakService } from '@service/keycloak.service';
 import { NotificationService } from '@service/notification.service';
@@ -18,25 +18,25 @@ export class LogoutComponent implements OnInit {
 
   constructor(private router: Router,
     private platformService: PlatformService,
-    private notificationService:NotificationService,
+    private notificationService: NotificationService,
     private keycloakService: KeycloakService) {
     const navigation = this.router.getCurrentNavigation();
     this.errorState = navigation?.extras?.state as ErrorState | null;
 
   }
 
-  ngOnInit(){
-    if(this.platformService.isBrowser()) {
-      if(this.errorState) {
-        this.notificationService.showError( this.errorState.message, this.errorState.errorCode);
+  ngOnInit() {
+    if (this.platformService.isBrowser()) {
+      if (this.errorState) {
+        this.notificationService.showError(this.errorState.detail, this.errorState.summary);
       }
     }
   }
-  goToLogin() {
-    this.keycloakService.login(ROUTES.HOME);
 
+  goToLogin() {
+    this.keycloakService.login(APP_ROUTES.APP);
   }
 
 
-  
+
 }

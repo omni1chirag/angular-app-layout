@@ -1,6 +1,8 @@
 export interface ErrorState {
-    errorCode: string;
-    message: string;
-    timestamp?: number;
-    error?: any;
+    code?: string;
+    severity?: string;
+    summary?: string;
+    path?: string;
+    status?: number;
+    detail?: any;
   }

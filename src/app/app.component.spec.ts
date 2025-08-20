@@ -14,16 +14,16 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it(`should have the 'omnihealth-india-ui' title`, () => {
+  it(`should have the 'omnihealth-india-patient-ui' title`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
-    expect(app.title).toEqual('omnihealth-india-ui');
+    expect(app.title).toEqual('omnihealth-india-patient-ui');
   });
 
   it('should render title', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('h1')?.textContent).toContain('Hello, omnihealth-india-ui');
+    expect(compiled.querySelector('h1')?.textContent).toContain('Hello, omnihealth-india-patient-ui');
   });
 });

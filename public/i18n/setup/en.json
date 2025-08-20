@@ -1,0 +1,78 @@
+{
+  "CARE_PLAN_SETUP": {
+    "LIST_TITLE": "Care Plan List",
+    "CARE_PLAN": "Care Plan",
+    "ADD_CARE_PLAN": "Add Care Plan",
+    "EDIT_CARE_PLAN": "Edit Care Plan",
+    "SEARCH_FROM_MASTER": "Search From Master",
+    "DIAGNOSIS": "Diagnosis",
+    "GOALS": "Goals",
+    "GOAL": "Goal",
+    "SPECIALITY": "Speciality",
+    "BASIC_DETAILS": "Basic Details",
+    "DESCRIPTION": "Description",
+    "ACTIVE_PROBLEMS_DIAGNOSIS": "Active Problems / Diagnosis",
+    "VITALS_TASKS_TO_BE_MONITORED": "Vitals / Tasks to be Monitored",
+    "MONITOR_TYPE": "Monitor Type",
+    "VITAL_TASK_NAME": "Vital / Task Name",
+    "LOWER_THRESHOLD": "Lower Threshold",
+    "UPPER_THRESHOLD": "Upper Threshold",
+    "START_DATE": "Start Date",
+    "END_DATE": "End Date",
+    "ESCALATION_SETTINGS": "Escalation Settings",
+    "ESCALATION_TRIGGER": "Escalation Trigger",
+    "ESCALATION_RECIPIENTS": "Escalation Recipients",
+    "COMMUNICATION_PREFERENCES": "Communication Preferences",
+    "MODE_OF_COMMUNICATION": "Mode of Communication",
+    "PLACE_HOLDER": {
+      "SEARCH_NAME": "Search Name",
+      "SELECT_STATUS": "Select Status",
+      "SELECT_SPECIALITY": "Select Speciality",
+      "SEARCH_DIAGNOSIS": "Search Diagnosis",
+      "SEARCH_GOAL": "Search Goal",
+      "SEARCH_CLINIC": "Search Clinic",
+      "SELECT_DOCTOR": "Select Doctor",
+      "ENTER_CARE_PLAN_NAME": "Enter Care Plan Name",
+      "ENTER_DESCRIPTION": "Enter description",
+      "SELECT_VITAL": "Select a Vital",
+      "SELECT_TASK": "Select a Task",
+      "ENTER_LOWER_THRESHOLD": "Enter Lower Threshold",
+      "ENTER_UPPER_THRESHOLD": "Enter Upper Threshold"
+    },
+    "VALIDATION": {
+      "LOWER_THRESHOLD": "Lower Threshold must be less than Upper Threshold",
+      "UPPER_THRESHOLD": "Upper Threshold must be greater than Lower Threshold",
+      "DIAGNOSIS": "Please select at least one diagnosis.",
+      "GOAL": "Please select at least one goal.",
+      "RECIPIENTS": "Please select at least one recipients.",
+      "COMMUNICATION_MODE": "Please select at least one communication."
+    },
+    "ESCALATION_TRIGGER_OPTION": {
+      "ABOVE": "Above Upper Limit",
+      "BELOW": "Below Lower Limit",
+      "BOTH": "Both"
+    },
+    "ESCALATION_RECIPIENT": {
+      "NOTIFY_CARE_TEAM": "Care Team",
+      "NOTIFY_DOCTOR": "Doctor",
+      "NOTIFY_AMBULANCE": "Ambulance",
+      "NOTIFY_FAMILY_MEMBER": "Family Member"
+    },
+    "COMMUNICATION_MODE": {
+      "SMS": "SMS",
+      "EMAIL": "Email",
+      "PHONE_CALL": "Phone Call",
+      "APP_ALERT": "Application Alert"
+    },
+    "RESPONSE": {
+      "CARE_PLAN_SETUP_ADD_SUCCESS": "Care plan setup created successfully!",
+      "CARE_PLAN_SETUP_UPDATE_SUCCESS": "Care plan setup updated successfully!",
+      "CARE_PLAN_SETUP_ASSIGN_SUCCESS": "Care plan setup assign successfully!",
+      "CARE_PLAN_SETUP_NOT_FOUND": "Care plan setup not found",
+      "CARE_PLAN_SETUP_MASTER_ALREADY_EXISTS": "Care plan setup already exists.",
+      "CARE_PLAN_SETUP_ALREADY_EXISTS": "Care plan setup already exists.",
+      "CARE_PLAN_SETUP_ACTIVATED":"Care plan setup has been activated successfully.",
+      "CARE_PLAN_SETUP_DEACTIVATED":"Care plan setup has been deactivated successfully."
+    }
+  }
+}

@@ -18,10 +18,10 @@ export class NotificationService {
     });
   }
 
-  showInfo(detail: string): void {
+  showInfo(detail: string, summary?: string): void {
     this.messageService.add({
       severity: 'info',
-      summary: 'Info',
+      summary: summary ? summary : 'Info',
       detail,
       life: 5000,
       key: 'notification-toaster'

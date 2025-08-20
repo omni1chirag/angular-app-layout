@@ -13,11 +13,15 @@
     "PRESCRIBED_BY": "Prescribed By",
     "REASON": "Reason",
     "MORNING": "Morning",
+    "AFTERNOON": "Afternoon",
     "EVENING": "Evening",
     "NIGHT": "Night",
     "UNIT": "Unit",
     "ADD_MEDICATION": "Add Medication",
     "EDIT_MEDICATION": "Edit Medication",
+    "PATIENT_NAME": "Patient Name",
+    "LAST_UPDATED_DATE": "Last Updated Date",
+    "APPOINTMENT": "Appointment",
     "PLACE_HOLDER": {
       "MEDICATION_NAME": "Enter Medication Name",
       "ROUTE_OF_ADMINISTRATION": "Select Route of Administration",
@@ -31,17 +35,25 @@
       "STATUS": "Select Status",
       "PRESCRIBED_BY": "Enter Prescribed By",
       "REASON": "Enter Reason",
-      "SEARCH_MEDICINES": "Search Medicines"
+      "SEARCH_MEDICINES": "Search Medicines",
+      "SEARCH_PATIENT_NAME": "Search Patient Name",
+      "APPOINTMENT": "Select Appointment",
+      "OTHER": "Other",
+      "HOURS": "Enter hours"
     },
     "RESPONSE": {
       "MEDICATION_DETAIL_ADD_SUCCESS": "Medication created successfully",
       "MEDICATION_DETAIL_UPDATE_SUCCESS": "Medication updated successfully",
       "MEDICATION_DETAIL_DELETE_SUCCESS": "Medication deleted successfully",
       "MEDICATION_NOT_FOUND": "Medication not found",
-      "MEDICATION_ALREADY_EXISTS": "Medication already exists"
+      "MEDICATION_ALREADY_EXISTS": "Medication already exists",
+      "ADD_CHART_IS_LOCKED": "Appointment chart is locked. Adding medication is not allowed at this time.",
+      "EDIT_CHART_IS_LOCKED": "Appointment chart is locked. Editing medication is not allowed at this time.",
+      "SUBSTANCE_PRESENT_IN_PATIENT_ALLERGIES": "Selected Drug/Medicine (Dug Name) have similar substance of Patient Allergy. Suggesting you choose the alternative drug salt/brand or another drug from same class."
     },
     "TABLE": {
-      "EMPTY_MESSAGE": "No medication added for this patient."
+      "EMPTY_MESSAGE": "No medication added for this patient.",
+      "LIST_EMTPY_MESSAGE": "No Medications recorded."
     }
   },
   "DIAGNOSIS": {
@@ -75,6 +87,7 @@
     }
   },
   "LAB": {
+    "Order_Id": "Order ID",
     "Labs": "Labs",
     "Test_Name": "Test Name",
     "Test_Type": "Test Type",
@@ -87,6 +100,7 @@
     "Sample_Collection_Location": "Sample Collection Location",
     "Test_Instructions": "Test Instructions",
     "Status": "Status",
+    "Action": "Action",
     "Add_Lab": "Add Lab",
     "Edit_Lab": "Edit Lab",
     "PLACE_HOLDER": {
@@ -106,7 +120,9 @@
       "LAB_DETAIL_ADD_SUCCESS": "Lab created successfully",
       "LAB_DETAIL_UPDATE_SUCCESS": "Lab updated successfully",
       "LAB_DETAIL_DELETE_SUCCESS": "Lab deleted successfully",
-      "LAB_NOT_FOUND": "Lab not found"
+      "LAB_NOT_FOUND": "Lab not found",
+      "ADD_CHART_IS_LOCKED": "Appointment chart is locked. Adding lab is not allowed at this time.",
+      "EDIT_CHART_IS_LOCKED": "Appointment chart is locked. Editing lab is not allowed at this time."
     }
   },
   "ALLERGY": {
@@ -153,14 +169,21 @@
     "DOSE_NAME": "Dose Name",
     "DATE_OF_VACCINATION": "Date of Vaccination",
     "ADMINISTERED_BY": "Administered By",
+    "LAST_UPLOADED_BY": "Last Uploaded By",
     "ROUTE": "Route",
     "SITE": "Site",
     "STATUS": "Status",
     "COMMENTS": "Comments",
+    "VACCINE_NAME": "Vaccine Name",
+    "PATIENT_NAME": "Patient Name",
+    "APPOINTMENT": "Appointment",
     "PLACE_HOLDER": {
+      "SEARCH_PATIENT_NAME": "Search Patient Name",
       "SEARCH_IMMUNIZATION": "Search Immunization",
       "IMMUNIZATION_NAME": "Enter Immunization Name",
+      "VACCINE_NAME": "Enter Vaccine Name",
       "DOSE_NUMBER": "Select Dose Number",
+      "APPOINTMENT": "Select Appointment",
       "DOSE_NAME": "Enter Dose Name",
       "DATE_OF_VACCINATION": "Select Date of Vaccination",
       "ADMINISTERED_BY": "Enter Administered By",
@@ -173,10 +196,13 @@
       "IMMUNIZATION_DETAIL_ADD_SUCCESS": "Immunization details added successfully.",
       "IMMUNIZATION_DETAIL_UPDATE_SUCCESS": "Immunization details updated successfully.",
       "IMMUNIZATION_DETAIL_DELETE_SUCCESS": "Immunization details deleted successfully.",
-      "IMMUNIZATION_NOT_FOUND": "Immunization not found."
+      "IMMUNIZATION_NOT_FOUND": "Immunization not found.",
+      "ADD_CHART_IS_LOCKED": "Appointment chart is locked. Adding immunization is not allowed at this time.",
+      "EDIT_CHART_IS_LOCKED": "Appointment chart is locked. Editing immunization is not allowed at this time."
     },
     "TABLE": {
-      "EMPTY_MESSAGE": "No immunization added for this patient."
+      "EMPTY_MESSAGE": "No immunization records available.",
+      "PATIENT_EMPTY_MESSAGE": "No immunization added for this patient."
     }
   },
   "DOCUMENT": {
@@ -187,7 +213,7 @@
     "UPLOAD_DATE": "Upload Date",
     "UPLOADED_BY": "Uploaded By",
     "UPLOAD_DCUMENT": "Upload Document",
-    "LAST_MODIFIED_DATE":"Last Modified Date",
+    "LAST_MODIFIED_DATE": "Last Modified Date",
     "DESCRIPTION": "Description",
     "ADD_DOCUMENT": "Add Document",
     "EDIT_DOCUMENT": "Edit Document",
@@ -212,6 +238,139 @@
     "TOOLTIP": {
       "NOT_AUTHORIZED": "You are not authorized to perform this action"
     }
+  },
+  "CHARTING": {
+    "GENERATE_VISIT_REPORT": "Generate Visit Report",
+    "RESPONSE": {
+      "CHART_SIGNOFF_SUCCESS": "Chart signed off successfully",
+      "CHART_UNLOCK_SUCCESS": "Chart unlocked successfully"
+    }
+  },
+  "VITALS": {
+    "VITAL_SETUP": "Vital Setup",
+    "VITALS": "Vitals",
+    "ADD_VITALS": "Add Vitals",
+    "EDIT_VITALS": "Edit Vitals",
+    "RECORDED_DATE": "Recorded Date",
+    "VITALS_ID": "Vitals ID",
+    "BODY_TEMPERATURE": "Body Temperature",
+    "HEART_RATE": "Heart Rate",
+    "RESPIRATORY_RATE": "Respiratory Rate",
+    "BLOOD_PRESSURE": "Blood Pressure",
+    "SPO2": "SpO2",
+    "HEIGHT": "Height",
+    "WEIGHT": "Weight",
+    "BMI": "BMI",
+    "BLOOD_GLUCOSE": "Blood Glucose",
+    "ACTION": "Action",
+    "PLACE_HOLDER": {
+      "BODY_TEMPERATURE": "Enter Body Temperature (°C)",
+      "HEART_RATE": "Enter Heart Rate (bpm)",
+      "RESPIRATORY_RATE": "Enter Respiratory Rate (breaths/min)",
+      "BLOOD_PRESSURE": "Enter Blood Pressure (mmHg)",
+      "SPO2": "Enter Oxygen Saturation (SpO2) (%)",
+      "HEIGHT": "Enter Height (cm)",
+      "WEIGHT": "Enter Weight (kg)",
+      "BMI": "Enter BMI",
+      "BLOOD_GLUCOSE": "Enter Blood Glucose (mg/dL)"
+    },
+    "RESPONSE": {
+      "VITALS_DETAIL_ADD_SUCCESS": "Vitals added successfully.",
+      "VITALS_DETAIL_UPDATE_SUCCESS": "Vitals updated successfully.",
+      "VITALS_DETAIL_DELETE_SUCCESS": "Vitals deleted successfully.",
+      "VITALS_NOT_FOUND": "Vitals not found.",
+      "VITAL_PREFERENCE_SAVE_SUCCESS": "Vital preferences saved successfully."
+    },
+    "TABLE": {
+      "EMPTY_MESSAGE": "No vitals added for this patient."
+    }
+  },
+  "CARE_PLAN": {
+    "CARE_PLANS": "Care Plans",
+    "PATIENT_CARE_PLAN_LIST": "Patient Care Plan List",
+    "ADD_CARE_PLAN": "Add Care Plan",
+    "EDIT_CARE_PLAN": "Edit Care Plan",
+    "CARE_PLAN": "Care Plan",
+    "SEARCH_FROM_MASTER": "Search From Master",
+    "DIAGNOSIS": "Diagnosis",
+    "GOALS": "Goals",
+    "GOAL": "Goal",
+    "SPECIALITY": "Speciality",
+    "BASIC_DETAILS": "Basic Details",
+    "NOTES": "Notes",
+    "ACTIVE_PROBLEMS_DIAGNOSIS": "Active Problems / Diagnosis",
+    "DIAGNOSIS_GOALS": "Diagnosis / Goals",
+    "VITALS_TASKS_TO_BE_MONITORED": "Vitals / Tasks to be Monitored",
+    "MONITOR_TYPE": "Monitor Type",
+    "VITAL_TASK_NAME": "Vital / Task Name",
+    "LOWER_THRESHOLD": "Lower Threshold",
+    "UPPER_THRESHOLD": "Upper Threshold",
+    "START_DATE": "Start Date",
+    "END_DATE": "End Date",
+    "ESCALATION_SETTINGS": "Escalation Settings",
+    "ESCALATION_TRIGGER": "Escalation Trigger",
+    "ESCALATION_RECIPIENTS": "Escalation Recipients",
+    "COMMUNICATION_PREFERENCES": "Communication Preferences",
+    "MODE_OF_COMMUNICATION": "Mode of Communication",
+    "CONDITION": "Condition",
+    "ASSIGNED_BY": "Assigned By",
+    "PATIENT_NAME": "Patient Name",
+    "ASSIGN_CARE_TEAM_MEMBER": " Assign Care Team Member",
+    "APPOINTMENT": "Appointment",
+    "PLACE_HOLDER": {
+      "SEARCH_NAME": "Search Name",
+      "SEARCH_PATIENT_NAME": "Search Patient Name",
+      "APPOINTMENT": "Select Appointment",
+      "SELECT_STATUS": "Select Status",
+      "SELECT_SPECIALITY": "Select Speciality",
+      "SEARCH_DIAGNOSIS": "Search Diagnosis",
+      "SEARCH_CARE_TEAM_MEMBER": " Search Care Team Member",
+      "SEARCH_GOAL": "Search Goal",
+      "SEARCH_CLINIC": "Search Clinic",
+      "SELECT_DOCTOR": "Select Doctor",
+      "ENTER_CARE_PLAN_NAME": "Enter Care Plan Name",
+      "ENTER_NOTES": "Enter Notes",
+      "SELECT_VITAL": "Select a Vital",
+      "SELECT_TASK": "Select a Task",
+      "ENTER_LOWER_THRESHOLD": "Enter Lower Threshold",
+      "ENTER_UPPER_THRESHOLD": "Enter Upper Threshold"
+    },
+    "VALIDATION": {
+      "LOWER_THRESHOLD": "Lower Threshold must be less than Upper Threshold",
+      "UPPER_THRESHOLD": "Upper Threshold must be greater than Lower Threshold",
+      "DIAGNOSIS": "Please select at least one diagnosis.",
+      "GOAL": "Please select at least one goal.",
+      "RECIPIENTS": "Please select at least one recipients.",
+      "COMMUNICATION_MODE": "Please select at least one communication."
+    },
+    "ESCALATION_TRIGGER_OPTION": {
+      "ABOVE": "Above Upper Limit",
+      "BELOW": "Below Lower Limit",
+      "BOTH": "Both"
+    },
+    "ESCALATION_RECIPIENT": {
+      "NOTIFY_CARE_TEAM": "Care Team",
+      "NOTIFY_DOCTOR": "Doctor",
+      "NOTIFY_AMBULANCE": "Ambulance",
+      "NOTIFY_FAMILY_MEMBER": "Family Member"
+    },
+    "COMMUNICATION_MODE": {
+      "SMS": "SMS",
+      "EMAIL": "Email",
+      "PHONE_CALL": "Phone Call",
+      "APP_ALERT": "Application Alert"
+    },
+    "RESPONSE": {
+      "CARE_PLAN_ADD_SUCCESS": "Care plan created successfully!",
+      "CARE_PLAN_UPDATE_SUCCESS": "Care plan updated successfully!",
+      "CARE_PLAN_ASSIGN_SUCCESS": "Care plan assign successfully!",
+      "CARE_PLAN_NOT_FOUND": "Care plan not found",
+      "CARE_PLAN_MASTER_ALREADY_EXISTS": "Care plan already exists.",
+      "CARE_PLAN_ALREADY_EXISTS": "Care plan already exists.",
+      "CARE_PLAN_ACTIVATED": "Care plan has been activated successfully.",
+      "CARE_PLAN_CANCELLED": "Care plan has been cancelled successfully.",
+      "CARE_PLAN_PAUSED": "Care plan has been paused successfully.",
+      "CARE_PLAN_COMPLETED": "Care plan has been completed successfully."
+    }
   }
-
 }

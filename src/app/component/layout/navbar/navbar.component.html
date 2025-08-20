@@ -3,14 +3,14 @@
         <button class="layout-menu-button layout-topbar-action" (click)="layoutService.onMenuToggle()">
             <i class="pi pi-bars"></i>
         </button>
-        <a class="layout-topbar-logo" routerLink="/home/admin-dashboard">
+        <a class="layout-topbar-logo" (click) ="navigateToDashboard()">
             <img alt="" width="120">
         </a>
     </div>
 
     <div class="layout-topbar-actions">
-        <p-select *ngIf="userClinics.length > 0"  [options]="userClinics" [(ngModel)]="preferredClinicId" optionLabel="label"  optionValue="value" (onChange)="clinicChange($event)"
-            [disabled]="userClinics.length == 1"
+        <p-select *ngIf="userClinics?.length > 0"  [options]="userClinics" [(ngModel)]="preferredClinicId" optionLabel="label"  optionValue="value" (onChange)="clinicChange($event)"
+            [disabled]="userClinics?.length == 1"
          placeholder="Select a Clinic" class="w-full sm:w-60 md:w-46 lg:w-56" />
         <div class="layout-config-menu">
             <button type="button" class="layout-topbar-action" (click)="toggleDarkMode()">

@@ -1,13 +1,10 @@
 /* You can add global styles to this file, and also import other style files */
+
 @use '@assets/layout/layout.scss';
-@use 'primeicons/primeicons.css';
-@use '@assets/demo/demo.scss';
-// @use './tailwind.css';
-@import "tailwindcss";
+@use "primeicons/primeicons.css";
+@use "tailwindcss";
 
-
-
-
+@custom-variant dark (&:where(.app-dark, .app-dark *));
 
 /* Custom Global Variables:start */
 :root {

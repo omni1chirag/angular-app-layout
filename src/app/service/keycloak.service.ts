@@ -1,17 +1,13 @@
-import { Injectable, inject } from '@angular/core';
-import Keycloak, { KeycloakProfile } from 'keycloak-js';
+import { Injectable } from '@angular/core';
+import Keycloak from 'keycloak-js';
 import { BehaviorSubject, lastValueFrom } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { PlatformService } from './platform.service';
-import { ApiService } from './api.service';
-import { MenuService } from './menu.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AppUserProfile, AuthUserResponse } from '@interface/common.interface';
-import { en } from 'node_modules/@fullcalendar/core/internal-common';
-import { ROUTES } from '@constants/app-routes.constant';
-
-
-
+import { APP_ROUTES } from '@constants/app.constants';
+import { MenuService } from './menu.service';
+import { Router } from '@angular/router';
 
 
 @Injectable({
@@ -27,6 +23,8 @@ export class KeycloakService {
     private redirectUri: string | null = null;
     private menuItemsSubject = new BehaviorSubject<any[]>([]);
     menuItems$ = this.menuItemsSubject.asObservable();
+    readonly kcTokenKey = 'kc-token';
+
 
     get endpoints() {
         const base = environment.host;
@@ -44,7 +42,8 @@ export class KeycloakService {
 
     constructor(private platformService: PlatformService,
         private httpClient: HttpClient,
-        private menuService: MenuService
+        private menuService: MenuService,
+        private router: Router
     ) {
         if (this.platformService.isBrowser()) {
             this.keycloak = new Keycloak({
@@ -104,32 +103,53 @@ export class KeycloakService {
         return this.initializationPromise;
     }
 
-    login(redirectUrl: string = ROUTES.HOME): void {
-        if (this.platformService.isBrowser()) {
-            const targetUrl = redirectUrl.startsWith('/')
-                ? `${window.location.origin}${redirectUrl}`
-                : redirectUrl;
+    login(redirectUrl: string = APP_ROUTES.HOME): void {
+        if (!this.platformService.isBrowser()) return;
 
-            this.redirectUri = targetUrl;
-            // localStorage.setItem('kc-redirect', targetUrl);
+        const targetUrl = redirectUrl.startsWith('/')
+            ? `${window.location.origin}${redirectUrl}`
+            : redirectUrl;
 
-            this.keycloak?.login({
-                redirectUri: targetUrl,
-                prompt: 'login'
-            });
+        this.redirectUri = targetUrl;
+        // localStorage.setItem('kc-redirect', targetUrl);
+
+        if (this.keycloak && typeof this.keycloak.login === 'function') {
+            // Keycloak available -> open Keycloak login
+            try {
+                this.keycloak.login({
+                    redirectUri: targetUrl,
+                    prompt: 'login'
+                });
+            } catch (err) {
+                console.error('Keycloak login threw an error, falling back to patient-portal', err);
+                this.router.navigateByUrl('/patient-portal');
+            }
+        } else {
+            // Keycloak not available -> simple redirect to patient-portal
+            this.router.navigateByUrl('/patient-portal');
         }
     }
 
-    logout(redirectUrl: string = ROUTES.LOGOUT): void {
+    logout(redirectUrl: string = APP_ROUTES.LOGOUT): void {
         if (this.platformService.isBrowser()) {
-            // localStorage.removeItem('kc-redirect');
+            localStorage.clear();
             const postLogoutRedirect = window.location.origin + redirectUrl;
             this.keycloak?.logout({ redirectUri: postLogoutRedirect });
         }
     }
 
     hasRole(role: string): boolean {
-        return this.keycloak?.hasRealmRole(role) || false;
+        const claims = this.keycloak.tokenParsed as Record<string, any> | undefined;
+        if (!claims) {
+            console.warn('[AuthService] tokenParsed is undefined');
+            return false;
+        }
+        const roles: string[] = Array.isArray(claims['user_group']) ? claims['user_group'] : [];
+        return roles.includes(role);
+    }
+
+    isPatient(): boolean {
+        return this.hasRole('patient');
     }
 
     private setupTokenRefresh() {
@@ -145,11 +165,12 @@ export class KeycloakService {
                         console.error('Failed to refresh token:', error);
                     }
                 }
-            }, 30000); // Check every 30 seconds
+            }, 30000);
         }
     }
 
     isAuthenticated(): boolean {
+        this.isPatient();
         return this.keycloak?.authenticated || this.authenticatedSubject.value;
     }
 
@@ -160,6 +181,7 @@ export class KeycloakService {
                     throw new Error('User not logged in');
                 }
 
+                // return await this.keycloak.loadUserProfile();
                 const baseProfile = await this.keycloak.loadUserProfile();
                 const token = this.getToken();
                 let headers = new HttpHeaders();
@@ -189,6 +211,7 @@ export class KeycloakService {
                 this.menuItemsSubject.next(menuItems);
                 localStorage.setItem('userProfile', JSON.stringify(response.data.user));
                 localStorage.setItem('userClinics', JSON.stringify(response.data.userClinics));
+                localStorage.setItem('dashboardRoute', response.data.dashboardRoute);
 
                 this.menuService.updateMenuItems(menuItems);
 
@@ -210,13 +233,13 @@ export class KeycloakService {
 
     private storeToken() {
         if (this.platformService.isBrowser() && this.keycloak?.token) {
-            localStorage.setItem('kc-token', this.keycloak.token);
+            localStorage.setItem(this.kcTokenKey, this.keycloak.token);
         }
     }
 
     private initializeFromStorage() {
         if (this.platformService.isBrowser()) {
-            const storedToken = localStorage.getItem('kc-token');
+            const storedToken = localStorage.getItem(this.kcTokenKey);
             if (storedToken) {
                 this.keycloak!.token = storedToken;
                 this.authenticatedSubject.next(true);
@@ -240,5 +263,13 @@ export class KeycloakService {
             this.logout();
             return false;
         }
+    }
+
+    get userId(): string | undefined {
+        if (this.platformService.isBrowser()) {
+            const tokenParsed = this.keycloak?.tokenParsed as any;
+            return tokenParsed?.sub || undefined;
+        }
+        return undefined;
     }
 }

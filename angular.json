@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "omnihealth-india-ui": {
+    "omnihealth-india-patient-ui": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -27,7 +27,13 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/omnihealth-india-ui",
+            "outputPath": "dist/omnihealth-india-patient-ui",
+            "allowedCommonJsDependencies": [
+              "dayjs",
+              "dayjs/*",
+              "inputmask",
+              "js-sha256"
+            ],
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
@@ -39,15 +45,15 @@
               {
                 "glob": "**/*",
                 "input": "public"
-              }
+              },
+              "src/health.html"
             ],
             "styles": [
               "src/styles.scss"
             ],
-            
             "scripts": [],
             "server": "src/main.server.ts",
-            "prerender": true,
+            "outputMode": "server",
             "ssr": {
               "entry": "server.ts"
             }
@@ -57,13 +63,13 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kB",
-                  "maximumError": "1MB"
+                  "maximumWarning": "1MB",
+                  "maximumError": "3MB"
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "2kB",
-                  "maximumError": "4kB"
+                  "maximumWarning": "4kB",
+                  "maximumError": "8kB"
                 }
               ],
               "outputHashing": "all"
@@ -72,6 +78,20 @@
               "optimization": false,
               "extractLicenses": false,
               "sourceMap": true
+            },
+            "qa": {
+              "extractLicenses": false,
+              "sourceMap": true,
+              "optimization": true,
+              "namedChunks": true,
+              "outputHashing": "all",
+              "aot": true,
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.qa.ts"
+                }
+              ]
             }
           },
           "defaultConfiguration": "production"
@@ -80,10 +100,12 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "omnihealth-india-ui:build:production"
+              "buildTarget": "omnihealth-india-patient-ui:build:production"
             },
             "development": {
-              "buildTarget": "omnihealth-india-ui:build:development"
+              "buildTarget": "omnihealth-india-patient-ui:build:development",
+              "port": 4400
+
             }
           },
           "defaultConfiguration": "development"

@@ -17,6 +17,7 @@ import { KeycloakService } from '@service/keycloak.service';
 import { Router } from '@angular/router';
 import { ConfirmationService } from 'primeng/api';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { APP_ROUTES } from '@constants/app.constants';
 
 @Component({
   selector: 'app-navbar',
@@ -44,6 +45,7 @@ export class NavbarComponent implements OnInit {
   preferredClinicId
   userClinics: any[] = [];
   userId;
+  
   constructor(
     public layoutService: LayoutService,
     private platformService: PlatformService,
@@ -55,6 +57,7 @@ export class NavbarComponent implements OnInit {
     this.isBrowser = platformService.isBrowser();
     this.layoutService = layoutService;
   }
+
   ngOnInit(): void {
     if (!this.isBrowser) return;
 
@@ -67,7 +70,7 @@ export class NavbarComponent implements OnInit {
 
     this.userClinics = JSON.parse(storedClinics);
 
-    if (this.userClinics.length === 1) {
+    if (this.userClinics?.length === 1) {
       this.preferredClinicId = this.userClinics[0].value;
     } else {
       const savedClinicId = localStorage.getItem('currentlyUsedClinic');
@@ -101,7 +104,7 @@ export class NavbarComponent implements OnInit {
               if (this.keycloakService.isAuthenticated()) {
                 const flag = await this.keycloakService.updateToken(-1)
                 if (flag) {
-                  this._router.navigate(['/home/doctor-dashboard']);
+                  this._router.navigate([APP_ROUTES.APP + APP_ROUTES.DASHBOARD]);
                 }
               }
 
@@ -121,6 +124,10 @@ export class NavbarComponent implements OnInit {
 
   toggleDarkMode() {
     this.layoutService.layoutConfig.update((state) => ({ ...state, darkTheme: !state.darkTheme }));
+  }
+
+  navigateToDashboard() {
+    this._router.navigateByUrl(localStorage.getItem('dashboardRoute'));
   }
 
 }

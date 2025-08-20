@@ -1,26 +1,36 @@
-<div class="flex flex-col items-center justify-center min-h-screen">
-  <div class="card p-5" *ngIf="errorState === null">
-    <h1>404 Page Not Found...</h1>
+<div class="min-h-screen relative overflow-hidden">
+  <div
+    class="absolute inset-0 bg-[url('/assets/images/login-bg-2-ghibli.png')] bg-cover bg-center md:blur-sm lg:blur-lg z-0">
   </div>
+  <div class="absolute inset-0 md:bg-white/50"></div>
 
-  <div class="card p-5" *ngIf="errorState != null">
-    <div class="flex gap-5 justify-between">
-      <p class="text-base/7 font-semibold text-gray-900">{{errorState.errorCode}}</p>
-      <span>
-        back to
-        <p-button variant="outlined" [raised]="false" (onClick)="navigateToHome()">
-          <span class="pi pi-home"></span> Login
-        </p-button>
-      </span>
+  <div class="relative z-20 flex items-center justify-center min-h-screen p-4">
+    <div class="bg-white/50 backdrop-blur-sm shadow-xl rounded-3xl p-6 flex flex-col md:flex-row w-full max-w-3xl">
+      <div class="hidden md:block md:w-1/2 max-w-sm rounded-3xl overflow-hidden relative pr-6">
+        <p-image [src]='logoSrc' alt="Healthcare Ghibli Illustration" class="absolute top-4 left-4 w-32 p-1 z-30" 
+          styleClass="absolute top-4 left-4 w-32 p-1 z-30" />
+        <p-image [src]='imageSrc' alt="Healthcare Ghibli Illustration"
+          styleClass="object-cover w-full h-full min-h-[300px] md:min-h-[400px] rounded-3xl" />
+      </div>
 
+      <!-- Critical changes here -->
+      <div class="w-full md:w-1/2 flex flex-col">
+        <div class="flex flex-col w-full">
+          <span class="flex justify-center w-full text-muted-color text-2xl font-bold">{{errorState.summary || 'We are sorry...'}}</span>
+          <div class="w-full border-b border-gray-300 mt-2"></div>
+        </div>
+        <div class="flex flex-col mt-5">
+          <span *ngIf="errorState != null">
+            <p-message [severity]="errorState.severity || 'error'">{{errorState.detail || 'Something went wrong!'}}</p-message>
+          </span>
+        </div>
+
+        <div class="flex flex-col mt-5">
+          <p-button [link]="true" (onClick)="navigateToHome()">
+            <span class=""></span>Back To Login
+          </p-button>
+        </div>
+      </div>
     </div>
-    <p-divider></p-divider>
-
-    <div class="mt-5 gap-2 flex flex-col">
-      <label>{{errorState.message}}</label>
-      <p>{{errorState.error}}</p>
-      <p>{{errorState.timestamp}}</p>
-    </div>
-
   </div>
 </div>
