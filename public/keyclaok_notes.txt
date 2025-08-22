@@ -1,0 +1,101 @@
+kc.bat start-dev --db=postgres --db-url=jdbc:postgresql://10.10.2.100:5432/keycloak_rm --db-username=pgpool_user --db-password=pgpool_user_pwd --http-port=8080 --hostname=localhost --http-relative-path=/auth --verbose
+
+kc.bat start-dev --db=postgres --db-url=jdbc:postgresql://omnihealthdbqa.omnimd.com:5432/keycloak_db --db-username=pgpool_user --db-password=pgpool_user_pwd --http-port=8080 --hostname=localhost --http-relative-path=/auth --verbose
+
+kc.bat start-dev --db=postgres --db-url=jdbc:postgresql://10.10.2.100:5432/keycloak_rm --db-username=pgpool_user --db-password=pgpool_user_pwd --http-port=8080 --hostname=localhost --http-relative-path=/auth --verbose
+
+
+kc.bat start-dev --db=postgres --db-url=jdbc:postgresql://omnioneindiadbqa.omnimd.com:5432/keycloak_db --db-username=pgpool_user --db-password=pgpool_user_pwd --http-port=8080 --hostname=localhost --http-relative-path=/auth --verbose
+
+
+==========================================================
+john.doe.dummy@yopmail.com
+john
+doe
+-------------
+jane doe
+jane.doe.dummy@yopmail.com
+-------------------------
+admin
+Dj@431993
+omnimd.keycloak.admin@yopmail.com
+==========================================================+++++++++++++==========================	
+
+both patient and Admin
+john.doe.dummy@yopmail.com
+Omni@1
+
+doctor
+john.doctor.dummy@yopmail.com
+Omni@1
+
+==========================================================+++++++++++++==========================	
+
+
+
+
+----------------------->
+URL - https://omnioneindiaqa.omnimd.com/
+Admin Cred
+Username - dhindia@yopmail.com
+Password - @H$nd#a%2*25
+----------------------->
+10.10.1.73
+0Mn!MD#DgtL$
+-------------
+mvn clean package -DskipTests
+
+
+
+--------------------------->
+on 73
+omnimdsupport@ismnet.com
+
+
+==========================================================================================>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+------------changes in keycloak admin console------->
+realm setting -> themes -> (select theme from dropdown)
+realm setting -> events -> (select event from dropdown)
+Authentication -> Required Action -> Verify Email -> (enable toggle button)
+Authentication -> Flows -> Copy of registration -> Assign user to group -> (select 'Required' from drop down)
+
+
+Realm setting -> login
+
+Login screen customization:
+user registration -> on
+forget password -> on
+remember me -> off
+
+email settings: 
+email as username -> on
+login with email -> on
+duplicate emails -> off
+verify email -> on
+
+User info settings:
+edit username: off	
+
+
+
+------------> changning this setting for modify email constraint
+realm setting -> login -> Login with email(toggle button) -> (turn OFF)
+realm setting -> login -> Duplicate email(toggle button) -> (once the user turn off the 'login with email' toggle button then 'duplicate email' toggle button is clickable) 
+
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<==============================================================================
+
+----------------------------------------------------
+    keycloakurl: 'http://localhost:8080/auth',
+    // keycloakurl: 'http://10.10.1.73:8080/auth',
+
+
+
+
+-------------------------------------
+for /f "tokens=5" %a in ('netstat -ano ^| findstr :8080') do taskkill /PID %a /F
+
+getCurrentUserGroupMember
+
+
+----------------------------------------------------------------
+for /f "tokens=5" %a in ('netstat -ano ^| findstr :8000') do taskkill /PID %a /F

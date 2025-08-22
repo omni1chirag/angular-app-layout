@@ -21,7 +21,7 @@ export class NotificationWebsocketService {
         private notificationService: NotificationService) {
         this.isBrowser = isPlatformBrowser(platformId);
         if (this.isBrowser) {
-            // this.connect();
+            this.connect();
         }
     }
     public connect(): void {

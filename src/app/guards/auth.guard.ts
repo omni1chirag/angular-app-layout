@@ -32,7 +32,7 @@ export const authGuard: CanActivateFn = async (route, state) => {
             console.log('User is authenticated');
             if (keycloakService.isPatient()) {
                 keycloakService.getUserProfile();
-                // notificationWebsocketService.connect();
+                notificationWebsocketService.connect();
                 return true;
             }
             return router.navigate([APP_ROUTES.ERROR], {

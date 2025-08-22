@@ -15,26 +15,74 @@ const browserDistFolder = resolve(serverDistFolder, '../browser');
 const app = express();
 const angularApp = new AngularNodeAppEngine();
 
+/**
+ * Example Express Rest API endpoints can be defined here.
+ * Uncomment and define endpoints as necessary.
+ *
+ * Example:
+ * ```ts
+ * app.get('/api/**', (req, res) => {
+ *   // Handle API request
+ * });
+ * ```
+ */
+
+/**
+ * Serve static files from /browser
+ */
+app.use(
+  '/patient-portal',
+  express.static(browserDistFolder, {
+    maxAge: '1y',
+    index: false,
+    redirect: false,
+    setHeaders: (res, path) => {
+      if (path.endsWith('.map')) {
+        res.setHeader('Content-Type', 'application/json');
+        res.setHeader('Access-Control-Allow-Origin', '*');
+      }
+    },
+  }),
+);
 app.use(compression());
-
-// 1) Serve actual static assets (e.g. .js, .css, images)
-app.get('*.*', express.static(browserDistFolder, {
-  maxAge: '1y',
-  immutable: true,
-}));
-
-// 2) Fallback to SSR rendering for all other routes (app paths)
-app.get('*', (req, res, next) => {
+/**
+ * Handle all other requests by rendering the Angular application.
+ */
+app.use('/**', (req, res, next) => {
   angularApp
     .handle(req)
-    .then((response) => {
-      if (response) writeResponseToNodeResponse(response, res);
-      else next();
-    })
+    .then((response) =>
+      response ? writeResponseToNodeResponse(response, res) : next(),
+    )
     .catch(next);
 });
 
+/**
+ * Start the server if this module is the main entry point.
+ * The server listens on the port defined by the `PORT` environment variable, or defaults to 4000.
+ */
+let serverInstance: ReturnType<typeof app.listen> | undefined;
 
+if (isMainModule(import.meta.url)) {
+  const port = process.env['PORT'] || 4000;
+  // app.listen(port, () => {
+  //   console.log(`Node Express server listening on http://localhost:${port}`);
+  // });
+    if (serverInstance && serverInstance.listening) {
+    serverInstance.close(() => {
+      console.log('Previous instance closed. Restarting server...');
+      serverInstance = app.listen(port, () => {
+        console.log(`Server restarted on http://localhost:${port}`);
+      });
+    });
+  } else {
+    serverInstance = app.listen(port, () => {
+      console.log(`Server started on http://localhost:${port}`);
+    });
+  }
+}
 
-
+/**
+ * Request handler used by the Angular CLI (for dev-server and during build) or Firebase Cloud Functions.
+ */
 export const reqHandler = createNodeRequestHandler(app);
