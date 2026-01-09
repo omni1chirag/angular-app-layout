@@ -1,14 +1,15 @@
 <div class="card">
     <div>
-        <h4 class="text-base/7 font-semibold text-gray-900">{{'ALLERGY.ALLERGIES' | translate}}</h4>
+        <h4 class="font-semibold text-gray-900 text-base/7">{{'ALLERGY.ALLERGIES' | translate}}</h4>
     </div>
     <p-divider></p-divider>
 
-    <div class="mt-5 flex flex-col gap-2">
-        <ng-container >
-            <p-table [value]="patientAllergies" size="small" [paginator]="true" [rows]="rowsPerPage" [totalRecords]="totalRecords"
-                [lazy]="true" (onLazyLoad)="loadPatientAllergies($event)" [loading]="showLoader"
-                [first]="first" [sortField]="defaultSortField" [sortOrder]="defaultSortOrder">
+    <div class="flex flex-col gap-2 mt-5">
+        <ng-container>
+            @if (isBrowser) {
+            <p-table [value]="patientAllergies" size="small" [paginator]="true" [rows]="rowsPerPage"
+                [totalRecords]="totalRecords" [lazy]="true" (onLazyLoad)="loadPatientAllergies($event)"
+                [loading]="showLoader" [first]="first" [sortField]="defaultSortField" [sortOrder]="defaultSortOrder">
                 <ng-template #body let-item let-index="rowIndex">
                     <tr>
                         <td>
@@ -16,10 +17,14 @@
                         </td>
 
                         <td>
-                            <span>{{'ALLERGY.TABLE.TYPE' | translate}}:{{item.allergenType}}</span> 
-                            <span> | {{'ALLERGY.SEVERITY' | translate}}: <p-tag [severity]="getSeverityTagColor(item.severity)" [value]="getSeverity(item.severity)"  [rounded]="true"></p-tag></span>
-                            <span *ngIf="item.onsetDate != null"> | {{'ALLERGY.ONSET_DATE' | translate}}: {{item.onsetDate | date: 'shortDate'}}</span> 
-                            <span *ngIf="item.recordedDate != null"> | {{'ALLERGY.RECORDED_DATE' | translate}}: {{item.recordedDate | date: 'shortDate'}}</span>
+                            <span>{{'ALLERGY.TABLE.TYPE' | translate}}:{{item.allergenType}}</span>
+                            <span> | {{'ALLERGY.SEVERITY' | translate}}: <p-tag
+                                    [severity]="getSeverityTagColor(item.severity)" [value]="getSeverity(item.severity)"
+                                    [rounded]="true"></p-tag></span>
+                            <span *ngIf="item.onsetDate !== null"> | {{'ALLERGY.ONSET_DATE' | translate}}:
+                                {{item.onsetDate | date: 'dd/MM/yyyy'}}</span>
+                            <span *ngIf="item.recordedDate !== null"> | {{'ALLERGY.RECORDED_DATE' | translate}}:
+                                {{item.recordedDate | date: 'dd/MM/yyyy'}}</span>
                         </td>
 
                         <td style="width: 1%; text-align: right;">
@@ -28,9 +33,18 @@
                             </p-tag>
                         </td>
 
-                        <td class="flex justify-center gap-2">
+                        <td *ngIf="isModifiable()" class="flex justify-center gap-2">
+
+                            @if (item.isEditable && !item.appointmentSignOff) {
                             <p-button icon="pi pi-pencil" variant="outlined" [rounded]="true" severity="info"
                                 (onClick)="editAllergy(item)" />
+                            } @else {
+                            <p-button icon="pi pi-pencil" variant="outlined" [rounded]="true" severity="info"
+                                (onClick)="editAllergy(item)"
+                                [disabled]="!item.isEditable || item.appointmentSignOff===1"
+                                [pTooltip]="!item.isEditable ? ('TOOLTIP.NOT_AUTHORIZED' | translate) : (item.appointmentSignOff === 1 ? ('TOOLTIP.LOCKED_CHART' | translate) : null)"
+                                tooltipPosition="top" />
+                            }
                         </td>
                     </tr>
                 </ng-template>
@@ -44,43 +58,46 @@
                     </tr>
                 </ng-template>
             </p-table>
+            }
         </ng-container>
-        
-        <p-divider  *ngIf="patientAllergies.length > 0"></p-divider>
 
-        <div class="mt-4 flex flex-wrap gap-6 ">
-            <div class="flex-1">
-                <label for="Search Allergy">{{'ALLERGY.PLACE_HOLDER.SEARCH_ALLERGENS' | translate}}</label>
-                <div class="mt-2">
-                    <p-autoComplete id="allergenName" class="w-full" [suggestions]="allergenSuggestions"
-                        [style]="{width:'100%'}" optionLabel="allergenName" optionValue="allergenName"
-                        placeholder="{{'ALLERGY.PLACE_HOLDER.SEARCH_ALLERGENS' | translate}}" [dropdown]="false" minLength="3" [minLength]="3"
-                        [inputStyle]="{ width: '100%' }" appendTo="body" inputStyleClass="w-full"
-                        (onSelect)="allergenToAllergy($event.value)" (completeMethod)="searchAllergens($event.query)">
-                    </p-autoComplete>
+        <p-divider *ngIf="patientAllergies.length > 0"></p-divider>
+        <ng-container *ngIf="isModifiable()">
+            <div class="flex flex-wrap gap-6 mt-4 ">
+                <div class="flex-1">
+                    <label for="Search Allergy">{{'ALLERGY.PLACE_HOLDER.SEARCH_ALLERGENS' | translate}}</label>
+                    <div class="mt-2">
+                        <p-autoComplete id="allergenName" class="w-full" [suggestions]="allergenSuggestions"
+                            [style]="{width:'100%'}" optionLabel="allergenName" optionValue="allergenName"
+                            placeholder="{{'ALLERGY.PLACE_HOLDER.SEARCH_ALLERGENS' | translate}}" [dropdown]="false"
+                            minLength="3" [minLength]="3" [inputStyle]="{ width: '100%' }" appendTo="body"
+                            inputStyleClass="w-full" (onSelect)="allergenToAllergy($event.value)"
+                            (completeMethod)="searchAllergens($event.query)" [disabled]="signOff()===1">
+                        </p-autoComplete>
+                    </div>
+                </div>
+
+                <div class="flex-none ">
+                    <label for="Search Allergy">{{'ALLERGY.ALLERGEN_TYPE' | translate}}</label>
+                    <div class="flex flex-wrap gap-2 mt-2">
+                        <p-button label="{{category.label}}" (onClick)="onChangeAllergy(category)"
+                            [severity]="selectedCategory === category.value ? 'primary' : 'secondary'"
+                            *ngFor="let category of categories" [disabled]="signOff()===1">
+                        </p-button>
+                    </div>
                 </div>
             </div>
 
-            <div class=" flex-none">
-                <label for="Search Allergy">{{'ALLERGY.ALLERGEN_TYPE' | translate}}</label>
-                <div class="mt-2 flex flex-wrap gap-2">
-                    <p-button label="{{category.label}}"  (onClick)="onChangeAllergy(category)"
-                        [severity]="selectedCategory === category.value ? 'primary' : 'secondary'"
-                        *ngFor="let category of categories">
-                    </p-button>
-                </div>
+            <p-divider></p-divider>
+
+            <div class="flex flex-wrap gap-2 mt-2">
+                <p-button label="{{item.allergenName}}" [rounded]="true" variant="outlined"
+                    (onClick)="allergenToAllergy(item)" *ngFor="let item of allergens" [disabled]="signOff()===1" />
             </div>
-        </div>
-
-        <p-divider></p-divider>
-
-        <div class="mt-2 flex flex-wrap gap-2">
-            <p-button label="{{item.allergenName}}" [rounded]="true" variant="outlined" (click)="allergenToAllergy(item)"
-                *ngFor="let item of allergens" />
-        </div>
+        </ng-container>
     </div>
 </div>
 
 <app-allergy-add-edit [isVisible]="isAllergyOpen" (isVisibleChange)="handleAllergyVisibility($event)"
-    [selectedAllergy]="selectedAllergy" [patientId]="patientId()" [appointmentId]="appointmentId()">  
+    [selectedAllergy]="selectedAllergy" [patientId]="patientId" [appointmentId]="appointmentId()">
 </app-allergy-add-edit>

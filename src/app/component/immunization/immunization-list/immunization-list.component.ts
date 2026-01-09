@@ -1,129 +1,218 @@
 import { CommonModule } from '@angular/common';
-import { Component, input, OnInit, signal } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { LabelValue } from '@interface/common-master.interface';
+import { HttpParams } from '@angular/common/http';
+import { Component, inject, OnInit, signal, ViewChild } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { PageHeaderDirective } from '@directive/page-header.directive';
+import { TableAutoScrollDirective } from '@directive/table-auto-scroll.directive';
+import { PaginationResponse } from '@interface/api-response.interface';
+import { CommonMaster, LabelValue } from '@interface/common.interface';
+import { ImmunizationList } from '@interface/immunization.interface';
 import { TranslateModule } from '@ngx-translate/core';
+import { AppointmentService } from '@service/appointment.service';
+import { DateTimeUtilityService } from '@service/date-time-utility.service';
 import { ImmunizationService } from '@service/immunization.service';
-import { AutoCompleteModule } from 'primeng/autocomplete';
-import { ButtonModule } from 'primeng/button';
-import { DividerModule } from 'primeng/divider';
-import { TableModule } from 'primeng/table';
-import { ImmunizationAddEditComponent } from '../immunization-add-edit/immunization-add-edit.component';
+import { LocalStorageService } from '@service/local-storage.service';
 import { MasterService } from '@service/master.service';
 import { PlatformService } from '@service/platform.service';
+import { UtilityService } from '@service/utility.service';
+import { AutoCompleteModule } from 'primeng/autocomplete';
+import { ButtonModule } from 'primeng/button';
+import { DatePickerModule } from 'primeng/datepicker';
+import { DividerModule } from 'primeng/divider';
+import { MultiSelectModule } from 'primeng/multiselect';
+import { SelectModule } from 'primeng/select';
+import { Table, TableLazyLoadEvent, TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
+import { ToggleButtonModule } from 'primeng/togglebutton';
+import { ToolbarModule } from 'primeng/toolbar';
+import { TooltipModule } from 'primeng/tooltip';
+import { GLOBAL_CONFIG_IMPORTS } from 'src/app/global-config-import';
 
 @Component({
   selector: 'app-immunization-list',
   imports: [
     TranslateModule,
     DividerModule,
+    FormsModule,
+    AutoCompleteModule,
     TableModule,
     ButtonModule,
-    AutoCompleteModule,
     CommonModule,
     TagModule,
-    ImmunizationAddEditComponent
+    TooltipModule,
+    ToolbarModule,
+    PageHeaderDirective,
+    ToggleButtonModule,
+    TableAutoScrollDirective,
+    DatePickerModule,
+    SelectModule,
+    ...GLOBAL_CONFIG_IMPORTS,
+    MultiSelectModule
   ],
   templateUrl: './immunization-list.component.html',
-  styleUrl: './immunization-list.component.scss'
 })
 export class ImmunizationListComponent implements OnInit {
-  visible: boolean = false;
-  selectedImmunization: any = signal<any>(null);
-  immunizationList: any[] = [];
-  vaccineSuggestions: LabelValue[] = [];
-  frequentlyUsedVaccines: LabelValue[] = [];
-  doseNumberOptions: LabelValue[] = [];
-  routeOptions: LabelValue[] = [];
-  siteOptions: LabelValue[] = [];
-  statusOptions: LabelValue[] = [];
-  isBrowser: boolean = false;
-  readonly appointmentId = input.required<string>();
-  readonly patientId = input.required<string>();
-  rowsPerPage = 10;
+  private readonly immunizationService = inject(ImmunizationService);
+  private readonly masterService = inject(MasterService);
+  private readonly utilityService = inject(UtilityService);
+  private readonly platformService = inject(PlatformService);
+  private readonly localStorageService = inject(LocalStorageService);
+  private readonly appointmentService = inject(AppointmentService);
+  private readonly dateTimeUtilityService = inject(DateTimeUtilityService);
 
-  constructor(private immunizationService: ImmunizationService,
-    private masterService: MasterService,
-    private platformService: PlatformService,
-  ) {
-    this.isBrowser = platformService.isBrowser();
+  visible = false;
+  actions = false;
+  isBrowser = false;
+  showLoader = true;
+  first = 0;
+  totalRecords = 0;
+  size = 50;
+
+  immunizationList: ImmunizationList[] = [];
+  vaccineSuggestions: LabelValue<string>[] = [];
+  doseNumberOptions: LabelValue<string>[] = [];
+  statusMap = new Map<string, string>();
+  readonly tagSeverityMap = new Map<number, 'success' | 'secondary' | 'danger' | 'warn' | null>([
+    [1, 'success'],
+    [2, 'secondary'],
+    [3, 'danger'],
+    [4, 'warn'],
+  ]);
+
+
+  patientId = signal<string>(undefined);
+  appointmentId = signal<string>(undefined);
+  immunizationId = signal<string>(undefined);
+  addWorkflow = false;
+  loading = false;
+  @ViewChild('immunizationTable') immunizationTable: Table;
+  filterDate: string[] = []
+  columnWidth = 200;
+  clinicOptions: LabelValue<string>[] = [];
+  doctorOptions: LabelValue<string>[] = [];
+
+  constructor() {
+    this.isBrowser = this.platformService.isBrowser();
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
+    if (!this.isBrowser) return;
+    this.initializeMasterData();
+  }
+
+  loadImmunizations($event?: TableLazyLoadEvent): void {
     if (!this.isBrowser) return;
 
-    this.getFrequentlyUsedVaccines();
-    this.initializeMasterData();
-    this.loadImmunizations();
-  }
+    this.showLoader = true;
+    const page = Math.floor($event.first / $event.rows);
 
-  loadImmunizations(event?: any) {
+    let params = new HttpParams()
+      .append('page', page)
+      .append('size', $event.rows)
+    
+    const patientId = this.localStorageService.getPatientId();
+    params = params.append('patient', patientId);
 
-    const apiCall = this.appointmentId?.()
-      ? this.immunizationService.getImmunizations(this.patientId(), this.appointmentId())
-      : this.immunizationService.getImmunizations(this.patientId());
+    if (this.appointmentId()) {
+      params = params.append('appointment', this.appointmentId());
+    }
+
+    // ---------------- DATE RANGE FIX ----------------
+    if ($event?.filters?.['appointmentDate']) {
+      const filterMeta = $event.filters['appointmentDate'];
+      const filterObj = Array.isArray(filterMeta) ? filterMeta[0] : filterMeta;
+
+      if (filterObj?.value) {
+        let startDate: Date | string;
+        let endDate: Date | string;
+
+        if (!Array.isArray(filterObj.value)) {
+          startDate = filterObj.value.startDate;
+          endDate = filterObj.value.endDate;
+        } else {
+          startDate = filterObj.value[0];
+          endDate = filterObj.value[1];
+        }
+
+        if (startDate && endDate) {
+          const start = this.dateTimeUtilityService.combineDateAndTimeToString(startDate, '00:00');
+          const end = this.dateTimeUtilityService.combineDateAndTimeToString(endDate, '23:59');
+
+          params = params.append('appointmentStartDateTime', start);
+          params = params.append('appointmentEndDateTime', end);
+        }
+      }
+    }
+
+    // REMOVE appointmentDate BEFORE passing filters to utility method
+    const filters = { ...$event?.filters };
+    delete filters['appointmentDate'];
+
+    params = this.utilityService.setTableWhereClause(filters as Record<string, { value: unknown }>, params);
+
+    const apiCall = this.immunizationService.getAllImmunizations(params);
 
     apiCall.subscribe({
-      next: (response: any) => {
-        if (response?.data) {
-          this.immunizationList = response.data;
-        } else {
-          this.immunizationList = [];
+      next: (data: PaginationResponse<ImmunizationList>) => {
+        this.immunizationList = data?.content;
+        this.totalRecords = data?.totalElements;
+        this.showLoader = false;
+      },
+      error: () => {
+        this.showLoader = false;
+      }
+    });
+  }
+
+  initializeMasterData(): void {
+
+    const params = ['IMMUNIZATION_DOSE', 'IMMUNIZATION_STATUS'];
+
+    this.masterService.getCommonMasterData<CommonMaster<unknown>[]>(params).subscribe((data) => {
+      data.forEach((res) => {
+        switch (res.name) {
+          case 'IMMUNIZATION_DOSE':
+            this.doseNumberOptions = res.value as LabelValue<string>[];
+            this.doseNumberOptions.push({ label: 'Other', value: 'Other' });
+            break;
+          case 'IMMUNIZATION_STATUS':
+            this.statusMap = this.statusMap = new Map(
+              res.value.map((item: LabelValue<string>) => [item.value, item.label])
+            );
+            break;
+          default:
+            console.warn('name not found', res.name);
+            break;
         }
-      },
-      error: (err) => {
-        this.immunizationList = [];
-      }
+      });
     });
-
+    const patientId = this.localStorageService.getPatientId();
+    this.patientId.set(patientId);
+    const requestParams = new HttpParams().append('patientId', patientId);
+    this.appointmentService.getDoctorLabelsByPatientAppointments<LabelValue<string>[]>(requestParams).subscribe({
+      next: (data) => {
+        this.doctorOptions = data;
+      }
+    })
+    this.appointmentService.getClinicLabelsByPatientAppointments<LabelValue<string>[]>(requestParams).subscribe({
+      next: (data) => {
+        this.clinicOptions = data;
+      }
+    })
   }
 
-  initializeMasterData() {
-
-    const params = ['IMMUNIZATION_DOSE', 'IMMUNIZATION_SITE', 'IMMUNIZATION_ROUTES', 'IMMUNIZATION_STATUS'];
-
-    this.masterService.getCommonMasterData(params).subscribe({
-      next: (resp: any) => {
-        (resp.data as Array<any>).forEach((res: any) => {
-          switch (res.name) {
-            case 'IMMUNIZATION_DOSE':
-              this.doseNumberOptions = res.value
-              break;
-            case 'IMMUNIZATION_SITE':
-              this.siteOptions = res.value
-              break;
-            case 'IMMUNIZATION_ROUTES':
-              this.routeOptions = res.value
-              break;
-            case 'IMMUNIZATION_STATUS':
-              this.statusOptions = res.value
-              break;
-
-            default:
-              console.log('name not found', res.name);
-              break;
-          }
-        })
-      },
-      error: (error) => {
-        console.error('Error fetching master data:', error);
-      }
-    });
-  }
-
-  searchVaccine(searchParam: string) {
+  searchVaccine(searchParam: string): void {
 
     this.immunizationService.searchVaccine(searchParam).subscribe({
-      next: (response: any) => {
-        if (response?.data?.length > 0) {
-          const hasExactMatch = response.data.some(
-            (item: any) => item.label?.toLowerCase() === searchParam.trim().toLowerCase()
+      next: (data: LabelValue<string>[]) => {
+        if (data) {
+          const hasExactMatch = data.some(
+            (item: LabelValue<string>) => item.label?.toLowerCase() === searchParam.trim().toLowerCase()
           );
 
           this.vaccineSuggestions = hasExactMatch
-            ? response.data
-            : [...response.data, { label: searchParam, value: searchParam }];
+            ? data
+            : [...data, { label: searchParam, value: searchParam }];
         } else {
           this.vaccineSuggestions = [{ label: searchParam, value: searchParam }];
         }
@@ -135,62 +224,12 @@ export class ImmunizationListComponent implements OnInit {
 
   }
 
-  getFrequentlyUsedVaccines() {
-    this.immunizationService.getAllFrequentlyUsedVaccines().subscribe({
-      next: (response: any) => {
-        this.frequentlyUsedVaccines = response?.data || [];
-      },
-      error: (error) => {
-        console.error('Error fetching frequently used vaccines:', error);
-      },
-    });
-  }
-
-  addImmunization(vaccineObj: any) {
-    this.visible = true;
-    const immunization = {
-      immunizationName: vaccineObj?.value
-    };
-    this.selectedImmunization.set(immunization);
-  }
-
-  editImmunization(immunization: any) {
-    this.visible = true;
-    this.selectedImmunization.set(immunization);
-  }
-
-  getDoseNumber(dose: string): string {
-    const doseObj = this.doseNumberOptions.find((item) => item.value === dose);
-    return doseObj ? doseObj.label : '';
-  }
-
-  getRoute(route: string): string {
-    const routeObj = this.routeOptions.find((item) => item.value === route);
-    return routeObj ? routeObj.label : '';
-  }
-
-  getSite(site: string): string {
-    const siteObj = this.siteOptions.find((item) => item.value === site);
-    return siteObj ? siteObj.label : '';
-  }
-
-  getStatus(status: string): string {
-    const statusObj = this.statusOptions.find((item) => item.value === status);
-    return statusObj ? statusObj.label : '';
-  }
-
-  getTagSeverity(status: number | string): 'success' | 'secondary' | 'info' | 'warn' | 'danger' | 'contrast' | null {
-    switch (+status) {
-      case 1:
-        return 'success';
-      case 2:
-        return 'secondary';
-      case 3:
-        return 'danger';
-      case 4:
-        return 'warn';
-      default:
-        return null;
+  onDateRangeSelect(dateRange: string[], filter: (value: unknown) => void): void {
+    if (dateRange?.length === 2 && dateRange[0] && dateRange[1]) {
+      filter({
+        startDate: dateRange[0],
+        endDate: dateRange[1]
+      });
     }
   }
 

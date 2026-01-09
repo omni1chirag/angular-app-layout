@@ -1,0 +1,160 @@
+<p-drawer [(visible)]="isVisible" position="right" appendTo="body" closable="false" [dismissible]="false"
+    styleClass="!w-full sm:!w-80 md:!w-80 lg:!w-[30rem]" blockScroll="true">
+    <ng-template #header>
+        <span class="flex flex-col w-full">
+            <span class="flex w-full justify-between">
+                <h4 *ngIf="socialHistoryId()" class="flex w-full text-base/7 font-semibold text-gray-900">{{
+                    'SOCIAL_HISTORY.EDIT_SOCIAL_HISTORY' |
+                    translate }}</h4>
+                <h4 *ngIf="!socialHistoryId()" class="flex w-full text-base/7 font-semibold text-gray-900">{{
+                    'SOCIAL_HISTORY.ADD_SOCIAL_HISTORY' |
+                    translate }}</h4>
+                <p-button icon="pi pi-times" class="flex justify-self-end" (onClick)="isVisible.set(false)" severity="secondary"
+                    [rounded]="true" [text]="true" />
+            </span>
+            <p-divider class="flex col-span-full w-full " />
+        </span>
+    </ng-template>
+
+    <form [formGroup]="socialHistoryForm">
+        <div class="grid grid-cols-12 gap-6">
+            <div class="flex flex-col col-span-full">
+                <label mandatoryFieldLabel for="tobaccoUse">{{ 'SOCIAL_HISTORY.TOBACCO_USE' | translate }}</label>
+                <div class="mt-2">
+                    <p-select id="tobaccoUse" formControlName="tobaccoUse" [options]="tobaccoUseOptions"
+                        optionLabel="label" optionValue="label"
+                        placeholder="{{ 'SOCIAL_HISTORY.PLACE_HOLDER.TOBACCO_USE' | translate }}" class="w-full"
+                        [appendTo]="'body'">
+                    </p-select>
+                </div>
+            </div>
+            <div class="flex flex-col col-span-full">
+                <label for="tobaccoUseFrequency">{{ 'SOCIAL_HISTORY.TOBACCO_USE_FREQUENCY' |
+                    translate }}</label>
+                <div class="mt-2">
+                    <p-select id="tobaccoUseFrequency" formControlName="tobaccoUseFrequency"
+                        [options]="tobaccoUseFrequencyOptions" optionLabel="label" optionValue="label"
+                        placeholder="{{ 'SOCIAL_HISTORY.PLACE_HOLDER.TOBACCO_USE_FREQUENCY' | translate }}"
+                        class="w-full" [appendTo]="'body'">
+                    </p-select>
+                </div>
+            </div>
+            <div class="flex flex-col col-span-full">
+                <label mandatoryFieldLabel for="alchoholUse">{{ 'SOCIAL_HISTORY.ALCOHOL_USE' | translate }}</label>
+                <div class="mt-2">
+                    <p-select id="alchoholUse" formControlName="alchoholUse" [options]="alchoholUseOptions"
+                        optionLabel="label" optionValue="label"
+                        placeholder="{{ 'SOCIAL_HISTORY.PLACE_HOLDER.ALCOHOL_USE' | translate }}" class="w-full"
+                        [appendTo]="'body'">
+                    </p-select>
+                </div>
+            </div>
+            <div class="flex flex-col col-span-full">
+                <label for="alchoholUseFrequency">{{ 'SOCIAL_HISTORY.ALCOHOL_USE_FREQUENCY' |
+                    translate }}</label>
+                <div class="mt-2">
+                    <p-select id="alchoholUseFrequency" formControlName="alchoholUseFrequency"
+                        [options]="alchoholUseFrequencyOptions" optionLabel="label" optionValue="label"
+                        placeholder="{{ 'SOCIAL_HISTORY.PLACE_HOLDER.ALCOHOL_USE_FREQUENCY' | translate }}"
+                        class="w-full" [appendTo]="'body'">
+                    </p-select>
+                </div>
+            </div>
+            <div class="flex flex-col col-span-full">
+                <label mandatoryFieldLabel for="drugUse">{{ 'SOCIAL_HISTORY.DRUG_USE' | translate }}</label>
+                <div class="mt-2">
+                    <p-select id="drugUse" formControlName="drugUse" [options]="drugUseOptions" optionLabel="label"
+                        optionValue="label" placeholder="{{ 'SOCIAL_HISTORY.PLACE_HOLDER.DRUG_USE' | translate }}"
+                        class="w-full" [appendTo]="'body'">
+                    </p-select>
+                </div>
+            </div>
+            <div class="flex flex-col col-span-full">
+                <label for="drugUseType">{{ 'SOCIAL_HISTORY.DRUG_USE_TYPE' | translate
+                    }}</label>
+                <div class="mt-2">
+                    <p-autocomplete id="drugUseType" formControlName="drugUseType" [forceSelection]="false"
+                        [suggestions]="filtereddrugUse" (completeMethod)="searchdrugUseType($event.query)"
+                        (onSelect)="ondrugUseTypeSelect($event)" optionLabel="label" [appendTo]="'body'"
+                        placeholder="{{ 'SOCIAL_HISTORY.DRUG_USE_TYPE' | translate }}" class="w-full"
+                        [style]="{'width':'100%'}" [inputStyle]="{ width: '100%' }" minLength="3" />
+                </div>
+            </div>
+            <div class="flex flex-col col-span-full">
+                <label for="occupation">{{'SOCIAL_HISTORY.OCCUPATION' | translate }}</label>
+                <div class="mt-2">
+                    <input pInputText type="text" name="occupation" id="occupation" formControlName="occupation"
+                        class="w-full" [placeholder]="'SOCIAL_HISTORY.PLACE_HOLDER.OCCUPATION' | translate " />
+                </div>
+            </div>
+            <div class="flex flex-col col-span-full">
+                <label for="excerciseHabits">{{ 'SOCIAL_HISTORY.EXERCISE_HABITS' | translate
+                    }}</label>
+                <div class="mt-2">
+                    <p-select id="excerciseHabits" formControlName="excerciseHabits" [options]="excerciseHabitsOptions"
+                        optionLabel="label" optionValue="label"
+                        placeholder="{{ 'SOCIAL_HISTORY.PLACE_HOLDER.EXERCISE_HABITS' | translate }}" class="w-full"
+                        [appendTo]="'body'">
+                    </p-select>
+                </div>
+            </div>
+            <div class="flex flex-col col-span-full">
+                <label for="maritalStatus">{{ 'SOCIAL_HISTORY.MARITAL_STATUS' | translate }}</label>
+                <div class="mt-2">
+                    <p-select id="maritalStatus" formControlName="maritalStatus" [options]="maritalStatusOptions"
+                        optionLabel="label" optionValue="label"
+                        placeholder="{{ 'SOCIAL_HISTORY.PLACE_HOLDER.MARITAL_STATUS' | translate }}" class="w-full"
+                        [appendTo]="'body'">
+                    </p-select>
+                </div>
+            </div>
+            <div class="flex flex-col col-span-full">
+                <label for="livingSituation">{{ 'SOCIAL_HISTORY.LIVING_SITUATION' | translate
+                    }}</label>
+                <div class="mt-2">
+                    <p-select id="livingSituation" formControlName="livingSituation" [options]="livingSituationOptions"
+                        optionLabel="label" optionValue="label"
+                        placeholder="{{ 'SOCIAL_HISTORY.PLACE_HOLDER.LIVING_SITUATION' | translate }}" class="w-full"
+                        [appendTo]="'body'">
+                    </p-select>
+                </div>
+            </div>
+            <div class="flex flex-col col-span-full">
+                <label for="dietaryHabits">{{ 'SOCIAL_HISTORY.DIETARY_HABITS' | translate }}</label>
+                <div class="mt-2">
+                    <p-select id="dietaryHabits" formControlName="dietaryHabits" [options]="dietaryHabitsOptions"
+                        optionLabel="label" optionValue="label"
+                        placeholder="{{ 'SOCIAL_HISTORY.PLACE_HOLDER.DIETARY_HABITS' | translate }}" class="w-full"
+                        [appendTo]="'body'">
+                    </p-select>
+                </div>
+            </div>
+            <div class="flex flex-col col-span-full">
+                <label for="travelHistory">{{ 'SOCIAL_HISTORY.TRAVEL_HISTORY' | translate }}</label>
+                <div class="mt-2">
+                    <p-select id="travelHistory" formControlName="travelHistory" [options]="travelHistoryOptions"
+                        optionLabel="label" optionValue="label"
+                        placeholder="{{ 'SOCIAL_HISTORY.PLACE_HOLDER.TRAVEL_HISTORY' | translate }}" class="w-full"
+                        [appendTo]="'body'">
+                    </p-select>
+                </div>
+            </div>
+
+        </div>
+    </form>
+
+    <ng-template #footer>
+        <p-divider />
+        <div class="grid grid-cols-12 gap-2">
+            <div class="hidden md:flex col-span-12 md:col-span-6"></div>
+            <div class="flex col-span-12 md:col-span-6 items-center gap-2">
+                <p-button label="{{'SAVE'| translate }}" size="small" (onClick)="save()" class="w-full"
+                    [styleClass]="'w-full sm:w-full md:w-full lg:w-full'" [loading]="isCallInitiated"
+                    [disabled]="isCallInitiated" />
+                <p-button label="{{'CANCEL'| translate }}" severity="danger" class="w-full"
+                    [styleClass]="'w-full sm:w-full md:w-full lg:w-full'" [outlined]="true"
+                    (onClick)="isVisible.set(false)" size="small" />
+            </div>
+        </div>
+    </ng-template>
+</p-drawer>

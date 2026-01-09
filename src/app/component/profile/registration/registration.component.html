@@ -1,0 +1,392 @@
+<div class="p-3" *ngIf="profileForm">
+    <div class="card !p-2 !bg-gray-200">
+        <div class="p-0">
+            <h3 class="text-2xl font-semibold text-gray-900">
+
+                {{ 'PATIENT.GREETING' | translate: { firstName: profileForm.get('firstName')?.value, lastName:
+                profileForm.get('lastName')?.value } }}
+            </h3>
+            <p-divider></p-divider>
+
+            <div class="card">
+                <div>
+                    <h4 class="font-semibold text-gray-900 text-base/7"> {{ 'PATIENT.GET_PROFILE_ROM_FAMILY_MEMBER' |
+                        translate}}</h4>
+                </div>
+                <p-divider></p-divider>
+                <div class="grid grid-cols-12 gap-3 mt-5">
+
+                    <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-3 lg:col-span-2">
+                        <div class="flex">
+                            <p-inputgroup>
+                                <p-inputgroup-addon>+91</p-inputgroup-addon>
+                                <p-inputNumber phoneNumberMask inputId="familyMemberMobileNumber"
+                                    name="familyMemberMobileNumber" [(ngModel)]="familyMemberMobileNumber"
+                                    [maxlength]="10" [minlength]="10" class="w-full" [useGrouping]="false"
+                                    [placeholder]="'ADDRESS.ENTER_MOBILE' | translate">
+                                </p-inputNumber>
+                            </p-inputgroup>
+                        </div>
+                    </div>
+                    <div class="flex flex-col col-span-full sm:col-span-4 md:col-span-2 lg:col-span-1">
+                        <p-button label="Send OTP" (onClick)="sendOTP()"></p-button>
+
+                    </div>
+                </div>
+
+            </div>
+
+            <form [formGroup]="profileForm">
+                <div class="card">
+                    <div>
+                        <h4 class="font-semibold text-gray-900 text-base/7">{{ 'PATIENT.BASIC_DETAILS' | translate }}
+                        </h4>
+                    </div>
+                    <p-divider></p-divider>
+
+                    <div class="grid grid-cols-12 gap-3 mt-5">
+
+                        <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-1 lg:col-span-1">
+                            <label for="title">{{ 'PATIENT.TITLE' | translate }}</label>
+                            <div class="mt-2">
+                                <p-select id="title" formControlName="title" [options]="titles" optionLabel="label"
+                                    optionValue="value" placeholder="{{ 'PATIENT.PLACE_HOLDER.TITLE' | translate }}"
+                                    class="w-full" class="w-full">
+                                </p-select>
+                            </div>
+                        </div>
+
+                        <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-3 lg:col-span-2">
+                            <label mandatoryFieldLabel for="firstName">{{ 'PATIENT.FIRST_NAME' | translate }}</label>
+                            <div class="mt-2">
+                                <input pInputText type="text" name="firstName" id="firstName"
+                                    formControlName="firstName" autocomplete="family-name" class="w-full" maxlength="50"
+                                    placeholder="{{ 'PATIENT.PLACE_HOLDER.FIRST_NAME' | translate }}">
+                            </div>
+                        </div>
+                        <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-3 lg:col-span-2">
+                            <label for="middleName">{{ 'PATIENT.MIDDLE_NAME' | translate }}</label>
+                            <div class="mt-2">
+                                <input pInputText type="text" name="middleName" id="middleName"
+                                    formControlName="middleName" autocomplete="family-name" class="w-full"
+                                    maxlength="50" placeholder="{{ 'PATIENT.PLACE_HOLDER.MIDDLE_NAME' | translate }}">
+                            </div>
+                        </div>
+                        <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-3 lg:col-span-2">
+                            <label mandatoryFieldLabel for="last-name">{{ 'PATIENT.LAST_NAME' | translate }}</label>
+                            <div class="mt-2">
+                                <input pInputText type="text" name="lastName" id="last-name" formControlName="lastName"
+                                    autocomplete="family-name" class="w-full" maxlength="50"
+                                    placeholder="{{ 'PATIENT.PLACE_HOLDER.LAST_NAME' | translate }}">
+                            </div>
+                        </div>
+
+                        <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-2">
+                            <label mandatoryFieldLabel for="last-name">{{ 'PATIENT.DATE_OF_BIRTH' | translate }}</label>
+                            <div class="mt-2">
+                                <p-datepicker dateFormat="dd/mm/yy" class="w-full" [iconDisplay]="'input'" dateMask
+                                    [maxDate]="currentDate" formControlName="dateOfBirth" [showIcon]="true" [minDate]="minDateOfBirth"
+                                    [style]="{'width': '100%'}" (onSelect)="calculateAge()" (onClose)="calculateAge()"
+                                    placeholder="DD/MM/YYYY" />
+                            </div>
+                        </div>
+
+                        <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-1">
+                            <label for="age">{{ 'PATIENT.AGE' | translate }}</label>
+                            <div class="mt-2">
+                                <input pInputText type="text" formControlName="age" name="age" id="age" class="w-full">
+                            </div>
+                        </div>
+
+                        <div
+                            class="flex flex-col col-start-1 sm:col-start-1 md:col-start-1 lg:col-start-1 col-span-full sm:col-span-6 md:col-span-1 lg:col-span-1">
+                            <label mandatoryFieldLabel for="gender">{{ 'PATIENT.GENDER' | translate }}</label>
+                            <div class="mt-2">
+                                <p-select id="gender" formControlName="gender" [options]="genders" optionLabel="label"
+                                    optionValue="value" placeholder="{{ 'PATIENT.PLACE_HOLDER.GENDER' | translate }}"
+                                    class="w-full" class="w-full">
+                                </p-select>
+                            </div>
+                        </div>
+                        <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-6 lg:col-span-2"
+                            *ngIf="gender">
+                            <label for="genderFreeText">&nbsp;</label>
+                            <div class="mt-2">
+                                <input pInputText type="text" name="genderFreeText" id="genderFreeText"
+                                    formControlName="genderFreeText" class="w-full"
+                                    placeholder="{{ 'PATIENT.PLACE_HOLDER.GENDER_FREE_TEXT' | translate }}">
+                            </div>
+                        </div>
+
+
+                        <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-2">
+                            <label for="state">{{ 'PATIENT.MARITAL_STATUS' | translate }}</label>
+                            <div class="flex mt-2">
+                                <p-select id="MaritalStatus" formControlName="maritalStatus" [options]="maritalStatuses"
+                                    optionLabel="label" optionValue="value"
+                                    placeholder="{{ 'PATIENT.PLACE_HOLDER.MARITAL_STATUS' | translate }}" class="w-full"
+                                    class="w-full">
+                                </p-select>
+                            </div>
+                        </div>
+                        <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-6 lg:col-span-2"
+                            *ngIf="maritalStatus">
+                            <label for="maritalStatusFreeText">&nbsp;</label>
+                            <div class="mt-2">
+                                <input pInputText type="text" name="maritalStatusFreeText" id="maritalStatusFreeText"
+                                    formControlName="maritalStatusFreeText" class="w-full"
+                                    placeholder="{{ 'PATIENT.PLACE_HOLDER.MARITAL_STATUS_FREE_TEXT' | translate }}">
+                            </div>
+                        </div>
+                        <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-2">
+                            <label for="aadharNumber">{{ 'PATIENT.AADHAAR_NUMBER' | translate
+                                }}</label>
+                            <div class="mt-2">
+                                <p-inputmask mask="9999 9999 9999" formControlName="aadharNumber" id="aadhaarNumber"
+                                    class="w-full" [unmask]="true" placeholder="9999 9999 9999"
+                                    [style]="{'width':'100%'}" />
+                            </div>
+                        </div>
+                        <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-2">
+                            <label for="abhaId">{{ 'PATIENT.ABHA_ID' | translate }}</label>
+                            <div class="mt-2">
+                                <p-inputmask mask="9999-9999-9999-99" formControlName="abhaId" id="abhaId"
+                                    class="w-full" [unmask]="true" placeholder="9999-9999-9999-99"
+                                    [style]="{'width':'100%'}" />
+                            </div>
+                        </div>
+                        <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-3 lg:col-span-2">
+                            <label for="profilePicture" class="">{{ 'PATIENT.PROFILE_PICTURE' | translate }}</label>
+                            <div class="flex justify-start mt-2">
+                                <app-file-upload formControlName="profilePicture" [moduleId]="2" [fileSize]="10"
+                                    [subModuleId]="2" source="PatientPortal" [objectId]="undefined"
+                                    [fileTypeSupported]="documentTypes"></app-file-upload>
+                            </div>
+                        </div>
+                        <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-2 lg:col-span-1">
+                            <label for="bloodGroup">{{ 'PATIENT.BLOOD_GROUP' | translate }}</label>
+                            <div class="flex mt-2">
+                                <p-select id="bloodGroup" formControlName="bloodGroup" [options]="bloodGroups"
+                                    optionLabel="label" optionValue="value" placeholder="{{ 'PATIENT.PLACE_HOLDER.BLOOD_GROUP' | translate
+                        }}" class="w-full" class="w-full">
+                                </p-select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div>
+                        <h4 class="font-semibold text-gray-900 text-base/7">{{ 'PATIENT.CONTACT_DETAILS' | translate }}
+                        </h4>
+                    </div>
+                    <p-divider></p-divider>
+                    <app-address></app-address>
+                </div>
+
+                <div class="card">
+                    <div>
+                        <h4 class="font-semibold text-gray-900 text-base/7">{{ 'PATIENT.PREFERENCES' | translate }}</h4>
+                    </div>
+                    <p-divider></p-divider>
+                    <div class="grid grid-cols-12 gap-3 mt-5">
+
+                        <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-3 lg:col-span-2">
+                            <label for="preferredLanguages">{{ 'PATIENT.PREFERRED_LANGUAGE' |
+                                translate
+                                }}</label>
+                            <div class="mt-2">
+                                <p-multiselect [options]="languages" placeholder="{{ 'PATIENT.PLACE_HOLDER.PREFERRED_LANGUAGE' | translate
+                        }}" optionLabel="label" formControlName="preferredLanguages" optionValue="value" display="chip"
+                                    [filter]="true" class="w-full">
+                                </p-multiselect>
+
+                            </div>
+                        </div>
+                        <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-3 lg:col-span-2">
+                            <label for="communicationModes">{{ 'PATIENT.MODE_OF_COMMUNICATION' |
+                                translate
+                                }}</label>
+                            <div class="mt-2">
+                                <p-multiselect [options]="communicationModes" placeholder="{{ 'PATIENT.PLACE_HOLDER.SELECT_MODE_OF_COMMUNICATION' | translate
+                        }}" placeholder="" formControlName="communicationModes" optionLabel="label" optionValue="value"
+                                    display="chip" [filter]="true" class="w-full">
+                                </p-multiselect>
+                            </div>
+                        </div>
+                        <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-4 lg:col-span-4"
+                            *ngIf="patientId">
+                            <label for="stillFamilyMember" mandatoryFieldLabel>
+                                {{ 'PATIENT.STILL_BE_FAMILY_MEMBER' |
+                                translate
+                                }}
+                            </label>
+                            <div class="mt-2">
+                                <p-selectbutton id="stillFamilyMember" formControlName="stillFamilyMember"
+                                    [options]="yesNoOptions" optionLabel="label" [allowEmpty]="false"
+                                    optionValue="value"></p-selectbutton>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div>
+                        <h4 class="font-semibold text-gray-900 text-base/7">{{ 'PATIENT.EMERGENCY_CONTACT_DETAILS' |
+                            translate
+                            }}
+                        </h4>
+                    </div>
+                    <p-divider></p-divider>
+                    <div class="w-full mt-5">
+                        <ng-container formArrayName="emergencyContacts">
+                            <p-table [value]="getEmergencyContacts['controls']" [reorderableColumns]="true" size="small"
+                                (onRowReorder)="onRowReorder()">
+                                <ng-template #header let-columns>
+                                    <tr>
+                                        <th style="width:3%" scope="col"></th>
+                                        <th style="width:30%" scope="col">
+                                            <label for="emergencyContactName">
+                                                {{ 'PATIENT.EMERGENCY_CONTACT_NAME' | translate }}
+                                            </label>
+                                        </th>
+                                        <th style="width:30%" scope="col">
+                                            <label for="emergencyContactNumber">
+                                                {{ 'PATIENT.EMERGENCY_CONTACT_NUMBER' | translate }}
+                                            </label>
+                                        </th>
+                                        <th style="width:25%" scope="col">
+                                            <label for="relationshipToPatient">
+                                                {{ 'PATIENT.RELATIONSHIP' | translate }}
+                                            </label>
+                                        </th>
+                                        <th style="width:12%" scope="col"></th>
+                                    </tr>
+
+                                </ng-template>
+                                <ng-template #body let-item let-index="rowIndex">
+                                    <tr [pReorderableRow]="index" [formGroupName]="index">
+                                        <td>
+                                            <span class="pi pi-bars" pReorderableRowHandle></span>
+                                        </td>
+                                        <td>
+                                            <input pInputText id="emergencyContactName" formControlName="contactName"
+                                                type="text" maxlength="50"
+                                                placeholder="{{ 'PATIENT.PLACE_HOLDER.EMERGENCY_CONTACT_NAME' | translate }}"
+                                                class="w-full" />
+                                        </td>
+                                        <td>
+                                           <p-inputgroup>
+                                              <p-inputgroup-addon>+91</p-inputgroup-addon>
+                                              <p-inputnumber phoneNumberMask formControlName="contactNumber" name="emergencyContactNumber"
+                                                  placeholder="{{ 'PATIENT.PLACE_HOLDER.EMERGENCY_CONTACT_NUMBER' | translate }}"
+                                                  id="emergencyContactNumber" class="w-full" mode="decimal"
+                                                  inputId="withoutgrouping" [useGrouping]="false" [maxlength]="10"
+                                                  [minlength]="10" />
+                                          </p-inputgroup>
+                                        </td>
+                                        <td>
+                                            <p-select id="relationshipToPatient" formControlName="contactRelation"
+                                                appendTo="body" [options]="patientRelationShips" optionLabel="label"
+                                                optionValue="value"
+                                                placeholder="{{ 'PATIENT.PLACE_HOLDER.RELATIONSHIP' | translate }}"
+                                                class="w-full" class="w-full">
+                                            </p-select>
+                                        </td>
+                                        <td>
+                                            @if ((getEmergencyContacts['controls'].length - 1) === index) {
+                                            @if (getEmergencyContacts['controls'].length > 1) {
+
+                                            <p-button icon="pi pi-trash" variant="outlined" severity="danger"
+                                                [raised]="false" (onClick)="removeEmergencyContact(index)" />
+                                            &nbsp;
+                                            }
+                                            <p-button icon="pi pi-plus" variant="outlined"
+                                                (onClick)="addEmergencyContacts(undefined,true)" [raised]="false" />
+
+                                            } @else {
+                                            <p-button icon="pi pi-trash" variant="outlined" severity="danger"
+                                                [raised]="false" (onClick)="removeEmergencyContact(index)" />
+                                            }
+                                        </td>
+                                    </tr>
+                                </ng-template>
+                            </p-table>
+                        </ng-container>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div>
+                        <h3 class="font-semibold text-gray-900 text-base/7"> {{ 'T&C' | translate }}</h3>
+                    </div>
+                    <p-divider></p-divider>
+                    <app-terms-and-condition #termscomponent [entityId]="patientId" [groupType]="'PATIENT'"
+                        [module]="'PATIENT_REG'"></app-terms-and-condition>
+                    <div class="flex mt-5 space-x-3 justify-items-end">
+                        <p-button label="Submit" (onClick)="save()"></p-button>
+                        <p-button label="Cancel" variant="outlined" severity="danger" (onClick)="cancel()"></p-button>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+<p-confirmdialog key="patient-profile-fetch" [position]="'top'"
+    styleClass="w-[80vw] sm:w-[70vw] md:w-[35vw] lg:w-[28vw]">
+    <ng-template #message let-message>
+
+        <div class="flex flex-col items-center w-full gap-4 m-1 col-span-full">
+            <span style="text-align: center;" class="w-full"
+                [innerHTML]="'OTP_DIALOG.OTP_SENT' | translate:{ contact: familyMemberMobileNumber }">
+            </span>
+            <span class="flex justify-center w-full">{{ 'OTP_DIALOG.ENTER_OTP' | translate }}</span>
+            <p-inputotp class="flex justify-center w-full" [(ngModel)]="profileFetchOTP" [integerOnly]="true"
+                [length]="6" [mask]="false" />
+            {{ 'OTP_DIALOG.RESEND_OTP_IN' | translate:{ time: formattedTime() } }}
+        </div>
+    </ng-template>
+    <ng-template #footer>
+        <div class="flex self-stretch justify-between w-full mt-8" *ngIf="isOTPSent">
+            <p-button [label]="'OTP_DIALOG.RESEND_OTP' | translate" [link]="true" class="p-0"
+                [disabled]="formattedTime() !== '00:00'" (onClick)="resendOTP()" />
+            <p-button [label]="'OTP_DIALOG.SUBMIT' | translate" [disabled]="profileFetchOTP?.length < 6"
+                (onClick)="submitOTP()" />
+        </div>
+    </ng-template>
+</p-confirmdialog>
+
+<p-dialog [header]="'PATIENT.SELECT_PROFILE' | translate" [modal]="true" [visible]="isProfileSelectionVisible()"
+    [style]="{ width: '70rem' }" [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }" [resizable]="false"
+    [closable]="true" appendTo="body">
+    <p-table [value]="profileSuggestions" stripedRows [tableStyle]="{'min-width': '60rem'}" [scrollable]="true"
+        scrollHeight="flex" [scrollHeight]="'30rem'" selectionMode="single" [(selection)]="selectedProfile"
+        [metaKeySelection]="false" dataKey="patientId" (onRowSelect)="onRowSelect($event)">
+        <ng-template #header>
+            <tr>
+                <th style="width: 4rem" scope="col"></th>
+                <th scope="col">{{ 'PATIENT.PROFILE_NAME' | translate }}</th>
+                <th scope="col">{{ 'PATIENT.DATE_OF_BIRTH' | translate }}</th>
+                <th scope="col">{{ 'PATIENT.GENDER' | translate }}</th>
+                <th scope="col">{{ 'PATIENT.PROFILE_OWNER' | translate }}</th>
+                <th scope="col">{{ 'PATIENT.RELATION' | translate }}</th>
+                <th scope="col">{{ 'ADDRESS.CITY' | translate }}</th>
+            </tr>
+        </ng-template>
+        <ng-template #body let-patient>
+            <tr>
+                <td>
+                    <p-tableRadioButton [value]="patient" />
+                </td>
+                <td>{{patient.firstName}} {{patient.lastName}}</td>
+                <td>{{patient.dateOfBirth| date: 'dd/MM/yyyy' }}</td>
+                <td>{{patient.gender}}</td>
+                <td>{{patient.userFirstName}} {{patient.userLastName}}</td>
+                <td>{{patient.relationName}}</td>
+                <td>{{patient.city}}</td>
+            </tr>
+        </ng-template>
+    </p-table>
+</p-dialog>

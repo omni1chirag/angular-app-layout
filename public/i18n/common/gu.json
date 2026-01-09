@@ -1,19 +1,7 @@
 {
-  "notification": {
-    "title": "સૂચના ચેતવણી ઉમેરો",
-    "configuration": "કન્ફિગરેશન",
-    "info": "આ માહિતી જાહેરમાં પ્રદર્શિત કરવામાં આવશે, તેથી તમે શું શેર કરો છો તે અંગે સાવચેત રહો.",
-    "eventName": "ઇવેન્ટનું નામ",
-    "eventType": "ઇવેન્ટનો પ્રકાર",
-    "targetAudience": "લક્ષિત પ્રેક્ષક",
-    "whenToTrigger": "ક્યારે ટ્રિગર કરવું",
-    "dateAndTime": "તારીખ અને સમય",
-    "status": "સ્થિતિ",
-    "message": "સંદેશ"
-  },
   "success": {
     "user": {
-      "statusUpdate": "તારીખ અને સમય"
+      "statusUpdate": "વપરાશકર્તા સ્થિતિ સફળતાપૂર્વક અપડેટ થઈ"
     }
   },
   "ADDRESS": {
@@ -21,59 +9,103 @@
     "ADDRESS2": "સરનામું 2",
     "ENTER_ADDRESS": "સરનામું દાખલ કરો",
     "PINCODE": "પિનકોડ",
-    "ENTER_PINCODE": "પિનકોટ દાખલ કરો",
+    "ENTER_PINCODE": "પિનકોડ દાખલ કરો",
     "CITY": "શહેર",
     "SELECT_CITY": "શહેર પસંદ કરો",
     "STATE": "રાજ્ય",
     "SELECT_STATE": "રાજ્ય પસંદ કરો",
     "COUNTRY": "દેશ",
     "SELECT_COUNTRY": "દેશ પસંદ કરો",
-    "MOBILE_NUMBER": "મોબાઇલ નંબર",
+    "MOBILE_NUMBER": "મોબાઈલ નંબર",
     "ALT_MOBILE_NUMBER": "વૈકલ્પિક મોબાઇલ નંબર",
-    "ENTER_MOBILE": "મોબાઇલ નંબર દાખલ કરો",
+    "ENTER_MOBILE": "મોબાઈલ નંબર દાખલ કરો",
     "CONTACT_NUMBER": "સંપર્ક નંબર",
     "ENTER_CONTACT": "સંપર્ક નંબર દાખલ કરો",
-    "EMAIL": "ઈમેલ સરનામું",
-    "ENTER_EMAIL": "ઈમેલ સરનામું દાખલ કરો"
+    "EMAIL": "ઈમેલ",
+    "ENTER_EMAIL": "ઈમેલ દાખલ કરો"
   },
   "NAME": "નામ",
+  "T&C": "નિયમો અને શરતો",
   "ADD": "ઉમેરો",
+  "BACK": "પાછળ",
   "EDIT": "સંપાદિત કરો",
+  "ASSIGN": "સોંપવું",
   "SAVE": "સાચવો",
   "CANCEL": "રદ કરો",
   "EMAIL": "ઈમેલ",
-  "MOBILE_NUMBER": "મોબાઇલ નંબર",
+  "MOBILE_NUMBER": "મોબાઈલ નંબર",
   "ACTIONS": "ક્રિયાઓ",
-  "STATUS": "દરજ્જો",
+  "STATUS": "સ્થિતિ",
   "ACTIVATE": "સક્રિય કરો",
   "DE_ACTIVATE": "નિષ્ક્રિય કરો",
-  "CLINICAL_SUMMARY": "રણનાશક સારાંશ",
+  "CLINICAL_SUMMARY": "ક્લિનિકલ સારાંશ",
   "NO_DATA_FOUND": "કોઈ ડેટા મળ્યો નથી.",
+  "ADD_APPOINTMENT": "એપોઇન્ટમેન્ટ ઉમેરો",
   "CLINIC": "ક્લિનિક",
+  "DOCTOR": {
+    "VERIFIED": "તબીબી નોંધણી ચકાસાયેલ",
+    "ABOUT": "ડોક્ટર વિશે"
+  },
   "DOCTOR_NAME": "ડોક્ટરનું નામ",
-  "NO_FILE_CHOSEN": "કોઈ ફાઇલ પસંદ કરેલ નથી",
-  "PATIENT_PROFILE": "રોગીની પ્રોફાઇલ",
+  "NO_FILE_CHOSEN": "કોઈ ફાઇલ પસંદ કરી નથી",
+  "PATIENT_PROFILE": "દર્દી પ્રોફાઇલ",
+  "CLEAR": "સાફ કરો",
+  "LOCK": "તાળું",
+  "UNLOCK": "અનલોક કરો",
   "PLACE_HOLDER": {
     "CLINIC": "ક્લિનિક પસંદ કરો",
-    "DOCTOR": "ડોક્ટર પસંદ કરો"
+    "DOCTOR": "ડૉક્ટર પસંદ કરો",
+    "CHANGE_CLINIC": "ક્લિનિક બદલો"
   },
   "TOOLTIP": {
-    "NOT_AUTHORIZED": "તમે આ ક્રિયા કરવા માટે અધિકૃત નથી.",
-    "LOCKED_CHART": "આ ચાર્ટ લૉક કરેલો છે. તમે ફેરફારો કરી શકતા નથી."
+    "NOT_AUTHORIZED": "તમે આ ક્રિયા કરવા માટે અધિકૃત નથી",
+    "LOCKED_CHART": "ચાર્ટ લૉક કરેલ છે. "
   },
   "CHARTING": {
-    "SIGN_OFF": "સાઇન ઑફ",
-    "LOCKED": "લૉક થયેલ",
-    "UNLOCK": "અનલૉક કરો",
+    "SIGN_OFF": "સાઇન ઓફ કરો",
+    "LOCKED": "તાળું મારેલું",
+    "UNLOCK": "અનલોક કરો",
     "CONFIRM": "પુષ્ટિ કરો",
-    "CONFIRM_SIGNOFF_MESSAGE": "શું તમે ખરેખર આ ચાર્ટ સાઇન ઑફ કરવા માંગો છો?",
-    "YES": "હાં",
+    "CONFIRM_SIGNOFF_MESSAGE": "શું તમે ખરેખર આ ચાર્ટ પર સાઇન ઇન કરવા માંગો છો?",
+    "YES": "હા",
     "CONFIRM_UNLOCK": "અનલૉકની પુષ્ટિ કરો",
-    "UNLOCK_CHART_REASON_HEADING": "કૃપા કરીને આ ચાર્ટને અનલૉક કરવાનું કારણ આપો :",
+    "UNLOCK_CHART_REASON_HEADING": "કૃપા કરીને આ ચાર્ટને અનલૉક કરવા માટેનું કારણ આપો:",
     "UNLOCK_CHART": "ચાર્ટ અનલૉક કરો",
     "START_VISIT": "મુલાકાત શરૂ કરો",
     "PLACE_HOLDER": {
-      "APPOINTMENT": "અપોઇન્ટમેન્ટ પસંદ કરો"
+      "APPOINTMENT": "એપોઇન્ટમેન્ટ પસંદ કરો"
     }
+  },
+  "ERROR": {
+    "LOADING_FAILED": "ડેટા લોડ કરવામાં નિષ્ફળ",
+    "TRY_AGAIN_LATER": "કૃપા કરીને પછીથી ફરી પ્રયાસ કરો"
+  },
+  "ACTION": {
+    "RETRY": "ફરી પ્રયાસ કરો",
+    "CANCEL": "રદ કરો"
+  },
+  "NOTIFICATION": {
+    "VIEW_ALL": "બધા જુઓ",
+    "MARK_ALL_AS_READ": "બધાને વાંચેલા તરીકે ચિહ્નિત કરો"
+  },
+  "RESPONSE": {
+    "OTP_SENT_SUCCESS": "OTP સફળતાપૂર્વક મોકલ્યો."
+  },
+  "OTP_DIALOG": {
+    "VERIFY_IDENTITY": "આગળ વધવા માટે, તમારે તમારી ઓળખ ચકાસવી આવશ્યક છે.",
+    "SEND_OTP_ON": "આના પર OTP મોકલો:",
+    "SEND_OTP_ON_BOTH": "તમારા મોબાઈલ નંબર અને ઈમેલ એડ્રેસ બંને પર OTP મોકલવામાં આવશે.",
+    "SEND_OTP_ON_MOBILE": "તમારા મોબાઈલ નંબર પર એક OTP મોકલવામાં આવશે.",
+    "MOBILE_NUMBER": "મોબાઈલ નંબર",
+    "EMAIL_ADDRESS": "ઇમેઇલ સરનામું",
+    "OTP_SENT": "અમે 6-અંકનો ચકાસણી કોડ મોકલ્યો છે <strong>{{contact}}</strong>.",
+    "OTP_SENT_BOTH": "અમે 6-અંકનો ચકાસણી કોડ મોકલ્યો છે <strong>{{mobile}}</strong> અને <strong>{{email}}</strong>.",
+    "ENTER_OTP": "OTP દાખલ કરો",
+    "MOBILE_OTP": "મોબાઇલ OTP",
+    "EMAIL_OTP": "ઈમેલ OTP",
+    "RESEND_OTP_IN": "માં OTP ફરીથી મોકલો {{time}}",
+    "SEND_OTP": "OTP મોકલો",
+    "RESEND_OTP": "OTP ફરીથી મોકલો",
+    "SUBMIT": "સબમિટ કરો"
   }
 }

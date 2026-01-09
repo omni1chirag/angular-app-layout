@@ -1,0 +1,66 @@
+<div class="card">
+
+    <div>
+        <h4 class="font-semibold text-gray-900 text-base/7">{{ 'MEDICATION.MEDICATIONS' | translate }}</h4>
+    </div>
+    <p-divider />
+
+    <ng-container>
+        @if (isBrowser) {
+        <p-table [value]="medicationsList" [reorderableColumns]="true" size="small" [paginator]="true"
+            [loading]="showLoader" [first]="first" [lazy]="true" [rows]="size" [totalRecords]="totalRecords"
+            [scrollable]="true" (onLazyLoad)="loadMedications($event)" #medicationTable>
+
+            <ng-template #body let-item let-index="rowIndex">
+                <tr [pReorderableRow]="index">
+                    <td style="width: 44%;">
+                        <strong> {{ item.medicationName }} </strong>
+                    </td>
+                    <td style="width: 40%;">
+                        {{ 'MEDICATION.FREQUENCY' | translate }} : {{ frequencyMap.get(item.customFrequency) }}
+                        <ng-container *ngIf="item.customFrequency === 1">
+                            [{{ item.morningFrequency === 0.5 ? '½' : item.morningFrequency }} -
+                            <span *ngIf="item.afternoonFrequency > 0">
+                                {{ item.afternoonFrequency === 0.5 ? '½' : item.afternoonFrequency }} -
+                            </span>
+                            {{ item.eveningFrequency === 0.5 ? '½' : item.eveningFrequency }} -
+                            {{ item.nightFrequency === 0.5 ? '½' : item.nightFrequency }}]
+                        </ng-container>
+                        <ng-container *ngIf="item.customFrequency === 2 || item.customFrequency === 10">
+                            - {{ item.otherFrequency === 0.5 ? '½' : item.otherFrequency }}
+                        </ng-container>
+
+                        <ng-container *ngIf="item.customFrequency !== 1">
+                            | {{ 'MEDICATION.QUANTITY' | translate }} : {{ item.quantity }} - {{
+                            quantityUnitMap.get(item.quantityUnit) }}
+                        </ng-container>
+
+                        | {{ 'MEDICATION.TIMING' | translate }} : {{ timingMap.get(item.timing) }} |
+
+                        {{ 'MEDICATION.DURATION' | translate }} : {{ item.duration }} - {{
+                        durationUnitMap.get(item.durationUnit) }} |
+
+                        {{ 'MEDICATION.TOTAL_QUANTITY' | translate }} : {{ item.totalQuantity }} - {{
+                        quantityUnitMap.get(item.quantityUnit) }}
+                    </td>
+                    <td style="width: 8%; text-align: right;">
+                        <p-tag [severity]="statusSeverityMap.get(item.status) ?? null"
+                            [value]="statusMap.get(item.status)" [rounded]="true">
+                        </p-tag>
+                    </td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+                <tr>
+                    <td colspan="4">
+                        <div class="text-center">
+                            <span class="text-lg">{{'MEDICATION.TABLE.EMPTY_MESSAGE' | translate}}</span>
+                        </div>
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+        }
+    </ng-container>
+
+</div>

@@ -1,0 +1,13 @@
+//bell icon
+
+.badge-small {
+  font-size: 0.80rem; 
+  min-width: 14px;    
+  height: 14px;
+  line-height: 14px;
+  padding: 0;          
+}
+
+.p-badge.badge-small {
+  transform: translate(-9px, -8px); 
+}

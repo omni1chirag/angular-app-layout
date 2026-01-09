@@ -1,4 +1,4 @@
-import { Customer } from "./customer.model";
+import { TransferModel } from "./transfer.model";
 
 export interface Note {
     key: string;
@@ -6,20 +6,21 @@ export interface Note {
 }
 
 export class OrderModel {
-    id?: string;
-    amount: number;
-    currency: string = 'INR';
-    key: string;
-    recipientId: string;
-    createdAt?: Date;
-    reciept: string;
-    status: string;
-    notes: Note[];  
+    razorpayId?: string;
+    entity?: string;
+    amount?: number;
     amountPaid?: number;
     amountDue?: number;
+    currency = 'INR';
+    receipt: string;
+    status: string;
     attempts?: number;
-    entity:string;
+    notes: Note[];  
+    createdAt?: Date;
+    key: string;
     offerId: string;
-    customer: Customer;
+    accountId: string;
+    config:Config
+    transfers?:TransferModel[];
 }
 

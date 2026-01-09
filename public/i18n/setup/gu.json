@@ -71,5 +71,24 @@
       "CARE_PLAN_SETUP_MASTER_ALREADY_EXISTS": "કેરપ્લેન સેટઅપ પહેલેથી જ અસ્તિત્વમાં છે.",
       "CARE_PLAN_SETUP_ALREADY_EXISTS": "કેરપ્લેન સેટઅપ પહેલેથી જ અસ્તિત્વમાં છે."
     }
+  },
+  "NOTIFICATION": {
+    "TITLE": "સૂચના યાદી",
+    "CLEAR": "સાફ કરો",
+    "MARK_ALL_AS_READ": "બધાને વાંચેલ તરીકે ચિહ્નિત કરો",
+    "DELETE_ALL": "બધું કાઢી નાખો",
+    "TRANSACTION_DATE": "વ્યવહારની તારીખ",
+    "SEARCH_MESSAGE": "સંદેશ શોધો",
+    "MESSAGE": "સંદેશ",
+    "ACTIONS": "ક્રિયાઓ",
+    "LOCK": "તાળું લગાવો",
+    "UNLOCK": "તાળું ખોલો",
+    "MARK_AS_READ": "વાંચેલ તરીકે ચિહ્નિત કરો",
+    "DELETE": "કાઢી નાખો",
+    "DELETE_CONFIRMATION": "શું તમે ખરેખર આ સૂચનાને કાઢી નાખવા માંગો છો?",
+    "DELETE_ALL_CONFIRMATION": "શું તમે ખરેખર પસંદ કરેલ સૂચનાઓને કાઢી નાખવા માંગો છો?",
+    "CONFIRM_DELETE_HEADER": "કાઢી નાખવાની પુષ્ટિ",
+    "YES": "હા",
+    "NO": "ના"
   }
 }

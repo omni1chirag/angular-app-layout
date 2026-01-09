@@ -83,10 +83,34 @@
     }
   },
   "APPOINTMENT": {
+    "APPOINTMENT_LIST": "नियुक्ति सूची",
     "ADD_APPOINTMENT": "नियुक्ति जोड़ें",
     "EDIT_APPOINTMENT": "नियुक्ति संपादित करें",
     "SELECT_PATIENT": "रोगी चुनें",
     "RELATION": "रिश्ता",
+    "CONSULTATION_FEE": "परामर्श शुल्क",
+    "REASON_FOR_VISIT": "मुलाकात का कारण",
+    "APPOINTMENT_TYPE": "अपॉइंटमेंट का प्रकार",
+    "SELECT_DATE_TIME": "दिनांक और समय चुनें",
+    "NOTES": "टिप्पणियां",
+    "CONFIRM_BOOK": "पुष्टि करें और अपॉइंटमेंट बुक करें",
+    "CONFIRM_BOOKING": "बुकिंग की पुष्टि करें",
+    "BOOKING_SUMMARY": "अपॉइंटमेंट सारांश",
+    "DOCTOR": "डॉक्टर",
+    "TYPE": "प्रकार",
+    "DATE": "दिनांक",
+    "TIME": "समय",
+    "TOTAL_FEE": "कुल शुल्क",
+    "PAYMENT_MODE": "भुगतान तरीका",
+    "PAY_NOW": "अभी भुगतान करें",
+    "PAY_NOW_DESC": "UPI / कार्ड / वॉलेट",
+    "PAY_AT_CLINIC": "क्लिनिक में भुगतान करें",
+    "PAY_AT_CLINIC_DESC": "क्लिनिक में नकद भुगतान",
+    "BOOK_NOW": "अपॉइंटमेंट बुक करें",
+    "IN_PERSON": "व्यक्तिगत मुलाकात",
+    "VIDEO_CALL": "वीडियो कॉल",
+    "NO_SLOTS_AVAILABLE": "इस तारीख के लिए कोई स्लॉट उपलब्ध नहीं है",
+    "TERMS_CONDITIONS": "इस अपॉइंटमेंट को बुक करके, आप हमारी नियम और शर्तों से सहमत हैं",
     "FORM_LABELS": {
       "REASON_FOR_VISIT": "मुलाकात का कारण",
       "APPOINTMENT_TYPE": "नियुक्ति का प्रकार",
@@ -94,14 +118,15 @@
       "APPOINTMENT_TIME": "नियुक्ति का समय",
       "DURATION": "अवधि",
       "APPOINTMENT_STATUS": "नियुक्ति की स्थिति",
+      "CHARTING_STATUS": "चार्टिंग स्थिति",
       "NOTES": "नोट्स"
     },
     "PLACE_HOLDER": {
       "PATIENT_NAME": "प्रथम नाम, अंतिम नाम",
       "APPOINTMENT_STATUS": "नियुक्ति की स्थिति चुनें",
-      "REASON_FOR_VISIT": "मुलाकात का कारण खोजें",
       "APPOINTMENT_DATE": "सेवा की तिथि दर्ज करें",
-      "NOTES": "यहां कोई नोट दर्ज करें"
+      "REASON_FOR_VISIT": "मुलाकात का कारण दर्ज करें",
+      "NOTES": "कोई अतिरिक्त टिप्पणी जोड़ें (वैकल्पिक)"
     },
     "RESPONSE": {
       "APPOINTMENT_CREATE_SUCCESS": "नियुक्ति सफलतापूर्वक बनाई गई!",
@@ -115,6 +140,103 @@
       "APPOINTMENT_DURATION_INVALID": "अमान्य नियुक्ति अवधि",
       "APPOINTMENT_PATIENT_NOT_MAPPED": "रोगी आपकी संस्था से संबद्ध नहीं है",
       "APPOINTMENT_MAP_SUCCESS": "नियुक्ति को क्लिनिक से सफलतापूर्वक जोड़ा गया"
+    },
+    "TABLE": {
+      "EMPTY_MESSAGE": "इस मरीज के लिए कोई अपॉइंटमेंट नहीं जोड़ा गया है।"
+    },
+    "ERROR": {
+      "CLINIC_REQUIRED": "कृपया एक क्लिनिक चुनें",
+      "REASON_FOR_VISIT_REQUIRED": "मुलाकात का कारण आवश्यक है",
+      "DATE_TIME_REQUIRED": "कृपया दिनांक और समय चुनें",
+      "PAST_DATE_NOT_ALLOWED": "पिछली तारीखों की अनुमति नहीं है",
+      "NOTES_TOO_LONG": "टिप्पणियां 300 अक्षरों से अधिक नहीं हो सकतीं",
+      "PAYMENT_OPTION_REQUIRED": "कृपया एक भुगतान विकल्प चुनें"
+    }
+  },
+  "DOCUMENT": {
+    "DOCUMENTS": "दस्तावेज़",
+    "NAME": "नाम",
+    "DOCUMENT_NAME": "दस्तावेज़ का नाम",
+    "DOCUMENT_TYPE": "दस्तावेज़ का प्रकार",
+    "UPLOAD_DATE": "अपलोड की तिथि",
+    "UPLOADED_BY": "अपलोड किया गया",
+    "UPLOAD_DCUMENT": "दस्तावेज़ अपलोड करें",
+    "LAST_MODIFIED_DATE": "अंतिम संशोधित तिथि",
+    "DESCRIPTION": "विवरण",
+    "ADD_DOCUMENT": "दस्तावेज़ जोड़ें",
+    "EDIT_DOCUMENT": "दस्तावेज़ संपादित करें",
+    "PLACE_HOLDER": {
+      "SEARCH_NAME": "नाम खोजें",
+      "DOCUMENT_NAME": "दस्तावेज़ का नाम दर्ज करें",
+      "DOCUMENT_TYPE": "दस्तावेज़ का प्रकार चुनें",
+      "ENTER_DOCUMENT_TYPE": "दस्तावेज़ का प्रकार दर्ज करें",
+      "UPLOAD_DATE": "DD/MM/YYYY",
+      "DESCRIPTION": "विवरण दर्ज करें"
+    },
+    "RESPONSE": {
+      "DOCUMENT_UPLOADED_SUCCESS": "दस्तावेज़ सफलतापूर्वक अपलोड किया गया.",
+      "DOCUMENT_UPDATED_SUCCESS": "दस्तावेज़ सफलतापूर्वक अपडेट किया गया.",
+      "DOCUMENT_DELETED_SUCCESS": "दस्तावेज़ सफलतापूर्वक हटा दिया गया!",
+      "DOCUMENT_NOT_FOUND": "दस्तावेज़ नहीं मिला",
+      "FILE_NOT_FOUND": "फ़ाइल नहीं मिली"
+    },
+    "TABLE": {
+      "EMPTY_MESSAGE": "इस रोगी के लिए कोई दस्तावेज़ नहीं जोड़ा गया."
+    },
+    "TOOLTIP": {
+      "NOT_AUTHORIZED": "आप इस क्रिया को करने के लिए अधिकृत नहीं हैं"
+    }
+  },
+  "VITALS": {
+    "VITAL_SETUP": "वाइटल सेटअप",
+    "VITALS": "वाइटल्स",
+    "APPOINTMENT": "अपॉइंटमेंट",
+    "ADD_VITALS": "वाइटल जोड़ें",
+    "EDIT_VITALS": "वाइटल संपादित करें",
+    "RECORDED_DATE": "रिकॉर्ड की गई तिथि",
+    "RECORDED_TIME": "रिकॉर्ड किया गया समय",
+    "VITALS_ID": "वाइटल आईडी",
+    "BODY_TEMPERATURE": "शरीर का तापमान",
+    "HEART_RATE": "हृदय दर",
+    "RESPIRATORY_RATE": "श्वसन दर",
+    "BLOOD_PRESSURE": "रक्तचाप",
+    "SPO2": "SpO2",
+    "HEIGHT": "ऊंचाई",
+    "WEIGHT": "वजन",
+    "BMI": "बीएमआई",
+    "BLOOD_GLUCOSE": "रक्त शर्करा",
+    "NOTES": "टिप्पणियाँ",
+    "ACTION": "क्रिया",
+    "PLACE_HOLDER": {
+      "APPOINTMENT": "अपॉइंटमेंट चुनें",
+      "BODY_TEMPERATURE": "शरीर का तापमान दर्ज करें (°C)",
+      "HEART_RATE": "हृदय दर दर्ज करें (bpm)",
+      "RESPIRATORY_RATE": "श्वसन दर दर्ज करें (breaths/min)",
+      "BLOOD_PRESSURE": "रक्तचाप दर्ज करें (mmHg)",
+      "SPO2": "ऑक्सीजन संतृप्ति दर्ज करें (%)",
+      "HEIGHT": "ऊंचाई दर्ज करें (cm)",
+      "WEIGHT": "वजन दर्ज करें (kg)",
+      "BMI": "बीएमआई दर्ज करें",
+      "BLOOD_GLUCOSE": "रक्त शर्करा दर्ज करें (mg/dL)",
+      "Notes": "टिप्पणियाँ दर्ज करें"
+    },
+    "TOOLTIP": {
+      "NOT_AUTHORIZED": "आपको यह क्रिया करने की अनुमति नहीं है",
+      "LOCKED_CHART": "चार्ट लॉक है। इस समय संपादन की अनुमति नहीं है।",
+      "MARK_AS_READ": "पढ़ा हुआ चिह्नित करें"
+    },
+    "VALIDATION": {
+      "SELECT_AT_LEAST_ONE": "कृपया कम से कम एक वाइटल दर्ज करें।"
+    },
+    "RESPONSE": {
+      "VITAL_ADD_SUCCESS": "वाइटल सफलतापूर्वक जोड़ा गया।",
+      "VITAL_UPDATE_SUCCESS": "वाइटल सफलतापूर्वक अपडेट किया गया।",
+      "VITAL_DELETE_SUCCESS": "वाइटल सफलतापूर्वक हटाया गया।",
+      "VITALS_NOT_FOUND": "वाइटल्स नहीं मिले।",
+      "VITAL_PREFERENCE_SAVE_SUCCESS": "वाइटल प्राथमिकताएं सफलतापूर्वक सहेजी गईं।"
+    },
+    "TABLE": {
+      "EMPTY_MESSAGE": "इस मरीज के लिए कोई वाइटल नहीं जोड़ा गया।"
     }
   }
 }

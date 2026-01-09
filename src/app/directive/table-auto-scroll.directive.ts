@@ -1,11 +1,15 @@
-import { isPlatformBrowser } from '@angular/common';
-import { AfterViewInit, Directive, ElementRef, Inject, OnDestroy, PLATFORM_ID } from '@angular/core';
+import { AfterViewInit, Directive, ElementRef, inject, OnDestroy } from '@angular/core';
+import { PlatformService } from '@service/platform.service';
 
 @Directive({
   selector: '[tableAutoScroll]',
   standalone: true
 })
 export class TableAutoScrollDirective implements AfterViewInit, OnDestroy {
+
+  private readonly el = inject(ElementRef);
+  private readonly platformService = inject(PlatformService);
+
   private readonly SELECTORS = {
     MAIN_CONTAINER: 'div.layout-main-container',
     PAGE_HEADER: '[pageHeader]',
@@ -18,24 +22,23 @@ export class TableAutoScrollDirective implements AfterViewInit, OnDestroy {
   private resizeObserver!: ResizeObserver;
   private tableBody!: HTMLElement;
   private readonly debounceDelay = 100;
+  private readonly isBrowser: boolean;
 
-  constructor(
-    private el: ElementRef,
-    @Inject(PLATFORM_ID) private platformId: Object
-  ) {
+  constructor() {
+    this.isBrowser = this.platformService.isBrowser();
     this.debouncedScrollHeight = this.debounce(this.setScrollHeight, this.debounceDelay);
   }
 
-  ngAfterViewInit() {
-    if (!isPlatformBrowser(this.platformId)) return;
+  ngAfterViewInit(): void {
+    if (!this.isBrowser) return;
 
     this.initializeElements();
     this.setupResizeObserver();
     this.setScrollHeight(); // Initial calculation
   }
 
-  ngOnDestroy() {
-    if (isPlatformBrowser(this.platformId)) {
+  ngOnDestroy(): void {
+    if (this.isBrowser) {
       this.resizeObserver?.disconnect();
       window.removeEventListener('resize', this.debouncedScrollHeight);
     }
@@ -54,12 +57,11 @@ export class TableAutoScrollDirective implements AfterViewInit, OnDestroy {
     window.addEventListener('resize', this.debouncedScrollHeight);
   }
 
-  private setScrollHeight = () => {
+  private readonly setScrollHeight = () => {
     requestAnimationFrame(() => {
       if (!this.tableBody) return;
 
       const windowHeight = window.innerHeight;
-      //console.log("windowHeight : ", windowHeight);
       const totalHeight = windowHeight - this.calculateHeightReduction();
       this.tableBody.style.height = `${totalHeight + 10}px`;
     });
@@ -67,7 +69,7 @@ export class TableAutoScrollDirective implements AfterViewInit, OnDestroy {
 
   private calculateHeightReduction(): number {
     return Object.values(this.SELECTORS).reduce((sum, selector) => {
-      const element = document.querySelector(selector) as HTMLElement;
+      const element = document.querySelector<HTMLElement>(selector);
       if (!element) return sum;
 
       const styles = getComputedStyle(element);
@@ -76,29 +78,24 @@ export class TableAutoScrollDirective implements AfterViewInit, OnDestroy {
       switch (selector) {
         case this.SELECTORS.MAIN_CONTAINER:
           reduction = parseFloat(styles.paddingTop);
-          //console.log(selector + " reduction: ", reduction);
           break;
 
         case this.SELECTORS.PAGE_HEADER:
           reduction = element.offsetHeight + parseFloat(styles.marginBottom);
-          //console.log(selector + " reduction: ", reduction);
           break;
 
         case this.SELECTORS.TABLE_HEADER:
           // Handle potential hidden header with transition
           reduction = Math.max(element.offsetHeight, parseFloat(styles.height));
-          //console.log(selector + " reduction: ", reduction);
           break;
 
         case this.SELECTORS.PAGINATOR:
           // Use scrollHeight instead of offsetHeight for hidden elements
-          reduction = element.offsetHeight > 0 ? element.offsetHeight : (element as HTMLElement).scrollHeight;
-          //console.log(selector + " reduction: ", reduction);
+          reduction = element?.offsetHeight > 0 ? element?.offsetHeight : element?.scrollHeight;
           break;
 
         default:
           reduction = element.offsetHeight;
-          //console.log(selector + " reduction: ", reduction);
       }
 
       // Add safety checks for NaN values
@@ -106,13 +103,14 @@ export class TableAutoScrollDirective implements AfterViewInit, OnDestroy {
     }, 0);
   }
 
-  private debounce = (fn: Function, delay: number) => {
+  private readonly debounce = <T extends (...args: unknown[]) => void>(fn: T, delay: number) => {
     let timeoutId: ReturnType<typeof setTimeout>;
-    return (...args: any[]) => {
+
+    return (...args: Parameters<T>): void => {
       clearTimeout(timeoutId);
-      timeoutId = setTimeout(() => fn.apply(this, args), delay);
+      timeoutId = setTimeout(() => fn(...args), delay);
     };
   };
 
-  private debouncedScrollHeight: () => void;
+  private readonly debouncedScrollHeight: () => void;
 }

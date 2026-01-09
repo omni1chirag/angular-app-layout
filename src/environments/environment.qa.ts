@@ -3,4 +3,5 @@ export const environment = {
     keycloakurl: 'https://omnioneindiaqa.omnimd.com/auth',
     keycloakrealm: 'dh-india-dev',
     keycloakclientid: 'dh-india-dev-client',
+    JITSI_URL: 'televideoqa.omnimd.com',
 };

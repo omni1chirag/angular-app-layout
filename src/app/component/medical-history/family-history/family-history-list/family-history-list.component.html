@@ -1,0 +1,55 @@
+<div class="card">
+    <div class="flex items-center justify-between mb-3">
+        <h4 class="font-semibold text-base/7 ">{{'FAMILY_HISTORY.FAMILY_HISTORY' | translate}}</h4>
+        <p-button *ngIf="isModifiable()" label="{{'ADD' | translate}}" size="small" class="mr-3" severity="primary"
+            (onClick)="addFamilyHistory()" [disabled]="signOff() === 1"></p-button>
+    </div>
+    <p-divider />
+    <ng-container>
+        @if (isBrowser) {
+        <p-table [value]="familyHistory" [totalRecords]="totalRecords" [paginator]="true" [loading]="showLoader"
+            [first]="first" [lazy]="true" [rows]="size" (onLazyLoad)="loadFamilyHistory($event)" [scrollable]="true"
+            #familyHistoryTable>
+            <ng-template pTemplate="header">
+                <tr>
+                    <th scope="col">{{'FAMILY_HISTORY.RELATIONSHIP' | translate}}</th>
+                    <th scope="col">{{'FAMILY_HISTORY.HEALTH_CONDITION' | translate}}</th>
+                    <th scope="col">{{'FAMILY_HISTORY.DIAGNOSIS_AGE' | translate}}</th>
+                    <th scope="col">{{'FAMILY_HISTORY.NOTES' | translate}}</th>
+                    <th scope="col">{{'FAMILY_HISTORY.ACTION' | translate}}</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-history>
+                <tr>
+                    <td>{{history.relation}}</td>
+                    <td>{{history.healthCondition}}</td>
+                    <td>{{history.age}}</td>
+                    <td>{{history.notes}}</td>
+                    <td *ngIf="isModifiable()">
+                        @if (history.isEditable && !history.appointmentSignOff) {
+                        <p-button icon="pi pi-pencil" variant="outlined" severity="info" [raised]="false"
+                            (onClick)="editFamilyHistory(history.familyHistoryId)" [rounded]="true" />
+                        } @else {
+                        <p-button icon="pi pi-pencil" variant="outlined" severity="info" [raised]="false"
+                            [rounded]="true" [disabled]="!history.isEditable || history.appointmentSignOff === 1"
+                            [pTooltip]="!history.isEditable ? ('TOOLTIP.NOT_AUTHORIZED' | translate) : (history.appointmentSignOff === 1 ? ('TOOLTIP.LOCKED_CHART' | translate) : null)"
+                            tooltipPosition="top" />
+                        }
+                    </td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+                <tr>
+                    <td colspan="5" style="text-align:center;">
+                        <span>{{ 'FAMILY_HISTORY.TABLE.EMPTY_MESSAGE' | translate }}</span>
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+        }
+    </ng-container>
+</div>
+
+<app-family-history-add-edit *ngIf="visible" [(isVisible)]="visible" [familyHistoryId]="familyHistoryId"
+    [patientId]="patientId" [appointmentId]="appointmentId()"
+    (familyHistoryUpdate)="familyHistoryTable.clear()"></app-family-history-add-edit>

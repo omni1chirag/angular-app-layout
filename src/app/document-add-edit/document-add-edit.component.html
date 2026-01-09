@@ -1,0 +1,80 @@
+<p-drawer [(visible)]="isVisible" position="right" appendTo="body" closable="false" [dismissible]="false"
+    styleClass="!w-full sm:!w-80 md:!w-80 lg:!w-[30rem]" blockScroll="true">
+    <ng-template #header>
+        <span class="flex flex-col w-full">
+            <span class="flex justify-between w-full">
+                <h4 class="flex w-full font-semibold text-gray-900 text-base/7">{{'DOCUMENT.'+mode | translate }}</h4>
+                <p-button icon="pi pi-times" class="flex justify-self-end" (onClick)="isVisible.set(false)"
+                    severity="secondary" [rounded]="true" [text]="true" />
+            </span>
+            <p-divider class="flex w-full col-span-full " />
+        </span>
+
+    </ng-template>
+    <form [formGroup]="documentForm" *ngIf="documentForm">
+        <div class="grid grid-cols-12 gap-6">
+            <div class="flex flex-col col-span-full">
+                <label mandatoryFieldLabel for="uploadDocument">{{'DOCUMENT.UPLOAD_DCUMENT' | translate }}</label>
+                <div class="mt-2">
+                    <app-file-upload formControlName="docId" [moduleId]="moduleId" [fileSize]="10" [isView]="true"
+                        [subModuleId]="subModuleId" (completeDocumentUpload)="onCompleteDocumentUpload($event)"
+                        source="PatientDocument" [objectId]="getDocumentId" [disabled]="mode === 'EDIT_DOCUMENT'"
+                        [fileTypeSupported]="supportedTypes"></app-file-upload>
+                </div>
+            </div>
+            <div class="flex flex-col col-span-full">
+                <label mandatoryFieldLabel for="docTitle">{{'DOCUMENT.DOCUMENT_NAME' | translate }}</label>
+                <div class="mt-2">
+                    <input pInputText type="text" name="docTitle" id="docTitle" formControlName="docTitle"
+                        class="w-full"  [placeholder]="'DOCUMENT.PLACE_HOLDER.DOCUMENT_NAME' | translate "  />
+                </div>
+            </div>
+            <div class="flex flex-col col-span-full">
+                <label mandatoryFieldLabel for="docTypeId">{{'DOCUMENT.DOCUMENT_TYPE' | translate }}</label>
+                <div class="mt-2">
+                    <p-select id="docTypeId" formControlName="docTypeId" [options]="documentTypes" optionLabel="label"
+                        optionValue="value" [filter]="false" [resetFilterOnHide]="true"
+                        [placeholder]="'DOCUMENT.PLACE_HOLDER.DOCUMENT_TYPE' | translate "  class="w-full">
+                    </p-select>
+                </div>
+            </div>
+            <div class="flex flex-col col-span-full" *ngIf="isDocumentTypeFreeText">
+                <input pInputText type="text" name="docTypeFreeText" id="docTypeFreeText"
+                    formControlName="docTypeFreeText" class="w-full"   [placeholder]="'DOCUMENT.PLACE_HOLDER.ENTER_DOCUMENT_TYPE' | translate " >
+            </div>
+            <div class="flex flex-col col-span-full">
+                <label mandatoryFieldLabel for="docDate">{{'DOCUMENT.UPLOAD_DATE' | translate }}</label>
+                <div class="mt-2">
+                    <p-datepicker dateFormat="dd/mm/yy" class="w-full" [iconDisplay]="'input'" dateMask
+                        formControlName="docDate" [showIcon]="true" [placeholder]="'DOCUMENT.PLACE_HOLDER.UPLOAD_DATE' | translate " [style]="{'width': '100%'}" />
+                </div>
+            </div>
+            <div class="flex flex-col col-span-full">
+                <label for="docDescription">{{'DOCUMENT.DESCRIPTION' | translate }}</label>
+                <div class="mt-2">
+                    <textarea rows="5" cols="30" id="docDescription" class="w-full" pTextarea
+                        [placeholder]="'DOCUMENT.PLACE_HOLDER.DESCRIPTION' | translate " formControlName="docDescription"></textarea>
+                </div>
+            </div>
+
+        </div>
+
+    </form>
+
+
+    <ng-template #footer>
+        <p-divider />
+        <div class="grid grid-cols-12 gap-2">
+            <div class="hidden col-span-12 md:flex md:col-span-6"></div>
+            <div class="flex items-center col-span-12 gap-2 md:col-span-6">
+                <p-button label="{{'SAVE'| translate }}" size="small" (onClick)="save()" class="w-full"
+                    [styleClass]="'w-full sm:w-full md:w-full lg:w-full'" [loading]="isCallInitiated"
+                    [disabled]="isCallInitiated" />
+                <p-button label="{{'CANCEL'| translate }}" severity="danger" class="w-full"
+                    [styleClass]="'w-full sm:w-full md:w-full lg:w-full'" [outlined]="true"
+                    (onClick)="isVisible.set(false)" size="small" />
+            </div>
+        </div>
+
+    </ng-template>
+</p-drawer>

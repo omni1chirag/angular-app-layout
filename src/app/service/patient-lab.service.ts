@@ -1,40 +1,38 @@
 import { inject, Injectable } from '@angular/core';
 import { ApiService } from './api.service';
 import { Observable } from 'rxjs';
+import { HttpParams } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PatientLabService {
 
-  private apiUrls = {
-    labOrder: (patientId: string) => `patient-api/patients/${patientId}/patientLabOrder`,
-    labOrderById: (patientId: string, labId: string) =>
-      `patient-api/patients/${patientId}/patientLabOrder/${labId}`,    
+  private readonly apiUrls = {
+    labOrder: (patientId?: string) => `patient-api/patients/${patientId}/patient-lab-order`,
+    labOrderList: `patient-api/lab-order`,
+    labOrderById: (patientId: string, selectedLabId: string) =>
+      `patient-api/patients/${patientId}/patient-lab-order/${selectedLabId}`,
     master: () => 'master-api/master',
-    appointment: 'patient-api/appointments',
   }
-  private apiService = inject(ApiService);
-  constructor() { }
+  private readonly apiService = inject(ApiService);
 
-  createLabOrder<T>(labId: string, labOrder: any): Observable<T> {
-    return this.apiService.post(this.apiUrls.labOrder(labId), labOrder);
-  }
-
-  updateLabOrder<T>(labId: string, labOrderId: string, labOrder: any): Observable<T> {
-    return this.apiService.put(`${this.apiUrls.labOrder(labId)}/${labOrderId}`, labOrder);
-  }
-
-  getAppointmentLabels<T>(params): Observable<T> {
-    return this.apiService.get(`${this.apiUrls.appointment}/labels`, { params })
-  }
-
-  getAllLabs<T>(patientId, params?): Observable<T> {
+  getAllLabs<T>(patientId: string, params: HttpParams): Observable<T> {
     return this.apiService.get(this.apiUrls.labOrder(patientId), { params });
   }
 
-  getLabOrderById<T>(patientId: string, labId: string): Observable<T> {
-    return this.apiService.get(this.apiUrls.labOrderById(patientId, labId));
-  }  
+  getLabTestNames<T>(searchParam: string, labType: string): Observable<T> {
+    const params = new HttpParams()
+      .set('searchParam', searchParam)
+      .set('labType', labType)
+      .set('page', 0)
+      .set('size', 50);
+
+    return this.apiService.get(`${this.apiUrls.master()}/lab-test-name`, { params });
+  }
+  
+  getAllLabsList<T>(params?: HttpParams): Observable<T> {
+    return this.apiService.get(this.apiUrls.labOrderList, { params });
+  }    
 
 }

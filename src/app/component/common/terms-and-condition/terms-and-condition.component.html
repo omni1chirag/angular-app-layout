@@ -1,0 +1,33 @@
+<div class="mt-5 grid grid-cols-12 gap-3" *ngIf="termsForm" [formGroup]="termsForm">
+    @for (item of termsAndConditions(); track item.id) {
+    <div class="flex col-span-full items-center">
+        <p-checkbox [inputId]="`term_${item.id}`" [formControlName]="`term_${item.id}`" binary="true">
+        </p-checkbox>
+        <label [for]="`term_${item.id}`" class="ml-2 ">
+            <span [innerHTML]="item.label"></span>
+            @if(item.content){
+            <span class="ml-1">
+                (<a href="javascript:void(0);" class="text-blue-600 underline hover:text-blue-800"
+                    (click)="openDialog(item)">
+                    View
+                </a>)
+            </span>
+            }
+        </label>
+    </div>
+    }
+</div>
+
+<p-dialog [modal]="true" [(visible)]="isDialogVisible" (onHide)="closeDialog()" [style]="{ width: '85rem' }"
+    [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }" [resizable]="false" [closable]="true" appendTo="body">
+    <ng-template pTemplate="header">
+        <span [innerHTML]="selectedTerm().title"
+            style="font-size: 1rem; font-weight: 600; line-height: 1.25rem; display: block; padding: 0.5rem 0.75rem;">
+        </span>
+    </ng-template>
+
+    <div class="p-4">
+        <div [innerHTML]="selectedTerm()?.sanitizeContent"></div>
+    </div>
+
+</p-dialog>

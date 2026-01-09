@@ -1,32 +1,40 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import Keycloak from 'keycloak-js';
 import { BehaviorSubject, lastValueFrom } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { PlatformService } from './platform.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { AppUserProfile, AuthUserResponse } from '@interface/common.interface';
+import { AppUserProfile, AuthUserResponse, MenuItem } from '@interface/common.interface';
 import { APP_ROUTES } from '@constants/app.constants';
 import { MenuService } from './menu.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ApiResponse } from '@interface/api-response.interface';
 
 
 @Injectable({
     providedIn: 'root'
 })
 export class KeycloakService {
-    private keycloak: Keycloak | null = null; // Initialize as null
-    private authenticatedSubject = new BehaviorSubject<boolean>(false);
+
+    private readonly platformService = inject(PlatformService);
+    private readonly httpClient = inject(HttpClient);
+    private readonly menuService = inject(MenuService);
+    private readonly router = inject(Router);
+    private readonly activatedRoute = inject(ActivatedRoute);
+
+    private readonly keycloak: Keycloak | null = null; // Initialize as null
+    private readonly authenticatedSubject = new BehaviorSubject<boolean>(false);
     authenticated$ = this.authenticatedSubject.asObservable();
     isInitialized = false;
     private initializationPromise: Promise<void> | null = null;
     private initialized = false;
     private redirectUri: string | null = null;
-    private menuItemsSubject = new BehaviorSubject<any[]>([]);
+    private readonly menuItemsSubject = new BehaviorSubject<MenuItem[]>([]);
     menuItems$ = this.menuItemsSubject.asObservable();
     readonly kcTokenKey = 'kc-token';
 
 
-    get endpoints() {
+    get endpoints(): { base: string; keycloakrealm: string; keycloakurl: string; keycloakclientid: string; authentication: string; } {
         const base = environment.host;
         const keycloakurl = environment.keycloakurl;
         const keycloakrealm = environment.keycloakrealm;
@@ -40,10 +48,7 @@ export class KeycloakService {
         }
     }
 
-    constructor(private platformService: PlatformService,
-        private httpClient: HttpClient,
-        private menuService: MenuService,
-        private router: Router
+    constructor(
     ) {
         if (this.platformService.isBrowser()) {
             this.keycloak = new Keycloak({
@@ -58,7 +63,7 @@ export class KeycloakService {
         if (this.platformService.isBrowser()) {
             this.initializeFromStorage();
         }
-        if (this.initializationPromise) {
+        if (this.initializationPromise !== null) {
             return this.initializationPromise;
         }
 
@@ -66,9 +71,8 @@ export class KeycloakService {
             return Promise.resolve();
         }
 
-        this.initializationPromise = new Promise(async (resolve, reject) => {
+        this.initializationPromise = (async () => {
             if (!this.platformService.isBrowser()) {
-                resolve();
                 return;
             }
 
@@ -80,25 +84,26 @@ export class KeycloakService {
                     flow: 'standard'
                 });
 
+
                 if (authenticated && window.location.hash) {
                     this.redirectUri = window.location.href;
                 }
 
                 if (this.keycloak?.authenticated) {
-                    await this.keycloak.updateToken(30); // Refresh if needed
+                    await this.keycloak.updateToken(30);
+                    await this.getUserProfile();
                 }
 
                 this.authenticatedSubject.next(!!this.keycloak?.authenticated);
                 this.initialized = true;
                 this.setupTokenRefresh();
                 this.storeToken();
-                resolve();
             } catch (err) {
                 console.error('Keycloak initialization failed:', err);
                 this.authenticatedSubject.next(false);
-                reject(err);
+                throw err;
             }
-        });
+        })();
 
         return this.initializationPromise;
     }
@@ -111,21 +116,16 @@ export class KeycloakService {
             : redirectUrl;
 
         this.redirectUri = targetUrl;
-        // localStorage.setItem('kc-redirect', targetUrl);
 
         if (this.keycloak && typeof this.keycloak.login === 'function') {
-            // Keycloak available -> open Keycloak login
-            try {
-                this.keycloak.login({
-                    redirectUri: targetUrl,
-                    prompt: 'login'
-                });
-            } catch (err) {
+            this.keycloak.login({
+                redirectUri: targetUrl,
+                prompt: 'login'
+            }).catch(err => {
                 console.error('Keycloak login threw an error, falling back to patient-portal', err);
                 this.router.navigateByUrl('/patient-portal');
-            }
+            });
         } else {
-            // Keycloak not available -> simple redirect to patient-portal
             this.router.navigateByUrl('/patient-portal');
         }
     }
@@ -139,11 +139,12 @@ export class KeycloakService {
     }
 
     hasRole(role: string): boolean {
-        const claims = this.keycloak.tokenParsed as Record<string, any> | undefined;
-        if (!claims) {
-            console.warn('[AuthService] tokenParsed is undefined');
+        if (!this.keycloak?.authenticated || !this.keycloak?.tokenParsed) {
             return false;
         }
+
+        const claims = this.jwtClaims();
+        if (!claims) return false;
         const roles: string[] = Array.isArray(claims['user_group']) ? claims['user_group'] : [];
         return roles.includes(role);
     }
@@ -181,7 +182,6 @@ export class KeycloakService {
                     throw new Error('User not logged in');
                 }
 
-                // return await this.keycloak.loadUserProfile();
                 const baseProfile = await this.keycloak.loadUserProfile();
                 const token = this.getToken();
                 let headers = new HttpHeaders();
@@ -189,8 +189,8 @@ export class KeycloakService {
                 if (token) {
                     headers = headers.set('Authorization', `Bearer ${token}`);
                 }
-                const response = await lastValueFrom(
-                    this.httpClient.get<AuthUserResponse>(
+                const response: ApiResponse<AuthUserResponse> = await lastValueFrom(
+                    this.httpClient.get<ApiResponse<AuthUserResponse>>(
                         this.endpoints.authentication, { headers }
                     )
                 );
@@ -212,9 +212,11 @@ export class KeycloakService {
                 localStorage.setItem('userProfile', JSON.stringify(response.data.user));
                 localStorage.setItem('userClinics', JSON.stringify(response.data.userClinics));
                 localStorage.setItem('dashboardRoute', response.data.dashboardRoute);
-
+                localStorage.setItem('patientProfiles', JSON.stringify(response.data.patientProfiles));
+                localStorage.setItem('activePatientProfile', response.data.activePatientProfile);
                 this.menuService.updateMenuItems(menuItems);
 
+                this.checkAndRedirect(response.data.dashboardRoute);
 
                 return extendedProfile;
             } catch (error) {
@@ -225,6 +227,15 @@ export class KeycloakService {
         }
         return null;
 
+    }
+
+    checkAndRedirect(dashboardUrl: string): void {
+        const currentRoute = window.location.pathname;
+        console.error('Current route:', currentRoute);
+
+        if (!currentRoute.includes('/jitsi/jitsi-integration')) {
+            this.router.navigateByUrl(dashboardUrl);
+        }
     }
 
     getToken(): string {
@@ -241,13 +252,13 @@ export class KeycloakService {
         if (this.platformService.isBrowser()) {
             const storedToken = localStorage.getItem(this.kcTokenKey);
             if (storedToken) {
-                this.keycloak!.token = storedToken;
+                this.keycloak.token = storedToken;
                 this.authenticatedSubject.next(true);
             }
         }
     }
 
-    startAutoRefresh() {
+    startAutoRefresh(): void {
         setInterval(() => {
             if (this.isAuthenticated()) {
                 this.updateToken(30);
@@ -255,7 +266,7 @@ export class KeycloakService {
         }, 30000);
     }
 
-    async updateToken(minValidity: number) {
+    async updateToken(minValidity: number): Promise<boolean> {
         try {
             return await this.keycloak?.updateToken(minValidity);
         } catch (error) {
@@ -267,9 +278,30 @@ export class KeycloakService {
 
     get userId(): string | undefined {
         if (this.platformService.isBrowser()) {
-            const tokenParsed = this.keycloak?.tokenParsed as any;
-            return tokenParsed?.sub || undefined;
+            const claims = this.jwtClaims();
+            if (!claims) return undefined;
+            return claims['sub'] as string;
         }
         return undefined;
+    }
+
+    get userRole(): string | undefined {
+        if (this.platformService.isBrowser()) {
+            const claims = this.jwtClaims();
+            if (!claims) return undefined;
+            const roles: string[] = claims['user_group'] as string[] || [];
+            return roles.length > 0 ? roles[0] : undefined;
+        }
+        return undefined;
+    }
+
+    jwtClaims(): Record<string, unknown> | undefined {
+        const claims = this.keycloak.tokenParsed as Record<string, unknown> | undefined;
+        if (!claims) {
+            console.warn('[AuthService] tokenParsed is undefined');
+            return undefined;
+        }
+        return claims;
+
     }
 }

@@ -1,5 +1,5 @@
 // scroll-spy.directive.ts
-import { Directive, ElementRef, HostListener, Input } from '@angular/core';
+import { Directive, ElementRef, HostListener, inject, Input } from '@angular/core';
 import { ScrollSpyService } from '@service/scroll-spy.service';
 import { PlatformService } from '@service/platform.service';
 
@@ -9,14 +9,12 @@ import { PlatformService } from '@service/platform.service';
 export class ScrollSpyDirective {
   @Input() scrollSpy!: string;
   private readonly offset = 155; // Adjust based on your header height
-
-  constructor(
-    private el: ElementRef,
-    private spyService: ScrollSpyService,
-    private platform: PlatformService
-  ) {
+  private readonly el = inject(ElementRef);
+  private readonly spyService = inject(ScrollSpyService);
+  private readonly platform = inject(PlatformService);
+  constructor() {
     this.onScroll()
-   }
+  }
 
   @HostListener('window:scroll', ['$event'])
   onScroll(): void {

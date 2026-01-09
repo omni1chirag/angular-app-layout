@@ -1,0 +1,49 @@
+<div class="card">
+    <div>
+        <h4 class="font-semibold text-gray-900 text-base/7">{{ 'IMMUNIZATION.IMMUNIZATION' | translate }}</h4>
+    </div>
+    <p-divider />
+    <ng-container>
+        @if (isBrowser) {
+        <p-table [value]="immunizationList" [reorderableColumns]="true" size="small" [paginator]="true"
+            [loading]="showLoader" [first]="first" [lazy]="true" [rows]="size" (onLazyLoad)="loadImmunizations($event)"
+            [scrollable]="true" [totalRecords]="totalRecords" #immunizationTable>
+
+            <ng-template #body let-item let-index="rowIndex">
+                <tr [pReorderableRow]="index">
+                    <td>
+                        <strong> {{item.immunizationName}} </strong>
+                    </td>
+                    <td>
+                        {{ 'IMMUNIZATION.DOSE_NUMBER' | translate }} : {{ getDoseNumber(item.doseNumber) }} |
+                        {{ 'IMMUNIZATION.DATE_OF_VACCINATION' | translate }} : {{ item.dateOfVaccination | date:
+                        'dd/MM/yyyy'}}
+                        <span *ngIf="item.routeId">
+                            | {{ 'IMMUNIZATION.ROUTE' | translate }} : {{ getRoute(item.routeId) }}
+                        </span>
+                        <span *ngIf="item.siteId">
+                            | {{ 'IMMUNIZATION.SITE' | translate }} : {{ getSite(item.siteId) }}
+                        </span>
+                    </td>
+                    <td style="text-align: right;">
+                        <p-tag [severity]="getTagSeverity(item.status)" [value]="getStatus(item.status)"
+                            [rounded]="true">
+                        </p-tag>
+                    </td>
+
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+                <tr>
+                    <td colspan="4">
+                        <div class="text-center">
+                            <span class="text-lg">{{'IMMUNIZATION.TABLE.PATIENT_EMPTY_MESSAGE' | translate}}</span>
+                        </div>
+                    </td>
+                </tr>
+            </ng-template>
+
+        </p-table>
+        }
+    </ng-container>
+</div>

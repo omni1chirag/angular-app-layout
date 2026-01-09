@@ -1,0 +1,109 @@
+<p-drawer [(visible)]="isVisible" position="right" appendTo="body" closable="false" [dismissible]="false"
+    styleClass="!w-full sm:!w-80 md:!w-80 lg:!w-[30rem]" blockScroll="true">
+    <ng-template #header>
+        <span class="flex flex-col w-full">
+            <span class="flex w-full justify-between">
+                <h4 *ngIf="surgicalHistoryId()" class="flex w-full text-base/7 font-semibold text-gray-900">{{
+                    'SURGICAL_HISTORY.EDIT_SURGICAL_HISTORY' |
+                    translate }}</h4>
+                <h4 *ngIf="!surgicalHistoryId()" class="flex w-full text-base/7 font-semibold text-gray-900">{{
+                    'SURGICAL_HISTORY.ADD_SURGICAL_HISTORY' |
+                    translate }}</h4>
+                <p-button icon="pi pi-times" class="flex justify-self-end" (onClick)="isVisible.set(false)"
+                    severity="secondary" [rounded]="true" [text]="true" />
+            </span>
+            <p-divider class="flex col-span-full w-full " />
+        </span>
+    </ng-template>
+
+    <form [formGroup]="surgicalHistoryForm">
+
+        <div class="grid grid-cols-12 gap-6">
+            <div class="flex flex-col col-span-full">
+                <label mandatoryFieldLabel for="surgeryName">{{ 'SURGICAL_HISTORY.SURGERY_NAME' | translate
+                    }}</label>
+                <div class="mt-2">
+                    <p-autocomplete id="surgeryName" formControlName="surgeryName" [forceSelection]="false"
+                        [suggestions]="filteredSurgeryName" (completeMethod)="searchSurgeryName($event.query)"
+                        (onSelect)="onSurgeryNameSelect($event)" optionLabel="label" [appendTo]="'body'"
+                        placeholder="{{ 'SURGICAL_HISTORY.SURGERY_NAME' | translate }}" class="w-full"
+                        [style]="{'width':'100%'}" [inputStyle]="{ width: '100%' }" minLength="3" />
+                </div>
+            </div>
+            <div class="flex flex-col col-span-full">
+                <label mandatoryFieldLabel for="surgeryDate">{{ 'SURGICAL_HISTORY.SURGERY_DATE' | translate }}</label>
+                <div class="mt-2">
+                    <p-datepicker dateMask dateFormat="dd/mm/yy" class="w-full" [maxDate]="yesterday"
+                        formControlName="surgeryDate" [showIcon]="true" [iconDisplay]="'input'"
+                        [style]="{'width': '100%'}"
+                        placeholder="{{ 'SURGICAL_HISTORY.PLACE_HOLDER.SURGERY_DATE'| translate }}"
+                        [showButtonBar]="true" appendTo="body" />
+                </div>
+            </div>
+            <div class="flex flex-col col-span-full">
+                <label for="hospitalName">{{'SURGICAL_HISTORY.HOSPITAL_NAME' | translate }}</label>
+                <div class="mt-2">
+                    <input pInputText type="text" name="hospitalName" id="hospitalName" formControlName="hospitalName"
+                        class="w-full" [placeholder]="'SURGICAL_HISTORY.PLACE_HOLDER.HOSPITAL_NAME' | translate " />
+                </div>
+            </div>
+            <div class="flex flex-col col-span-full">
+                <label for="doctorName">{{'SURGICAL_HISTORY.DOCTOR_NAME' | translate }}</label>
+                <div class="mt-2">
+                    <input pInputText type="text" name="doctorName" id="doctorName" formControlName="doctorName"
+                        class="w-full" [placeholder]="'SURGICAL_HISTORY.PLACE_HOLDER.DOCTOR_NAME' | translate " />
+                </div>
+            </div>
+            <div class="flex flex-col col-span-full">
+                <label mandatoryFieldLabel for="status">{{ 'SURGICAL_HISTORY.STATUS' | translate }}</label>
+                <div class="mt-2">
+                    <p-select id="status" formControlName="status" [options]="statusOptions" optionLabel="label"
+                        optionValue="label" placeholder="{{ 'SURGICAL_HISTORY.PLACE_HOLDER.STATUS' | translate }}"
+                        class="w-full" [appendTo]="'body'">
+                    </p-select>
+                </div>
+            </div>
+            <div class="flex flex-col col-span-full">
+                <label for="surgeryType">{{ 'SURGICAL_HISTORY.SURGERY_TYPE' | translate }}</label>
+                <div class="mt-2">
+                    <p-select id="surgeryType" formControlName="surgeryType" [options]="surgeryTypeOptions"
+                        optionLabel="label" optionValue="label"
+                        placeholder="{{ 'SURGICAL_HISTORY.PLACE_HOLDER.SURGERY_TYPE' | translate }}" class="w-full"
+                        [appendTo]="'body'">
+                    </p-select>
+                </div>
+            </div>
+            <div class="flex flex-col col-span-full">
+                <label for="notes">{{ 'SURGICAL_HISTORY.NOTES' | translate }}</label>
+                <div class="mt-2">
+                    <textarea pTextarea rows="3" maxlength="1000" id="notes" formControlName="notes" class="w-full"
+                        placeholder="{{ 'SURGICAL_HISTORY.PLACE_HOLDER.NOTES' | translate }}">
+                    </textarea>
+                </div>
+            </div>
+            <div class="flex flex-col col-span-full">
+                <label for="attachReports">{{'SURGICAL_HISTORY.ATTACH_REPORTS' | translate }}</label>
+                <div class="mt-2">
+                    <app-file-upload formControlName="attachReports" [moduleId]="moduleId" [fileSize]="10"
+                        [isView]="true" [subModuleId]="subModuleId" source="SurgicalHistory" [objectId]="getSurgicalHistoryId()"
+                        [disabled]="mode === 'EDIT_SURGICAL_HISTORY'"
+                        [fileTypeSupported]="supportedTypes"></app-file-upload>
+                </div>
+            </div>
+        </div>
+    </form>
+    <ng-template #footer>
+        <p-divider />
+        <div class="grid grid-cols-12 gap-2">
+            <div class="hidden md:flex col-span-12 md:col-span-6"></div>
+            <div class="flex col-span-12 md:col-span-6 items-center gap-2">
+                <p-button label="{{'SAVE'| translate }}" size="small" (onClick)="save()" class="w-full"
+                    [styleClass]="'w-full sm:w-full md:w-full lg:w-full'" [loading]="isCallInitiated"
+                    [disabled]="isCallInitiated" />
+                <p-button label="{{'CANCEL'| translate }}" severity="danger" class="w-full"
+                    [styleClass]="'w-full sm:w-full md:w-full lg:w-full'" [outlined]="true"
+                    (onClick)="isVisible.set(false)" size="small" />
+            </div>
+        </div>
+    </ng-template>
+</p-drawer>

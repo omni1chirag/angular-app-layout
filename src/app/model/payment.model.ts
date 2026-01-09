@@ -1,0 +1,37 @@
+export class PaymentModel {
+  paymentId: string;
+  id?: string | null;
+  orderId?: string | null;
+  signature?: string | null;
+  amount: number;
+  verified: boolean;
+  currency: string;
+  entity: string;
+  international: boolean;
+  method: string;
+  status: string;
+  captured: boolean | string;
+  description?: string | null;
+  card?: string | null;
+  bank?: string | null;
+  wallet?: string | null;
+  vpa?: string | null;
+  email?: string | null;
+  contact?: string | null;
+  fee?: number | null;
+  tax?: number | null;
+  upi?: string | null;
+  notes?: Record<string, string>;
+  invoiceId?: string | null;
+  amountRefunded?: number | null;
+  refundStatus?: string | null;
+  cardId?: string | null;
+  customerId?: string | null;
+  errorCode?: string | null;
+  errorDescription?: string | null;
+  errorSource?: string | null;
+  errorStep?: string | null;
+  errorReason?: string | null;
+  createdAt?: string | number | null;
+  acquirerData?:Map<string, string>;
+}

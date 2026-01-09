@@ -1,26 +1,28 @@
 import { HttpClient, HttpContext, HttpHeaders, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { KeycloakService } from './keycloak.service';
+import { ApiResponse } from '@interface/api-response.interface';
 
 interface ApiOptions {
   headers?: HttpHeaders;
   context?: HttpContext;
   observe?: 'body';
-  params?: HttpParams | Record<string, string | number | boolean | ReadonlyArray<string | number | boolean>>;
+  params?: HttpParams | Record<string, string | number | boolean | readonly (string | number | boolean)[]>;
   responseType?: 'json' | 'blob';
   reportProgress?: boolean;
   withCredentials?: boolean;
+  needFullResponse?: boolean;
 }
 
 @Injectable({
   providedIn: 'root'
 })
 export class ApiService {
-  private http = inject(HttpClient);
-  private keycloakService = inject(KeycloakService)
-  private baseUrl = environment.host;
+  private readonly http = inject(HttpClient);
+  private readonly keycloakService = inject(KeycloakService)
+  private readonly baseUrl = environment.host;
 
   private buildUrl(endpoint: string): string {
     return endpoint.startsWith('http')
@@ -31,7 +33,7 @@ export class ApiService {
   private initiatCall<T>(methodType: string, endpoint: string, body: unknown, options: ApiOptions = {}): Observable<T> {
     let finalOptions = {};
     let headers = options.headers || new HttpHeaders();
-    if(options.withCredentials != false){
+    if (options.withCredentials == undefined || options.withCredentials == null ) {
       const token = this.keycloakService.getToken();
       if (token) {
         headers = headers.set('Authorization', `Bearer ${token}`);
@@ -42,7 +44,29 @@ export class ApiService {
       headers,
       responseType: options.responseType == 'blob' ? 'blob' : 'json' as const,
     }
-    return this.http.request<T>(methodType, this.buildUrl(endpoint), { body, ...finalOptions });
+    return this.http.request<T>(methodType, this.buildUrl(endpoint), { body, ...finalOptions }).pipe(
+      map((res: unknown) => {
+        if (options.responseType === 'blob') {
+          return res as T;
+        }
+
+        if (!options.needFullResponse && this.isApiResponse<T>(res)) {
+          return res.data;
+        }
+
+        return res as T;
+      })
+    );
+  }
+
+  private isApiResponse<T>(res: unknown): res is ApiResponse<T> {
+    return !!res
+      && typeof res === 'object'
+      && res !== null
+      && 'data' in (res as Record<string, unknown>)
+      && 'message' in (res as Record<string, unknown>)
+      && 'status' in (res as Record<string, unknown>)
+      && 'localizedKey' in (res as Record<string, unknown>);
   }
 
   get<T>(endpoint: string, options: ApiOptions = {}): Observable<T> {

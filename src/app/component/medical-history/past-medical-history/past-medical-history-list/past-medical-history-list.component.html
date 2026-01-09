@@ -1,0 +1,56 @@
+<div class="card1">
+    <div class="flex items-center justify-between mb-3">
+        <h4 class="font-semibold text-base/7 ">{{'PAST_MEDICAL_HISTORY.PAST_MEDICAL_HISTORY' | translate}}</h4>
+        <p-button *ngIf="isModifiable()" label="{{'ADD' | translate}}" size="small" class="mr-3" severity="primary"
+            (onClick)="addHistory()" [disabled]="signOff() === 1"></p-button>
+    </div>
+    <p-divider />
+    <ng-container>
+        @if (isBrowser) {
+        <p-table [value]="pastHistory" [totalRecords]="totalRecords" [paginator]="true" [loading]="showLoader"
+            [first]="first" [lazy]="true" [rows]="size" (onLazyLoad)="loadpastHistory($event)" [scrollable]="true"
+            #pastHistoryTable>
+            <ng-template pTemplate="header">
+                <tr>
+                    <th scope="col">{{'PAST_MEDICAL_HISTORY.MEDICAL_CONDITION' | translate}}</th>
+                    <th scope="col">{{'PAST_MEDICAL_HISTORY.DIAGNOSIS_DATE' | translate}}</th>
+                    <th scope="col">{{'PAST_MEDICAL_HISTORY.STATUS' | translate}}</th>
+                    <th scope="col">{{'PAST_MEDICAL_HISTORY.NOTES' | translate}}</th>
+                    <th scope="col" *ngIf="isModifiable()">{{'PAST_MEDICAL_HISTORY.ACTION' | translate}}
+                    </th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-history>
+                <tr>
+                    <td>{{history.medicalCondition}}</td>
+                    <td>{{history.diagnosisDate | date: 'dd/MM/yyyy'}}</td>
+                    <td>{{history.status}}</td>
+                    <td>{{history.notes}}</td>
+                    <td *ngIf="isModifiable()">
+                        @if (history.isEditable && !history.appointmentSignOff) {
+                        <p-button icon="pi pi-pencil" variant="outlined" severity="info" [raised]="false"
+                            (onClick)="editPastHistory(history.pastMedicalHistoryId)" [rounded]="true" />
+                        } @else {
+                        <p-button icon="pi pi-pencil" variant="outlined" severity="info" [raised]="false"
+                            [rounded]="true" [disabled]="!history.isEditable || history.appointmentSignOff === 1"
+                            [pTooltip]="!history.isEditable ? ('TOOLTIP.NOT_AUTHORIZED' | translate) : (history.appointmentSignOff === 1 ? ('TOOLTIP.LOCKED_CHART' | translate) : null)"
+                            tooltipPosition="top" />
+                        }
+                    </td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+                <tr>
+                    <td colspan="6" style="text-align:center;">
+                        <span>{{ 'PAST_MEDICAL_HISTORY.TABLE.EMPTY_MESSAGE' | translate }}</span>
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+        }
+    </ng-container>
+</div>
+
+<app-past-medical-history-add-edit *ngIf="visible" [(isVisible)]="visible" [pastMedicalHistoryId]="pastMedicalHistoryId"
+    [patientId]="patientId" [appointmentId]="appointmentId()"
+    (pastHistoryUpdate)="pastHistoryTable.clear()"></app-past-medical-history-add-edit>

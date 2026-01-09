@@ -1,0 +1,85 @@
+<ng-container>
+    <div class="flex !p-0 flex-col overflow-y-auto card max-w-[90rem]">
+        <div class="relative flex items-center">
+            <button pButton icon="pi pi-chevron-left" (click)="scrollTimeline(-1)"
+                class="z-10 p-0 mr-2 p-button-rounded p-button-secondary p-button-text"></button>
+
+            <div #timelineContainer class="flex-grow w-full overflow-x-hidden custom-scrollbar">
+                <p-timeline [value]="appointmentList" class="appointment-timeline" layout="horizontal" align="top"
+                    styleClass="px-4 min-w-max">
+                    <ng-template pTemplate="marker" let-event>
+                        <button class="w-5 h-5 transition-all duration-200 rounded-full p-timeline-event-marker"
+                            [ngStyle]="{'background-color': event.appointmentStatus | appointmentStatusBgColor}"
+                            (click)="selectAppointment(event)"
+                            pTooltip="{{ event.appointmentDateTime | date: 'dd MMM yyyy, hh:mm a' }} - {{ event.appointmentStatus | appointmentStatusLabel }}"
+                            tooltipPosition="top"
+                            [class.ring-2]="event.appointmentId === selectedAppointment?.appointmentId"
+                            [class.ring-blue-600]="event.appointmentId === selectedAppointment?.appointmentId"
+                            [class.shadow-lg]="event.appointmentId === selectedAppointment?.appointmentId">
+                            <i [class]="event.appointmentType | appointmentTypeIcon" class="text-xs text-white"></i>
+                        </button>
+                    </ng-template>
+
+                    <ng-template pTemplate="content" let-event>
+                        <p-card
+                            class="mt-4 transition-shadow duration-300 border-t-4 shadow-md p-timeline-event-card hover:shadow-lg"
+                            [class.selected-appointment-card]="event.appointmentId === selectedAppointment?.appointmentId"
+                            [style]="{
+    'border-bottom': event.appointmentId === selectedAppointment?.appointmentId ? '4px solid ' + (event.appointmentStatus | appointmentStatusBgColor) : '4px solid #0000',
+    'min-width': '210px'
+  }" (click)="selectAppointment(event)" (keydown.enter)="selectAppointment(event)"
+                            (keydown.space)="selectAppointment(event)">
+
+                            <div class="px-2 py-1 mb-2 text-xs font-semibold text-white rounded-md w-fit"
+                                [ngStyle]="{'background-color': event.appointmentStatus | appointmentStatusBgColor}">
+                                {{ event.appointmentStatus | appointmentStatusLabel }}
+                            </div>
+
+                            <p class="text-sm text-gray-600 !mb-[-0.5rem]">{{ event.appointmentDateTime | date:'dd MMM yyyy' }} {{
+                                event.appointmentDateTime | date:'hh:mm a' }}
+                            </p>
+                            <p class="text-xs text-gray-600 !mb-[-0.5rem]"></p>
+                        </p-card>
+                    </ng-template>
+
+                </p-timeline>
+            </div>
+
+            <button pButton icon="pi pi-chevron-right" (click)="scrollTimeline(1)"
+                class="z-10 p-0 ml-2 p-button-rounded p-button-secondary p-button-text"></button>
+        </div>
+    </div>
+
+    <div class="flex-1 space-y-8" *ngIf="patientId() && appointmentId()">
+        <div *ngFor="let section of sections; trackBy: trackBySection" [id]="section.id" [scrollSpy]="section.id">
+            @if (section.isImmediate) {
+            @defer (on immediate) {
+            <ng-container
+                *ngComponentOutlet="section.component; inputs: { appointmentId: appointmentId(), signOff:signOff, isModifiable: isModifiable }"></ng-container>
+            } @placeholder {
+            <div>
+                <ng-container *ngTemplateOutlet="placeHolder"></ng-container>
+            </div>
+            }
+            } @else {
+            @defer (on viewport) {
+            <ng-container
+                *ngComponentOutlet="section.component;inputs: { appointmentId: appointmentId(), signOff:signOff, isModifiable: isModifiable }"></ng-container>
+            } @placeholder {
+            <div>
+                <ng-container *ngTemplateOutlet="placeHolder"></ng-container>
+            </div>
+            }
+            }
+        </div>
+    </div>
+</ng-container>
+
+<ng-template #placeHolder>
+    <div class="card p-7 h-[250px] flex flex-col items-center justify-center">
+        <div class="flex items-center justify-center h-full mb-4">
+            <i class="pi pi-spin pi-spinner" style="font-size: 5rem"></i>
+        </div>
+        <p class="text-xl text-center text-gray-500 loading-dots">Loading</p>
+    </div>
+</ng-template>

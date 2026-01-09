@@ -1,11 +1,14 @@
 export const APP_ROUTES = {
-    HOME : '/home',
+    HOME: '/home',
     LOGIN: '/login',
-    DASHBOARD: '/dashboard',
+    DASHBOARD: '/home/dashboard',
     LOGOUT: '/logout',
-    APP : '/patient-portal',
+    APP: '/patient-portal',
     LOADING: '/loading',
-    ERROR: '/error',    
+    ERROR: '/error',
+    REGISTRATION: '/registration',
+    PROFILE: '/home/profile',
+    FAMILY_ADD: '/home/family/add'
 
 }
 

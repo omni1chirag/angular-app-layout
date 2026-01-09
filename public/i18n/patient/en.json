@@ -1,7 +1,17 @@
 {
   "PATIENT": {
+    "GREETING": "Hello, {{firstName}} {{lastName}}. Complete your profile to continue",
+    "STILL_BE_FAMILY_MEMBER": "Would you still allow your Family Member to manage your Profile?",
+    "GET_PROFILE_ROM_FAMILY_MEMBER": "Get Your Proflie From Familiy Member",
+    "UPDATE_PROFILE": "Update Profile",
+    "ADD_FAMILY_MEMBER": " Add Family Member",
+    "SELECT_PROFILE": "Select Profile",
     "PROFILE_DETAIL": "Profile Details",
+    "PROFILE_OWNER": "Profile owner",
+    "RELATION": "Relation",
     "PATIENT": "Patient",
+    "PROFILE_NAME": "Profile Name",
+    "PROFILE_PICTURE": "Profile Picture",
     "PATIENT_NAME": "Patient Name",
     "TITLE": "Title",
     "FIRST_NAME": "First Name",
@@ -23,6 +33,9 @@
     "EMERGENCY_CONTACT_NAME": "Emergency Contact Name",
     "EMERGENCY_CONTACT_NUMBER": "Emergency Contact Number",
     "RELATIONSHIP_TO_PATIENT": "Relationship to Patient",
+    "RELATIONSHIP": "Relationship",
+    "PREFERENCES": "Preferences",
+    "MODE_OF_COMMUNICATION": "Mode of Communication",
     "PATIENT_LIST": "Patient List",
     "ADD_PATIENT": "Add Patient",
     "EDIT_PATIENT": "Edit Patient",
@@ -38,26 +51,32 @@
       "EMERGENCY_CONTACT_NAME": "Enter Emergency Contact Name",
       "EMERGENCY_CONTACT_NUMBER": "Enter Contact Number",
       "RELATIONSHIP_TO_PATIENT": "Select Relationship to Patient",
+      "RELATIONSHIP": "Select Relationship",
       "TITLE": "Select Title",
       "PREFERRED_LANGUAGE": "Select Preferred Language",
       "BLOOD_GROUP": "Select Blood Group",
-      "SEARCH_NAME":"Search Name",
-      "SEARCH_MOBILE_NUMBER":"Search Mobile Number"
+      "SEARCH_NAME": "Search Name",
+      "SEARCH_MOBILE_NUMBER": "Search Mobile Number",
+      "SELECT_MODE_OF_COMMUNICATION": "Select Mode of communication"
     },
-    "RESPONSE":{
-      "ACTIVE_STATUS_UPDATE":"Patient has been activated successfully",
-      "INACTIVE_STATUS_UPDATE":"Patient has been deactivated successfully",
-      "NOT_FOUND":"Patient not found",
-      "PATIENT_DETAIL_ADD_SUCCESS":"Patient created successfully!",
-      "PATIENT_DETAIL_UPDATE_SUCCESS":"Patient details updated successfully",
-      "EMAIL_ALREADY_EXISTS":"This email is already registered with another patient",
-      "MOBILE_ALREADY_EXISTS":"This mobile number is already registered with another patient",
-      "AADHAAR_ALREADY_EXISTS":"This aadhaar number is already registered with another patient",
-      "ABHA_ALREADY_EXISTS":"This abha number is already registered with another patient",
-      "PATIENT_MAP_TO_DOCTOR":"Patient has been added to your clinic successfully.",
-      "PATIENT_MAP_OTP_SUCCESS":"OTP sent successfully.",
-      "FAIL_TO_CREATE_PATIENT":"Failed to create patient,\n please try again later.",
-      "FAIL_TO_UPDATE_PATIENT":"Failed to update patient,\n please try again later."
+    "RESPONSE": {
+      "ACTIVE_STATUS_UPDATE": "Patient has been activated successfully",
+      "INACTIVE_STATUS_UPDATE": "Patient has been deactivated successfully",
+      "NOT_FOUND": "Patient not found",
+      "PATIENT_DETAIL_ADD_SUCCESS": "Family member added successfully!",
+      "PATIENT_DETAIL_UPDATE_SUCCESS": "Profile details updated successfully",
+      "EMAIL_ALREADY_EXISTS": "This email is already registered with another patient",
+      "MOBILE_ALREADY_EXISTS": "This mobile number is already registered with another patient",
+      "AADHAAR_ALREADY_EXISTS": "This aadhaar number is already registered with another patient",
+      "ABHA_ALREADY_EXISTS": "This abha number is already registered with another patient",
+      "PATIENT_MAP_TO_DOCTOR": "Patient has been added to your clinic successfully.",
+      "PATIENT_MAP_OTP_SUCCESS": "OTP sent successfully.",
+      "FAIL_TO_CREATE_PATIENT": "Failed to create patient,\n please try again later.",
+      "FAIL_TO_UPDATE_PATIENT": "Failed to update patient,\n please try again later.",
+      "PROFILE_NOT_FOUND_BY_MOBILE_NUMBER": "No profiles found for the provided mobile number",
+      "PATIENT_ALREADY_MAP_TO_USER": "Patient already mapped to a user.",
+      "USER_EMAIL_ALREADY_REGISTERED": "Email already registered with another user.",
+      "USER_MOBILE_ALREADY_REGISTERED": "Mobile number already registered with another user."
     }
   },
   "INSURANCE": {
@@ -72,6 +91,8 @@
     "UPLOAD_INSURANCE_CARD_OR_POLICY": "Upload Insurance Card/Policy",
     "FRONT_SIDE": "Front Side",
     "BACK_SIDE": "Back Side",
+    "ADD_INSURANCE": "Add Insurance",
+    "EDIT_INSURANCE": "Edit Insurance",
     "PLACE_HOLDER": {
       "INSURANCE_PROVIDER_NAME": "Select Insurance Provider Name",
       "INSURANCE_PROVIDER_NAME_FREE_TEXT": "Enter Insurance Provider Name",
@@ -89,10 +110,35 @@
     }
   },
   "APPOINTMENT": {
+    "APPOINTMENT_LIST": "Appointment List",
     "ADD_APPOINTMENT": "Add Appointment",
     "EDIT_APPOINTMENT": "Edit Appointment",
     "SELECT_PATIENT": "Select Patient",
     "RELATION": "Relation",
+    "REASON_FOR_VISIT": "Reason for Visit",
+    "APPOINTMENT_TYPE": "Appointment Type",
+    "SELECT_DATE_TIME": "Select Date & Time",
+    "CONSULTATION_FEE": "Consultation Fee",
+    "NOTES": "Notes",
+    "CONFIRM_BOOK": "Confirm & Book Appointment",
+    "UPLOAD_DOCUMENT": "Upload Document",
+    "CONFIRM_BOOKING": "Confirm Booking",
+    "BOOKING_SUMMARY": "Appointment Summary",
+    "DOCTOR": "Doctor",
+    "TYPE": "Type",
+    "DATE": "Date",
+    "TIME": "Time",
+    "TOTAL_FEE": "Total Fee",
+    "PAYMENT_MODE": "Payment Mode",
+    "PAY_NOW": "Pay Now",
+    "PAY_NOW_DESC": "UPI / Card / Wallet",
+    "PAY_AT_CLINIC": "Pay at Clinic",
+    "PAY_AT_CLINIC_DESC": "Cash payment at clinic",
+    "BOOK_NOW": "Book Appointment",
+    "IN_PERSON": "In-Person",
+    "VIDEO_CALL": "Video Call",
+    "NO_SLOTS_AVAILABLE": "No slots available for this date.",
+    "TERMS_CONDITIONS": "By booking this appointment, you agree to our terms and conditions",
     "FORM_LABELS": {
       "REASON_FOR_VISIT": "Reason for Visit",
       "APPOINTMENT_TYPE": "Appointment Type",
@@ -100,14 +146,15 @@
       "APPOINTMENT_TIME": "Appointment Time",
       "DURATION": "Duration",
       "APPOINTMENT_STATUS": "Appointment Status",
+      "CHARTING_STATUS": "Charting Status",
       "NOTES": "Notes"
     },
     "PLACE_HOLDER": {
       "PATIENT_NAME": "First Name, Last Name",
       "APPOINTMENT_STATUS": "Select Appointment Status",
-      "REASON_FOR_VISIT": "Search Reason for Visit",
       "APPOINTMENT_DATE": "Enter Date of Service",
-      "NOTES": "Enter any notes here"
+      "REASON_FOR_VISIT": "Enter reason for visit",
+      "NOTES": "Add any additional notes (optional)"
     },
     "RESPONSE": {
       "APPOINTMENT_CREATE_SUCCESS": "Appointment created successfully!",
@@ -121,6 +168,213 @@
       "APPOINTMENT_DURATION_INVALID": "Invalid appointment duration",
       "APPOINTMENT_PATIENT_NOT_MAPPED": "Patient is not mapped to your organization",
       "APPOINTMENT_MAP_SUCCESS": "Appointment mapped to clinic successfully"
+    },
+    "TABLE": {
+      "EMPTY_MESSAGE": "No appointments added for this patient."
+    },
+    "ERROR": {
+      "CLINIC_REQUIRED": "Please select a clinic",
+      "REASON_FOR_VISIT_REQUIRED": "Reason for visit is required",
+      "DATE_TIME_REQUIRED": "Please select date and time",
+      "PAST_DATE_NOT_ALLOWED": "Past dates are not allowed",
+      "NOTES_TOO_LONG": "Notes cannot exceed 300 characters",
+      "PAYMENT_OPTION_REQUIRED": "Please select a payment option"
+    }
+  },
+  "DOCUMENT": {
+    "DOCUMENTS": "Documents",
+    "NAME": "Name",
+    "DOCUMENT_NAME": "Document Name",
+    "DOCUMENT_TYPE": "Document Type",
+    "UPLOAD_DATE": "Upload Date",
+    "UPLOADED_BY": "Uploaded By",
+    "UPLOAD_DCUMENT": "Upload Document",
+    "LAST_MODIFIED_DATE": "Last Modified Date",
+    "DESCRIPTION": "Description",
+    "ADD_DOCUMENT": "Add Document",
+    "EDIT_DOCUMENT": "Edit Document",
+    "PLACE_HOLDER": {
+      "SEARCH_NAME": "Search Name",
+      "DOCUMENT_NAME": "Enter Document Name",
+      "DOCUMENT_TYPE": "Select Document Type",
+      "ENTER_DOCUMENT_TYPE": "Enter Document Type",
+      "UPLOAD_DATE": "DD/MM/YYYY",
+      "DESCRIPTION": "Enter Description"
+    },
+    "RESPONSE": {
+      "DOCUMENT_UPLOADED_SUCCESS": "Document uploaded successfully.",
+      "DOCUMENT_UPDATED_SUCCESS": "Document updated successfully.",
+      "DOCUMENT_DELETED_SUCCESS": "Document deleted successfully!",
+      "DOCUMENT_NOT_FOUND": "Document not found",
+      "FILE_NOT_FOUND": "File not found"
+    },
+    "TABLE": {
+      "EMPTY_MESSAGE": "No documents added for this patient."
+    },
+    "TOOLTIP": {
+      "NOT_AUTHORIZED": "You are not authorized to perform this action"
+    }
+  },
+  "VITALS": {
+    "VITAL_SETUP": "Vital Setup",
+    "VITALS": "Vitals",
+    "APPOINTMENT": "Appointment",
+    "ADD_VITALS": "Add Vitals",
+    "EDIT_VITALS": "Edit Vitals",
+    "RECORDED_DATE": "Recorded Date",
+    "RECORDED_TIME": "Recorded Time",
+    "VITALS_ID": "Vitals ID",
+    "BODY_TEMPERATURE": "Body Temperature",
+    "HEART_RATE": "Heart Rate",
+    "RESPIRATORY_RATE": "Respiratory Rate",
+    "BLOOD_PRESSURE": "Blood Pressure",
+    "SPO2": "SpO2",
+    "HEIGHT": "Height",
+    "WEIGHT": "Weight",
+    "BMI": "BMI",
+    "BLOOD_GLUCOSE": "Blood Glucose",
+    "NOTES": "Notes",
+    "ACTION": "Action",
+    "PLACE_HOLDER": {
+      "APPOINTMENT": "Select Appointment",
+      "BODY_TEMPERATURE": "Enter Body Temperature (°C)",
+      "HEART_RATE": "Enter Heart Rate (bpm)",
+      "RESPIRATORY_RATE": "Enter Respiratory Rate (breaths/min)",
+      "BLOOD_PRESSURE": "Enter Blood Pressure (mmHg)",
+      "SPO2": "Enter Oxygen Saturation (SpO2) (%)",
+      "HEIGHT": "Enter Height (cm)",
+      "WEIGHT": "Enter Weight (kg)",
+      "BMI": "Enter BMI",
+      "BLOOD_GLUCOSE": "Enter Blood Glucose (mg/dL)",
+      "Notes": "Enter Notes"
+    },
+    "TOOLTIP": {
+      "NOT_AUTHORIZED": "You are not authorized to perform this action",
+      "LOCKED_CHART": "Chart is locked. Editing is not allowed at this time.",
+      "MARK_AS_READ": "Mark as read"
+    },
+    "VALIDATION": {
+      "SELECT_AT_LEAST_ONE": "Please enter at least one vital."
+    },
+    "RESPONSE": {
+      "VITAL_ADD_SUCCESS": "Vitals added successfully.",
+      "VITAL_UPDATE_SUCCESS": "Vitals updated successfully.",
+      "VITALS_DETAIL_DELETE_SUCCESS": "Vitals deleted successfully.",
+      "VITALS_NOT_FOUND": "Vitals not found.",
+      "VITAL_PREFERENCE_SAVE_SUCCESS": "Vital preferences saved successfully."
+    },
+    "TABLE": {
+      "EMPTY_MESSAGE": "No vitals added for this patient."
+    }
+  },
+  "MEDICATION": {
+    "MEDICATIONS": "Medications",
+    "MEDICATION_NAME": "Medication Name",
+    "ROUTE_OF_ADMINISTRATION": "Route of Administration",
+    "ROUTE": "Route",
+    "TIMING": "Timing",
+    "FREQUENCY": "Frequency",
+    "DURATION": "Duration",
+    "QUANTITY": "Quantity",
+    "TOTAL_QUANTITY": "Total Quantity",
+    "START_DATE": "Start Date",
+    "INSTRUCTIONS": "Instructions",
+    "STATUS": "Status",
+    "PRESCRIBED_BY": "Prescribed By",
+    "REASON": "Reason",
+    "MORNING": "Morning",
+    "AFTERNOON": "Afternoon",
+    "EVENING": "Evening",
+    "NIGHT": "Night",
+    "UNIT": "Unit",
+    "ADD_MEDICATION": "Add Medication",
+    "EDIT_MEDICATION": "Edit Medication",
+    "PATIENT_NAME": "Patient Name",
+    "LAST_UPDATED_DATE": "Last Updated Date",
+    "APPOINTMENT": "Appointment",
+    "PLACE_HOLDER": {
+      "MEDICATION_NAME": "Filter Medication Name",
+      "ROUTE_OF_ADMINISTRATION": "Select Route of Administration",
+      "TIMING": "Select Timing",
+      "FREQUENCY": "Select Frequency",
+      "DURATION": "Select Duration",
+      "QUANTITY": "Enter Quantity",
+      "TOTAL_QUANTITY": "Enter Total Quantity",
+      "UNIT": "Select Unit",
+      "START_DATE": "DD/MM/YYYY",
+      "INSTRUCTIONS": "Enter Instructions",
+      "STATUS": "Select Status",
+      "PRESCRIBED_BY": "Enter Prescribed By",
+      "REASON": "Enter Reason",
+      "SEARCH_MEDICINES": "Filter Medicines",
+      "SEARCH_PATIENT_NAME": "Filter Patient Name",
+      "APPOINTMENT": "Select Appointment",
+      "OTHER": "Other",
+      "HOURS": "Enter hours",
+      "DAILY_FREQUENCY": "Daily Frequency"
+    },
+    "RESPONSE": {
+      "MEDICATION_DETAIL_ADD_SUCCESS": "Medication created successfully",
+      "MEDICATION_DETAIL_UPDATE_SUCCESS": "Medication updated successfully",
+      "MEDICATION_DETAIL_DELETE_SUCCESS": "Medication deleted successfully",
+      "MEDICATION_NOT_FOUND": "Medication not found",
+      "MEDICATION_ALREADY_EXISTS": "Medication already exists",
+      "ADD_CHART_IS_LOCKED": "Appointment chart is locked. Adding medication is not allowed at this time.",
+      "EDIT_CHART_IS_LOCKED": "Appointment chart is locked. Editing medication is not allowed at this time.",
+      "SUBSTANCE_PRESENT_IN_PATIENT_ALLERGIES": "Selected Drug/Medicine (Dug Name) have similar substance of Patient Allergy. Suggesting you choose the alternative drug salt/brand or another drug from same class.",
+      "MEDICATION_HISTORY_DETAIL_ADD_SUCCESS": "Medication history created successfully",
+      "MEDICATION_HISTORY_DETAIL_UPDATE_SUCCESS": "Medication history updated successfully",
+      "MEDICATION_HISTORY_DETAIL_DELETE_SUCCESS": "Medication history deleted successfully",
+      "MEDICATION_HISTORY_NOT_FOUND": "Medication history not found"
+    },
+    "TABLE": {
+      "EMPTY_MESSAGE": "No medication added for this patient.",
+      "LIST_EMTPY_MESSAGE": "No Medications recorded."
+    }
+  },
+  "IMMUNIZATION": {
+    "IMMUNIZATION": "Immunization",
+    "ADD_IMMUNIZATION": "Add Immunization",
+    "EDIT_IMMUNIZATION": "Edit Immunization",
+    "IMMUNIZATION_NAME": "Immunization Name",
+    "DOSE_NUMBER": "Dose Number",
+    "DOSE_NAME": "Dose Name",
+    "DATE_OF_VACCINATION": "Date of Vaccination",
+    "ADMINISTERED_BY": "Administered By",
+    "LAST_UPLOADED_BY": "Last Uploaded By",
+    "ROUTE": "Route",
+    "SITE": "Site",
+    "STATUS": "Status",
+    "COMMENTS": "Comments",
+    "VACCINE_NAME": "Vaccine Name",
+    "PATIENT_NAME": "Patient Name",
+    "APPOINTMENT": "Appointment",
+    "PLACE_HOLDER": {
+      "SEARCH_PATIENT_NAME": "Search Patient Name",
+      "SEARCH_IMMUNIZATION": "Search Immunization",
+      "IMMUNIZATION_NAME": "Enter Immunization Name",
+      "VACCINE_NAME": "Enter Vaccine Name",
+      "DOSE_NUMBER": "Select Dose Number",
+      "APPOINTMENT": "Select Appointment",
+      "DOSE_NAME": "Enter Dose Name",
+      "DATE_OF_VACCINATION": "DD/MM/YYYY",
+      "ADMINISTERED_BY": "Enter Administered By",
+      "ROUTE": "Select Route",
+      "SITE": "Select Site",
+      "STATUS": "Select Status",
+      "COMMENTS": "Enter Comments"
+    },
+    "RESPONSE": {
+      "IMMUNIZATION_DETAIL_ADD_SUCCESS": "Immunization details added successfully.",
+      "IMMUNIZATION_DETAIL_UPDATE_SUCCESS": "Immunization details updated successfully.",
+      "IMMUNIZATION_DETAIL_DELETE_SUCCESS": "Immunization details deleted successfully.",
+      "IMMUNIZATION_NOT_FOUND": "Immunization not found.",
+      "ADD_CHART_IS_LOCKED": "Appointment chart is locked. Adding immunization is not allowed at this time.",
+      "EDIT_CHART_IS_LOCKED": "Appointment chart is locked. Editing immunization is not allowed at this time."
+    },
+    "TABLE": {
+      "EMPTY_MESSAGE": "No immunization records available.",
+      "PATIENT_EMPTY_MESSAGE": "No immunization added for this patient."
     }
   }
 }

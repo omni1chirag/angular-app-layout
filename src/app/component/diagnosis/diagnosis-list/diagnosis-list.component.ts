@@ -1,17 +1,21 @@
 import { CommonModule } from '@angular/common';
-import { Component, input, OnInit, signal } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { HttpParams } from '@angular/common/http';
+import { Component, inject, input, OnInit, signal, ViewChild } from '@angular/core';
+import { PaginationResponse } from '@interface/api-response.interface';
+import { CommonMaster, LabelValue } from '@interface/common.interface';
+import { Diagnosis } from '@interface/diagnosis.interface';
 import { TranslateModule } from '@ngx-translate/core';
 import { DiagnosisService } from '@service/diagnosis.service';
 import { MasterService } from '@service/master.service';
+import { PlatformService } from '@service/platform.service';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import { ButtonModule } from 'primeng/button';
 import { DividerModule } from 'primeng/divider';
-import { TableModule } from 'primeng/table';
-import { DiagnosisAddEditComponent } from '../diagnosis-add-edit/diagnosis-add-edit.component';
+import { Table, TableLazyLoadEvent, TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
-import { LabelValue } from '@interface/common-master.interface';
-import { PlatformService } from '@service/platform.service';
+import { TooltipModule } from 'primeng/tooltip';
+import { LocalStorageService } from '@service/local-storage.service';
+import { GLOBAL_CONFIG_IMPORTS } from 'src/app/global-config-import';
 
 @Component({
   selector: 'app-diagnosis-list',
@@ -22,90 +26,104 @@ import { PlatformService } from '@service/platform.service';
     CommonModule,
     TableModule,
     TagModule,
-    DiagnosisAddEditComponent
+    TooltipModule,
+    ...GLOBAL_CONFIG_IMPORTS
   ],
-  templateUrl: './diagnosis-list.component.html',
-  styleUrl: './diagnosis-list.component.scss'
+  templateUrl: './diagnosis-list.component.html'
 })
 
 export class DiagnosisListComponent implements OnInit {
 
-  visible: boolean = false;
-  selectedDiagnosis = signal<any>(null);
-  diagnosisSuggestion: LabelValue[] = [];
-  frequentlyUsedDiagnosis: LabelValue[] = []
-  diagnosisList: any[] = [];
-  statusOptions: LabelValue[] = [];
-  isBrowser: boolean = false;
-  readonly appointmentId = input.required<string>();
-  readonly patientId = input.required<string>();
-  rowsPerPage = 10;
+  private readonly diagnosisService = inject(DiagnosisService);
+  private readonly masterService = inject(MasterService);
+  private readonly platformService = inject(PlatformService);
+  private readonly localStorageService = inject(LocalStorageService);
 
-  constructor(private diagnosisService: DiagnosisService,
-    private masterService: MasterService,
-    private platformService: PlatformService
-  ) {
-    this.isBrowser = platformService.isBrowser();
+  @ViewChild('DiagnosisTable') DiagnosisTable: Table
+
+  visible = false;
+  diagnosisId = signal<string>(null);
+  diagnosisName = signal<string>(null);
+  diagnosisSuggestion: LabelValue<string>[] = [];
+  frequentlyUsedDiagnosis: LabelValue<string>[] = []
+  diagnosisList: Diagnosis[] = [];
+  statusOptions: LabelValue<number>[] = [];
+  isBrowser = false;
+  readonly appointmentId = input.required<string>();
+  readonly isModifiable = input.required<boolean>();
+  readonly patientId = this.localStorageService.getPatientId();
+  showLoader = true;
+  first = 0;
+  totalRecords = 0;
+  size = 10;
+  readonly signOff = input.required<number>();
+
+  constructor() {
+    this.isBrowser = this.platformService.isBrowser();
     if (!this.isBrowser) return;
 
     this.initializeMasterData();
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     if (!this.isBrowser) return;
-
-    this.loadDiagnosis();
   }
 
-  loadDiagnosis(event?: any) {
+  loadDiagnosis(event?: TableLazyLoadEvent): void {
 
-    const apiCall = this.appointmentId() 
-    ? this.diagnosisService.getAllDiagnosis(this.patientId(), this.appointmentId())
-    : this.diagnosisService.getAllDiagnosis(this.patientId());
+    if (!this.isBrowser) return;
+
+    this.showLoader = true;
+    this.first = event?.first || 0;
+    this.size = event?.rows || 10;
+
+    let params = new HttpParams();
+    params = params.append('page', Math.floor(this.first / this.size));
+    params = params.append('size', this.size);
+    params = params.append('sort', 'status asc');
+    params = params.append('sort', 'diagnosisName asc');
+
+    if (this.appointmentId?.()) {
+      params = params.append('appointment', this.appointmentId());
+    }
+    const apiCall = this.diagnosisService.getAllDiagnosis(this.patientId, params);
 
     apiCall.subscribe({
-      next: (response: any) => {
-        this.diagnosisList = response?.data;
+      next: (data: PaginationResponse<Diagnosis>) => {
+        this.diagnosisList = data?.content;
+        this.totalRecords = data?.totalElements;
+        this.showLoader = false;
       },
       error: (error) => {
-        console.error('Error fetching diagnosis:', error);
+        this.showLoader = false;
+        console.error('Error fetching diagnosis list:', error);
       }
     });
 
   }
 
-  initializeMasterData() {
+  initializeMasterData(): void {
 
     const params = ['DIAGNOSIS_STATUS'];
 
-    this.masterService.getCommonMasterData(params).subscribe({
-      next: (resp: any) => {
-        (resp.data as Array<any>).forEach((res: any) => {
-          switch (res.name) {
-            case 'DIAGNOSIS_STATUS':
-              this.statusOptions = res.value
-              break;
-
-            default:
-              console.log('name not found', res.name);
-              break;
-          }
-        })
-      },
-      error: (error) => {
-        console.error('Error fetching master data:', error);
-      }
+    this.masterService.getCommonMasterData<CommonMaster<unknown>[]>(params).subscribe((data) => {
+      data.forEach((res) => {
+        if (res.name === 'DIAGNOSIS_STATUS') {
+            this.statusOptions = res.value as LabelValue<number>[];
+        } else {
+            console.warn('name not found', res.name);
+        }
+      });
     });
-
     this.getAllFrequentlyUsedDiagnosis();
   }
 
-  searchDiagnosis(searchParam: any): void {
+  searchDiagnosis(searchParam: string): void {
 
     this.diagnosisService.searchDiagnosis(searchParam).subscribe({
-      next: (response: any) => {
-        if (response?.data?.length > 0) {
-          this.diagnosisSuggestion = response?.data;
+      next: (data) => {
+        if (data) {
+          this.diagnosisSuggestion = data as LabelValue<string>[];
         } else {
           this.diagnosisSuggestion = [{ label: searchParam, value: searchParam }];
         }
@@ -119,8 +137,8 @@ export class DiagnosisListComponent implements OnInit {
 
   getAllFrequentlyUsedDiagnosis(): void {
     this.diagnosisService.getAllFrequentlyUsedDiagnosis().subscribe({
-      next: (response: any) => {
-        this.frequentlyUsedDiagnosis = response?.data;
+      next: (data) => {
+        this.frequentlyUsedDiagnosis = data as LabelValue<string>[];
       },
       error: (error) => {
         console.error('Error fetching frequently used diagnosis:', error);
@@ -128,28 +146,27 @@ export class DiagnosisListComponent implements OnInit {
     });
   }
 
-  addDiagnosis(diagnosisObj: any): void {
+  addDiagnosis(diagnosisObj: LabelValue<string>): void {
     this.visible = true;
-    const diagnosis = {
-      diagnosisName: diagnosisObj?.value
-    };
-    this.selectedDiagnosis.set(diagnosis);
+    this.diagnosisName.set(diagnosisObj?.value);
+    this.diagnosisId.set(null);
   }
 
-  editDiagnosis(diagnosis: any): void {
+  editDiagnosis(diagnosis: Diagnosis): void {
     this.visible = true;
-    this.selectedDiagnosis.set(diagnosis);
+    this.diagnosisId.set(diagnosis?.diagnosisId);
+    this.diagnosisName.set(null);
   }
 
-  removeDiagnosis(index: number, item?: any): void {
+  removeDiagnosis(index: number, item?: Diagnosis): void {
     this.diagnosisList.splice(index, 1);
     this.deleteDiagnosis(item.diagnosisId);
   }
 
-  deleteDiagnosis(diagnosisId: any): void {
+  deleteDiagnosis(diagnosisId: string): void {
 
-    this.diagnosisService.deleteDiagnosis(this.patientId(), diagnosisId).subscribe({
-      next: (response: any) => {
+    this.diagnosisService.deleteDiagnosis(this.patientId, diagnosisId).subscribe({
+      next: () => {
         this.loadDiagnosis();
       },
       error: (error) => {
@@ -158,7 +175,7 @@ export class DiagnosisListComponent implements OnInit {
     });
   }
 
-  getStatus(status) {
+  getStatus(status: number): string {
     const statusObj = this.statusOptions.find((item) => item.value == status);
     return statusObj ? statusObj.label : '';
   }
@@ -193,7 +210,7 @@ export class DiagnosisListComponent implements OnInit {
         return 'contrast';
       default:
         return null;
-    }     
+    }
   }
 
 }

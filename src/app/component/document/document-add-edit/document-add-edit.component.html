@@ -18,7 +18,7 @@
                 <div class="mt-2">
                     <app-file-upload formControlName="docId" [moduleId]="moduleId" [fileSize]="10" [isView]="true"
                         [subModuleId]="subModuleId" (completeDocumentUpload)="onCompleteDocumentUpload($event)"
-                        source="PatientDocument" [objectId]="getDocumentId" [disabled]="mode == 'EDIT_DOCUMENT'"
+                        source="PatientDocument" [objectId]="getDocumentId" [disabled]="mode === 'EDIT_DOCUMENT'"
                         [fileTypeSupported]="supportedTypes"></app-file-upload>
                 </div>
             </div>

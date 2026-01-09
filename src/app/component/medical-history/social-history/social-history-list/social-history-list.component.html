@@ -1,0 +1,36 @@
+<div class="card">
+
+    <div class="flex justify-between items-center mb-3">
+        <h4 class="text-base/7 font-semibold ">{{'SOCIAL_HISTORY.SOCIAL_HISTORY' | translate}}</h4>
+        <p-button *ngIf="socialHistoryData?.socialHistoryId && isModifiable() " label="{{ 'EDIT' | translate }}"
+            size="small" class="mr-3" severity="primary"
+            (onClick)="editSocialHistory(socialHistoryData.socialHistoryId)" [disabled]="signOff() === 1">
+        </p-button>
+
+        <p-button *ngIf="!socialHistoryData?.socialHistoryId && isModifiable()" label="{{ 'ADD' | translate }}"
+            size="small" class="mr-3" severity="primary" (onClick)="addSocialHistory()" [disabled]="signOff() === 1">
+        </p-button>
+    </div>
+    <p-divider />
+    <div class="p-3">
+        <ng-container *ngIf="records.length > 0">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                <div class="flex justify-between items-center p-3 rounded-lg shadow-sm" *ngFor="let item of records">
+                    <span class="font-semibold">{{ castToString(item.key) | titlecase }}: </span>
+                    <p-chip [label]="item.value + ''" />
+                </div>
+            </div>
+        </ng-container>
+        <!-- No records found -->
+        <ng-template pTemplate="emptymessage">
+            <tr>
+                <td colspan="7" style="text-align:center;">
+                    <span>{{ 'SOCIAL_HISTORY.TABLE.EMPTY_MESSAGE' | translate }}</span>
+                </td>
+            </tr>
+        </ng-template>
+    </div>
+</div>
+
+<app-social-history-add-edit *ngIf="visible" [(isVisible)]="visible" [socialHistoryId]="socialHistoryId"
+    [patientId]="patientId()" [appointmentId]="appointmentId()" (socialHistoryDataUpdate)="loadData()"></app-social-history-add-edit>

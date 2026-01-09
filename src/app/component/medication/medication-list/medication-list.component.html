@@ -1,82 +1,204 @@
-<div class="card">
-
-    <div>
-        <h4 class="text-base/7 font-semibold text-gray-900">{{ 'MEDICATION.MEDICATIONS' | translate }}</h4>
-    </div>
-    <p-divider />
-
-    <ng-container>
-        <p-table [value]="medicationsList" [reorderableColumns]="true" size="small" [paginator]="true"
-            [rows]="rowsPerPage" [totalRecords]="medicationsList.length">
-
-            <ng-template #body let-item let-index="rowIndex">
-                <tr [pReorderableRow]="index">
-                    <td>
-                        <span class="pi pi-bars" pReorderableRowHandle></span>
-                    </td>
-                    <td>
-                        <strong> {{ item.medicationName }} </strong>
-                    </td>
-                    <td>
-                        {{ 'MEDICATION.FREQUENCY' | translate }} : {{ item.morningFrequency }}-{{
-                        item.eveningFrequency}}-{{
-                        item.nightFrequency}} |
-
-                        {{ 'MEDICATION.TIMING' | translate }} : {{ getTiming(item.timing) }} |
-
-                        {{ 'MEDICATION.DURATION' | translate }} : {{ item.duration }} - {{
-                        getDurationUnit(item.durationUnit) }} |
-
-                        {{ 'MEDICATION.QUANTITY' | translate }} : {{ item.quantity }} - {{
-                        getQuantityUnit(item.quantityUnit) }}
-                    </td>
-                    <td style="width: 1%; text-align: right;">
-                        <p-tag [severity]="getTagSeverity(item.status)" [value]="getStatus(item.status)"
-                            [rounded]="true">
-                        </p-tag>
-                    </td>
-                    <td class="flex justify-center gap-2">
-                        <p-button icon="pi pi-pencil" variant="outlined" severity="info" [raised]="false"
-                            (onClick)="editMedication(item)" [rounded]="true" />
-                        <p-button icon="pi pi-trash" variant="outlined" severity="danger" [raised]="false"
-                            (onClick)="removeMedication(index, item)" [rounded]="true" />
-                    </td>
-                </tr>
-            </ng-template>
-            <ng-template pTemplate="emptymessage">
-                <tr>
-                    <td colspan="4">
-                        <div class="text-center">
-                            <span class="text-lg">{{'MEDICATION.TABLE.EMPTY_MESSAGE' | translate}}</span>
-                        </div>
-                    </td>
-                </tr>
-            </ng-template>
-        </p-table>
-    </ng-container>
-
-    <span *ngIf="appointmentId()">
-
-        <div class="mt-5"></div>
-
-        <p-autoComplete class="w-full" [style]="{width:'100%'}" id="medicationName" [suggestions]="medicationSuggestion"
-            optionLabel="label" optionValue="value"
-            placeholder="{{ 'MEDICATION.PLACE_HOLDER.SEARCH_MEDICINES' | translate }}" [dropdown]="false" minLength="3"
-            (onSelect)="addMedication($event.value)" (completeMethod)="searchMedicines($event.query)"
-            [inputStyle]="{ width: '100%' }" appendTo="body">
-        </p-autoComplete>
-
-        <div class="mt-5">
-            <div class="flex flex-wrap gap-2">
-                <button *ngFor="let med of frequentlyUsedMedicines" type="button" pButton [rounded]="true"
-                    class="p-button p-button-outlined" (click)="addMedication(med)">
-                    {{ med.label }}
-                </button>
+<div pageHeader="list">
+    <p-toolbar>
+        <ng-template #start>
+            <div class="flex items-center gap-2">
+                <p class="text-2xl font-bold sm:truncate sm:text-3xl sm:tracking-tight">
+                    {{ 'MEDICATION.MEDICATIONS' | translate }}
+                </p>
             </div>
-        </div>
-    </span>
+        </ng-template>
+    </p-toolbar>
 </div>
 
-<app-medication-add-edit *ngIf="visible" [(isVisible)]="visible" [selectedMedication]="selectedMedication"
-    [appointmentId]="appointmentId()" [patientId]="patientId()"
-    (onMedicationUpdate)="loadMedications($event)"></app-medication-add-edit>
+<div class="card">
+
+    @if (isBrowser) {
+    <p-table [value]="medicationsList" size="small" [paginator]="true" [loading]="showLoader" [first]="first"
+        [lazy]="true" [rows]="size" (onLazyLoad)="loadMedications($event)" [scrollable]="true"
+        [totalRecords]="totalRecords" rowGroupMode="subheader" groupRowsBy="appointmentStartDateTime"
+        sortMode="multiple" [multiSortMeta]="[{ field: 'appointmentStartDateTime', order: -1 }]" #medicationTable
+        tableAutoScroll stripedRows>
+        <ng-template pTemplate="caption">
+            <div class="flex flex-row justify-between table-options pb-1">
+                <div class="flex gap-3">
+                    <div class="flex flex-col">
+
+                        <label for="clear" class="text-md font-semibold mb-4">&nbsp;</label>
+                        <button pButton label="Clear" class="p-button-outlined" icon="pi pi-filter-slash"
+                            (click)="medicationTable.clear()">
+                        </button>
+                    </div>
+                </div>
+
+                <div class="flex gap-3 items-end">
+                    <div class="">
+                        <label for="calendar-12h" class="text-md font-semibold mb-4">Appointment</label>
+                        <div class="mt-2">
+                            <p-columnFilter type="date" field="appointmentDate" [showMenu]="false"
+                                [showClearButton]="false" ariaLabel="Filter Appointment Date">
+                                <ng-template #filter let-value let-filter="filterCallback">
+                                    <p-datepicker inputId="calendar-12h" appendTo="body" dateMask dateFormat="dd/mm/yy"
+                                        (onSelect)="onDateRangeSelect(filterDate, filter)"
+                                        (onClear)="filter(undefined); filterDate = undefined" [showClear]="true"
+                                        placeholder="Select Date Range" [style]="{'width': columnWidth +'px'}"
+                                        class="w-full" [(ngModel)]="filterDate" selectionMode="range"
+                                        [readonlyInput]="true" dataType="string" [showTime]="false" />
+                                </ng-template>
+                            </p-columnFilter>
+                        </div>
+                    </div>
+                    <div class="">
+                        <label for="doctor" class="text-md font-semibold mb-2">Doctor</label>
+                        <div class="mt-2">
+                            <p-columnFilter field="doctor" [showMenu]="false" [showClearButton]="false">
+                                <ng-template #filter let-value let-filter="filterCallback">
+                                    <p-multiselect dropdown [options]="doctorOptions" id="doctor"
+                                        placeholder="Select Doctor" optionLabel="label" [ngModel]="value || []"
+                                        optionValue="value" display="chip" [filter]="true"
+                                        (onChange)="filter($event.value)" [style]="{'width': columnWidth+'px'}"
+                                        class="w-full" appendTo="body" />
+                                </ng-template>
+                            </p-columnFilter>
+                        </div>
+                    </div>
+                    <div class="">
+                        <label for="clinic" class="text-md font-semibold mb-2">Clinic</label>
+                        <div class="mt-2">
+                            <p-columnFilter field="clinic" [showMenu]="false" [showClearButton]="false">
+                                <ng-template #filter let-value let-filter="filterCallback">
+                                    <p-multiselect dropdown [options]="clinicOptions" id="clinic"
+                                        placeholder="Select Clinic" optionLabel="label" [ngModel]="value"
+                                        optionValue="value" display="chip" [filter]="true"
+                                        (onChange)="filter($event.value)" [style]="{'width': columnWidth+'px'}"
+                                        class="w-full" appendTo="body" />
+                                </ng-template>
+                            </p-columnFilter>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="groupheader" let-item>
+            <tr pRowGroupHeader>
+                <td colspan="5" class="bg-gray-100 !p-0">
+                    <div class="flex items-center w-full px-3 py-3 gap-6">
+                        <span class="font-semibold">
+                            {{ item.appointmentStartDateTime | date: 'dd MMM yyyy' }}
+                        </span>
+                        <span class="font-semibold">
+                            {{ item.doctorName }}
+                        </span>
+                        <span class="font-semibold">
+                            {{ item.clinic.clinicName }}
+                        </span>
+                    </div>
+                </td>
+                <td alignFrozen="right" pFrozenColumn [frozen]="actions" [ngClass]="{ 'font-bold': actions }"
+                    *ngIf="isBrowser">
+                    <div class="flex justify-center" *ngIf="item.appointmentSignOff === 1">
+                        <button pButton icon="pi pi-print" class="p-button-text p-button-lg" *ngIf="item.appointmentId"
+                            [disabled]="loading" (click)="printPrescriptions(item.patientId, item.appointmentId)">
+                        </button>
+                    </div>
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th scope="col" class="min-w-[400px] w-[35%]">
+                    {{'MEDICATION.MEDICATION_NAME' | translate}}
+                </th>
+                <th scope="col" class="min-w-[120px] w-[10%]">
+                    {{'MEDICATION.ROUTE' | translate}}
+                </th>
+                <th scope="col" class="min-w-[200px] w-[12%]">
+                    {{'MEDICATION.FREQUENCY' | translate}}
+                </th>
+                <th scope="col" class="min-w-[100px] w-[6%]">
+                    {{'MEDICATION.TIMING' | translate}}
+                </th>
+                <th scope="col" class="min-w-[100px] w-[6%]">
+                    {{'MEDICATION.DURATION' | translate}}
+                </th>
+                <th scope="col" class="min-w-[130px] w-[11%]">
+                    {{'MEDICATION.START_DATE' | translate}}
+                </th>
+            </tr>
+
+            <tr>
+                <th scope="col">
+                    <p-columnFilter field="medicationName" [showMenu]="false" [showClearButton]="false">
+                        <ng-template #filter let-value let-filter="filterCallback">
+                            <p-autocomplete dropdown id="medicationName" [ngModel]="value" inputStyleClass="w-full"
+                                [suggestions]="medicationSuggestions" [showClear]="true"
+                                (completeMethod)="searchDrug($event.query)" [dropdown]="false" [minLength]="3"
+                                [forceSelection]="false" optionLabel="label" optionValue="value"
+                                (onSelect)="filter($event.value.value)" (onClear)="filter(undefined)"
+                                [placeholder]="'MEDICATION.PLACE_HOLDER.MEDICATION_NAME' | translate" appendTo="body"
+                                maxlength="100" />
+                        </ng-template>
+                    </p-columnFilter>
+                </th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+                <th scope="col">
+                    <p-columnFilter field="startDate" [showMenu]="false" [showClearButton]="false">
+                        <ng-template #filter let-value let-filter="filterCallback">
+                            <p-datepicker dateFormat="dd/mm/yy" class="w-full" [iconDisplay]="'input'"
+                                [readonlyInput]="true" [ngModel]="value" [showIcon]="true" (onSelect)="filter($event)"
+                                [showClear]="true" [placeholder]="'MEDICATION.PLACE_HOLDER.START_DATE' | translate"
+                                (onClear)="filter(undefined)" appendTo="body" />
+                        </ng-template>
+                    </p-columnFilter>
+                </th>
+            </tr>
+        </ng-template>
+
+        <ng-template #body let-item let-index="rowIndex">
+            <tr [pReorderableRow]="index">
+                <td>
+                    {{ item.medicationName }}
+                </td>
+                <td>
+                    {{ item.routeName }}
+                </td>
+                <td>
+                    {{ frequencyMap.get(item.customFrequency) }}
+                    <ng-container *ngIf="item.customFrequency === 1">
+                        [{{ item.morningFrequency === 0.5 ? '½' : item.morningFrequency }} -
+                        <span *ngIf="item.afternoonFrequency > 0">
+                            {{ item.afternoonFrequency === 0.5 ? '½' : item.afternoonFrequency }} -
+                        </span>
+                        {{ item.eveningFrequency === 0.5 ? '½' : item.eveningFrequency }} -
+                        {{ item.nightFrequency === 0.5 ? '½' : item.nightFrequency }}]
+                    </ng-container>
+                    <ng-container *ngIf="item.customFrequency === 2 || item.customFrequency === 10">
+                        - {{ item.otherFrequency === 0.5 ? '½' : item.otherFrequency }}
+                    </ng-container>
+                </td>
+                <td>
+                    {{ item.timingName }}
+                </td>
+                <td>
+                    {{ item.duration }}-{{ item.durationUnitName }}
+                </td>
+                <td>
+                    {{ item.startDate | date: 'dd/MM/yyyy' }}
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+            <tr>
+                <td colspan="11">
+                    <div class="text-center">
+                        <span class="text-lg">{{'MEDICATION.TABLE.LIST_EMTPY_MESSAGE' | translate}}</span>
+                    </div>
+                </td>
+            </tr>
+        </ng-template>
+
+    </p-table>
+    }
+</div>

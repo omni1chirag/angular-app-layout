@@ -1,0 +1,55 @@
+<p-drawer [(visible)]="isVisible" position="right" appendTo="body" closable="false" blockScroll="true"
+    styleClass="!w-[90vw] sm:!w-[80vw] md:!w-[60rem] lg:!w-[60rem] custom-drawer">
+    <ng-template #header>
+        <span class="flex flex-col w-full">
+            <span class="flex w-full justify-between">
+                <h4 class="flex w-full text-base/7 font-semibold text-gray-900">{{
+                    'VITALS.' + (vitalsId() ? 'EDIT_VITALS' : 'ADD_VITALS') |
+                    translate }}</h4>
+                <p-button icon="pi pi-times" class="flex justify-self-end" (onClick)="isVisible.set(false)"
+                    severity="secondary" [rounded]="true" [text]="true" />
+            </span>
+            <p-divider class="flex col-span-full w-full" />
+        </span>
+    </ng-template>
+    @if (vitalsForm) {
+    <form [formGroup]="vitalsForm">
+        <div class="flex flex-col col-span-full sm:col-span-12 md:col-span-6 lg:col-span-6">
+
+            <label for="appointment">{{ 'VITALS.APPOINTMENT' | translate }}</label>
+            <div class="mt-2">
+                <p-select [showClear]="true" [options]="appointmentOptions" formControlName="appointmentId"
+                    optionLabel="label" optionValue="value" [appendTo]="'body'"
+                    [placeholder]=" 'VITALS.PLACE_HOLDER.APPOINTMENT' | translate" class="w-full" />
+            </div>
+        </div>
+        <div class="mt-2 grid grid-cols-12 gap-4">
+            @for (vital of vitalEntries; track $index) {
+            <app-vital-field class="flex flex-col col-span-full  sm:col-span-12 md:col-span-5 lg:col-span-4"
+                [vitalName]="vital" [initialData]="vitalData[vital]"></app-vital-field>
+            }
+        </div>
+        <div class="mt-3 flex flex-col col-span-full sm:col-span-12 md:col-span-12 lg:col-span-12">
+            <label for="notes">{{ 'VITALS.NOTES' | translate }}</label>
+            <div class="mt-2">
+                <textarea pTextarea rows="3" maxlength="1000" id="testInstructions" formControlName="notes"
+                    class="w-full" placeholder="{{ 'VITALS.PLACE_HOLDER.Notes' | translate }}">
+                          </textarea>
+            </div>
+        </div>
+    </form>
+    }
+    <ng-template #footer>
+        <p-divider />
+        <div class="grid grid-cols-12 gap-2">
+            <div class="flex col-span-full sm:col-span-12 md:col-span-6 lg:col-span-6"></div>
+            <div class="flex col-span-full sm:col-span-12 md:col-span-6 lg:col-span-6 items-center gap-1">
+                <p-button label="{{'SAVE'| translate }}" size="small" (onClick)="onSubmit()" class="w-full"
+                    [styleClass]="'w-full sm:w-full md:w-full lg:w-full'" [disabled]="isCallInitiated" />
+                <p-button label="{{'CANCEL'| translate }}" severity="danger" class="w-full"
+                    [styleClass]="'w-full sm:w-full md:w-full lg:w-full'" [outlined]="true"
+                    (onClick)="isVisible.set(false)" size="small" />
+            </div>
+        </div>
+    </ng-template>
+</p-drawer>

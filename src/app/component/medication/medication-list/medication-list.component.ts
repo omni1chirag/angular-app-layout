@@ -1,22 +1,40 @@
 import { CommonModule } from '@angular/common';
-import { Component, input, OnInit, signal } from '@angular/core';
+import { HttpParams } from '@angular/common/http';
+import { Component, inject, OnInit, signal, ViewChild } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { PageHeaderDirective } from '@directive/page-header.directive';
+import { TableAutoScrollDirective } from '@directive/table-auto-scroll.directive';
+import { PaginationResponse } from '@interface/api-response.interface';
+import { CommonMaster, LabelValue } from '@interface/common.interface';
+import { LabelValueSubstance, Medication, MedicationList } from '@interface/medication.interface';
 import { TranslateModule } from '@ngx-translate/core';
-import { AutoCompleteModule } from 'primeng/autocomplete';
-import { ButtonModule } from 'primeng/button';
-import { TableModule } from 'primeng/table';
-import { ToolbarModule } from 'primeng/toolbar';
-import { DrawerModule } from 'primeng/drawer';
-import { DividerModule } from 'primeng/divider';
+import { AppointmentService } from '@service/appointment.service';
+import { DateTimeUtilityService } from '@service/date-time-utility.service';
+import { LocalStorageService } from '@service/local-storage.service';
 import { MasterService } from '@service/master.service';
-import { MedicationAddEditComponent } from '../medication-add-edit/medication-add-edit.component';
 import { MedicationService } from '@service/medication.service';
-import { ActivatedRoute } from '@angular/router';
-import { TagModule } from 'primeng/tag';
-import { LabelValue } from '@interface/common-master.interface';
+import { MultiLangService } from '@service/multi-lang.service';
+import { PatientService } from '@service/patient.service';
 import { PlatformService } from '@service/platform.service';
+import { UtilityService } from '@service/utility.service';
+import { MenuItem } from 'primeng/api';
+import { AutoCompleteCompleteEvent, AutoCompleteModule } from 'primeng/autocomplete';
+import { ButtonModule } from 'primeng/button';
+import { DatePickerModule } from 'primeng/datepicker';
+import { DividerModule } from 'primeng/divider';
+import { DrawerModule } from 'primeng/drawer';
+import { MenuModule } from 'primeng/menu';
+import { MultiSelectModule } from 'primeng/multiselect';
+import { SelectModule } from 'primeng/select';
+import { Table, TableLazyLoadEvent, TableModule } from 'primeng/table';
+import { TagModule } from 'primeng/tag';
+import { ToggleButtonModule } from 'primeng/togglebutton';
+import { ToolbarModule } from 'primeng/toolbar';
+import { TooltipModule } from 'primeng/tooltip';
+import { GLOBAL_CONFIG_IMPORTS } from 'src/app/global-config-import';
 
 @Component({
-  selector: 'app-medication-list',
+  selector: 'app-patient-medication-list',
   imports: [
     TranslateModule,
     ToolbarModule,
@@ -26,174 +44,197 @@ import { PlatformService } from '@service/platform.service';
     AutoCompleteModule,
     DrawerModule,
     DividerModule,
-    MedicationAddEditComponent,
-    TagModule
+    TagModule,
+    TooltipModule,
+    PageHeaderDirective,
+    ToggleButtonModule,
+    FormsModule,
+    SelectModule,
+    DatePickerModule,
+    TableAutoScrollDirective,
+    MenuModule,
+    ...GLOBAL_CONFIG_IMPORTS,
+    MultiSelectModule
   ],
   templateUrl: './medication-list.component.html',
-  styleUrl: './medication-list.component.scss'
 })
-export class MedicationListComponent implements OnInit {
+export class PatientMedicationListComponent implements OnInit {
 
-  visible: boolean = false;
-  medicationsList: any[] = [];
+  private readonly medicationService = inject(MedicationService);
+  private readonly patientService = inject(PatientService);
+  private readonly utilityService = inject(UtilityService);
+  private readonly masterService = inject(MasterService);
+  private readonly platformService = inject(PlatformService);
+  private readonly localStorageService = inject(LocalStorageService);
+  private readonly appointmentService = inject(AppointmentService);
+  private readonly dateTimeUtilityService = inject(DateTimeUtilityService);
 
-  medicationSuggestion: LabelValue[] = [];
-  frequentlyUsedMedicines: LabelValue[] = []
-  medicinesList: LabelValue[] = [];
+  langService = inject(MultiLangService);
+  medicationsList: MedicationList[] = [];
+  visible = false;
+  patientId = signal<string>(undefined);
+  appointmentId = signal<string>(undefined);
+  isBrowser = false;
+  showLoader = true;
+  first = 0;
+  totalRecords = 0;
+  size = 10;
+  statusSeverityMap = new Map<number, 'success' | 'secondary' | 'info' | 'warn' | 'danger'>([
+    [1, 'success'],
+    [2, 'info'],
+    [3, 'secondary'],
+    [4, 'warn'],
+    [5, 'danger'],
+  ]);
+  lastUpdatedDate = true;
+  patientSuggestions: LabelValue<string>[] = []
+  medicationSuggestions: LabelValueSubstance<string>[] = [];
+  statusOptions: LabelValue<number>[] = [];
+  medicationId = signal<string>(undefined);
+  medicationName = signal<string>(undefined);
+  frequencyMap: Map<string, string> = new Map<string, string>();
+  addWorkflow = false;
+  deleteWorkflow = false;
+  menuItemsMap: Record<number, MenuItem[]> = {};
+  menuTranslations: Record<string, string> = {};
+  actions = true;
+  loading = false;
+  filterDate: string[] = []
+  columnWidth = 200;
+  clinicOptions: LabelValue<string>[] = [];
+  doctorOptions: LabelValue<string>[] = [];
 
-  selectedMedication = signal<any>(null);
-  timingOptions: LabelValue[] = [];
-  statusOptions: LabelValue[] = [];
-  quantityUnitOptions: LabelValue[] = [];
-  durationUnitOptions: LabelValue[] = [];
-  readonly patientId = input.required<string>();
-  readonly appointmentId = input.required<string>();
-  isBrowser: boolean = false;
-  rowsPerPage = 10;
+  @ViewChild('medicationTable') medicationTable: Table;
 
-  constructor(private medicationService: MedicationService,
-    private masterService: MasterService,
-    private platformService: PlatformService,) {
-    this.isBrowser = platformService.isBrowser();
+  constructor() {
+    this.isBrowser = this.platformService.isBrowser();
     if (!this.isBrowser) return;
+  }
 
+  ngOnInit(): void {
+    if (!this.isBrowser) return;
     this.initializeMasterData();
+
+    this.langService.getTranslateMsgFromKey('TOOLTIP.NOT_AUTHORIZED').then((message) => {
+      this.menuTranslations['NOT_AUTHORIZED'] = message;
+    });
+    this.langService.getTranslateMsgFromKey('TOOLTIP.LOCKED_CHART').then((message) => {
+      this.menuTranslations['LOCKED_CHART'] = message;
+    });
   }
 
-  ngOnInit() {
-    if (!this.isBrowser) return;
+  loadMedications(event?: TableLazyLoadEvent): void {
+    if (!this.isBrowser) {
+      return;
+    }
+    this.showLoader = true;
+    this.first = event?.first || 0;
+    this.size = event?.rows || 10;
 
-    this.loadMedications();
-  }
+    let params = new HttpParams();
+    params = params.append('page', Math.floor(this.first / this.size));
+    params = params.append('size', this.size);
 
-  loadMedications(event?: any) {
+    const patientId = this.localStorageService.getPatientId();
+    params = params.append('patient', patientId);
 
-    const apiCall = this.appointmentId()
-      ? this.medicationService.getMedications(this.patientId(), this.appointmentId())
-      : this.medicationService.getMedications(this.patientId());
+    if (this.appointmentId()) {
+      params = params.append('appointment', this.appointmentId());
+    }
 
-    apiCall.subscribe({
-      next: (response: any) => {
-        if (response?.data) {
-          this.medicationsList = response.data;
+    // ---------------- DATE RANGE FIX ----------------
+    if (event?.filters?.['appointmentDate']) {
+      const filterMeta = event.filters['appointmentDate'];
+      const filterObj = Array.isArray(filterMeta) ? filterMeta[0] : filterMeta;
+
+      if (filterObj?.value) {
+        let startDate: Date | string;
+        let endDate: Date | string;
+
+        if (!Array.isArray(filterObj.value)) {
+          startDate = filterObj.value.startDate;
+          endDate = filterObj.value.endDate;
+        } else {
+          startDate = filterObj.value[0];
+          endDate = filterObj.value[1];
+        }
+
+        if (startDate && endDate) {
+          const start = this.dateTimeUtilityService.combineDateAndTimeToString(startDate, '00:00');
+          const end = this.dateTimeUtilityService.combineDateAndTimeToString(endDate, '23:59');
+
+          params = params.append('appointmentStartDateTime', start);
+          params = params.append('appointmentEndDateTime', end);
+        }
+      }
+    }
+
+    // REMOVE appointmentDate BEFORE passing filters to utility method
+    const filters = { ...event?.filters };
+    delete filters['appointmentDate'];
+
+    params = this.utilityService.setTableWhereClause(
+      filters as Record<string, { value: unknown }>,
+      params
+    );
+
+    this.patientId.set(patientId);
+
+    this.medicationService.getAllMedications(params).subscribe({
+      next: (data: PaginationResponse<MedicationList>) => {
+        if (data) {
+          this.medicationsList = data?.content;
+          this.totalRecords = data?.totalElements;
+          this.menuItemsMap = {};
+
+          this.medicationsList.forEach((item, $index) => {
+            this.menuItemsMap[item.medicationId] = this.setMenuItems(item, $index);
+          });
         } else {
           this.medicationsList = [];
+          this.menuItemsMap = {};
         }
+        this.showLoader = false;
       },
       error: (err) => {
+        console.error('Error fetching medications:', err);
         this.medicationsList = [];
+        this.menuItemsMap = {};
+        this.showLoader = false;
       }
     });
   }
 
-  removeMedication(index: number, item?: any): void {
+
+  searchPatients($event: AutoCompleteCompleteEvent): void {
+    const query = $event.query;
+    if (query && query.length > 2) {
+      this.patientService.searchPatients(query).subscribe((data: LabelValue<string>[]) => {
+        this.patientSuggestions = data;
+      });
+    }
+  }
+
+  searchDrug(searchParam: string): void {
+    this.medicationSuggestions = [{ label: searchParam, value: searchParam }];
+  }
+
+  removeMedication(index: number, item?: MedicationList): void {
     this.medicationsList.splice(index, 1);
+    this.patientId.set(item.patientId);
     this.deleteMedication(item.medicationId);
   }
 
-  addMedication(event: any): void {
+  editMedication(medication: Medication): void {
     this.visible = true;
-    const medication = {
-      medicationName: event?.value
-    };
-    this.selectedMedication.set(medication);
-
-  }
-
-  editMedication(medication: any): void {
-    this.visible = true;
-    this.selectedMedication.set(medication);
-  }
-
-  initializeMasterData() {
-    const params = ['TIMING', 'DURATION_UNIT', 'QUANTITY_UNIT', 'MEDICATION_STATUS'];
-
-    this.masterService.getCommonMasterData(params).subscribe({
-      next: (resp: any) => {
-        (resp.data as Array<any>).forEach((res: any) => {
-          switch (res.name) {
-            case 'TIMING':
-              this.timingOptions = res.value
-              break;
-            case 'DURATION_UNIT':
-              this.durationUnitOptions = res.value
-              break;
-            case 'QUANTITY_UNIT':
-              this.quantityUnitOptions = res.value
-              break;
-            case 'MEDICATION_STATUS':
-              this.statusOptions = res.value
-              break;
-            default:
-              console.log('name not found', res.name);
-              break;
-          }
-        })
-      },
-      error: (error) => {
-        console.error('Error fetching master data:', error);
-      }
-    });
-
-    this.getAllFrequentlyUsedMedicines();
-  }
-
-  getStatus(status) {
-    const statusObj = this.statusOptions.find((item) => item.value == status);
-    return statusObj ? statusObj.label : '';
-  }
-
-  getTiming(timing) {
-    const timingObj = this.timingOptions.find((item) => item.value == timing);
-    return timingObj ? timingObj.label : '';
-  }
-
-  getDurationUnit(duration) {
-    const durationObj = this.durationUnitOptions.find((item) => item.value == duration);
-    return durationObj ? durationObj.label : '';
-  }
-
-  getQuantityUnit(quantity) {
-    const quantityObj = this.quantityUnitOptions.find((item) => item.value == quantity);
-    return quantityObj ? quantityObj.label : '';
-  }
-
-  getAllFrequentlyUsedMedicines() {
-    this.medicationService.getAllFrequentlyUsedMedicines().subscribe({
-      next: (resp: any) => {
-        this.frequentlyUsedMedicines = resp.data;
-      },
-      error: (error) => {
-        console.error('Error fetching frequently used medication suggestions:', error);
-      }
-    });
-  }
-
-  searchMedicines(searchParam: string): void {
-    this.medicationService.searchMedicines(searchParam.trim()).subscribe({
-      next: (response: any) => {
-        if (response?.data?.length > 0) {
-          const hasExactMatch = response.data.some(
-            (item: any) => item.label?.toLowerCase() === searchParam.trim().toLowerCase()
-          );
-
-          this.medicationSuggestion = hasExactMatch
-            ? response.data
-            : [...response.data, { label: searchParam, value: searchParam }];
-        } else {
-          this.medicationSuggestion = [{ label: searchParam, value: searchParam }];
-        }
-      },
-      error: (error) => {
-        console.error('Error fetching medication suggestions:', error);
-      }
-    });
+    this.patientId.set(medication.patientId);
+    this.medicationId.set(medication.medicationId);
   }
 
   deleteMedication(medicationId: string): void {
 
     this.medicationService.deleteMedication(this.patientId(), medicationId).subscribe({
-      next: (resp: any) => {
+      next: () => {
         this.loadMedications();
       },
       error: (error) => {
@@ -202,20 +243,112 @@ export class MedicationListComponent implements OnInit {
     });
   }
 
-  getTagSeverity(status: number | string): 'success' | 'secondary' | 'info' | 'warn' | 'danger' | 'contrast' | null {
-    switch (+status) {
-      case 1:
-        return 'success';
-      case 2:
-        return 'info';
-      case 3:
-        return 'secondary';
-      case 4:
-        return 'warn';
-      case 5:
-        return 'danger';
-      default:
-        return null;
+  initializeMasterData(): void {
+    const params = ['MEDICATION_STATUS', 'MEDICATION_FREQUENCY'];
+
+    this.masterService.getCommonMasterData<CommonMaster<unknown>[]>(params).subscribe((data) => {
+      data.forEach((res) => {
+        switch (res.name) {
+          case 'MEDICATION_STATUS':
+            this.statusOptions = res.value as LabelValue<number>[];
+            break;
+          case 'MEDICATION_FREQUENCY':
+            this.frequencyMap = new Map(
+              res.value.map((item: LabelValue<string>) => [item.value, item.label])
+            );
+            break;
+          default:
+            console.warn('name not found', res.name);
+            break;
+        }
+      });
+    });
+    const patientId = this.localStorageService.getPatientId();
+    this.patientId.set(patientId);
+    const requestParams = new HttpParams().append('patientId', patientId);
+    this.appointmentService.getDoctorLabelsByPatientAppointments<LabelValue<string>[]>(requestParams).subscribe({
+      next: (data) => {
+        this.doctorOptions = data;
+      }
+    })
+    this.appointmentService.getClinicLabelsByPatientAppointments<LabelValue<string>[]>(requestParams).subscribe({
+      next: (data) => {
+        this.clinicOptions = data;
+      }
+    })
+  }
+
+  setMenuItems(item: MedicationList, $index: number): MenuItem[] {
+    const menuItems: MenuItem[] = [];
+
+    if (item.isEditable && !item.appointmentSignOff) {
+      if (this.addWorkflow) {
+        menuItems.push({
+          label: 'EDIT',
+          icon: 'pi pi-pencil',
+          command: () => this.editMedication(item)
+        });
+      }
+
+      if (this.deleteWorkflow) {
+        menuItems.push({
+          label: 'DELETE',
+          icon: 'pi pi-trash',
+          command: () => this.removeMedication($index, item)
+        });
+      }
+    } else {
+      let tooltip: string;
+      if (!item.isEditable) {
+        tooltip = this.menuTranslations['NOT_AUTHORIZED'];
+      } else if (item.appointmentSignOff == 1) {
+        tooltip = this.menuTranslations['LOCKED_CHART'];
+      } else {
+        tooltip = null;
+      }
+
+      if (this.deleteWorkflow) {
+        menuItems.push({
+          label: 'DELETE',
+          icon: 'pi pi-trash',
+          disabled: !item.isEditable || item.appointmentSignOff == 1,
+          command: () => this.removeMedication($index, item),
+          tooltip: tooltip
+        });
+      }
+    }
+    return menuItems;
+  }
+
+  printPrescriptions(patientId: string, appointmentId: string): void {
+    this.loading = true;
+    const params = new HttpParams()
+      .set('patient', patientId)
+      .set('appointment', appointmentId);
+
+    this.medicationService.printPrescriptions(params).subscribe({
+      next: (blob: Blob) => {
+        const url = URL.createObjectURL(blob);
+        const newTab = window.open('', '_blank');
+        if (newTab) {
+          newTab.location.href = url;
+        }
+        setTimeout(() => URL.revokeObjectURL(url), 5000);
+        this.loading = false;
+      },
+      error: (error) => {
+        console.error('Error generating prescriptions report:', error);
+        this.loading = false;
+      }
+    });
+  }
+
+  onDateRangeSelect(dateRange: string[], filter: (value: unknown) => void): void {
+    if (dateRange?.length === 2 && dateRange[0] && dateRange[1]) {
+      filter({
+        startDate: dateRange[0],
+        endDate: dateRange[1]
+      });
     }
   }
 

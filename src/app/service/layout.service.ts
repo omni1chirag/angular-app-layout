@@ -1,14 +1,19 @@
 import { Injectable, effect, signal, computed } from '@angular/core';
-import { layoutConfig, LayoutState, MenuChangeEvent } from '@interface/layout.interface';
+import { LayoutConfig, LayoutState, MenuChangeEvent } from '@interface/layout.interface';
 import { Subject } from 'rxjs';
 
+interface ViewTransition {
+  ready?: Promise<void>;
+  finished?: Promise<void>;
+}
 
+type StartViewTransitionFn = (callback: () => void) => ViewTransition | undefined;
 
 @Injectable({
     providedIn: 'root'
 })
 export class LayoutService {
-    _config: layoutConfig = {
+    _config: LayoutConfig = {
         preset: 'Aura',
         primary: 'emerald',
         surface: null,
@@ -25,17 +30,17 @@ export class LayoutService {
         userMenuVisible: false,
     };
 
-    layoutConfig = signal<layoutConfig>(this._config);
+    layoutConfig = signal<LayoutConfig>(this._config);
 
     layoutState = signal<LayoutState>(this._state);
 
-    private configUpdate = new Subject<layoutConfig>();
+    private readonly configUpdate = new Subject<LayoutConfig>();
 
-    private overlayOpen = new Subject<any>();
+    private readonly overlayOpen = new Subject<null>();
 
-    private menuSource = new Subject<MenuChangeEvent>();
+    private readonly menuSource = new Subject<MenuChangeEvent>();
 
-    private resetSource = new Subject();
+    private readonly resetSource = new Subject();
 
     menuSource$ = this.menuSource.asObservable();
 
@@ -81,8 +86,9 @@ export class LayoutService {
         });
     }
 
-    private handleDarkModeTransition(config: layoutConfig): void {
-        if ((document as any).startViewTransition) {
+    private handleDarkModeTransition(config: LayoutConfig): void {
+        if ((document as Document & { startViewTransition?: StartViewTransitionFn }).startViewTransition) {
+
             this.startViewTransition(config);
         } else {
             this.toggleDarkMode(config);
@@ -90,19 +96,18 @@ export class LayoutService {
         }
     }
 
-    private startViewTransition(config: layoutConfig): void {
-        const transition = (document as any).startViewTransition(() => {
+    private startViewTransition(config: LayoutConfig): void {
+        const transition = (document as Document & { startViewTransition?: StartViewTransitionFn }).startViewTransition(() => {
             this.toggleDarkMode(config);
         });
 
         transition.ready
             .then(() => {
                 this.onTransitionEnd();
-            })
-            .catch(() => {});
+            });
     }
 
-    toggleDarkMode(config?: layoutConfig): void {
+    toggleDarkMode(config?: LayoutConfig): void {
         const _config = config || this.layoutConfig();
         if (_config.darkTheme) {
             document.documentElement.classList.add('app-dark');
@@ -118,7 +123,7 @@ export class LayoutService {
         });
     }
 
-    onMenuToggle() {
+    onMenuToggle(): void {
         if (this.isOverlay()) {
             this.layoutState.update((prev) => ({ ...prev, overlayMenuActive: !this.layoutState().overlayMenuActive }));
 
@@ -138,28 +143,28 @@ export class LayoutService {
         }
     }
 
-    isDesktop() {
+    isDesktop(): boolean {
         return window.innerWidth > 991;
     }
 
-    isMobile() {
+    isMobile(): boolean {
         return !this.isDesktop();
     }
 
-    onConfigUpdate() {
+    onConfigUpdate(): void {
         this._config = { ...this.layoutConfig() };
         this.configUpdate.next(this.layoutConfig());
     }
 
-    onMenuStateChange(event: MenuChangeEvent) {
+    onMenuStateChange(event: MenuChangeEvent): void {
         this.menuSource.next(event);
     }
 
-    reset() {
+    reset(): void {
         this.resetSource.next(true);
     }
 
-    onToggleUserMenu() {
+    onToggleUserMenu(): void {
         if (this.isOverlay()) {
             this.layoutState.update((prev) => ({ ...prev, userMenuVisible: !this.layoutState().userMenuVisible }));
         }

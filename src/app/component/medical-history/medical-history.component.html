@@ -1,0 +1,68 @@
+<div class="card">
+
+    <div class="flex items-center justify-between mb-3">
+        <h4 class="font-semibold text-base/7 ">Medical History</h4>
+    </div>
+    <p-divider />
+
+    <p-tabs value="1">
+        <p-tablist class="pb-3">
+            <p-tab value="1">Past Medical History</p-tab>
+            <p-tab value="2">Surgical History</p-tab>
+            <p-tab value="3">Family History</p-tab>
+            <p-tab value="4">Social History</p-tab>
+        </p-tablist>
+        <p-tabpanels class="!p-0">
+            <p-tabpanel value="1">
+                @defer (on viewport) {
+                <app-past-medical-history-list [appointmentId]="appointmentId()"
+                    [signOff]="signOff()" [isModifiable]="isModifiable()"></app-past-medical-history-list>
+                } @placeholder {
+                <div>
+                    <ng-container *ngTemplateOutlet="placeHolder"></ng-container>
+                </div>
+                }
+            </p-tabpanel>
+            <p-tabpanel value="2">
+                @defer (on viewport) {
+                <app-surgical-history-list [patientId]="patientId" [appointmentId]="appointmentId()"
+                    [signOff]="signOff()" [isModifiable]="isModifiable()"></app-surgical-history-list>
+                } @placeholder {
+                <div>
+                    <ng-container *ngTemplateOutlet="placeHolder"></ng-container>
+                </div>
+                }
+
+            </p-tabpanel>
+            <p-tabpanel value="3">
+                @defer (on viewport) {
+                <app-family-history-list [appointmentId]="appointmentId()"
+                    [signOff]="signOff()" [isModifiable]="isModifiable()"></app-family-history-list>
+                } @placeholder {
+                <div>
+                    <ng-container *ngTemplateOutlet="placeHolder"></ng-container>
+                </div>
+                }
+            </p-tabpanel>
+            <p-tabpanel value="4">
+                @defer (on viewport) {
+                <app-social-history-list [patientId]="patientId" [appointmentId]="appointmentId()"
+                    [signOff]="signOff()" [isModifiable]="isModifiable()"></app-social-history-list>
+                } @placeholder {
+                <div>
+                    <ng-container *ngTemplateOutlet="placeHolder"></ng-container>
+                </div>
+                }
+            </p-tabpanel>
+        </p-tabpanels>
+    </p-tabs>
+</div>
+
+<ng-template #placeHolder>
+    <div class="card p-7 h-[100px] flex flex-col items-center justify-center">
+        <div class="flex items-center justify-center h-full mb-4">
+            <i class="pi pi-spin pi-spinner" style="font-size: 5rem"></i>
+        </div>
+        <p class="text-xl text-center text-gray-500 loading-dots">Loading</p>
+    </div>
+</ng-template>

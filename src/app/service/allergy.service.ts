@@ -1,9 +1,8 @@
 import { DestroyRef, inject, Injectable, Signal, signal, WritableSignal } from '@angular/core';
+import { Allergy, AllergyData } from '@interface/allergy.interface';
+import { BehaviorSubject, catchError, finalize, Observable, of, tap } from 'rxjs';
 import { ApiService } from './api.service';
-import { NotificationService } from './notification.service';
-import { BehaviorSubject, catchError, finalize, Observable, of, Subject, tap } from 'rxjs';
-import { AllergyData } from '@interface/allergy.interface';
-import { Allergy } from '@model/allergy.model';
+import { HttpParams } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root',
@@ -11,9 +10,9 @@ import { Allergy } from '@model/allergy.model';
 })
 @Injectable()
 export class AllergyService {
-  private api = inject(ApiService);
-
-  private _allergyData: WritableSignal<AllergyData> = signal({
+  private readonly api = inject(ApiService);
+  private readonly destroyRef = inject(DestroyRef);
+  private readonly _allergyData: WritableSignal<AllergyData> = signal({
     allergens: [],
     allergicReactions: []
   });
@@ -29,7 +28,20 @@ export class AllergyService {
   public isLoading$: Observable<boolean> = this._loading$.asObservable();
   public error$: Observable<string | null> = this._error$.asObservable();
 
-  get endpoints() {
+  get endpoints(): {
+    ebplp: string;
+    master: string;
+    patient: string;
+    byId: (id: string) => string;
+    list: string;
+    search: string;
+    status: (id: string) => string;
+    allergens: string;
+    masterAllergies: string;
+    patientAllergies: (patientId: string) => string;
+    updateAllergy: (patientId: string, allergyId: string) => string;
+    patientAllergyById: (patientId: string, allergyId: string) => string;
+  } {
     const ebplp = 'ebplp-api/allergies';
     const master = 'master-api/master';
     const patient = 'patient-api/patients'
@@ -45,14 +57,13 @@ export class AllergyService {
       allergens: `${master}/allergens`,
       masterAllergies: `${master}/allergens`,
       patientAllergies: (patientId: string) => `${patient}/${patientId}/allergies`,
-      updateAllergy:  (patientId: string, allergyId: string) => `${patient}/${patientId}/allergies/${allergyId}`,
+      updateAllergy: (patientId: string, allergyId: string) => `${patient}/${patientId}/allergies/${allergyId}`,
       patientAllergyById: (patientId: string, allergyId: string) => `${patient}/${patientId}/allergies/${allergyId}`
     };
   }
 
-  constructor(destroyRef: DestroyRef) {
-    destroyRef.onDestroy(() => {
-      console.log('Allergy service Destroyed via DestroyRef!!!!!!!');
+  constructor() {
+    this.destroyRef.onDestroy(() => {
       this._loading$.complete();
       this._error$.complete();
       this._allergyData$.complete();
@@ -62,7 +73,7 @@ export class AllergyService {
 
   }
 
-  loadAllergyData(forceRefresh: boolean = false): void {
+  loadAllergyData(forceRefresh = false): void {
     if (!forceRefresh && this._allergyData$.value.allergens.length > 0) {
       return;
     }
@@ -70,12 +81,12 @@ export class AllergyService {
     this._loading$.next(true);
     this._error$.next(null);
 
-    this.api.get<{ data: AllergyData }>(this.endpoints.masterAllergies)
+    this.api.get<AllergyData>(this.endpoints.masterAllergies)
       .pipe(
-        tap(response => {
+        tap(data => {
           const processedData: AllergyData = {
-            allergens: response.data.allergens,
-            allergicReactions: response.data.allergicReactions
+            allergens: data.allergens,
+            allergicReactions: data.allergicReactions
           };
           this._allergyData$.next(processedData);
         }),
@@ -96,19 +107,19 @@ export class AllergyService {
     this.loadAllergyData(true);
   }
 
-  createAllergy(data: Allergy, patientId: string): Observable<any> {
+  createAllergy<T>(data: Allergy, patientId: string): Observable<T> {
     return this.api.post(this.endpoints.patientAllergies(patientId), data);
   }
 
-  updateAllergy(data:Allergy, patientId: string, allergyId: string): Observable<any> {
+  updateAllergy<T>(data: Allergy, patientId: string, allergyId: string): Observable<T> {
     return this.api.put(this.endpoints.updateAllergy(patientId, allergyId), data);
   }
 
-  fetchPatientAllergies(patientId: string, params?): Observable<any> {
-    return this.api.get(this.endpoints.patientAllergies(patientId), {params});
+  fetchPatientAllergies<T>(patientId: string, params?: HttpParams): Observable<T> {
+    return this.api.get(this.endpoints.patientAllergies(patientId), { params });
   }
 
-  fetchPatientAllergyById(patientId: string, allergyId: string): Observable<any> {
+  fetchPatientAllergyById<T>(patientId: string, allergyId: string): Observable<T> {
     return this.api.get(this.endpoints.patientAllergyById(patientId, allergyId));
   }
 }

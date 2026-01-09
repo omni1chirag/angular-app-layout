@@ -1,0 +1,98 @@
+<div class="card">
+    <div class="flex items-center justify-between mb-3">
+        <h4 class="font-semibold ">{{'LAB.Labs' | translate}}</h4>
+        <p-button *ngIf="isModifiable()" label="{{'LAB.Add_Lab' | translate}}" size="small" class="mr-3" severity="primary"
+            (onClick)="addLab()" [disabled]="signOff()===1"></p-button>
+    </div>
+
+    <ng-container>
+        <p-table [value]="lab" styleClass="mt-2" [paginator]="true" [totalRecords]="totalRecords" [first]="first"
+            [rows]="size" [size]="'small'" [lazy]="true" (onLazyLoad)="loadLabs($event)" [loading]="showLoader"
+            #labTable stripedRows>
+            <ng-template #caption>
+                <div class="flex justify-between pb-1 table-options">
+                    <button pButton label="Clear" class="p-button-outlined" icon="pi pi-filter-slash"
+                        (click)="labTable.clear()"></button>
+                </div>
+            </ng-template>
+            <ng-template #header>
+                <tr>
+                    <th scope="col">{{'LAB.Test_Type' | translate}}
+                    </th>
+                    <th scope="col">{{'LAB.Test_Name' | translate}}
+                    </th>
+                    <th scope="col">{{'LAB.Order_Date' | translate}}
+                    </th>
+                    <th scope="col">{{'LAB.Test_Date' | translate}}
+                    </th>
+                    <th scope="col" style="min-width:200px">{{'LAB.Sample_Collection_Location' | translate}}
+                    </th>
+                    <th scope="col">{{'LAB.Status' | translate}}
+                    </th>
+                </tr>
+                <!-- <tr> -->
+                <tr>
+                    <th scope="col">
+                        <p-columnFilter field="testTypes" [showMenu]="false">
+                            <ng-template #filter let-value let-filter="filterCallback">
+                                <p-select dropdown [options]="testTypes" id="testTypes" placeholder="Select Test Type"
+                                    optionLabel="label" [ngModel]="value" optionValue="label" [filter]="true"
+                                    (onClear)="filter(undefined)" [showClear]="true"
+                                    (onChange)="onTestTypeChange($event.value); filter($event.value)" appendTo="body" />
+                            </ng-template>
+                        </p-columnFilter>
+                    </th>
+                    <th scope="col">
+                        <p-columnFilter field="testName" class="w-full" [showMenu]="false">
+                            <ng-template #filter let-value let-filter="filterCallback">
+                                <p-autoComplete [suggestions]="testName" inputStyleClass="w-full"
+                                    [style]="{'width':'100%'}" (completeMethod)="searchTestNames($event)"
+                                    [forceSelection]="true" optionLabel="label" [minLength]="3"
+                                    placeholder="Select Test Name" [ngModel]="value"
+                                    (onSelect)="filter($event.value?.label || $event.value)" appendTo="body"
+                                    (onClear)="filter(undefined)"></p-autoComplete>
+                            </ng-template>
+                        </p-columnFilter>
+                    </th>
+                    <th scope="col">
+                        <p-columnFilter type="date" field="orderDate" [showMenu]="false"
+                            placeholder="dd/mm/yyyy"></p-columnFilter>
+                    </th>
+                    <th scope="col">
+                        <p-columnFilter type="date" field="testDate" [showMenu]="false"
+                            placeholder="dd/mm/yyyy"></p-columnFilter>
+                    </th>
+                    <th scope="col"></th>
+                    <th scope="col">
+                        <p-columnFilter field="status" [showMenu]="false" [showClearButton]="false">
+                            <ng-template #filter let-value let-filter="filterCallback">
+                                <p-select [options]="statuses" id="status" placeholder="Select Status"
+                                    optionLabel="label" [ngModel]="value" optionValue="label"
+                                    (onChange)="filter($event.value)" class="w-full" appendTo="body" />
+                            </ng-template>
+                        </p-columnFilter>
+                    </th>
+                </tr>
+            </ng-template>
+            <ng-template #body let-lab>
+                <tr>
+                    <td>{{ lab.testType }}</td>
+                    <td>{{ lab.testName }}</td>
+                    <td>{{ lab.orderDate | date: 'dd/MM/yyyy' }}</td>
+                    <td>{{ lab.testDate | date: 'dd/MM/yyyy' }}</td>
+                    <td>{{ lab.sampleCollectionLocation }}</td>
+                    <td>{{ lab.status }}</td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+                <tr>
+                    <td colspan="8">
+                        <div class="text-center">
+                            <span class="text-lg">{{'LAB.RESPONSE.LAB_NOT_FOUND' | translate}}</span>
+                        </div>
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </ng-container>
+</div>

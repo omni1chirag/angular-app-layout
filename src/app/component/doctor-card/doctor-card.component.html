@@ -1,0 +1,59 @@
+<p-card (click)="doctorCardClickEvent(visitedDoctor?.doctor)" (keydown.enter)="doctorCardClickEvent(visitedDoctor?.doctor)"
+    (keydown.space)="doctorCardClickEvent(visitedDoctor?.doctor)"
+    styleClass="!p-0 !border-0 h-[255px] sm:h-[280px] md:h-[280px] lg:h-[260px] flex flex-col shadow-lg rounded-xl overflow-hidden transition-shadow duration-300 hover:shadow-2xl doctor-card">
+    <ng-template #header>
+        <div
+            class="relative w-full !h-[150px] sm:h-[273px] md:h-[292px] lg:h-[312px] overflow-hidden bg-gradient-to-br from-teal-50 to-teal-100 dark:from-teal-900/30 dark:to-teal-800/30">
+            <img [src]="imageLoadError ? defaultImageUrl : doctorImageUrl" [alt]="getDoctorFullName()"
+                (error)="onImageError($event)"
+                class="w-full h-full object-cover object-center transition-transform duration-300 hover:scale-105" />
+            <div
+                class="absolute inset-0 bg-gradient-to-b from-transparent to-black/10 dark:to-black/30 pointer-events-none">
+            </div>
+        </div>
+    </ng-template>
+
+    <!-- Doctor Info Section -->
+    <div class="flex-1 flex flex-col rounded-xl p-1">
+
+        <!-- Doctor Name -->
+        <h3 class="text-lg sm:text-xl md:text-2xl font-semibold tracking-wide truncate m-0 leading-tight"
+            [title]="getDoctorFullName()">
+            {{ getDoctorFullName() }}
+        </h3>
+
+        <!-- Specialty -->
+        <p class="text-xs sm:text-sm font-light uppercase tracking-widest opacity-95 truncate m-0"
+            [title]="visitedDoctor.doctor.specialities">
+            {{ visitedDoctor.doctor.specialities || 'General Practice' }}
+        </p>
+
+        <!-- Clinic Details -->
+        <div class="flex-1 flex flex-col pt-1 sm:pt-2 border-t border-white/30 text-xs sm:text-sm">
+            <!-- Clinic Name -->
+            <div class="flex items-center gap-2 min-w-0" [title]="visitedDoctor.clinic.clinicName">
+                <i class="pi pi-building flex-shrink-0 text-sm sm:text-base opacity-90"></i>
+                <span class="truncate text-sm sm:text-base">{{ visitedDoctor.clinic.clinicName || 'N/A' }}</span>
+            </div>
+
+            <!-- Contact Row -->
+            <div class="flex flex-col sm:flex-row sm:flex-wrap ">
+                <!-- Phone -->
+                <div *ngIf="visitedDoctor.clinic.mobileNumber"
+                    class="flex items-center gap-2 min-w-0 sm:flex-1 sm:min-w-[120px]"
+                    [title]="visitedDoctor.clinic.mobileNumber">
+                    <i class="pi pi-phone flex-shrink-0 text-sm opacity-90"></i>
+                    <span class="truncate">+91 {{ visitedDoctor.clinic.mobileNumber }}</span>
+                </div>
+
+                <!-- Email -->
+                <div *ngIf="visitedDoctor.clinic.email"
+                    class="flex items-center gap-2 min-w-0 sm:flex-1 sm:min-w-[120px]"
+                    [title]="visitedDoctor.clinic.email">
+                    <i class="pi pi-envelope flex-shrink-0 text-sm opacity-90"></i>
+                    <span class="truncate">{{ visitedDoctor.clinic.email }}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</p-card>

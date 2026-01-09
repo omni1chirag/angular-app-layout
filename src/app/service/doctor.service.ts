@@ -1,68 +1,97 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { ApiService } from './api.service';
 import { Observable } from 'rxjs';
 import { HttpParams } from '@angular/common/http';
 
-export interface Doctor {
-  doctorName: string;
-  specialization: string;
-  practiceName: string;
-  organizationName: string;
-  consultationMode: string;
-  Status: string;
-}
 
 @Injectable({
   providedIn: 'root'
 })
 export class DoctorService {
 
-  private apiUrls = {
-    doctor: 'ebplp-api/doctors',
-    getDepartmentData: 'master-api/master/department',
-    getOrganizationLabels: 'ebplp-api/organizations/labels',
-    getClinicLabels: 'ebplp-api/clinics/labels/',
-    getRoleLabels: 'ebplp-api/roles/labels',
-    createRegistrationForm: 'ebplp-api/doctorRegistrations',
+  private readonly apiService = inject(ApiService);
+
+  get endpoints(): {
+    base: string;
+    search: string;
+    doctor: string;
+    searchDoctors: string;
+    searchClinics: string;
+    findDoctorsByClinic: (clinicId: string) => string;
+    findDoctorsBySpeciality: (specialityId: string) => string;
+    getDoctorBasicDetails: (doctorId: string) => string;
+    generateDoctorSlots: (doctorId: string, clinicId: string) => string;
+    getDoctorSetupAndSlots: (doctorId: string, clinicId: string) => string;
+    getDoctorProfile: (doctorId: string) => string;
+  } {
+    const base = 'ebplp-api'
+    const search = `${base}/search`;
+    const calenderSetup = `${base}/calendar-setup`;
+    const searchDoctors = `${search}/doctors`;
+    const searchClinics = `${search}/clinics`
+    const doctor = `${base}/doctors`;
+    return {
+      base,
+      search,
+      doctor,
+      searchDoctors,
+      searchClinics,
+      findDoctorsByClinic: (clinicId: string) => `${search}/clinics/${clinicId}/doctors`,
+      findDoctorsBySpeciality: (specialityId: string) => `${search}/specialities/${specialityId}/doctors`,
+      getDoctorBasicDetails: (doctorId: string) => `${search}/doctor/${doctorId}`,
+      generateDoctorSlots: (doctorId: string, clinicId: string) => `${calenderSetup}/doctors/${doctorId}/clinics/${clinicId}/slots`,
+      getDoctorSetupAndSlots: (doctorId: string, clinicId: string) => `${calenderSetup}/doctors/${doctorId}/clinics/${clinicId}`,
+      getDoctorProfile: (doctorId: string) => `${doctor}/${doctorId}/profile`
+    }
   }
 
-  constructor(private apiService: ApiService) { }
-
-  getOrganizationLabels<T>(): Observable<T> {
-    return this.apiService.get(this.apiUrls.getOrganizationLabels)
+  search<T>(params: HttpParams): Observable<T> {
+    return this.apiService.get<T>(this.endpoints.search, { params });
+  }
+  findDoctorsByClinic<T>(clinicId: string, params: HttpParams): Observable<T> {
+    return this.apiService.get<T>(this.endpoints.findDoctorsByClinic(clinicId), { params, needFullResponse: true });
   }
 
-  getClinicLabels<T>(organizationId): Observable<T> {
-    return this.apiService.get(`${this.apiUrls.getClinicLabels}${organizationId}`)
+  findDoctorsBySpeciality<T>(specialityId: string, params: HttpParams): Observable<T> {
+    return this.apiService.get<T>(this.endpoints.findDoctorsBySpeciality(specialityId), { params, needFullResponse: true });
   }
 
-  getDoctor<T>(doctorId): Observable<T> {
-    return this.apiService.get(`${this.apiUrls.doctor}/${doctorId}`)
+  searchDoctorsByQuery<T>(params: HttpParams): Observable<T> {
+    return this.apiService.get<T>(this.endpoints.searchDoctors, { params, needFullResponse: true });
   }
 
-  saveDoctor<T>(doctor): Observable<T> {
-    return this.apiService.post(this.apiUrls.doctor, doctor);
+  searchClinicsByQuery<T>(params: HttpParams): Observable<T> {
+    return this.apiService.get<T>(this.endpoints.searchClinics, { params, needFullResponse: true });
   }
 
-  updateDoctor<T>(doctorId, doctor): Observable<T> {
-    return this.apiService.put(`${this.apiUrls.doctor}/${doctorId}`, doctor);
+  getDoctorBasicDetails<T>(doctorId: string): Observable<T> {
+    return this.apiService.get<T>(this.endpoints.getDoctorBasicDetails(doctorId));
   }
 
-  searchDoctors<T>(searchParams: any): Observable<T> {
-    let params = new HttpParams().append('doctorName', searchParams);
-    return this.apiService.get(`${this.apiUrls.doctor}/search`, { params });
+  generateDoctorSlots<T>(doctorId: string, clinicId: string,
+    params: {
+      appointmentId?: string;
+      index: number;
+      startDate: string;
+      endDate: string;
+    }): Observable<T> {
+    return this.apiService.get<T>(`${this.endpoints.generateDoctorSlots(doctorId, clinicId)}`, { params })
   }
 
-  updateDoctorStatus(doctorId, data): Observable<any> {
-    return this.apiService.patch(`${this.apiUrls.doctor}/${doctorId}/status`, data);
+  getDoctorSetupAndSlots<T>(doctorId: string, clinicId: string, params: {
+    appointmentId?: string;
+    startDate: string;
+    endDate: string;
+    slotIndex: number;
+  }): Observable<T> {
+    return this.apiService.get<T>(`${this.endpoints.getDoctorSetupAndSlots(doctorId, clinicId)}`, { params })
   }
 
-  getDoctors<T>(params?): Observable<T> {
-    return this.apiService.get(this.apiUrls.doctor, { params });
+  getMappedDoctors<T>(): Observable<T> {
+    return this.apiService.get<T>(`${this.endpoints.doctor}/mapped`);
   }
 
-  saveRegistrationform<T>(provider): Observable<T> {
-    return this.apiService.post(this.apiUrls.createRegistrationForm, provider);
+  getDoctorProfile<T>(doctorId: string): Observable<T> {
+    return this.apiService.get<T>(this.endpoints.getDoctorProfile(doctorId));
   }
-
 }

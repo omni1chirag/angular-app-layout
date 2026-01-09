@@ -32,7 +32,8 @@
               "dayjs",
               "dayjs/*",
               "inputmask",
-              "js-sha256"
+              "js-sha256",
+              "sockjs-client"
             ],
             "index": "src/index.html",
             "browser": "src/main.ts",
@@ -72,12 +73,14 @@
                   "maximumError": "8kB"
                 }
               ],
-              "outputHashing": "all"
+              "outputHashing": "all",
+              "baseHref": "/patient-portal/"
             },
             "development": {
               "optimization": false,
               "extractLicenses": false,
-              "sourceMap": true
+              "sourceMap": true,
+              "baseHref": "/patient-portal/"
             },
             "qa": {
               "extractLicenses": false,
@@ -86,6 +89,7 @@
               "namedChunks": true,
               "outputHashing": "all",
               "aot": true,
+              "baseHref": "/patient-portal/",
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
@@ -136,13 +140,26 @@
             "styles": [
               "src/styles.scss"
             ],
-            "scripts": []
+            "scripts": [],
+            "codeCoverage": true
+          }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "src/**/*.ts",
+              "src/**/*.html"
+            ]
           }
         }
       }
     }
   },
   "cli": {
-    "analytics": false
+    "analytics": false,
+    "schematicCollections": [
+      "angular-eslint"
+    ]
   }
 }

@@ -1,0 +1,94 @@
+@if (isBrowser) {
+<div class="card">
+    <div class="flex items-center justify-between mb-3">
+        <h4 class="font-semibold text-base/7 ">{{'CARE_PLAN.CARE_PLANS' | translate}}</h4>
+    </div>
+    <p-divider />
+    <ng-container>
+        @if (isBrowser) {
+        <p-table [value]="carePlanList" size="small" [paginator]="true" [loading]="showLoader" [first]="first"
+            [lazy]="true" [rows]="size" (onLazyLoad)="loadCarePlans($event)" [totalRecords]="totalRecords"
+            #carePlanTable>
+            <ng-template pTemplate="header">
+                <tr>
+                    <th scope="col" style="width:25%">{{'NAME' | translate}}</th>
+                    <th scope="col" style="width:25%">{{'CARE_PLAN.CONDITION' | translate}}</th>
+                    <th scope="col" style="width:10%">{{'CARE_PLAN.START_DATE' | translate}}</th>
+                    <th scope="col" style="width:10%">{{'CARE_PLAN.END_DATE' | translate}}</th>
+                    <th scope="col" style="width:12%">{{'CARE_PLAN.ASSIGNED_BY' | translate}}</th>
+                    <th scope="col" style="width:10%">{{'STATUS' | translate}}</th>
+                </tr>
+                <tr>
+                    <th scope="col">
+                        <p-columnFilter field="name" [showMenu]="false" [showClearButton]="false">
+                            <ng-template #filter let-value let-filter="filterCallback">
+                                <p-autoComplete dropdown id="name" [ngModel]="value" inputStyleClass="w-full"
+                                    class="w-full" [style]="{'width':'100%'}" [suggestions]="carePlanSuggestions"
+                                    optionLabel="label" optionValue="value" [showClear]="true"
+                                    [placeholder]="'CARE_PLAN.PLACE_HOLDER.SEARCH_NAME' | translate" [dropdown]="false"
+                                    [minLength]="3" [forceSelection]="true" (onClear)="filter(undefined)"
+                                    (onSelect)="filter($event.value.value)"
+                                    (completeMethod)="searchCarePlans($event)" />
+                            </ng-template>
+                        </p-columnFilter>
+                    </th>
+                    <th scope="col">
+                        <p-columnFilter field="diagnosis" [showMenu]="false" [showClearButton]="false">
+                            <ng-template #filter let-value let-filter="filterCallback">
+                                <p-autoComplete dropdown id="diagnosis" [ngModel]="value" inputStyleClass="w-full"
+                                    class="w-full" [style]="{'width':'100%'}" [suggestions]="diagnosisSuggestion"
+                                    optionLabel="label" optionValue="value"
+                                    [placeholder]="'CARE_PLAN.PLACE_HOLDER.SEARCH_DIAGNOSIS' | translate"
+                                    [dropdown]="false" [minLength]="3" [showClear]="true" [forceSelection]="true"
+                                    (onClear)="filter(undefined)" (onSelect)="filter($event.value.value)"
+                                    (completeMethod)="searchDiagnoses($event)" />
+                            </ng-template>
+                        </p-columnFilter>
+                    </th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                    <th scope="col">
+                        <p-columnFilter field="status" [showMenu]="false" [showClearButton]="false" class="w-full">
+                            <ng-template #filter let-value let-filter="filterCallback">
+                                <p-select [options]="statuses" id="status"
+                                    [placeholder]="'CARE_PLAN.PLACE_HOLDER.SELECT_STATUS' | translate"
+                                    optionLabel="label" [ngModel]="value" optionValue="value"
+                                    (onChange)="filter($event.value)" class="w-full" appendTo="body" />
+                            </ng-template>
+                        </p-columnFilter>
+                    </th>
+                    <th scope="col"></th>
+
+                </tr>
+
+            </ng-template>
+            <ng-template pTemplate="body" let-plan>
+                <tr>
+                    <td>{{ plan.name }}</td>
+                    <td>{{ plan.diagnosis }}</td>
+                    <td>{{ plan.startDate | date: 'dd/MM/yyyy' }}</td>
+                    <td>{{ plan.endDate | date: 'dd/MM/yyyy'}}</td>
+                    <td>{{ plan.assignedBy }}</td>
+                    <td>
+                        <p-tag [severity]="tagSeverityMap.get(plan.status)" [value]="statusMap.get(plan.status)"
+                            [rounded]="true">
+                        </p-tag>
+                    </td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+                <tr>
+                    <td colspan="7">
+                        <div class="text-center">
+                            <span class="text-lg">{{'CARE_PLAN.TABLE.EMPTY_MESSAGE' | translate}}</span>
+                        </div>
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+        }
+    </ng-container>
+</div>
+
+}

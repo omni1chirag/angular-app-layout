@@ -3,10 +3,12 @@
     "MEDICATIONS": "Medications",
     "MEDICATION_NAME": "Medication Name",
     "ROUTE_OF_ADMINISTRATION": "Route of Administration",
+    "ROUTE": "Route",
     "TIMING": "Timing",
     "FREQUENCY": "Frequency",
     "DURATION": "Duration",
     "QUANTITY": "Quantity",
+    "TOTAL_QUANTITY": "Total Quantity",
     "START_DATE": "Start Date",
     "INSTRUCTIONS": "Instructions",
     "STATUS": "Status",
@@ -29,8 +31,9 @@
       "FREQUENCY": "Select Frequency",
       "DURATION": "Select Duration",
       "QUANTITY": "Enter Quantity",
+      "TOTAL_QUANTITY": "Enter Total Quantity",
       "UNIT": "Select Unit",
-      "START_DATE": "Select Start Date",
+      "START_DATE": "DD/MM/YYYY",
       "INSTRUCTIONS": "Enter Instructions",
       "STATUS": "Select Status",
       "PRESCRIBED_BY": "Enter Prescribed By",
@@ -39,7 +42,8 @@
       "SEARCH_PATIENT_NAME": "Search Patient Name",
       "APPOINTMENT": "Select Appointment",
       "OTHER": "Other",
-      "HOURS": "Enter hours"
+      "HOURS": "Enter hours",
+      "DAILY_FREQUENCY": "Daily Frequency"
     },
     "RESPONSE": {
       "MEDICATION_DETAIL_ADD_SUCCESS": "Medication created successfully",
@@ -49,7 +53,11 @@
       "MEDICATION_ALREADY_EXISTS": "Medication already exists",
       "ADD_CHART_IS_LOCKED": "Appointment chart is locked. Adding medication is not allowed at this time.",
       "EDIT_CHART_IS_LOCKED": "Appointment chart is locked. Editing medication is not allowed at this time.",
-      "SUBSTANCE_PRESENT_IN_PATIENT_ALLERGIES": "Selected Drug/Medicine (Dug Name) have similar substance of Patient Allergy. Suggesting you choose the alternative drug salt/brand or another drug from same class."
+      "SUBSTANCE_PRESENT_IN_PATIENT_ALLERGIES": "Selected Drug/Medicine (Dug Name) have similar substance of Patient Allergy. Suggesting you choose the alternative drug salt/brand or another drug from same class.",
+      "MEDICATION_HISTORY_DETAIL_ADD_SUCCESS": "Medication history created successfully",
+      "MEDICATION_HISTORY_DETAIL_UPDATE_SUCCESS": "Medication history updated successfully",
+      "MEDICATION_HISTORY_DETAIL_DELETE_SUCCESS": "Medication history deleted successfully",
+      "MEDICATION_HISTORY_NOT_FOUND": "Medication history not found"
     },
     "TABLE": {
       "EMPTY_MESSAGE": "No medication added for this patient.",
@@ -69,9 +77,9 @@
     "EDIT_DIAGNOSIS": "Edit Diagnosis",
     "PLACE_HOLDER": {
       "DIAGNOSIS_NAME": "Enter Diagnosis Name",
-      "ONSET_DATE": "Select Onset Date",
-      "REPORTED_DATE": "Select Reported Date",
-      "END_DATE": "Select End Date",
+      "ONSET_DATE": "DD/MM/YYYY",
+      "REPORTED_DATE": "DD/MM/YYYY",
+      "END_DATE": "DD/MM/YYYY",
       "STATUS": "Select Status",
       "NOTES": "Enter Notes",
       "SEARCH_DIAGNOSIS": "Search Diagnosis"
@@ -89,6 +97,9 @@
   "LAB": {
     "Order_Id": "Order ID",
     "Labs": "Labs",
+    "Patient_Name": "Patient Name",
+    "Appointment": "Appointment",
+    "Labs_And_Diagnostics": "Labs & Diagnostics",
     "Test_Name": "Test Name",
     "Test_Type": "Test Type",
     "Order_Date": "Order Date",
@@ -104,11 +115,13 @@
     "Add_Lab": "Add Lab",
     "Edit_Lab": "Edit Lab",
     "PLACE_HOLDER": {
+      "Search_Patient_Name": "Search Patient Name",
       "Test_Name": "Enter Test Name",
       "Test_Type": "Select Test Type",
       "Order_Date": "Select Order Date",
       "Test_Date": "Select Test Date",
       "Select_Appointment": "Select Appointment",
+      "Select_Patient_Name": "Search Patient Name",
       "Reason_For_Test": "Enter Reason for Test",
       "Ordering_Provider": "Enter Ordering Provider",
       "Sample_Required": "Enter Sample Required",
@@ -120,9 +133,12 @@
       "LAB_DETAIL_ADD_SUCCESS": "Lab created successfully",
       "LAB_DETAIL_UPDATE_SUCCESS": "Lab updated successfully",
       "LAB_DETAIL_DELETE_SUCCESS": "Lab deleted successfully",
-      "LAB_NOT_FOUND": "Lab not found",
+      "LAB_NOT_FOUND": "No Labs added for this Patient.",
       "ADD_CHART_IS_LOCKED": "Appointment chart is locked. Adding lab is not allowed at this time.",
       "EDIT_CHART_IS_LOCKED": "Appointment chart is locked. Editing lab is not allowed at this time."
+    },
+    "TABLE": {
+      "EMPTY_MESSAGE": "No lab records added for this patient."
     }
   },
   "ALLERGY": {
@@ -142,12 +158,12 @@
     "SAVE": "Save",
     "CANCEL": "Cancel",
     "PLACE_HOLDER": {
-      "ONSET_DATE": "Select Onset Date",
+      "ONSET_DATE": "DD/MM/YYYY",
       "NOTES": "Enter Notes",
       "SEARCH_ALLERGENS": "Search Allergens",
       "SELECT_SYMPTOMS": "Select Symptoms",
-      "SELECT_ONSET_DATE": "Select Onset Date",
-      "SELECT_RECORDED_DATE": "Select Recorded Date"
+      "SELECT_ONSET_DATE": "DD/MM/YYYY",
+      "SELECT_RECORDED_DATE": "DD/MM/YYYY"
     },
     "TABLE": {
       "TYPE": "Type",
@@ -185,7 +201,7 @@
       "DOSE_NUMBER": "Select Dose Number",
       "APPOINTMENT": "Select Appointment",
       "DOSE_NAME": "Enter Dose Name",
-      "DATE_OF_VACCINATION": "Select Date of Vaccination",
+      "DATE_OF_VACCINATION": "DD/MM/YYYY",
       "ADMINISTERED_BY": "Enter Administered By",
       "ROUTE": "Select Route",
       "SITE": "Select Site",
@@ -222,7 +238,7 @@
       "DOCUMENT_NAME": "Enter Document Name",
       "DOCUMENT_TYPE": "Select Document Type",
       "ENTER_DOCUMENT_TYPE": "Enter Document Type",
-      "UPLOAD_DATE": "Select Upload Date",
+      "UPLOAD_DATE": "DD/MM/YYYY",
       "DESCRIPTION": "Enter Description"
     },
     "RESPONSE": {
@@ -240,7 +256,8 @@
     }
   },
   "CHARTING": {
-    "GENERATE_VISIT_REPORT": "Generate Visit Report",
+    "DOWNLOAD_VISIT_REPORT": "Download Visit Report",
+    "PRINT_PRESCRIPTIONS": "Print Prescriptions",
     "RESPONSE": {
       "CHART_SIGNOFF_SUCCESS": "Chart signed off successfully",
       "CHART_UNLOCK_SUCCESS": "Chart unlocked successfully"
@@ -274,10 +291,13 @@
       "BMI": "Enter BMI",
       "BLOOD_GLUCOSE": "Enter Blood Glucose (mg/dL)"
     },
+    "VALIDATION": {
+      "SELECT_AT_LEAST_ONE": "Please enter at least one vital."
+    },
     "RESPONSE": {
-      "VITALS_DETAIL_ADD_SUCCESS": "Vitals added successfully.",
-      "VITALS_DETAIL_UPDATE_SUCCESS": "Vitals updated successfully.",
-      "VITALS_DETAIL_DELETE_SUCCESS": "Vitals deleted successfully.",
+      "VITAL_ADD_SUCCESS": "Vitals added successfully.",
+      "VITAL_UPDATE_SUCCESS": "Vitals updated successfully.",
+      "VITAL_DELETE_SUCCESS": "Vitals deleted successfully.",
       "VITALS_NOT_FOUND": "Vitals not found.",
       "VITAL_PREFERENCE_SAVE_SUCCESS": "Vital preferences saved successfully."
     },
@@ -286,6 +306,25 @@
     }
   },
   "CARE_PLAN": {
+    "CARE_PLAN_READING": "Care Plan Reading",
+    "PATIENT": "Patient",
+    "GENDER": "Gender",
+    "DOB": "DOB",
+    "STATUS": "Status",
+    "DATES": "Dates",
+    "MONITORING_VITALS": "Monitoring Vitals",
+    "MONITORING_TASKS": "Monitoring Tasks",
+    "ADD_VITAL_READING": "Add Vital Reading",
+    "VITAL": "Vital",
+    "TIME": "Time",
+    "READING": "Reading",
+    "SAVE": "Save",
+    "VITAL_READINGS": "Vital Reading's",
+    "NAME": "Name",
+    "TASK": "Task",
+    "IS_TASK_DONE": "Is Task Done",
+    "TASK_LOGS": "Task Log's",
+    "LOG_TASK": "Log Task",
     "CARE_PLANS": "Care Plans",
     "PATIENT_CARE_PLAN_LIST": "Patient Care Plan List",
     "ADD_CARE_PLAN": "Add Care Plan",
@@ -370,7 +409,149 @@
       "CARE_PLAN_ACTIVATED": "Care plan has been activated successfully.",
       "CARE_PLAN_CANCELLED": "Care plan has been cancelled successfully.",
       "CARE_PLAN_PAUSED": "Care plan has been paused successfully.",
-      "CARE_PLAN_COMPLETED": "Care plan has been completed successfully."
+      "CARE_PLAN_COMPLETED": "Care plan has been completed successfully.",
+      "CARE_PLAN_TASK_LOG_SUCCESS": "Task logged successfully!"
+    },
+    "TOOLTIP": {
+      "CARE_PLAN_NOT_ACTIVE": "Care plan is not active"
+    },
+    "TABLE": {
+      "EMPTY_MESSAGE": "No care plans added for this patient.",
+      "LIST_EMTPY_MESSAGE": "No care plans found."
+    }
+  },
+  "APPOINTMENT": {
+    "FORM_LABELS": {
+      "APPOINTMENT_STATUS": "Appointment Status"
+    }
+  },
+  "PAST_MEDICAL_HISTORY": {
+    "PAST_MEDICAL_HISTORY": "Past Medical History",
+    "ADD_PAST_MEDICAL_HISTORY": "Add Past Medical History",
+    "EDIT_PAST_MEDICAL_HISTORY": "Edit Past Medical History",
+    "PAST_MEDICAL_CONDITION": "Past Medical Condition",
+    "MEDICAL_CONDITION": "Medical Condition",
+    "DIAGNOSIS_DATE": "Diagnosis Date",
+    "STATUS": "Status",
+    "NOTES": "Notes",
+    "ACTION": "Action",
+    "ATTACH_REPORTS": "Attach Reports",
+    "PLACE_HOLDER": {
+      "PAST_MEDICAL_CONDITION": "Enter Past Medical Condition",
+      "DIAGNOSIS_DATE": "DD/MM/YYYY",
+      "STATUS": "Select Status",
+      "NOTES": "Enter Notes"
+    },
+    "RESPONSE": {
+      "PAST_MEDICAL_HISTORY_ADD_SUCCESS": "Past Medical History Added Successfully.",
+      "PAST_MEDICAL_HISTORY_UPDATE_SUCCESS": "Past Medical History Updated Successfully.",
+      "PAST_MEDICAL_HISTORY_DELETE_SUCCESS": "Past Medical History Deleted Successfully.",
+      "PAST_MEDICAL_HISTORY_NOT_FOUND": "Past Medical History Not Found."
+    },
+    "TABLE": {
+      "EMPTY_MESSAGE": "No Past Medical History Added for this Patient."
+    }
+  },
+  "SURGICAL_HISTORY": {
+    "SURGICAL_HISTORY": "Surgical History",
+    "ADD_SURGICAL_HISTORY": "Add Surgical History",
+    "EDIT_SURGICAL_HISTORY": "Edit Surgical History",
+    "SURGERY_NAME": "Surgery Name",
+    "SURGERY_DATE": "Surgery Date",
+    "HOSPITAL_NAME": "Hospital Name",
+    "DOCTOR_NAME": "Doctor Name",
+    "NOTES": "Notes",
+    "STATUS": "Status",
+    "SURGERY_TYPE": "Surgery Type",
+    "ATTACH_REPORTS": "Attach Reports",
+    "ACTION": "Action",
+    "PLACE_HOLDER": {
+      "SURGERY_NAME": "Enter or Search Surgery Name",
+      "SURGERY_DATE": "DD/MM/YYYY",
+      "HOSPITAL_NAME": "Enter Hospital Name",
+      "DOCTOR_NAME": "Enter Doctor Name",
+      "NOTES": "Enter Notes",
+      "STATUS": "Select Status",
+      "SURGERY_TYPE": "Select Surgery Type"
+    },
+    "RESPONSE": {
+      "SURGICAL_HISTORY_ADD_SUCCESS": "Surgical History Added Successfully.",
+      "SURGICAL_HISTORY_UPDATE_SUCCESS": "Surgical History Updated Successfully.",
+      "SURGICAL_HISTORY_DELETE_SUCCESS": "Surgical History Deleted Successfully.",
+      "SURGICAL_HISTORY_NOT_FOUND": "Surgery History Not Found."
+    },
+    "TABLE": {
+      "EMPTY_MESSAGE": "No Surgery History Added for this Patient."
+    }
+  },
+  "FAMILY_HISTORY": {
+    "FAMILY_HISTORY": "Family History",
+    "ADD_FAMILY_HISTORY": "Add Family History",
+    "EDIT_FAMILY_HISTORY": "Edit Family History",
+    "RELATIONSHIP": "Relationship",
+    "HEALTH_CONDITION": "Health Condition",
+    "DIAGNOSIS_AGE": "Diagnosis Age",
+    "IS_DECEASED": "Is Deceased",
+    "CAUSE_OF_DEATH": "Cause of Death",
+    "NOTES": "Notes",
+    "ACTION": "Action",
+    "PLACE_HOLDER": {
+      "RELATIONSHIP": "Select Relationship",
+      "HEALTH_CONDITION": "Select Health Condition",
+      "DIAGNOSIS_AGE": "Enter Diagnosis Age",
+      "IS_DECEASED": "Select Yes or No",
+      "CAUSE_OF_DEATH": "Enter Cause of Death",
+      "NOTES": "Enter Notes"
+    },
+    "RESPONSE": {
+      "FAMILY_HISTORY_ADD_SUCCESS": "Family History Added Successfully.",
+      "FAMILY_HISTORY_UPDATE_SUCCESS": "Family History Updated Successfully.",
+      "FAMILY_HISTORY_DELETE_SUCCESS": "Family History Deleted Successfully.",
+      "FAMILY_HISTORY_NOT_FOUND": "Family History Not Found."
+    },
+    "TABLE": {
+      "EMPTY_MESSAGE": "No Family History Added for this Patient."
+    }
+  },
+  "SOCIAL_HISTORY": {
+    "SOCIAL_HISTORY": "Social History",
+    "ADD_SOCIAL_HISTORY": "Add Social History",
+    "EDIT_SOCIAL_HISTORY": "Edit Social History",
+    "TOBACCO_USE": "Tobacco Use",
+    "TOBACCO_USE_FREQUENCY": "Tobacco Use Frequency",
+    "ALCOHOL_USE": "Alcohol Use",
+    "ALCOHOL_USE_FREQUENCY": "Alcohol Use Frequency",
+    "DRUG_USE": "Drug Use",
+    "DRUG_USE_TYPE": "Drug Use Type",
+    "OCCUPATION": "Occupation",
+    "EXERCISE_HABITS": "Exercise Habits",
+    "MARITAL_STATUS": "Marital Status",
+    "LIVING_SITUATION": "Living Situation",
+    "DIETARY_HABITS": "Dietary Habits",
+    "TRAVEL_HISTORY": "Travel History",
+    "ACTION": "Action",
+    "PLACE_HOLDER": {
+      "TOBACCO_USE": "Select Tobacco Use",
+      "TOBACCO_USE_FREQUENCY": "Select Tobacco Use Frequency",
+      "ALCOHOL_USE": "Select Alcohol Use",
+      "ALCOHOL_USE_FREQUENCY": "Select Alcohol Use Frequency",
+      "DRUG_USE": "Select Drug Use",
+      "DRUG_USE_TYPE": "Select Drug Use Type",
+      "OCCUPATION": "Enter Occupation",
+      "EXERCISE_HABITS": "Select Exercise Habits",
+      "MARITAL_STATUS": "Select Marital Status",
+      "LIVING_SITUATION": "Select Living Situation",
+      "DIETARY_HABITS": "Select Dietary Habits",
+      "TRAVEL_HISTORY": "Select Travel History"
+    },
+    "RESPONSE": {
+      "SOCIAL_HISTORY_ADD_SUCCESS": "Social History Added Successfully.",
+      "SOCIAL_HISTORY_UPDATE_SUCCESS": "Social History Updated Successfully.",
+      "SOCIAL_HISTORY_DELETE_SUCCESS": "Social History Deleted Successfully.",
+      "SOCIAL_HISTORY_NOT_FOUND": "Social History Not Found."
+    },
+    "TABLE": {
+      "EMPTY_MESSAGE": "No Social History Added for this Patient."
     }
   }
 }

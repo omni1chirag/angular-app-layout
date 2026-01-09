@@ -1,0 +1,97 @@
+<!-- doctor-list.component.html -->
+<div class="space-y-6">
+    <div pageHeader="list">
+        <p-toolbar>
+            <ng-template #start>
+                <div class="flex items-center gap-2">
+                    <p class="text-2xl font-bold sm:truncate sm:text-3xl sm:tracking-tight">
+                        Clinics
+                    </p>
+                </div>
+            </ng-template>
+        </p-toolbar>
+    </div>
+
+    <p-dataview #dv [value]="clinicList" [rows]="pageSize()" [totalRecords]="totalRecords" [lazy]="true"
+        [loading]="isLoading" [paginator]="true" [first]="first()" [rowsPerPageOptions]="[15, 30, 50]"
+        (onLazyLoad)="onPageChange($event)"
+        class="doctor-dataview" [layout]="layout">
+
+        <ng-template #header>
+            <div class="sticky top-0 z-10 p-4 mt-2 mb-5 bg-white border border-gray-200 shadow-sm rounded-xl">
+                    <!-- Results Count and Layout Toggle -->
+                    <div class="flex items-center justify-between">
+                        <div class="text-sm text-gray-600" *ngIf="!isLoading">
+                            <span class="font-medium">{{ totalRecords }}</span> clinics found
+                        </div>
+                    </div>
+            </div>
+        </ng-template>
+
+        <!-- Grid Layout -->
+        <div class="flex-1 p-4 overflow-y-auto">
+            <ng-template #grid>
+                <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                    <div *ngFor="let clinic of clinics(); let first = first"
+                        class="flex flex-col h-full gap-5 p-5 mt-2 transition duration-300 bg-white shadow-md rounded-2xl hover:shadow-xl hover:-translate-y-1">
+
+                        <!-- Clinic Header -->
+                        <div
+                            class="flex flex-col items-center gap-4 text-center sm:flex-row sm:items-start sm:text-left">
+                            <div class="flex-shrink-0">
+                                <p-avatar *ngIf="!clinic?.imageError" loading="lazy"
+                                    [image]="clinic.imageUrl"
+                                    (onImageError)="clinic.imageError = true"
+                                    class="!w-20 !h-20 sm:!w-24 sm:!h-24 md:!w-32 md:!h-32 rounded-full border border-gray-200 shadow-sm">
+                                </p-avatar>
+
+                                <p-avatar *ngIf="clinic.imageError" icon="pi pi-building" 
+                                    class="!w-20 !h-20 sm:!w-24 sm:!h-24 md:!w-32 md:!h-32 rounded-full border border-gray-200 shadow-sm"
+                                [style]="{'background-color': 'var(--p-button-outlined-primary-active-background)',
+                                'color': 'var(--p-button-outlined-primary-color)' }" size="xlarge" class="justify-self-center">
+                                </p-avatar>
+                            </div>
+
+                            <div class="flex-1 space-y-1">
+                                <h2 class="text-lg md:text-xl font-bold text-gray-900 !mb-0">{{ clinic?.clinicName }}</h2>
+
+                                <p class="max-w-xs text-xs text-gray-500 truncate" [title]="clinic?.specialitiesText">
+                                    {{ clinic?.specialitiesText }}
+                                </p>
+                                <p>Total ({{clinic.doctorsCount}}) available doctors.</p>
+                            </div>
+                        </div>
+
+
+                        <!-- Action Button -->
+                        <div class="mt-auto">
+                            <button pButton type="button" label="Find Doctors" class="w-full p-button-primary"
+                                (click)="goToClinicDoctors(clinic)">
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </ng-template>
+        </div>
+
+        <ng-template #loadingicon>
+            <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                <div *ngFor="let n of [1,2,3,4,5,6]" class="p-5 bg-white shadow rounded-2xl">
+                    <p-skeleton shape="circle" size="5rem" class="mb-4"></p-skeleton>
+                    <p-skeleton width="60%" height="1.2rem" class="mb-2"></p-skeleton>
+                    <p-skeleton width="40%" height="1rem" class="mb-2"></p-skeleton>
+                    <p-skeleton width="80%" height="1rem"></p-skeleton>
+                </div>
+            </div>
+        </ng-template>
+
+        <!-- Empty Template -->
+        <ng-template #emptymessage>
+            <div class="py-12 text-center">
+                <i class="block mb-4 text-4xl text-gray-400 pi pi-search"></i>
+                <h3 class="mb-2 text-lg font-semibold text-gray-700">No clinics found.</h3>
+            </div>
+        </ng-template>
+
+    </p-dataview>
+</div>

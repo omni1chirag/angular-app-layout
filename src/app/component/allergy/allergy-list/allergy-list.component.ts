@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, signal, OnInit, input } from '@angular/core';
+import { Component, signal, OnInit, input, OnDestroy, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AllergyService } from '@service/allergy.service';
 import { MasterService } from '@service/master.service';
@@ -8,18 +8,20 @@ import { AutoCompleteModule } from 'primeng/autocomplete';
 import { DividerModule } from 'primeng/divider';
 import { SelectButtonChangeEvent } from 'primeng/selectbutton';
 import { ButtonModule } from 'primeng/button';
-import { Allergen, AllergicReaction } from '@interface/allergy.interface';
-import { TableModule } from 'primeng/table';
+import { Allergen, AllergicReaction, Allergy } from '@interface/allergy.interface';
+import { TableLazyLoadEvent, TableModule } from 'primeng/table';
 import { AllergyAddEditComponent } from "../allergy-add-edit/allergy-add-edit.component";
 import { DrawerModule } from 'primeng/drawer';
 import { Subscription } from 'rxjs';
-import { LabelValue } from '@interface/common-master.interface';
-import { Allergy } from '@model/allergy.model';
 import { TagModule } from 'primeng/tag';
-import { PatientService } from '@service/patient.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { HttpParams } from '@angular/common/http';
 import { LazyLoadEvent } from 'primeng/api';
+import { TooltipModule } from 'primeng/tooltip';
+import { CommonMaster, LabelValue } from '@interface/common.interface';
+import { PaginationResponse } from '@interface/api-response.interface';
+import { LocalStorageService } from '@service/local-storage.service';
+import { GLOBAL_CONFIG_IMPORTS } from 'src/app/global-config-import';
 
 
 @Component({
@@ -35,39 +37,45 @@ import { LazyLoadEvent } from 'primeng/api';
     AllergyAddEditComponent,
     DrawerModule,
     TagModule,
-    TranslateModule
+    TranslateModule,
+    TooltipModule,
+    ...GLOBAL_CONFIG_IMPORTS
   ],
-  templateUrl: './allergy-list.component.html',
-  styleUrl: './allergy-list.component.scss'
+  templateUrl: './allergy-list.component.html'
 })
-export class AllergyListComponent implements OnInit {
+export class AllergyListComponent implements OnInit, OnDestroy {
+
+  private readonly allergyService = inject(AllergyService);
+  private readonly platformService = inject(PlatformService);
+  private readonly masterService = inject(MasterService);
+  private readonly localStorageService = inject(LocalStorageService);
+
   masterAllergens: Allergen[] = [];
   allergens: Allergen[] = [];
   patientAllergies: Allergy[] = [];
-  isBrowser: boolean = false;
+  isBrowser = false;
   allergenSuggestions: Allergen[] = [];
   selectedCategory: string;
   selectedAllergy = signal<Allergy | null>(null);
   _selectedAllergy = new Allergy();
-  categories: LabelValue[];
-  isAllergyOpen: boolean = false;
+  categories: LabelValue<string>[];
+  isAllergyOpen = false;
   rowsPerPage = 10;
   totalRecords = 0;
-  showLoader = false;
+  showLoader = true;
   first = 0;
-  defaultSortField: string = 'allergyStatus';
-  defaultSortOrder: number = 1;
-  private subscriptions = new Subscription();
+  defaultSortField = 'allergyStatus';
+  defaultSortOrder = 1;
+  private readonly subscriptions = new Subscription();
   isLoading = false;
   allergicReactions: AllergicReaction[] = [];
-  readonly patientId = input.required<string>();
+  readonly patientId = this.localStorageService.getPatientId();
   readonly appointmentId = input.required<string>();
-  constructor(
-    private allergyService: AllergyService,
-    private platformService: PlatformService,
-    private masterService: MasterService,
-    private patientService: PatientService
-  ) {
+  readonly signOff = input.required<number>();
+  readonly isModifiable = input.required<boolean>();
+ 
+
+  constructor() {
     this.isBrowser = this.platformService.isBrowser();
     if (this.isBrowser) {
       this.allergyService.loadAllergyData(true);
@@ -85,7 +93,7 @@ export class AllergyListComponent implements OnInit {
     this.subscriptions.unsubscribe();
   }
 
-  initializeAllergyData() {
+  initializeAllergyData(): void {
 
     this.subscriptions.add(
       this.allergyService.isLoading$.subscribe(loading => {
@@ -95,7 +103,9 @@ export class AllergyListComponent implements OnInit {
 
     this.subscriptions.add(
       this.allergyService.error$.subscribe(error => {
-        console.error('allergy-list error : ', error)
+        if (error) {
+          console.error('allergy-list error : ', error)
+        }
       })
     );
 
@@ -107,34 +117,28 @@ export class AllergyListComponent implements OnInit {
     );
   }
 
-  initializeMasterData() {
+  initializeMasterData(): void {
     const params = ['ALLERGY_CATEGORIES']
 
-    this.masterService.getCommonMasterData(params).subscribe({
-      next: (resp: any) => {
-        (resp.data as Array<any>).forEach((res: any) => {
-          switch (res.name) {
-            case 'ALLERGY_CATEGORIES':
-              this.categories = res.value
-              break;
-            default:
-              console.error('master data name not found', res.name);
-              break;
-          }
-        })
-      },
-      error: (error) => {
-        console.error('Error while fetching master data:', error);
-      }
+    this.masterService.getCommonMasterData<CommonMaster<unknown>[]>(params).subscribe((data) => {
+      data.forEach((res) => {
+        if (res.name === 'ALLERGY_CATEGORIES') {
+          this.categories = res.value as LabelValue<string>[];
+        } else {
+          console.error('master data name not found', res.name);
+        }
+      });
     });
 
   }
 
-  initializePatientAllergies(params?: HttpParams) {
-    this.allergyService.fetchPatientAllergies(this.patientId(), params).subscribe({
-      next: (response) => {
-        this.patientAllergies = response.data.content;
-        this.totalRecords = response.data.totalElements;
+  initializePatientAllergies(params?: HttpParams): void {
+    this.showLoader = true;
+
+    this.allergyService.fetchPatientAllergies(this.patientId, params).subscribe({
+      next: (data: PaginationResponse<Allergy>) => {
+        this.patientAllergies = data.content;
+        this.totalRecords = data.totalElements;
         this.showLoader = false;
       },
       error: (error) => {
@@ -144,24 +148,24 @@ export class AllergyListComponent implements OnInit {
     });
   }
 
-  allergenToAllergy(allergen: Allergen) {
+  allergenToAllergy(allergen: Allergen): void {
     this._selectedAllergy.allergenName = allergen.allergenName;
     this._selectedAllergy.allergenType = allergen.allergenType;
     this._selectedAllergy.allergyStatus = 'ACTIVE'
     this.openAllergy();
   }
 
-  editAllergy(allergy: Allergy) {
+  editAllergy(allergy: Allergy): void {
     this._selectedAllergy = allergy;
     this.openAllergy();
   }
 
-  openAllergy() {
+  openAllergy(): void {
     this.selectedAllergy.set(this._selectedAllergy);
     this.isAllergyOpen = true;
   }
 
-  onChangeAllergy(event: SelectButtonChangeEvent) {
+  onChangeAllergy(event: SelectButtonChangeEvent): void {
     if (this.selectedCategory == event.value) {
       this.selectedCategory = null
       this.allergens = this.masterAllergens;
@@ -186,15 +190,11 @@ export class AllergyListComponent implements OnInit {
   getStatusTagColor(status: string): 'success' | 'secondary' | 'info' | 'warn' | 'danger' | 'contrast' | null {
     switch (status) {
       case 'RESOLVED':
-        return 'success';
-      case 'INACTIVE':
         return 'info';
-      case 'ONHOLD':
+      case 'INACTIVE':
         return 'secondary';
       case 'ACTIVE':
-        return 'warn';
-      case 'PENDING':
-        return 'danger';
+        return 'success';
       default:
         return null;
     }
@@ -215,7 +215,7 @@ export class AllergyListComponent implements OnInit {
     }
   }
 
-  getStatus(status) {
+  getStatus(status: string): string {
     const statusObj = this.patientAllergies.find((item) => item.allergyStatus == status);
     switch (statusObj?.allergyStatus) {
       case 'RESOLVED':
@@ -229,7 +229,7 @@ export class AllergyListComponent implements OnInit {
     }
   }
 
-  getSeverity(severity) {
+  getSeverity(severity: string): string {
     const severityObj = this.patientAllergies.find((item) => item.severity == severity);
 
     switch (severityObj.severity) {
@@ -246,7 +246,7 @@ export class AllergyListComponent implements OnInit {
     }
   }
 
-  searchAllergens(query: string) {
+  searchAllergens(query: string): void {
     const filtered = this.masterAllergens.filter(allergen =>
       allergen.allergenName.toLowerCase().includes(query.toLowerCase())
     );
@@ -278,14 +278,17 @@ export class AllergyListComponent implements OnInit {
     }
   }
 
-  loadPatientAllergies($event) {
+  loadPatientAllergies($event: TableLazyLoadEvent): void {
     if (!this.isBrowser) { return }
-    this.showLoader = true;
     let params = new HttpParams();
 
-    params = params.append('sortField', $event.sortField);
-    params = params.append('sortOrder', $event.sortOrder);
+    const sortField = Array.isArray($event.sortField) ? $event.sortField[0] : $event.sortField;
+    if (sortField) {
+      params = params.append('sortField', sortField);
+      params = params.append('sortOrder', ($event.sortOrder ?? 1).toString());
+    }
 
+    params = params.append('source', 'PATIENT_APP');
     params = params.append('page', Math.floor($event.first / $event.rows));
     params = params.append('size', $event.rows)
 

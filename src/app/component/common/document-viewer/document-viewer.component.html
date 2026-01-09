@@ -1,4 +1,4 @@
-<div class="sticky top-0 pt-2 pb-2 flex justify-between items-center gap-4">
+<div class="sticky top-0 flex items-center justify-between gap-4 pt-2 pb-2">
     <span class="text-lg font-semibold">
         {{ title() }}
     </span>
@@ -11,17 +11,17 @@
             (onClick)="onClose()" />
     </div>
 </div>
-<div class="image-box h-full w-full pb-10">
-    <div class="h-full w-full overflow-x-hidden overflow-y-auto">
+<div class="w-full h-full pb-10 image-box">
+    <div class="w-full h-full overflow-x-hidden overflow-y-auto">
         <p-image [src]="blobUrl" alt="Preview" class="w-full h-full" #imgComp>
             <ng-template #image let-style="style">
-                <div class="overflow-hidden relative h-full" (mousedown)="startPan($event)" (mousemove)="doPan($event)"
+                <div class="relative h-full overflow-hidden" (mousedown)="startPan($event)" (mousemove)="doPan($event)"
                     (mouseup)="endPan($event)" (mouseleave)="endPan($event)" style="cursor: grab;">
 
-                    <img [src]="blobUrl" [style]="style" [classList]="isPanning ? 'cursor-grabbing': 
+                    <img [src]="blobUrl" [style]="style" alt="Loading..." [attr.tabindex]="undefined" [classList]="isPanning ? 'cursor-grabbing': 
                                     isZoomOut ? 'cursor-zoom-out':
                                     isZoomIn ? 'cursor-zoom-out':'cursor-default'" (click)="onPreviewClick($event)"
-                        #previewImg />
+                        (keydown)="$event.preventDefault()" #previewImg />
                 </div>
             </ng-template>
         </p-image>

@@ -1,16 +1,4 @@
 {
-  "notification": {
-    "title": "Add Notification Alert",
-    "configuration": "Configuration",
-    "info": "This information will be displayed publicly so be careful what you share.",
-    "eventName": "Event Name",
-    "eventType": "Event Type",
-    "targetAudience": "Target Audience",
-    "whenToTrigger": "When to Trigger",
-    "dateAndTime": "Date and Time",
-    "status": "Status",
-    "message": "Message"
-  },
   "success": {
     "user": {
       "statusUpdate": "User status updated successfully"
@@ -37,6 +25,7 @@
     "ENTER_EMAIL": "Enter Email"
   },
   "NAME": "Name",
+  "T&C": "Terms and Conditions",
   "ADD": "Add",
   "BACK": "Back",
   "EDIT": "Edit",
@@ -62,7 +51,8 @@
   "UNLOCK": "Unlock",
   "PLACE_HOLDER": {
     "CLINIC": "Select Clinic",
-    "DOCTOR": "Select Doctor"
+    "DOCTOR": "Select Doctor",
+    "CHANGE_CLINIC": "Change Clinic"
   },
   "TOOLTIP": {
     "NOT_AUTHORIZED": "You are not authorized to perform this action",
@@ -82,5 +72,43 @@
     "PLACE_HOLDER": {
       "APPOINTMENT": "Select Appointment"
     }
+  },
+  "ERROR": {
+    "LOADING_FAILED": "Failed to load data",
+    "TRY_AGAIN_LATER": "Please try again later"
+  },
+  "ACTION": {
+    "RETRY": "Retry",
+    "CANCEL": "Cancel"
+  },
+  "DOCTOR": {
+    "VERIFIED": "Medical Registration Verified",
+    "ABOUT": "About Doctor"
+  },
+  "NOTIFICATION": {
+    "VIEW_ALL": "View all",
+    "MARK_ALL_AS_READ": "Mark all as read"
+  },
+  "RESPONSE": {
+    "PINCODE_DOES_NOT_EXISTS": "Pincode does not exists.",
+    "OTP_SENT_SUCCESS": "OTP sent successfully."
+  },
+  "OTP_DIALOG": {
+    "VERIFY_IDENTITY": "To proceed, you must verify your identity.",
+    "SEND_OTP_ON": "Send OTP on:",
+    "SEND_OTP_ON_BOTH":"An OTP will be sent to both your mobile number and email address.",
+    "SEND_OTP_ON_MOBILE":"An OTP will be sent to your mobile number.",
+    "MOBILE_NUMBER": "Mobile Number",
+    "EMAIL_ADDRESS": "Email Address",
+    "OTP_SENT": "We have sent a 6-digit verification code to <strong>{{contact}}</strong>.",
+    "OTP_SENT_BOTH": "We have sent a 6-digit verification code to <strong>{{mobile}}</strong> and <strong>{{email}}</strong>.",
+    "ENTER_OTP": "Enter OTP",
+    "MOBILE_OTP": "Mobile OTP",
+    "EMAIL_OTP": "Email OTP",
+
+    "RESEND_OTP_IN": "Resend OTP in {{time}}",
+    "SEND_OTP": "Send OTP",
+    "RESEND_OTP": "Resend OTP",
+    "SUBMIT": "Submit"
   }
 }

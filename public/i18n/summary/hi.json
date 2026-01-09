@@ -1,16 +1,18 @@
 {
   "MEDICATION": {
-    "MEDICATIONS": "दवाएं",
+    "MEDICATIONS": "दवाएँ",
     "MEDICATION_NAME": "दवा का नाम",
     "ROUTE_OF_ADMINISTRATION": "प्रशासन का मार्ग",
+    "ROUTE": "मार्ग",
     "TIMING": "समय",
     "FREQUENCY": "आवृत्ति",
     "DURATION": "अवधि",
     "QUANTITY": "मात्रा",
+    "TOTAL_QUANTITY": "कुल मात्रा",
     "START_DATE": "प्रारंभ तिथि",
     "INSTRUCTIONS": "निर्देश",
     "STATUS": "स्थिति",
-    "PRESCRIBED_BY": "लिखने वाला डॉक्टर",
+    "PRESCRIBED_BY": "द्वारा निर्धारित",
     "REASON": "कारण",
     "MORNING": "सुबह",
     "AFTERNOON": "दोपहर",
@@ -20,141 +22,155 @@
     "ADD_MEDICATION": "दवा जोड़ें",
     "EDIT_MEDICATION": "दवा संपादित करें",
     "PATIENT_NAME": "रोगी का नाम",
-    "LAST_UPDATED_DATE": "अंतिम अपडेट तिथि",
+    "LAST_UPDATED_DATE": "आखिरी अपडेट की तिथि",
     "APPOINTMENT": "नियुक्ति",
     "PLACE_HOLDER": {
       "MEDICATION_NAME": "दवा का नाम दर्ज करें",
-      "ROUTE_OF_ADMINISTRATION": "प्रशासन के मार्ग का चयन करें",
-      "TIMING": "समय का चयन करें",
-      "FREQUENCY": "आवृत्ति का चयन करें",
-      "DURATION": "अवधि का चयन करें",
+      "ROUTE_OF_ADMINISTRATION": "प्रशासन का मार्ग चुनें",
+      "TIMING": "समय चुनें",
+      "FREQUENCY": "आवृत्ति चुनें",
+      "DURATION": "अवधि चुनें",
       "QUANTITY": "मात्रा दर्ज करें",
-      "UNIT": "इकाई का चयन करें",
-      "START_DATE": "प्रारंभ तिथि का चयन करें",
+      "TOTAL_QUANTITY": "कुल मात्रा दर्ज करें",
+      "UNIT": "इकाई चुनें",
+      "START_DATE": "DD/MM/YYYY",
       "INSTRUCTIONS": "निर्देश दर्ज करें",
-      "STATUS": "स्थिति का चयन करें",
-      "PRESCRIBED_BY": "लिखने वाले डॉक्टर को दर्ज करें",
+      "STATUS": "स्थिति चुनें",
+      "PRESCRIBED_BY": "निर्धारित करने वाले का नाम दर्ज करें",
       "REASON": "कारण दर्ज करें",
-      "SEARCH_MEDICINES": "दवाएं खोजें",
+      "SEARCH_MEDICINES": "दवाएँ खोजें",
       "SEARCH_PATIENT_NAME": "रोगी का नाम खोजें",
-      "APPOINTMENT": "नियुक्ति का चयन करें",
+      "APPOINTMENT": "नियुक्ति चुनें",
       "OTHER": "अन्य",
-      "HOURS": "घंटे दर्ज करें"
+      "HOURS": "घंटे दर्ज करें",
+      "DAILY_FREQUENCY": "दैनिक आवृत्ति"
     },
     "RESPONSE": {
-      "MEDICATION_DETAIL_ADD_SUCCESS": "दवा सफलतापूर्वक जोड़ी गई",
+      "MEDICATION_DETAIL_ADD_SUCCESS": "दवा सफलतापूर्वक बनाई गई",
       "MEDICATION_DETAIL_UPDATE_SUCCESS": "दवा सफलतापूर्वक अपडेट की गई",
-      "MEDICATION_DETAIL_DELETE_SUCCESS": "दवा सफलतापूर्वक हटा दी गई",
+      "MEDICATION_DETAIL_DELETE_SUCCESS": "दवा सफलतापूर्वक हटाई गई",
       "MEDICATION_NOT_FOUND": "दवा नहीं मिली",
       "MEDICATION_ALREADY_EXISTS": "दवा पहले से मौजूद है",
-      "ADD_CHART_IS_LOCKED": "नियुक्ति चार्ट लॉक किया गया है। इस समय दवा जोड़ने की अनुमति नहीं है।",
-      "EDIT_CHART_IS_LOCKED": "नियुक्ति चार्ट लॉक किया गया है। इस समय दवा संपादित करने की अनुमति नहीं है।",
-      "SUBSTANCE_PRESENT_IN_PATIENT_ALLERGIES": "चयनित दवा (दवा का नाम) रोगी की एलर्जी के समान पदार्थ है। कृपया वैकल्पिक दवा/ब्रांड या समान वर्ग की अन्य दवा चुनें।"
+      "ADD_CHART_IS_LOCKED": "नियुक्ति चार्ट लॉक है। इस समय दवा जोड़ने की अनुमति नहीं है।",
+      "EDIT_CHART_IS_LOCKED": "नियुक्ति चार्ट लॉक है। इस समय दवा संपादित करने की अनुमति नहीं है।",
+      "SUBSTANCE_PRESENT_IN_PATIENT_ALLERGIES": "चयनित दवा में रोगी की एलर्जी के समान पदार्थ मौजूद है। कृपया वैकल्पिक दवा या उसी वर्ग की दूसरी दवा चुनने पर विचार करें।",
+      "MEDICATION_HISTORY_DETAIL_ADD_SUCCESS": "दवा इतिहास सफलतापूर्वक बनाया गया",
+      "MEDICATION_HISTORY_DETAIL_UPDATE_SUCCESS": "दवा इतिहास सफलतापूर्वक अपडेट किया गया",
+      "MEDICATION_HISTORY_DETAIL_DELETE_SUCCESS": "दवा इतिहास सफलतापूर्वक हटाया गया",
+      "MEDICATION_HISTORY_NOT_FOUND": "दवा इतिहास नहीं मिला"
     },
     "TABLE": {
-      "EMPTY_MESSAGE": "इस मरीज के लिए कोई दवा नहीं जोड़ी गई।",
-      "LIST_EMTPY_MESSAGE": "कोई दवाएं दर्ज नहीं की गई हैं।"
+      "EMPTY_MESSAGE": "इस रोगी के लिए कोई दवा नहीं जोड़ी गई है।",
+      "LIST_EMTPY_MESSAGE": "कोई दवा दर्ज नहीं है।"
     }
   },
   "DIAGNOSIS": {
     "DIAGNOSIS": "निदान",
     "CURRENT_DIAGNOSIS": "वर्तमान निदान",
-    "DIAGNOSIS_NAME": "निदान नाम",
-    "ONSET_DATE": "शुरुआत तिथि",
-    "REPORTED_DATE": "रिपोर्ट की गई तिथि",
-    "END_DATE": "अंतिम तिथि",
+    "DIAGNOSIS_NAME": "निदान का नाम",
+    "ONSET_DATE": "आरंभ तिथि",
+    "REPORTED_DATE": "रिपोर्ट की तिथि",
+    "END_DATE": "समाप्ति तिथि",
     "STATUS": "स्थिति",
-    "NOTES": "नोट",
+    "NOTES": "टिप्पणियाँ",
     "ADD_DIAGNOSIS": "निदान जोड़ें",
     "EDIT_DIAGNOSIS": "निदान संपादित करें",
     "PLACE_HOLDER": {
-      "DIAGNOSIS_NAME": "निदान नाम दर्ज करें",
-      "ONSET_DATE": "शुरुआत तिथि का चयन करें",
-      "REPORTED_DATE": "रिपोर्ट की गई तिथि का चयन करें",
-      "END_DATE": "अंतिम तिथि का चयन करें",
-      "STATUS": "स्थिति का चयन करें",
-      "NOTES": "नोट दर्ज करें",
+      "DIAGNOSIS_NAME": "निदान का नाम दर्ज करें",
+      "ONSET_DATE": "DD/MM/YYYY",
+      "REPORTED_DATE": "DD/MM/YYYY",
+      "END_DATE": "DD/MM/YYYY",
+      "STATUS": "स्थिति चुनें",
+      "NOTES": "टिप्पणियाँ दर्ज करें",
       "SEARCH_DIAGNOSIS": "निदान खोजें"
     },
     "RESPONSE": {
       "DIAGNOSIS_DETAIL_ADD_SUCCESS": "निदान सफलतापूर्वक बनाया गया",
       "DIAGNOSIS_DETAIL_UPDATE_SUCCESS": "निदान सफलतापूर्वक अपडेट किया गया",
-      "DIAGNOSIS_DETAIL_DELETE_SUCCESS": "निदान सफलतापूर्वक हटा दिया गया",
-      "DIAGNOSIS_NOT_FOUND": "रोग निदान नहीं मिला"
+      "DIAGNOSIS_DETAIL_DELETE_SUCCESS": "निदान सफलतापूर्वक हटाया गया",
+      "DIAGNOSIS_NOT_FOUND": "निदान नहीं मिला"
     },
     "TABLE": {
-      "EMPTY_MESSAGE": "इस मरीज के लिए कोई निदान नहीं मिला।"
+      "EMPTY_MESSAGE": "इस रोगी के लिए कोई निदान नहीं जोड़ा गया है।"
     }
   },
   "LAB": {
-    "Order_Id": "आदेश आईडी",
-    "Labs": "प्रयोगशालाएं",
-    "Test_Name": "परीक्षण का नाम",
-    "Test_Type": "परीक्षण प्रकार",
-    "Order_Date": "आदेश तिथि",
-    "Test_Date": "परीक्षण तिथि",
+    "Order_Id": "ऑर्डर आईडी",
+    "Labs": "प्रयोगशाला",
+    "Patient_Name": "रोगी का नाम",
+    "Appointment": "नियुक्ति",
+    "Labs_And_Diagnostics": "प्रयोगशाला एवं नैदानिक परीक्षण",
+    "Test_Name": "जांच का नाम",
+    "Test_Type": "जांच का प्रकार",
+    "Order_Date": "ऑर्डर तिथि",
+    "Test_Date": "जांच तिथि",
     "Select_Appointment": "नियुक्ति चुनें",
-    "Reason_For_Test": "परीक्षण का कारण",
-    "Ordering_Provider": "परीक्षण आदेश देने वाला",
-    "Sample_Required": "नमूना आवश्यक है",
+    "Reason_For_Test": "जांच का कारण",
+    "Ordering_Provider": "जांच का आदेश देने वाला",
+    "Sample_Required": "आवश्यक नमूना",
     "Sample_Collection_Location": "नमूना संग्रह स्थान",
-    "Test_Instructions": "परीक्षण निर्देश",
+    "Test_Instructions": "जांच के निर्देश",
     "Status": "स्थिति",
-    "Action": "कार्रवाई",
-    "Add_Lab": "प्रयोगशाला जोड़ें",
-    "Edit_Lab": "प्रयोगशाला संपादित करें",
+    "Action": "क्रिया",
+    "Add_Lab": "प्रयोगशाला जांच जोड़ें",
+    "Edit_Lab": "प्रयोगशाला जांच संपादित करें",
     "PLACE_HOLDER": {
-      "Test_Name": "परीक्षण का नाम दर्ज करें",
-      "Test_Type": "परीक्षण प्रकार चुनें",
-      "Order_Date": "आदेश तिथि चुनें",
-      "Test_Date": "परीक्षण तिथि चुनें",
+      "Search_Patient_Name": "रोगी का नाम खोजें",
+      "Test_Name": "जांच का नाम दर्ज करें",
+      "Test_Type": "जांच का प्रकार चुनें",
+      "Order_Date": "ऑर्डर तिथि चुनें",
+      "Test_Date": "जांच तिथि चुनें",
       "Select_Appointment": "नियुक्ति चुनें",
-      "Reason_For_Test": "परीक्षण का कारण दर्ज करें",
-      "Ordering_Provider": "परीक्षण आदेश देने वाला दर्ज करें",
+      "Select_Patient_Name": "रोगी का नाम खोजें",
+      "Reason_For_Test": "जांच का कारण दर्ज करें",
+      "Ordering_Provider": "जांच का आदेश देने वाले का नाम दर्ज करें",
       "Sample_Required": "आवश्यक नमूना दर्ज करें",
       "Sample_Collection_Location": "नमूना संग्रह स्थान दर्ज करें",
-      "Test_Instructions": "परीक्षण निर्देश दर्ज करें",
+      "Test_Instructions": "जांच के निर्देश दर्ज करें",
       "Status": "स्थिति चुनें"
     },
     "RESPONSE": {
-      "LAB_DETAIL_ADD_SUCCESS": "प्रयोगशाला सफलतापूर्वक जोड़ी गई",
-      "LAB_DETAIL_UPDATE_SUCCESS": "प्रयोगशाला सफलतापूर्वक अपडेट की गई",
-      "LAB_DETAIL_DELETE_SUCCESS": "प्रयोगशाला सफलतापूर्वक हटा दी गई",
-      "LAB_NOT_FOUND": "प्रयोगशाला नहीं मिली",
-      "ADD_CHART_IS_LOCKED": "नियुक्ति चार्ट लॉक किया गया है। इस समय प्रयोगशाला जोड़ने की अनुमति नहीं है।",
-      "EDIT_CHART_IS_LOCKED": "नियुक्ति चार्ट लॉक किया गया है। इस समय प्रयोगशाला संपादित करने की अनुमति नहीं है।"
+      "LAB_DETAIL_ADD_SUCCESS": "प्रयोगशाला जांच सफलतापूर्वक बनाई गई",
+      "LAB_DETAIL_UPDATE_SUCCESS": "प्रयोगशाला जांच सफलतापूर्वक अपडेट की गई",
+      "LAB_DETAIL_DELETE_SUCCESS": "प्रयोगशाला जांच सफलतापूर्वक हटाई गई",
+      "LAB_NOT_FOUND": "प्रयोगशाला जांच नहीं मिली",
+      "ADD_CHART_IS_LOCKED": "नियुक्ति चार्ट लॉक है। इस समय प्रयोगशाला जांच जोड़ने की अनुमति नहीं है।",
+      "EDIT_CHART_IS_LOCKED": "नियुक्ति चार्ट लॉक है। इस समय प्रयोगशाला जांच संपादित करने की अनुमति नहीं है।"
+    },
+    "TABLE": {
+      "EMPTY_MESSAGE": "इस रोगी के लिए कोई प्रयोगशाला रिकॉर्ड नहीं जोड़ा गया है।"
     }
   },
   "ALLERGY": {
     "ALLERGIES": "एलर्जी",
     "ALLERGY_NAME": "एलर्जी का नाम",
     "ALLERGEN_TYPE": "एलर्जेन प्रकार",
-    "REACTION_STATUS": "प्रतिक्रिया स्थिति",
-    "REACTION_SYMPTOMS": "प्रतिक्रिया लक्षण",
+    "REACTION_STATUS": "प्रतिक्रिया की स्थिति",
+    "REACTION_SYMPTOMS": "प्रतिक्रिया के लक्षण",
     "SEVERITY": "गंभीरता",
     "STATUS": "स्थिति",
-    "ONSET_DATE": "प्रारंभ तिथि",
-    "RECORDED_DATE": "रिकॉर्ड की गई तिथि",
-    "REPORTS": "रिपोर्ट्स",
+    "ONSET_DATE": "आरंभ तिथि",
+    "RECORDED_DATE": "दर्ज तिथि",
+    "REPORTS": "रिपोर्टें",
     "NOTES": "टिप्पणियाँ",
     "ADD_ALLERGY": "एलर्जी जोड़ें",
     "EDIT_ALLERGY": "एलर्जी संपादित करें",
     "SAVE": "सहेजें",
     "CANCEL": "रद्द करें",
     "PLACE_HOLDER": {
-      "ONSET_DATE": "प्रारंभ तिथि चुनें",
+      "ONSET_DATE": "DD/MM/YYYY",
       "NOTES": "टिप्पणियाँ दर्ज करें",
-      "SEARCH_ALLERGENS": "एलर्जेन्स खोजें",
+      "SEARCH_ALLERGENS": "एलर्जेन खोजें",
       "SELECT_SYMPTOMS": "लक्षण चुनें",
-      "SELECT_ONSET_DATE": "प्रारंभ तिथि चुनें",
-      "SELECT_RECORDED_DATE": "रिकॉर्ड की गई तिथि चुनें"
+      "SELECT_ONSET_DATE": "DD/MM/YYYY",
+      "SELECT_RECORDED_DATE": "DD/MM/YYYY"
     },
     "TABLE": {
       "TYPE": "प्रकार",
       "EMTPY_MESSAGE": "कोई एलर्जी नहीं मिली।"
     },
     "RESPONSE": {
-      "ALLERGY_DETAIL_ADD_SUCCESS": "एलर्जी सफलतापूर्वक जोड़ी गई",
+      "ALLERGY_DETAIL_ADD_SUCCESS": "एलर्जी सफलतापूर्वक बनाई गई",
       "ALLERGY_DETAIL_UPDATE_SUCCESS": "एलर्जी सफलतापूर्वक अपडेट की गई",
       "ALLERGY_NOT_FOUND": "एलर्जी नहीं मिली",
       "ALLERGY_ALREADY_EXISTS": "एलर्जी पहले से मौजूद है"
@@ -164,37 +180,45 @@
     "IMMUNIZATION": "टीकाकरण",
     "ADD_IMMUNIZATION": "टीकाकरण जोड़ें",
     "EDIT_IMMUNIZATION": "टीकाकरण संपादित करें",
-    "IMMUNIZATION_NAME": "टीके का नाम",
+    "IMMUNIZATION_NAME": "टीकाकरण का नाम",
     "DOSE_NUMBER": "खुराक संख्या",
     "DOSE_NAME": "खुराक का नाम",
-    "DATE_OF_VACCINATION": "टीकाकरण की तारीख",
-    "ADMINISTERED_BY": "प्रशासित करने वाला",
+    "DATE_OF_VACCINATION": "टीकाकरण की तिथि",
+    "ADMINISTERED_BY": "द्वारा दिया गया",
+    "LAST_UPLOADED_BY": "अंतिम बार अपलोड करने वाला",
     "ROUTE": "मार्ग",
-    "SITE": "स्थान",
+    "SITE": "स्थल",
     "STATUS": "स्थिति",
     "COMMENTS": "टिप्पणियाँ",
+    "VACCINE_NAME": "टीके का नाम",
+    "PATIENT_NAME": "रोगी का नाम",
+    "APPOINTMENT": "नियुक्ति",
     "PLACE_HOLDER": {
+      "SEARCH_PATIENT_NAME": "रोगी का नाम खोजें",
       "SEARCH_IMMUNIZATION": "टीकाकरण खोजें",
-      "IMMUNIZATION_NAME": "टीके का नाम दर्ज करें",
+      "IMMUNIZATION_NAME": "टीकाकरण का नाम दर्ज करें",
+      "VACCINE_NAME": "टीके का नाम दर्ज करें",
       "DOSE_NUMBER": "खुराक संख्या चुनें",
+      "APPOINTMENT": "नियुक्ति चुनें",
       "DOSE_NAME": "खुराक का नाम दर्ज करें",
-      "DATE_OF_VACCINATION": "टीकाकरण की तारीख चुनें",
-      "ADMINISTERED_BY": "प्रशासित करने वाले का नाम दर्ज करें",
+      "DATE_OF_VACCINATION": "DD/MM/YYYY",
+      "ADMINISTERED_BY": "द्वारा दिया गया नाम दर्ज करें",
       "ROUTE": "मार्ग चुनें",
-      "SITE": "स्थान चुनें",
+      "SITE": "स्थल चुनें",
       "STATUS": "स्थिति चुनें",
       "COMMENTS": "टिप्पणियाँ दर्ज करें"
     },
     "RESPONSE": {
-      "IMMUNIZATION_DETAIL_ADD_SUCCESS": "टीकाकरण विवरण सफलतापूर्वक जोड़ा गया।",
-      "IMMUNIZATION_DETAIL_UPDATE_SUCCESS": "टीकाकरण विवरण सफलतापूर्वक अपडेट किया गया।",
-      "IMMUNIZATION_DETAIL_DELETE_SUCCESS": "टीकाकरण विवरण सफलतापूर्वक हटाया गया।",
+      "IMMUNIZATION_DETAIL_ADD_SUCCESS": "टीकाकरण विवरण सफलतापूर्वक जोड़े गए।",
+      "IMMUNIZATION_DETAIL_UPDATE_SUCCESS": "टीकाकरण विवरण सफलतापूर्वक अपडेट किए गए।",
+      "IMMUNIZATION_DETAIL_DELETE_SUCCESS": "टीकाकरण विवरण सफलतापूर्वक हटाए गए।",
       "IMMUNIZATION_NOT_FOUND": "टीकाकरण नहीं मिला।",
-      "ADD_CHART_IS_LOCKED": "नियुक्ति चार्ट लॉक किया गया है। इस समय टीकाकरण जोड़ने की अनुमति नहीं है।",
-      "EDIT_CHART_IS_LOCKED": "नियुक्ति चार्ट लॉक किया गया है। इस समय टीकाकरण संपादित करने की अनुमति नहीं है।"
+      "ADD_CHART_IS_LOCKED": "नियुक्ति चार्ट लॉक है। इस समय टीकाकरण जोड़ने की अनुमति नहीं है।",
+      "EDIT_CHART_IS_LOCKED": "नियुक्ति चार्ट लॉक है। इस समय टीकाकरण संपादित करने की अनुमति नहीं है।"
     },
     "TABLE": {
-      "EMPTY_MESSAGE": "इस मरीज के लिए कोई टीकाकरण नहीं मिला।"
+      "EMPTY_MESSAGE": "कोई टीकाकरण रिकॉर्ड उपलब्ध नहीं है।",
+      "PATIENT_EMPTY_MESSAGE": "इस रोगी के लिए कोई टीकाकरण नहीं जोड़ा गया है।"
     }
   },
   "DOCUMENT": {
@@ -202,10 +226,10 @@
     "NAME": "नाम",
     "DOCUMENT_NAME": "दस्तावेज़ का नाम",
     "DOCUMENT_TYPE": "दस्तावेज़ का प्रकार",
-    "UPLOAD_DATE": "अपलोड की तिथि",
-    "UPLOADED_BY": "अपलोड किया गया",
+    "UPLOAD_DATE": "अपलोड तिथि",
+    "UPLOADED_BY": "द्वारा अपलोड किया गया",
     "UPLOAD_DCUMENT": "दस्तावेज़ अपलोड करें",
-    "LAST_MODIFIED_DATE": "अंतिम संशोधित तिथि",
+    "LAST_MODIFIED_DATE": "अंतिम संशोधन तिथि",
     "DESCRIPTION": "विवरण",
     "ADD_DOCUMENT": "दस्तावेज़ जोड़ें",
     "EDIT_DOCUMENT": "दस्तावेज़ संपादित करें",
@@ -214,62 +238,320 @@
       "DOCUMENT_NAME": "दस्तावेज़ का नाम दर्ज करें",
       "DOCUMENT_TYPE": "दस्तावेज़ का प्रकार चुनें",
       "ENTER_DOCUMENT_TYPE": "दस्तावेज़ का प्रकार दर्ज करें",
-      "UPLOAD_DATE": "अपलोड तिथि चुनें",
+      "UPLOAD_DATE": "DD/MM/YYYY",
       "DESCRIPTION": "विवरण दर्ज करें"
     },
     "RESPONSE": {
-      "DOCUMENT_UPLOADED_SUCCESS": "दस्तावेज़ सफलतापूर्वक अपलोड किया गया.",
-      "DOCUMENT_UPDATED_SUCCESS": "दस्तावेज़ सफलतापूर्वक अपडेट किया गया.",
-      "DOCUMENT_DELETED_SUCCESS": "दस्तावेज़ सफलतापूर्वक हटा दिया गया!",
+      "DOCUMENT_UPLOADED_SUCCESS": "दस्तावेज़ सफलतापूर्वक अपलोड किया गया।",
+      "DOCUMENT_UPDATED_SUCCESS": "दस्तावेज़ सफलतापूर्वक अपडेट किया गया।",
+      "DOCUMENT_DELETED_SUCCESS": "दस्तावेज़ सफलतापूर्वक हटाया गया!",
       "DOCUMENT_NOT_FOUND": "दस्तावेज़ नहीं मिला",
-      "FILE_NOT_FOUND": "फ़ाइल नहीं मिली"
+      "FILE_NOT_FOUND": "फाइल नहीं मिली"
     },
     "TABLE": {
-      "EMPTY_MESSAGE": "इस रोगी के लिए कोई दस्तावेज़ नहीं जोड़ा गया."
+      "EMPTY_MESSAGE": "इस रोगी के लिए कोई दस्तावेज़ नहीं जोड़ा गया है।"
     },
     "TOOLTIP": {
-      "NOT_AUTHORIZED": "आप इस क्रिया को करने के लिए अधिकृत नहीं हैं"
+      "NOT_AUTHORIZED": "आपको यह क्रिया करने की अनुमति नहीं है"
     }
   },
   "CHARTING": {
-    "GENERATE_VISIT_REPORT": "विज़िट रिपोर्ट जनरेट करें",
+    "DOWNLOAD_VISIT_REPORT": "विज़िट रिपोर्ट डाउनलोड करें",
+    "PRINT_PRESCRIPTIONS": "प्रिस्क्रिप्शन प्रिंट करें",
     "RESPONSE": {
       "CHART_SIGNOFF_SUCCESS": "चार्ट सफलतापूर्वक साइन ऑफ किया गया",
       "CHART_UNLOCK_SUCCESS": "चार्ट सफलतापूर्वक अनलॉक किया गया"
     }
   },
-  "VITAL": {
-    "VITALS": "महत्वपूर्ण संकेत",    
-    "ADD_VITAL": "महत्वपूर्ण संकेत जोड़ें",
-    "EDIT_VITAL": "महत्वपूर्ण संकेत संपादित करें",
-    "RECORDED_DATE":"रिकॉर्ड की गई तिथि",
-    "VITALS_ID": "महत्वपूर्ण संकेत आईडी",
+  "VITALS": {
+    "VITAL_SETUP": "वाइटल सेटअप",
+    "VITALS": "वाइटल्स",
+    "ADD_VITALS": "वाइटल्स जोड़ें",
+    "EDIT_VITALS": "वाइटल्स संपादित करें",
+    "RECORDED_DATE": "दर्ज तिथि",
+    "VITALS_ID": "वाइटल्स आईडी",
     "BODY_TEMPERATURE": "शरीर का तापमान",
-    "HEART_RATE": "दिल की धड़कन",
+    "HEART_RATE": "हृदय गति",
     "RESPIRATORY_RATE": "श्वसन दर",
     "BLOOD_PRESSURE": "रक्तचाप",
-    "SPO2": "ऑक्सीजन संतृप्ति",
-    "HEIGHT": "ऊंचाई",
-    "WEIGHT": "वजन",
+    "SPO2": "SpO2",
+    "HEIGHT": "लंबाई",
+    "WEIGHT": "वज़न",
+    "BMI": "बीएमआई",
+    "BLOOD_GLUCOSE": "रक्त में ग्लूकोज़",
+    "ACTION": "क्रिया",
     "PLACE_HOLDER": {
-      "RECORDED_DATE": "रिकॉर्ड की गई तिथि चुनें",
-      "VITALS_ID": "महत्वपूर्ण संकेत आईडी दर्ज करें",
-      "BODY_TEMPERATURE": "शरीर का तापमान दर्ज करें",
-      "HEART_RATE": "दिल की धड़कन दर्ज करें",
-      "RESPIRATORY_RATE": "श्वसन दर दर्ज करें",
-      "BLOOD_PRESSURE": "रक्तचाप दर्ज करें",
-      "SPO2": "ऑक्सीजन संतृप्ति दर्ज करें",
-      "HEIGHT": "ऊंचाई दर्ज करें",
-      "WEIGHT": "वजन दर्ज करें"
+      "BODY_TEMPERATURE": "शरीर का तापमान दर्ज करें (°C)",
+      "HEART_RATE": "हृदय गति दर्ज करें (bpm)",
+      "RESPIRATORY_RATE": "श्वसन दर दर्ज करें (श्वास/मिनट)",
+      "BLOOD_PRESSURE": "रक्तचाप दर्ज करें (mmHg)",
+      "SPO2": "ऑक्सीजन संतृप्ति (SpO2) (%) दर्ज करें",
+      "HEIGHT": "लंबाई दर्ज करें (सेमी)",
+      "WEIGHT": "वज़न दर्ज करें (किलोग्राम)",
+      "BMI": "बीएमआई दर्ज करें",
+      "BLOOD_GLUCOSE": "रक्त में ग्लूकोज़ दर्ज करें (mg/dL)"
+    },
+    "VALIDATION": {
+      "SELECT_AT_LEAST_ONE": "कृपया कम से कम एक वाइटल दर्ज करें।"
     },
     "RESPONSE": {
-      "VITAL_DETAIL_ADD_SUCCESS": "महत्वपूर्ण संकेत सफलतापूर्वक जोड़ा गया.",
-      "VITAL_DETAIL_UPDATE_SUCCESS": "महत्वपूर्ण संकेत सफलतापूर्वक अपडेट किया गया.",
-      "VITAL_DETAIL_DELETE_SUCCESS": "महत्वपूर्ण संकेत सफलतापूर्वक हटाया गया.",
-      "VITAL_NOT_FOUND": "महत्वपूर्ण संकेत नहीं मिला."
+      "VITAL_ADD_SUCCESS": "वाइटल्स सफलतापूर्वक जोड़े गए।",
+      "VITAL_UPDATE_SUCCESS": "वाइटल्स सफलतापूर्वक अपडेट किए गए।",
+      "VITAL_DELETE_SUCCESS": "वाइटल्स सफलतापूर्वक हटाए गए।",
+      "VITALS_NOT_FOUND": "वाइटल्स नहीं मिले।",
+      "VITAL_PREFERENCE_SAVE_SUCCESS": "वाइटल प्राथमिकताएँ सफलतापूर्वक सहेजी गईं।"
     },
     "TABLE": {
-      "EMPTY_MESSAGE": "इस रोगी के लिए कोई महत्वपूर्ण संकेत नहीं जोड़ा गया."
+      "EMPTY_MESSAGE": "इस रोगी के लिए कोई वाइटल्स नहीं जोड़े गए हैं।"
+    }
+  },
+  "CARE_PLAN": {
+    "CARE_PLAN_READING": "केयर प्लान रीडिंग",
+    "PATIENT": "रोगी",
+    "GENDER": "लिंग",
+    "DOB": "जन्म तिथि",
+    "STATUS": "स्थिति",
+    "DATES": "तिथियाँ",
+    "MONITORING_VITALS": "वाइटल्स की निगरानी",
+    "MONITORING_TASKS": "कार्यों की निगरानी",
+    "ADD_VITAL_READING": "वाइटल रीडिंग जोड़ें",
+    "VITAL": "वाइटल",
+    "TIME": "समय",
+    "READING": "रीडिंग",
+    "SAVE": "सहेजें",
+    "VITAL_READINGS": "वाइटल रीडिंग",
+    "NAME": "नाम",
+    "TASK": "कार्य",
+    "IS_TASK_DONE": "क्या कार्य पूरा हुआ",
+    "TASK_LOGS": "कार्य लॉग",
+    "LOG_TASK": "कार्य लॉग करें",
+    "CARE_PLANS": "केयर प्लान",
+    "PATIENT_CARE_PLAN_LIST": "रोगी केयर प्लान सूची",
+    "ADD_CARE_PLAN": "केयर प्लान जोड़ें",
+    "EDIT_CARE_PLAN": "केयर प्लान संपादित करें",
+    "CARE_PLAN": "केयर प्लान",
+    "SEARCH_FROM_MASTER": "मास्टर से खोजें",
+    "DIAGNOSIS": "निदान",
+    "GOALS": "लक्ष्य",
+    "GOAL": "लक्ष्य",
+    "SPECIALITY": "विशेषता",
+    "BASIC_DETAILS": "मूल विवरण",
+    "NOTES": "टिप्पणियाँ",
+    "ACTIVE_PROBLEMS_DIAGNOSIS": "सक्रिय समस्याएँ / निदान",
+    "DIAGNOSIS_GOALS": "निदान / लक्ष्य",
+    "VITALS_TASKS_TO_BE_MONITORED": "निगरानी के लिए वाइटल्स / कार्य",
+    "MONITOR_TYPE": "निगरानी प्रकार",
+    "VITAL_TASK_NAME": "वाइटल / कार्य का नाम",
+    "LOWER_THRESHOLD": "न्यूनतम सीमा",
+    "UPPER_THRESHOLD": "अधिकतम सीमा",
+    "START_DATE": "प्रारंभ तिथि",
+    "END_DATE": "समाप्ति तिथि",
+    "ESCALATION_SETTINGS": "एस्केलेशन सेटिंग्स",
+    "ESCALATION_TRIGGER": "एस्केलेशन ट्रिगर",
+    "ESCALATION_RECIPIENTS": "एस्केलेशन प्राप्तकर्ता",
+    "COMMUNICATION_PREFERENCES": "संचार प्राथमिकताएँ",
+    "MODE_OF_COMMUNICATION": "संचार का माध्यम",
+    "CONDITION": "अवस्था",
+    "ASSIGNED_BY": "द्वारा असाइन किया गया",
+    "PATIENT_NAME": "रोगी का नाम",
+    "ASSIGN_CARE_TEAM_MEMBER": "केयर टीम सदस्य असाइन करें",
+    "APPOINTMENT": "नियुक्ति",
+    "PLACE_HOLDER": {
+      "SEARCH_NAME": "नाम खोजें",
+      "SEARCH_PATIENT_NAME": "रोगी का नाम खोजें",
+      "APPOINTMENT": "नियुक्ति चुनें",
+      "SELECT_STATUS": "स्थिति चुनें",
+      "SELECT_SPECIALITY": "विशेषता चुनें",
+      "SEARCH_DIAGNOSIS": "निदान खोजें",
+      "SEARCH_CARE_TEAM_MEMBER": "केयर टीम सदस्य खोजें",
+      "SEARCH_GOAL": "लक्ष्य खोजें",
+      "SEARCH_CLINIC": "क्लिनिक खोजें",
+      "SELECT_DOCTOR": "डॉक्टर चुनें",
+      "ENTER_CARE_PLAN_NAME": "केयर प्लान का नाम दर्ज करें",
+      "ENTER_NOTES": "टिप्पणियाँ दर्ज करें",
+      "SELECT_VITAL": "एक वाइटल चुनें",
+      "SELECT_TASK": "एक कार्य चुनें",
+      "ENTER_LOWER_THRESHOLD": "न्यूनतम सीमा दर्ज करें",
+      "ENTER_UPPER_THRESHOLD": "अधिकतम सीमा दर्ज करें"
+    },
+    "VALIDATION": {
+      "LOWER_THRESHOLD": "न्यूनतम सीमा अधिकतम सीमा से कम होनी चाहिए",
+      "UPPER_THRESHOLD": "अधिकतम सीमा न्यूनतम सीमा से अधिक होनी चाहिए",
+      "DIAGNOSIS": "कृपया कम से कम एक निदान चुनें।",
+      "GOAL": "कृपया कम से कम एक लक्ष्य चुनें।",
+      "RECIPIENTS": "कृपया कम से कम एक प्राप्तकर्ता चुनें।",
+      "COMMUNICATION_MODE": "कृपया कम से कम एक संचार माध्यम चुनें।"
+    },
+    "ESCALATION_TRIGGER_OPTION": {
+      "ABOVE": "अधिकतम सीमा से ऊपर",
+      "BELOW": "न्यूनतम सीमा से नीचे",
+      "BOTH": "दोनों"
+    },
+    "ESCALATION_RECIPIENT": {
+      "NOTIFY_CARE_TEAM": "केयर टीम",
+      "NOTIFY_DOCTOR": "डॉक्टर",
+      "NOTIFY_AMBULANCE": "एम्बुलेंस",
+      "NOTIFY_FAMILY_MEMBER": "परिवार का सदस्य"
+    },
+    "COMMUNICATION_MODE": {
+      "SMS": "एसएमएस",
+      "EMAIL": "ईमेल",
+      "PHONE_CALL": "फोन कॉल",
+      "APP_ALERT": "एप्लिकेशन अलर्ट"
+    },
+    "RESPONSE": {
+      "CARE_PLAN_ADD_SUCCESS": "केयर प्लान सफलतापूर्वक बनाया गया!",
+      "CARE_PLAN_UPDATE_SUCCESS": "केयर प्लान सफलतापूर्वक अपडेट किया गया!",
+      "CARE_PLAN_ASSIGN_SUCCESS": "केयर प्लान सफलतापूर्वक असाइन किया गया!",
+      "CARE_PLAN_NOT_FOUND": "केयर प्लान नहीं मिला",
+      "CARE_PLAN_MASTER_ALREADY_EXISTS": "केयर प्लान पहले से मौजूद है।",
+      "CARE_PLAN_ALREADY_EXISTS": "केयर प्लान पहले से मौजूद है।",
+      "CARE_PLAN_ACTIVATED": "केयर प्लान सफलतापूर्वक सक्रिय किया गया है।",
+      "CARE_PLAN_CANCELLED": "केयर प्लान सफलतापूर्वक रद्द किया गया है।",
+      "CARE_PLAN_PAUSED": "केयर प्लान सफलतापूर्वक रोका गया है।",
+      "CARE_PLAN_COMPLETED": "केयर प्लान सफलतापूर्वक पूर्ण किया गया है।",
+      "CARE_PLAN_TASK_LOG_SUCCESS": "कार्य सफलतापूर्वक लॉग किया गया!"
+    },
+    "TOOLTIP": {
+      "CARE_PLAN_NOT_ACTIVE": "केयर प्लान सक्रिय नहीं है"
+    },
+    "TABLE": {
+      "EMPTY_MESSAGE": "इस रोगी के लिए कोई केयर प्लान नहीं जोड़ा गया है।",
+      "LIST_EMTPY_MESSAGE": "कोई केयर प्लान नहीं मिला।"
+    }
+  },
+  "APPOINTMENT": {
+    "FORM_LABELS": {
+      "APPOINTMENT_STATUS": "नियुक्ति की स्थिति"
+    }
+  },
+  "PAST_MEDICAL_HISTORY": {
+    "PAST_MEDICAL_HISTORY": "अतीत का चिकित्सकीय इतिहास",
+    "ADD_PAST_MEDICAL_HISTORY": "अतीत का चिकित्सकीय इतिहास जोड़ें",
+    "EDIT_PAST_MEDICAL_HISTORY": "अतीत का चिकित्सकीय इतिहास संपादित करें",
+    "PAST_MEDICAL_CONDITION": "अतीत की चिकित्सकीय अवस्था",
+    "MEDICAL_CONDITION": "चिकित्सकीय अवस्था",
+    "DIAGNOSIS_DATE": "निदान तिथि",
+    "STATUS": "स्थिति",
+    "NOTES": "टिप्पणियाँ",
+    "ACTION": "क्रिया",
+    "ATTACH_REPORTS": "रिपोर्टें संलग्न करें",
+    "PLACE_HOLDER": {
+      "PAST_MEDICAL_CONDITION": "अतीत की चिकित्सकीय अवस्था दर्ज करें",
+      "DIAGNOSIS_DATE": "DD/MM/YYYY",
+      "STATUS": "स्थिति चुनें",
+      "NOTES": "टिप्पणियाँ दर्ज करें"
+    },
+    "RESPONSE": {
+      "PAST_MEDICAL_HISTORY_ADD_SUCCESS": "अतीत का चिकित्सकीय इतिहास सफलतापूर्वक जोड़ा गया।",
+      "PAST_MEDICAL_HISTORY_UPDATE_SUCCESS": "अतीत का चिकित्सकीय इतिहास सफलतापूर्वक अपडेट किया गया।",
+      "PAST_MEDICAL_HISTORY_DELETE_SUCCESS": "अतीत का चिकित्सकीय इतिहास सफलतापूर्वक हटाया गया।",
+      "PAST_MEDICAL_HISTORY_NOT_FOUND": "अतीत का चिकित्सकीय इतिहास नहीं मिला।"
+    },
+    "TABLE": {
+      "EMPTY_MESSAGE": "इस रोगी के लिए अतीत का कोई चिकित्सकीय इतिहास नहीं जोड़ा गया है।"
+    }
+  },
+  "SURGICAL_HISTORY": {
+    "SURGICAL_HISTORY": "सर्जिकल इतिहास",
+    "ADD_SURGICAL_HISTORY": "सर्जिकल इतिहास जोड़ें",
+    "EDIT_SURGICAL_HISTORY": "सर्जिकल इतिहास संपादित करें",
+    "SURGERY_NAME": "सर्जरी का नाम",
+    "SURGERY_DATE": "सर्जरी की तिथि",
+    "HOSPITAL_NAME": "अस्पताल का नाम",
+    "DOCTOR_NAME": "डॉक्टर का नाम",
+    "NOTES": "टिप्पणियाँ",
+    "STATUS": "स्थिति",
+    "SURGERY_TYPE": "सर्जरी का प्रकार",
+    "ATTACH_REPORTS": "रिपोर्टें संलग्न करें",
+    "ACTION": "क्रिया",
+    "PLACE_HOLDER": {
+      "SURGERY_NAME": "सर्जरी का नाम दर्ज करें या खोजें",
+      "SURGERY_DATE": "DD/MM/YYYY",
+      "HOSPITAL_NAME": "अस्पताल का नाम दर्ज करें",
+      "DOCTOR_NAME": "डॉक्टर का नाम दर्ज करें",
+      "NOTES": "टिप्पणियाँ दर्ज करें",
+      "STATUS": "स्थिति चुनें",
+      "SURGERY_TYPE": "सर्जरी का प्रकार चुनें"
+    },
+    "RESPONSE": {
+      "SURGICAL_HISTORY_ADD_SUCCESS": "सर्जिकल इतिहास सफलतापूर्वक जोड़ा गया।",
+      "SURGICAL_HISTORY_UPDATE_SUCCESS": "सर्जिकल इतिहास सफलतापूर्वक अपडेट किया गया।",
+      "SURGICAL_HISTORY_DELETE_SUCCESS": "सर्जिकल इतिहास सफलतापूर्वक हटाया गया।",
+      "SURGICAL_HISTORY_NOT_FOUND": "सर्जिकल इतिहास नहीं मिला।"
+    },
+    "TABLE": {
+      "EMPTY_MESSAGE": "इस रोगी के लिए कोई सर्जिकल इतिहास नहीं जोड़ा गया है।"
+    }
+  },
+  "FAMILY_HISTORY": {
+    "FAMILY_HISTORY": "पारिवारिक इतिहास",
+    "ADD_FAMILY_HISTORY": "पारिवारिक इतिहास जोड़ें",
+    "EDIT_FAMILY_HISTORY": "पारिवारिक इतिहास संपादित करें",
+    "RELATIONSHIP": "संबंध",
+    "HEALTH_CONDITION": "स्वास्थ्य स्थिति",
+    "DIAGNOSIS_AGE": "निदान की आयु",
+    "IS_DECEASED": "क्या स्वर्गवासी हैं",
+    "CAUSE_OF_DEATH": "मृत्यु का कारण",
+    "NOTES": "टिप्पणियाँ",
+    "ACTION": "क्रिया",
+    "PLACE_HOLDER": {
+      "RELATIONSHIP": "संबंध चुनें",
+      "HEALTH_CONDITION": "स्वास्थ्य स्थिति चुनें",
+      "DIAGNOSIS_AGE": "निदान की आयु दर्ज करें",
+      "IS_DECEASED": "हाँ या नहीं चुनें",
+      "CAUSE_OF_DEATH": "मृत्यु का कारण दर्ज करें",
+      "NOTES": "टिप्पणियाँ दर्ज करें"
+    },
+    "RESPONSE": {
+      "FAMILY_HISTORY_ADD_SUCCESS": "पारिवारिक इतिहास सफलतापूर्वक जोड़ा गया।",
+      "FAMILY_HISTORY_UPDATE_SUCCESS": "पारिवारिक इतिहास सफलतापूर्वक अपडेट किया गया।",
+      "FAMILY_HISTORY_DELETE_SUCCESS": "पारिवारिक इतिहास सफलतापूर्वक हटाया गया।",
+      "FAMILY_HISTORY_NOT_FOUND": "पारिवारिक इतिहास नहीं मिला।"
+    },
+    "TABLE": {
+      "EMPTY_MESSAGE": "इस रोगी के लिए कोई पारिवारिक इतिहास नहीं जोड़ा गया है।"
+    }
+  },
+  "SOCIAL_HISTORY": {
+    "SOCIAL_HISTORY": "सामाजिक इतिहास",
+    "ADD_SOCIAL_HISTORY": "सामाजिक इतिहास जोड़ें",
+    "EDIT_SOCIAL_HISTORY": "सामाजिक इतिहास संपादित करें",
+    "TOBACCO_USE": "तंबाकू का उपयोग",
+    "TOBACCO_USE_FREQUENCY": "तंबाकू उपयोग आवृत्ति",
+    "ALCOHOL_USE": "शराब का उपयोग",
+    "ALCOHOL_USE_FREQUENCY": "शराब उपयोग आवृत्ति",
+    "DRUG_USE": "नशीले पदार्थों का उपयोग",
+    "DRUG_USE_TYPE": "नशीले पदार्थों का प्रकार",
+    "OCCUPATION": "पेशा",
+    "EXERCISE_HABITS": "व्यायाम की आदतें",
+    "MARITAL_STATUS": "वैवाहिक स्थिति",
+    "LIVING_SITUATION": "रहने की स्थिति",
+    "DIETARY_HABITS": "खानपान की आदतें",
+    "TRAVEL_HISTORY": "यात्रा इतिहास",
+    "ACTION": "क्रिया",
+    "PLACE_HOLDER": {
+      "TOBACCO_USE": "तंबाकू उपयोग चुनें",
+      "TOBACCO_USE_FREQUENCY": "तंबाकू उपयोग आवृत्ति चुनें",
+      "ALCOHOL_USE": "शराब उपयोग चुनें",
+      "ALCOHOL_USE_FREQUENCY": "शराब उपयोग आवृत्ति चुनें",
+      "DRUG_USE": "नशीले पदार्थों का उपयोग चुनें",
+      "DRUG_USE_TYPE": "नशीले पदार्थों का प्रकार चुनें",
+      "OCCUPATION": "पेशा दर्ज करें",
+      "EXERCISE_HABITS": "व्यायाम की आदतें चुनें",
+      "MARITAL_STATUS": "वैवाहिक स्थिति चुनें",
+      "LIVING_SITUATION": "रहने की स्थिति चुनें",
+      "DIETARY_HABITS": "खानपान की आदतें चुनें",
+      "TRAVEL_HISTORY": "यात्रा इतिहास चुनें"
+    },
+    "RESPONSE": {
+      "SOCIAL_HISTORY_ADD_SUCCESS": "सामाजिक इतिहास सफलतापूर्वक जोड़ा गया।",
+      "SOCIAL_HISTORY_UPDATE_SUCCESS": "सामाजिक इतिहास सफलतापूर्वक अपडेट किया गया।",
+      "SOCIAL_HISTORY_DELETE_SUCCESS": "सामाजिक इतिहास सफलतापूर्वक हटाया गया।",
+      "SOCIAL_HISTORY_NOT_FOUND": "सामाजिक इतिहास नहीं मिला।"
+    },
+    "TABLE": {
+      "EMPTY_MESSAGE": "इस रोगी के लिए कोई सामाजिक इतिहास नहीं जोड़ा गया है।"
     }
   }
 }

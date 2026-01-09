@@ -4,8 +4,10 @@
         <ng-template #header>
             <span class="flex flex-col w-full">
                 <span class="flex justify-between w-full">
-                    <h4 class="text-base/7 font-semibold text-gray-900">{{ (_selectedAllergy.allergyId ? 'ALLERGY.EDIT_ALLERGY' : 'ALLERGY.ADD_ALLERGY') | translate }}</h4>
-                    <p-button icon="pi pi-times" (onClick)="onHide()" [rounded]="true" [text]="true" severity="danger" />
+                    <h4 class="text-base/7 font-semibold text-gray-900">{{ (_selectedAllergy.allergyId ?
+                        'ALLERGY.EDIT_ALLERGY' : 'ALLERGY.ADD_ALLERGY') | translate }}</h4>
+                    <p-button icon="pi pi-times" (onClick)="onHide()" [rounded]="true" [text]="true"
+                        severity="danger" />
                 </span>
                 <p-divider class="flex col-span-full w-full" />
             </span>
@@ -25,8 +27,9 @@
                     <div class="mt-2">
                         <p-autoComplete dropdown id="allergenName" [style]="{'width': '100%'}" inputStyleClass="w-full"
                             [suggestions]="allergenSuggestions" optionLabel="allergenName" optionValue="allergenName"
-                            placeholder="{{'ALLERGY.PLACE_HOLDER.SEARCH_ALLERGENS' | translate}}" [dropdown]="false" [minLength]="3" [forceSelection]="true"
-                            formControlName="allergenName" (completeMethod)="searchAllergens($event.query)"
+                            placeholder="{{'ALLERGY.PLACE_HOLDER.SEARCH_ALLERGENS' | translate}}" [dropdown]="false"
+                            [minLength]="3" [forceSelection]="true" formControlName="allergenName"
+                            (completeMethod)="searchAllergens($event.query)"
                             (onSelect)="allergenToAllergy($event.value)">
                         </p-autoComplete>
                     </div>
@@ -59,7 +62,8 @@
                 <div class="  flex flex-col col-span-full ">
                     <label for="allergenName">{{'ALLERGY.REACTION_SYMPTOMS' | translate}}</label>
                     <div class="mt-2">
-                        <p-multiselect [options]="reactionOptions" placeholder="{{'ALLERGY.PLACE_HOLDER.SELECT_SYMPTOMS' | translate}}" optionLabel="name"
+                        <p-multiselect [options]="reactionOptions"
+                            placeholder="{{'ALLERGY.PLACE_HOLDER.SELECT_SYMPTOMS' | translate}}" optionLabel="name"
                             optionValue="name" display="chip" [filter]="true" formControlName="reactionSymptoms"
                             class="w-full"></p-multiselect>
                     </div>
@@ -68,25 +72,29 @@
                 <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-6">
                     <label class="font-medium" for="onsetDate">{{'ALLERGY.ONSET_DATE' | translate}}</label>
                     <div class="mt-2">
-                        <p-datepicker dateMask id="onsetDate" [iconDisplay]="'input'" [showIcon]="true" appendTo="body" [maxDate]="today"
-                            placeholder="{{'ALLERGY.PLACE_HOLDER.SELECT_ONSET_DATE' | translate}}" [style]="{'width': '100%'}" formControlName="onsetDate" />
+                        <p-datepicker dateMask dateFormat="dd/mm/yy" id="onsetDate" [iconDisplay]="'input'"
+                            [showIcon]="true" appendTo="body" [maxDate]="today"
+                            placeholder="{{'ALLERGY.PLACE_HOLDER.SELECT_ONSET_DATE' | translate}}"
+                            [style]="{'width': '100%'}" formControlName="onsetDate" />
                     </div>
                 </div>
 
                 <div class="flex flex-col col-span-full sm:col-span-6 md:col-span-6">
-                    <label class="font-medium">{{'ALLERGY.RECORDED_DATE' | translate}}</label>
+                    <label class="font-medium" for="startDate">{{'ALLERGY.RECORDED_DATE' | translate}}</label>
                     <div class="mt-2">
-                        <p-datepicker dateMask id="startDate" [iconDisplay]="'input'" [showIcon]="true" appendTo="body" [maxDate]="today"
-                            placeholder="{{'ALLERGY.PLACE_HOLDER.SELECT_RECORDED_DATE' | translate}}" [style]="{'width': '100%'}"
-                            formControlName="recordedDate" />
+                        <p-datepicker dateMask dateFormat="dd/mm/yy" id="startDate" [iconDisplay]="'input'"
+                            [showIcon]="true" appendTo="body" [maxDate]="today"
+                            placeholder="{{'ALLERGY.PLACE_HOLDER.SELECT_RECORDED_DATE' | translate}}"
+                            [style]="{'width': '100%'}" formControlName="recordedDate" />
                     </div>
                 </div>
 
                 <div class="  flex flex-col col-span-full  sm:col-span-6 md:col-span-6">
-                    <label>{{'ALLERGY.REPORTS' | translate}}</label>
+                    <label for="reports">{{'ALLERGY.REPORTS' | translate}}</label>
                     <div class="mt-2">
-                        <app-file-upload moduleId="1" [fileSize]="10" subModuleId="1" source="Admin"
-                            [objectId]="objectId" [fileTypeSupported]="documentTypes" formControlName="reports">
+                        <app-file-upload [moduleId]="7" [subModuleId]="11" source="Admin" [fileSize]="10"
+                            source="ALLERGY_REPORTS" [objectId]="allergyId" [fileTypeSupported]="documentTypes"
+                            formControlName="reports">
                         </app-file-upload>
                     </div>
                 </div>
@@ -105,8 +113,8 @@
             <div class="flex items-center justify-end gap-4">
                 <p-button label="{{'ALLERGY.SAVE' | translate}}" type="submit" class="w-1/4" [styleClass]="'w-full'"
                     (onClick)="submitAllergyForm(allergyForm.value.allergyId)"></p-button>
-                <p-button label="{{'ALLERGY.CANCEL' | translate}}" variant="outlined" severity="danger" (click)="onHide()" class="w-1/4"
-                    [styleClass]="'w-full'">
+                <p-button label="{{'ALLERGY.CANCEL' | translate}}" variant="outlined" severity="danger"
+                    (onClick)="onHide()" class="w-1/4" [styleClass]="'w-full'">
                 </p-button>
             </div>
         </ng-template>

@@ -1,4 +1,15 @@
-@tailwind utilities;
+@import "tailwindcss/preflight";
+@import "tailwindcss/utilities";
+@import "tailwindcss";
 
-@import "tailwindcss/preflight"
+/* stylelint-disable-next-line at-rule-no-unknown */
+@custom-variant dark (&:where(.app-dark, .app-dark *)); 
 
+/* stylelint-disable-next-line at-rule-no-unknown */
+@theme {
+    --breakpoint-sm: 576px;
+    --breakpoint-md: 768px;
+    --breakpoint-lg: 992px;
+    --breakpoint-xl: 1200px;
+    --breakpoint-2xl: 1920px;
+}

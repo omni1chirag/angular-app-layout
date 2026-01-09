@@ -1,0 +1,177 @@
+<!-- doctor-list.component.html -->
+<div class="space-y-6">
+    <div pageHeader="list">
+        <p-toolbar>
+            <ng-template #start>
+                <div class="flex items-center gap-2">
+                    <p class="text-2xl font-bold sm:truncate sm:text-3xl sm:tracking-tight">
+                        Doctors
+                    </p>
+                </div>
+            </ng-template>
+        </p-toolbar>
+    </div>
+    <!-- Data View with Integrated Filters -->
+    <p-dataview #dv [value]="doctorList" [rows]="pageSize()" [totalRecords]="totalRecords" [lazy]="true"
+        [loading]="isLoading" [paginator]="true" [first]="first()" [rowsPerPageOptions]="[15, 30, 50]"
+        (onLazyLoad)="onPageChange($event)" emptyMessage="No doctors found matching your criteria."
+        class="doctor-dataview" [layout]="layout">
+
+        <!-- Header with Filters -->
+        <ng-template #header>
+            <div class="sticky top-0 z-10 p-4 mt-2 mb-5 bg-white border border-gray-200 shadow-sm rounded-xl">
+                <form [formGroup]="filterForm">
+                    <!-- Filter Controls -->
+                    <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
+                        <div class="flex flex-wrap items-center gap-3">
+                            <p-floatlabel variant="on">
+                                <p-select inputId="gender" formControlName="gender" [options]="genders" class="w-40"
+                                    [showClear]="true">
+                                </p-select>
+                                <label for="gender">Gender</label>
+                            </p-floatlabel>
+
+                            <p-floatlabel variant="on">
+                                <p-select inputId="experience" formControlName="experience" [options]="experienceLevels"
+                                    class="w-40" [showClear]="true">
+                                </p-select>
+                                <label for="experience">Experience</label>
+                            </p-floatlabel>
+
+                            <p-floatlabel variant="on">
+                                <p-select inputId="fee" formControlName="fee" [options]="fees" class="w-40"
+                                    [showClear]="true">
+                                </p-select>
+                                <label for="fee">Fees</label>
+                            </p-floatlabel>
+
+                            <p-floatlabel variant="on">
+                                <p-select inputId="consultType" formControlName="consultType" [options]="consultTypes"
+                                    class="w-44" [showClear]="true">
+                                </p-select>
+                                <label for="consultType">Consult Type</label>
+                            </p-floatlabel>
+
+                            <p-floatlabel variant="on">
+                                <p-select inputId="sortBy" formControlName="sortBy" [options]="sortOptions"
+                                    class="w-40">
+                                </p-select>
+                                <label for="sortBy">Sort By</label>
+                            </p-floatlabel>
+                        </div>
+
+                        <!-- Clear Filters Button -->
+                        <p-button label="Clear Filters" icon="pi pi-times" [outlined]="true" size="small"
+                            (onClick)="onFilterClear()">
+                        </p-button>
+                    </div>
+
+                    <!-- Results Count and Layout Toggle -->
+                    <div class="flex items-center justify-between">
+                        <div class="text-sm text-gray-600" *ngIf="!isLoading">
+                            <span class="font-medium">{{ totalRecords }}</span> doctors found
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </ng-template>
+
+        <!-- Grid Layout -->
+        <div class="flex-1 p-4 overflow-y-auto">
+            <ng-template #grid>
+                <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                    <div *ngFor="let doctor of doctors(); let first = first"
+                        class="flex flex-col h-full gap-5 p-5 transition duration-300 bg-white shadow-md rounded-2xl hover:shadow-xl hover:-translate-y-1">
+                        <!-- Doctor Header -->
+                        <div
+                        class="flex flex-col items-center gap-4 text-center sm:flex-row sm:items-start sm:text-left">
+                        <div class="flex-shrink-0">
+                                <p-avatar *ngIf="!doctor?.imageError" loading="lazy"
+                                    [image]="doctor.imageUrl"
+                                    (onImageError)="doctor.imageError = true"
+                                    class="!w-20 !h-20 sm:!w-24 sm:!h-24 rounded-full border border-gray-200 shadow-sm">
+                                </p-avatar>
+
+                                <p-avatar *ngIf="doctor?.imageError" icon="pi pi-user" [label]="setInitials(doctor)"
+                                    class="!w-20 !h-20 sm:!w-24 sm:!h-24 rounded-full border border-gray-200 shadow-sm"
+                                    [style]="{
+              'background-color': 'var(--p-button-outlined-primary-active-background)',
+              'color': 'var(--p-button-outlined-primary-color)'
+            }">
+                                </p-avatar>
+                            </div>
+
+                            <div class="flex-1 space-y-1">
+                                <h2 class="text-lg font-bold text-gray-900">{{ doctor?.fullName }}</h2>
+                                <p class="text-sm text-gray-600">
+                                    {{ doctor?.gender?.label }} • {{ doctor?.yearOfExperience }} yrs exp
+                                </p>
+                                <p class="max-w-xs text-xs text-gray-500 truncate" [title]="doctor?.specialitiesText">
+                                    {{ doctor?.specialitiesText }}
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Doctor Details -->
+                        <div class="flex-1 space-y-2 text-sm">
+                            <p>
+                              @for (charge of doctor.consultationCharges; track $index) {
+                                <p-chip
+                                    class=" flex items-center border border-gray-300 !pl-2 !pr-2 !pt-1 !pb-1 ml-3 bg-[var(--p-button-outlined-primary-color)]"
+                                  >
+                                    <span class="font-semibold text-gray-800">
+                                      {{ charge.appointmentType }}
+                                    </span>
+                                  <span class="text-gray-700 flex items-end">
+                                    ₹{{ charge.payableAmount | number:'1.0-2' }}
+                                  </span>
+                                    <span
+                                      *ngIf="
+                                        charge.displayAmount &&
+                                        charge.displayAmount !== charge.payableAmount
+                                      "
+                                      class="text-gray-500 line-through"
+                                    >
+                                      ₹{{ charge.displayAmount | number : "1.0-2" }}
+                                    </span>
+                                  </p-chip>
+                                }
+                            </p>
+                        </div>
+
+                        <!-- Action Button -->
+                        <div class="mt-auto">
+                            <button pButton type="button" label="View & Book" class="w-full p-button-primary"
+                                (click)="goToDoctorDetail(doctor)">
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </ng-template>
+        </div>
+
+        <ng-template #loadingicon>
+            <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                <div *ngFor="let n of [1,2,3,4,5,6]" class="p-5 bg-white shadow rounded-2xl">
+                    <p-skeleton shape="circle" size="5rem" class="mb-4"></p-skeleton>
+                    <p-skeleton width="60%" height="1.2rem" class="mb-2"></p-skeleton>
+                    <p-skeleton width="40%" height="1rem" class="mb-2"></p-skeleton>
+                    <p-skeleton width="80%" height="1rem"></p-skeleton>
+                </div>
+            </div>
+        </ng-template>
+
+        <!-- Empty Template -->
+        <ng-template #emptymessage>
+            <div class="py-12 text-center">
+                <i class="block mb-4 text-4xl text-gray-400 pi pi-search"></i>
+                <h3 class="mb-2 text-lg font-semibold text-gray-700">No doctors found</h3>
+                <p class="mb-4 text-gray-500">Try adjusting your search criteria or filters</p>
+                <p-button label="Clear All Filters" icon="pi pi-times" [outlined]="true" (onClick)="onFilterClear()">
+                </p-button>
+            </div>
+        </ng-template>
+
+    </p-dataview>
+
+</div>

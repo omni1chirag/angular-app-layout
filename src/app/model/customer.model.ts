@@ -1,6 +1,6 @@
 import { Note } from "./order.model";
 
-export class Customer {
+export class CustomerModel {
     id: string;
     name: string;
     email: string;

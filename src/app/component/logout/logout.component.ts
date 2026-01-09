@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { APP_ROUTES } from '@constants/app.constants';
 import { ErrorState } from '@interface/error-state.interface';
@@ -15,28 +15,27 @@ import { ButtonModule } from 'primeng/button';
 })
 export class LogoutComponent implements OnInit {
   errorState: ErrorState | null = null;
+  private readonly router = inject(Router);
+  private readonly platformService = inject(PlatformService);
+  private readonly notificationService = inject(NotificationService);
+  private readonly keycloakService = inject(KeycloakService);
 
-  constructor(private router: Router,
-    private platformService: PlatformService,
-    private notificationService: NotificationService,
-    private keycloakService: KeycloakService) {
+  constructor() {
     const navigation = this.router.getCurrentNavigation();
     this.errorState = navigation?.extras?.state as ErrorState | null;
 
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     if (this.platformService.isBrowser()) {
       if (this.errorState) {
-        this.notificationService.showError(this.errorState.detail, this.errorState.summary);
+        this.notificationService.showError(this.errorState.summary, this.errorState.severity);
       }
     }
   }
 
-  goToLogin() {
+  goToLogin(): void {
     this.keycloakService.login(APP_ROUTES.APP);
   }
-
-
 
 }

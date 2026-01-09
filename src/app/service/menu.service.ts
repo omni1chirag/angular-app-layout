@@ -1,18 +1,22 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { ApiService } from './api.service';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { inject, Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 import { PlatformService } from './platform.service';
+import { MenuItem } from '@interface/common.interface';
+import { LocalStorageService } from './local-storage.service';
 
 
 @Injectable({
     providedIn: 'root'
 })
 export class MenuService {
-    private menuItemsSubject = new BehaviorSubject<any[]>([]);
+    private readonly platform = inject(PlatformService);
+    private readonly localStorageService = inject(LocalStorageService);
+
+    private readonly menuItemsSubject = new BehaviorSubject<MenuItem[]>([]);
     menuItems$ = this.menuItemsSubject.asObservable();
 
-    constructor(private platform: PlatformService) {
+    constructor(
+    ) {
         this.initializeMenuItems();
     }
 
@@ -24,17 +28,16 @@ export class MenuService {
 
     private getInitialMenuItems() {
         if (this.platform.isBrowser()) {
-            const stored = localStorage.getItem('menuItems');
-            return stored ? JSON.parse(stored) : [];
+            const stored = this.localStorageService.getItem<MenuItem[]>('menuItems');
+            return stored ?? [];
         }
         return [];
     }
 
-
-    updateMenuItems(items: any[]) {
+    updateMenuItems(items: MenuItem[]): void {
         if (this.platform.isBrowser()) {
-            localStorage.setItem('menuItems', JSON.stringify(items));
+            this.localStorageService.setItem('menuItems', items);
         }
-        this.menuItemsSubject.next(items);               
+        this.menuItemsSubject.next(items);
     }
 }

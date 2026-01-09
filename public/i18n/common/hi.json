@@ -1,22 +1,15 @@
 {
-  "notification": {
-    "title": "अधिसूचना चेतावनी जोड़ें",
-    "configuration": "विन्यास",
-    "info": "यह जानकारी सार्वजनिक रूप से प्रदर्शित की जाएगी, इसलिए सावधान रहें कि आप क्या साझा करते हैं।",
-    "eventName": "कार्यक्रम का नाम",
-    "eventType": "घटना का प्रकार",
-    "targetAudience": "लक्षित दर्शक",
-    "whenToTrigger": "कब ट्रिगर करें",
-    "dateAndTime": "तारीख और समय",
-    "status": "स्थिति",
-    "message": "संदेश"
+  "success": {
+    "user": {
+      "statusUpdate": "उपयोगकर्ता स्थिति सफलतापूर्वक अपडेट की गई"
+    }
   },
   "ADDRESS": {
     "ADDRESS1": "पता 1",
     "ADDRESS2": "पता 2",
     "ENTER_ADDRESS": "पता दर्ज करें",
-    "PINCODE": "पिन कोड",
-    "ENTER_PINCODE": "पिन कोड दर्ज करें",
+    "PINCODE": "पिनकोड",
+    "ENTER_PINCODE": "पिनकोड दर्ज करें",
     "CITY": "शहर",
     "SELECT_CITY": "शहर चुनें",
     "STATE": "राज्य",
@@ -26,49 +19,93 @@
     "MOBILE_NUMBER": "मोबाइल नंबर",
     "ALT_MOBILE_NUMBER": "वैकल्पिक मोबाइल नंबर",
     "ENTER_MOBILE": "मोबाइल नंबर दर्ज करें",
-    "CONTACT_NUMBER": "संपर्क नंबर",
+    "CONTACT_NUMBER": "संपर्क संख्या",
     "ENTER_CONTACT": "संपर्क नंबर दर्ज करें",
-    "EMAIL": "ईमेल पता",
-    "ENTER_EMAIL": "ईमेल पता दर्ज करें"
+    "EMAIL": "ईमेल",
+    "ENTER_EMAIL": "ईमेल दर्ज करें"
   },
   "NAME": "नाम",
-  "ADD": "जोड़ें",
-  "EDIT": "संपादित करें",
-  "SAVE": "सहेजें",
-  "CANCEL": "रद्द करें",
+  "T&C": "नियम और शर्तें",
+  "ADD": "जोड़ना",
+  "BACK": "पीछे",
+  "EDIT": "संपादन करना",
+  "ASSIGN": "सौंपना",
+  "SAVE": "बचाना",
+  "CANCEL": "रद्द करना",
   "EMAIL": "ईमेल",
   "MOBILE_NUMBER": "मोबाइल नंबर",
-  "ACTIONS": "कार्रवाईयाँ",
+  "ACTIONS": "कार्रवाई",
   "STATUS": "स्थिति",
   "ACTIVATE": "सक्रिय करें",
-  "DE_ACTIVATE": "निष्क्रिय करें",
+  "DE_ACTIVATE": "निष्क्रिय",
   "CLINICAL_SUMMARY": "नैदानिक ​​सारांश",
   "NO_DATA_FOUND": "डाटा प्राप्त नहीं हुआ।",
+  "ADD_APPOINTMENT": "अपॉइंटमेंट जोड़ें",
   "CLINIC": "क्लिनिक",
+  "DOCTOR": {
+    "VERIFIED": "मेडिकल पंजीकरण सत्यापित",
+    "ABOUT": "डॉक्टर के बारे में"
+  },
   "DOCTOR_NAME": "डॉक्टर का नाम",
-  "NO_FILE_CHOSEN": "कोई फ़ाइल नहीं चुनी गई",
-  "PATIENT_PROFILE": "मरीज़ की प्रोफ़ाइल",
+  "NO_FILE_CHOSEN": "कोई फ़ाइल चुना नही",
+  "PATIENT_PROFILE": "रोगी प्रोफ़ाइल",
+  "CLEAR": "स्पष्ट",
+  "LOCK": "ताला",
+  "UNLOCK": "अनलॉक",
   "PLACE_HOLDER": {
-    "CLINIC": "क्लिनिक चुनें",
-    "DOCTOR": "डॉक्टर चुनें"
+    "CLINIC": "क्लिनिक का चयन करें",
+    "DOCTOR": "डॉक्टर का चयन करें",
+    "CHANGE_CLINIC": "क्लिनिक बदलें"
   },
   "TOOLTIP": {
-    "NOT_AUTHORIZED": "आप इस क्रिया को करने के लिए अधिकृत नहीं हैं।",
-    "LOCKED_CHART": "यह चार्ट लॉक किया गया है। आप परिवर्तन नहीं कर सकते।"
+    "NOT_AUTHORIZED": "आप यह कार्रवाई करने के लिए अधिकृत नहीं हैं",
+    "LOCKED_CHART": "चार्ट लॉक है. "
   },
   "CHARTING": {
-    "SIGN_OFF": "साइन ऑफ",
-    "LOCKED": "लॉक किया गया",
-    "UNLOCK": "अनलॉक करें",
-    "CONFIRM": "पुष्टि करें",
-    "CONFIRM_SIGNOFF_MESSAGE": "क्या आप वाकई इस चार्ट को साइन ऑफ करना चाहते हैं?",
+    "SIGN_OFF": "साइन ऑफ़",
+    "LOCKED": "बंद",
+    "UNLOCK": "अनलॉक",
+    "CONFIRM": "पुष्टि करना",
+    "CONFIRM_SIGNOFF_MESSAGE": "क्या आप वाकई इस चार्ट पर हस्ताक्षर करना चाहते हैं?",
     "YES": "हाँ",
     "CONFIRM_UNLOCK": "अनलॉक की पुष्टि करें",
     "UNLOCK_CHART_REASON_HEADING": "कृपया इस चार्ट को अनलॉक करने का कारण बताएं:",
     "UNLOCK_CHART": "चार्ट अनलॉक करें",
-    "START_VISIT": "मुलाकात शुरू करें",
+    "START_VISIT": "यात्रा प्रारंभ करें",
     "PLACE_HOLDER": {
-      "APPOINTMENT": "नियुक्ति चुनें"
+      "APPOINTMENT": "अपॉइंटमेंट चुनें"
     }
+  },
+  "ERROR": {
+    "LOADING_FAILED": "डेटा लोड करने में विफल",
+    "TRY_AGAIN_LATER": "कृपया बाद में पुन: प्रयास करें"
+  },
+  "ACTION": {
+    "RETRY": "पुन: प्रयास करें",
+    "CANCEL": "रद्द करना"
+  },
+  "NOTIFICATION": {
+    "VIEW_ALL": "सभी को देखें",
+    "MARK_ALL_AS_READ": "सभी को पढ़ा हुआ मार्क करें"
+  },
+  "RESPONSE": {
+    "OTP_SENT_SUCCESS": "ओटीपी सफलतापूर्वक भेजा गया."
+  },
+  "OTP_DIALOG": {
+    "VERIFY_IDENTITY": "आगे बढ़ने के लिए, आपको अपनी पहचान सत्यापित करनी होगी।",
+    "SEND_OTP_ON": "ओटीपी यहां भेजें:",
+    "SEND_OTP_ON_BOTH": "आपके मोबाइल नंबर और ईमेल पते दोनों पर एक ओटीपी भेजा जाएगा।",
+    "SEND_OTP_ON_MOBILE": "आपके मोबाइल नंबर पर एक OTP भेजा जाएगा.",
+    "MOBILE_NUMBER": "मोबाइल नंबर",
+    "EMAIL_ADDRESS": "मेल पता",
+    "OTP_SENT": "हमने 6 अंकों का सत्यापन कोड भेज दिया है <strong>{{contact}}</strong>.",
+    "OTP_SENT_BOTH": "हमने 6 अंकों का सत्यापन कोड भेज दिया है <strong>{{mobile}}</strong> और <strong>{{email}}</strong>.",
+    "ENTER_OTP": "ओटीपी दर्ज करें",
+    "MOBILE_OTP": "मोबाइल ओटीपी",
+    "EMAIL_OTP": "ईमेल ओटीपी",
+    "RESEND_OTP_IN": "ओटीपी पुनः भेजें {{time}}",
+    "SEND_OTP": "ओटीपी भेजें",
+    "RESEND_OTP": "ओटीपी दोबारा भेजें",
+    "SUBMIT": "जमा करना"
   }
 }

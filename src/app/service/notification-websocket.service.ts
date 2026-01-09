@@ -1,25 +1,32 @@
-import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
-import { Client, Message, Frame, Stomp } from '@stomp/stompjs';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { Injectable, PLATFORM_ID, inject, signal, OnDestroy } from '@angular/core';
+import { Client, Frame } from '@stomp/stompjs';
+import { BehaviorSubject } from 'rxjs';
 import { isPlatformBrowser } from '@angular/common';
 import { KeycloakService } from './keycloak.service';
 import SockJS from 'sockjs-client';
 import { NotificationService } from './notification.service';
 import { environment } from '@environment/environment';
+import { NotificationListService } from './notification-list.service';
 
 @Injectable({
     providedIn: 'root'
 })
-export class NotificationWebsocketService {
-    private stompClient?: Client | undefined;
-    private connected$ = new BehaviorSubject<boolean>(false);
-    isBrowser: boolean;
-    private baseUrl = environment.host;
+export class NotificationWebsocketService implements OnDestroy {
 
-    constructor(@Inject(PLATFORM_ID) private platformId: object,
-        private keycloakService: KeycloakService,
-        private notificationService: NotificationService) {
-        this.isBrowser = isPlatformBrowser(platformId);
+    private readonly platformId = inject(PLATFORM_ID);
+    private readonly keycloakService = inject(KeycloakService);
+    private readonly notificationService = inject(NotificationService);
+    private readonly notificationListService = inject(NotificationListService);
+
+    private stompClient: Client | undefined;
+    private readonly connected$ = new BehaviorSubject<boolean>(false);
+    private readonly isBrowser: boolean;
+    private readonly baseUrl = environment.host;
+    notificationRefresh = signal<boolean>(false);
+
+    constructor() {
+        this.notificationRefresh = this.notificationListService.notificationRefresh;
+        this.isBrowser = isPlatformBrowser(this.platformId);
         if (this.isBrowser) {
             this.connect();
         }
@@ -35,11 +42,11 @@ export class NotificationWebsocketService {
                 Authorization: `Bearer ${token}`,
             },
             reconnectDelay: 5000,
-            debug: (str) => console.log('STOMP:', str)
+            debug: (str) => console.debug('STOMP:', str)
         });
 
         this.stompClient.onConnect = (frame: Frame) => {
-            console.info('Connected via STOMP:', frame);
+            console.debug('Connected via STOMP:', frame);
             this.connected$.next(true);
             this.subscribeToNotifications();
         };
@@ -48,35 +55,38 @@ export class NotificationWebsocketService {
             console.error('STOMP error:', frame);
         };
 
-        this.stompClient.activate();
+        // this.stompClient.activate();
     }
 
     private subscribeToNotifications(): void {
 
         this.stompClient.subscribe('/user/queue/notifications', (message) => {
             const payload = JSON.parse(message.body);
-            console.log("Notification received: ", payload);
+            console.debug("Notification received: ", payload);
             this.notificationService.showInfo(payload.message, payload.title);
+            this.notificationRefresh.set(true);
         });
 
         // User-specific notifications
         this.stompClient.subscribe(`/user/${this.keycloakService.userId}/queue/notifications`, (message) => {
-            console.log("Private: ", JSON.parse(message.body));
+            console.debug("Private: ", JSON.parse(message.body));
         });
     }
-    
+
     isConnected(): boolean {
         return this.connected$.value;
     }
 
     ngOnDestroy(): void {
-        if (this.stompClient && this.stompClient.active) {
+        if (this.stompClient?.active) {
             this.stompClient.deactivate().then(() => {
                 this.connected$.next(false);
-                console.log('WebSocket disconnected on destroy');
+                console.debug('WebSocket disconnected on destroy');
             }).catch(err => {
                 console.error('Error during WebSocket disconnect:', err);
             });
+        } else {
+            console.debug('WebSocket already disconnected on destroy');
         }
     }
 }

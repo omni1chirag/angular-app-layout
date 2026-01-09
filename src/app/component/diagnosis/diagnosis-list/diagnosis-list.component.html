@@ -1,29 +1,28 @@
 <div class="card">
 
     <div>
-        <h4 class="text-base/7 font-semibold text-gray-900">{{ 'DIAGNOSIS.CURRENT_DIAGNOSIS' | translate }}</h4>
+        <h4 class="font-semibold text-gray-900 text-base/7">{{ 'DIAGNOSIS.CURRENT_DIAGNOSIS' | translate }}</h4>
     </div>
     <p-divider />
 
     <ng-container>
+        @if (isBrowser) {
         <p-table [value]="diagnosisList" [reorderableColumns]="true" size="small" [paginator]="true"
-            [rows]="rowsPerPage" [totalRecords]="diagnosisList.length">
+            [loading]="showLoader" [first]="first" [lazy]="true" [rows]="size" [totalRecords]="totalRecords"
+            [scrollable]="true" (onLazyLoad)="loadDiagnosis($event)" #DiagnosisTable>
 
             <ng-template #body let-item let-index="rowIndex">
                 <tr [pReorderableRow]="index">
                     <td>
-                        <span class="pi pi-bars" pReorderableRowHandle></span>
-                    </td>
-                    <td>
                         <strong> {{ item.diagnosisName }} </strong>
                     </td>
                     <td>
-                        {{ 'DIAGNOSIS.ONSET_DATE' | translate }} : {{ item.onsetDate }} |
+                        {{ 'DIAGNOSIS.ONSET_DATE' | translate }} : {{ item.onsetDate | date: 'dd/MM/yyyy' }} |
 
-                        {{ 'DIAGNOSIS.REPORTED_DATE' | translate }} : {{ item.reportedDate }}
+                        {{ 'DIAGNOSIS.REPORTED_DATE' | translate }} : {{ item.reportedDate | date: 'dd/MM/yyyy' }}
 
-                        <span *ngIf="item.status !== 3">
-                            | {{ 'DIAGNOSIS.END_DATE' | translate }} : {{ item.endDate }}
+                        <span *ngIf="item.endDate">
+                            | {{ 'DIAGNOSIS.END_DATE' | translate }} : {{ item.endDate | date: 'dd/MM/yyyy' }}
                         </span>
                     </td>
 
@@ -31,12 +30,6 @@
                         <p-tag [severity]="getTagSeverity(item.status)" [value]="getStatus(item.status)"
                             [rounded]="true">
                         </p-tag>
-                    </td>
-                    <td class="flex justify-center gap-2">
-                        <p-button icon="pi pi-pencil" variant="outlined" severity="info" [raised]="false"
-                            (onClick)="editDiagnosis(item)" [rounded]="true" />
-                        <p-button icon="pi pi-trash" variant="outlined" severity="danger" [raised]="false"
-                            (onClick)="removeDiagnosis(index, item)" [rounded]="true" />
                     </td>
                 </tr>
             </ng-template>
@@ -50,31 +43,9 @@
                 </tr>
             </ng-template>
         </p-table>
+        }
     </ng-container>
 
-    <span *ngIf="appointmentId()">
-
-        <div class="mt-5"></div>
-
-        <p-autoComplete class="w-full" [style]="{width:'100%'}" id="diagnosisName" [suggestions]="diagnosisSuggestion"
-            optionLabel="label" optionValue="value"
-            placeholder="{{ 'DIAGNOSIS.PLACE_HOLDER.SEARCH_DIAGNOSIS' | translate }}" [dropdown]="false" minLength="3"
-            maxLength="100" (onSelect)="addDiagnosis($event.value)" (completeMethod)="searchDiagnosis($event.query)"
-            [inputStyle]="{ width: '100%' }" appendTo="body">
-        </p-autoComplete>
-
-        <div class="mt-5">
-            <div class="flex flex-wrap gap-2">
-                <button *ngFor="let diagnosis of frequentlyUsedDiagnosis" type="button" pButton [rounded]="true"
-                    class="p-button p-button-outlined" (click)="addDiagnosis(diagnosis)">
-                    {{ diagnosis.label }}
-                </button>
-            </div>
-        </div>
-    </span>
+    <div class="mt-5"></div>
 
 </div>
-
-<app-diagnosis-add-edit *ngIf="visible" [(isVisible)]="visible" [selectedDiagnosis]="selectedDiagnosis()"
-    [appointmentId]="appointmentId()" [patientId]="patientId()"
-    (onDiagnosisUpdate)="loadDiagnosis($event)"></app-diagnosis-add-edit>

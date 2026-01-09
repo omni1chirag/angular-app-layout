@@ -1,90 +1,23 @@
-<div class="grid grid-cols-12 gap-5 row-gap-5 mt-[1rem] grid-flow-dense">
-    <div class="col-span-12 lg:col-span-6 xl:col-span-3 h-full">
-        <div class="card mb-0 h-full">
-            <div class="flex justify-between mb-4">
-                <div>
-                    <span class="block text-muted-color font-medium mb-4">Balance</span>
-                    <div class="text-surface-900 dark:text-surface-0 font-medium text-xl">₹1000</div>
-                </div>
-                <div class="flex items-center justify-center bg-orange-100 dark:bg-orange-400/10 rounded-border"
-                    style="width: 2.5rem; height: 2.5rem">
-                    <i class="pi pi-indian-rupee text-orange-500 !text-xl"></i>
-                </div>
-            </div>
-            <span class="text-muted-color"><p-button label="Pay now" [link]="true" (click)="showDialog()" /></span>
-        </div>
-    </div>
-</div>
+<div class="relative flex items-center w-full">
 
+    <!-- Left Button -->
+    <button pButton icon="pi pi-chevron-left" (click)="scrollTimeline(-1)" *ngIf="showLeftBtn"
+        class="flex-shrink-0 z-10 p-0 p-button-rounded p-button-secondary p-button-text btn-left hidden md:flex">
+    </button>
 
+    <!-- Scrollable Container -->
+    <div #doctorCardContainer class="flex whitespace-nowrap space-x-4 items-center w-full 
+                overflow-x-auto md:overflow-hidden scroll-smooth py-2" (scroll)="onScroll()">
 
-
-<p-dialog header="Pay Now" [modal]="true" [(visible)]="payNowDialogVisible" [style]="{ width: '25rem' }">
-    <span class="p-text-secondary block mb-8">Make payment</span>
-    <div class="flex items-center gap-4 mb-4">
-        <label for="amount" class="font-semibold w-24">Amount</label>
-        <p-inputnumber id="amount" class="flex-auto" autocomplete="off" [(ngModel)]="amount" maxlength="5" />
-    </div>
-    <div class="flex items-center gap-4 mb-8">
-        <label for="email" class="font-semibold w-24">Recipient</label>
-        <input pInputText id="email" class="flex-auto" autocomplete="off" [(ngModel)]="recipientId" />
-    </div>
-    <div class="flex justify-end gap-2">
-        <p-button label="Cancel" severity="secondary" (onClick)="payNowDialogVisible = false" />
-        <p-button label="Save" (onClick)="createOrder()" />
-    </div>
-</p-dialog>
-
-
-
-<div class="col-span-12 p-2 sm:col-span-6 lg:col-span-4 xl:col-span-3">
-    <div class="w-full max-w-full overflow-hidden shadow-xl sm:max-w-sm md:max-w-md rounded-xl">
-
-        <!-- Widget Header -->
-        <div
-            class="flex items-center justify-between px-4 py-2 rounded-t-xl bg-gradient-to-br from-neutral-50 to-neutral-50 dark:from-gray-800 dark:to-gray-900">
-            <div class="flex items-center gap-2 text-gray-800 sm:gap-3 dark:text-white">
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 sm:w-8 sm:h-8 opacity-80" fill="none"
-                    viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
-                    <line x1="16" y1="2" x2="16" y2="6"></line>
-                    <line x1="8" y1="2" x2="8" y2="6"></line>
-                    <line x1="3" y1="10" x2="21" y2="10"></line>
-                </svg>
-                <p class="text-base font-medium sm:text-xl">Today's Appointments</p>
-            </div>
-
+        <div *ngFor="let visitedDoctor of visitedDoctors" class="flex-shrink-0 w-56 sm:w-60 md:w-72 lg:w-80">
+            <app-doctor-card [visitedDoctor]="visitedDoctor"></app-doctor-card>
         </div>
 
-        <!-- Appointment List Container -->
-        <div class="p-3 sm:p-4 space-y-4 overflow-y-auto h-[20rem]
-                    bg-white dark:bg-gray-900 dark:text-gray-200">
-            <ul class="space-y-3">
-                <li class="flex items-center justify-between p-3 shadow-sm rounded-xl bg-gray-50 dark:bg-gray-700">
-                    <div class="flex items-center flex-1 gap-4 sm:gap-6">
-                        <div class="flex-1 min-w-0">
-                            <p class="text-sm font-medium text-gray-800 truncate sm:text-base dark:text-white">
-
-                            </p>
-                            <div
-                                class="flex flex-wrap items-center gap-2 mt-1 text-xs text-gray-600 sm:text-sm dark:text-gray-300">
-
-                            </div>
-                        </div>
-                        <div
-                            class="flex items-center justify-center flex-shrink-0 text-lg font-bold text-indigo-600 bg-indigo-100 rounded-full w-9 h-9 sm:w-10 sm:h-10 dark:bg-indigo-800 dark:text-indigo-200">
-
-                        </div>
-                    </div>
-                </li>
-            </ul>
-
-            <!-- No Appointments Template -->
-            <ng-template #noAppointments>
-                <div class="py-10 text-center text-gray-500 dark:text-gray-400">
-                    <p class="text-base sm:text-lg">No appointments scheduled for today.</p>
-                </div>
-            </ng-template>
-        </div>
     </div>
+
+    <!-- Right Button -->
+    <button pButton icon="pi pi-chevron-right" (click)="scrollTimeline(1)" *ngIf="showRightBtn"
+        class="flex-shrink-0 z-10 p-0 p-button-rounded p-button-secondary p-button-text btn-right hidden md:flex">
+    </button>
+
 </div>

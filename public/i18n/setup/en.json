@@ -74,5 +74,24 @@
       "CARE_PLAN_SETUP_ACTIVATED":"Care plan setup has been activated successfully.",
       "CARE_PLAN_SETUP_DEACTIVATED":"Care plan setup has been deactivated successfully."
     }
+  },
+  "NOTIFICATION": {
+    "TITLE": "Notification List",
+    "CLEAR": "Clear",
+    "MARK_ALL_AS_READ": "Mark all as read",
+    "DELETE_ALL": "Delete all",
+    "TRANSACTION_DATE": "Transaction Date",
+    "SEARCH_MESSAGE": "Search Message",
+    "MESSAGE": "Message",
+    "ACTIONS": "Actions",
+    "LOCK": "Lock",
+    "UNLOCK": "Unlock",
+    "MARK_AS_READ": "Mark as read",
+    "DELETE": "Delete",
+    "DELETE_CONFIRMATION": "Are you sure you want to delete this notification?",
+    "DELETE_ALL_CONFIRMATION": "Are you sure you want to delete selected notifications?",
+    "CONFIRM_DELETE_HEADER": "Confirm Deletion",
+    "YES": "Yes",
+    "NO": "No"
   }
 }

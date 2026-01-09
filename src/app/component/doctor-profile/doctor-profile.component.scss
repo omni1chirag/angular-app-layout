@@ -1,0 +1,11 @@
+:host ::ng-deep .consult-type-select .p-selectbutton {
+    display: flex;
+    width: 100%;
+    gap: 0.5rem;
+}
+
+:host ::ng-deep .consult-type-select .p-selectbutton .p-togglebutton {
+    flex: 1;
+    height: 3rem;
+    border-radius: 0.25rem;
+}

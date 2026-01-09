@@ -1,22 +1,20 @@
 import { HttpClient } from '@angular/common/http';
-import { Directive, ElementRef, Renderer2 } from '@angular/core';
+import { Directive, ElementRef, inject, OnInit, Renderer2 } from '@angular/core';
 import { catchError, of } from 'rxjs';
 import { PlatformService } from '../service/platform.service';
 
 @Directive({
   selector: 'img[svgIcon]'
 })
-export class SvgIconDirective {
+export class SvgIconDirective implements OnInit{
   private readonly defaultDimensions = { width: '34', height: '34' };
 
-  constructor(
-    private el: ElementRef,
-    private http: HttpClient,
-    private renderer: Renderer2,
-    private platformService: PlatformService
-  ) { }
+  private readonly el = inject(ElementRef);
+  private readonly platformService = inject(PlatformService);
+  private readonly http = inject(HttpClient);
+  private readonly renderer = inject(Renderer2);
 
-  ngOnInit() {
+  ngOnInit(): void {
     if (!this.platformService.isBrowser()) {
       return;
     }

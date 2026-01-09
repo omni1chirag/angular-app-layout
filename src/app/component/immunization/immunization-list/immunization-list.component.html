@@ -1,83 +1,201 @@
-<div class="card">
-
-    <div>
-        <h4 class="text-base/7 font-semibold text-gray-900">{{ 'IMMUNIZATION.IMMUNIZATION' | translate }}</h4>
-    </div>
-    <p-divider />
-
-
-    <ng-container>
-        <p-table [value]="immunizationList" [reorderableColumns]="true" size="small" [paginator]="true"
-            [rows]="rowsPerPage" [totalRecords]="immunizationList.length">
-
-
-            <ng-template #body let-item let-index="rowIndex">
-                <tr [pReorderableRow]="index">
-                    <td>
-                        <span class="pi pi-bars" pReorderableRowHandle></span>
-                    </td>
-                    <td>
-                        <strong> {{item.immunizationName}} </strong>
-                    </td>
-                    <td>
-                        {{ 'IMMUNIZATION.DOSE_NUMBER' | translate }} : {{ getDoseNumber(item.doseNumber) }} |
-                        {{ 'IMMUNIZATION.DATE_OF_VACCINATION' | translate }} : {{ item.dateOfVaccination }} |
-                        {{ 'IMMUNIZATION.ROUTE' | translate }} : {{ getRoute(item.routeId) }} |
-                        {{ 'IMMUNIZATION.SITE' | translate }} : {{ getSite(item.siteId) }}
-                        <!-- {{ 'IMMUNIZATION.STATUS' | translate }} : {{ getStatus(item.status) }} -->
-
-                    </td>
-                    <td style="width: 1%; text-align: right;">
-                        <p-tag [severity]="getTagSeverity(item.status)" [value]="getStatus(item.status)"
-                            [rounded]="true">
-                        </p-tag>
-                    </td>
-
-                    <td class="flex justify-center gap-2">
-                        <p-button icon="pi pi-pencil" variant="outlined" severity="info" [raised]="false"
-                            (onClick)="editImmunization(item)" [rounded]="true" />
-                        <!-- <p-button icon="pi pi-trash" variant="outlined" severity="danger" [raised]="false"
-                            (onClick)="removeImmunization(index, item)" /> -->
-                    </td>
-                </tr>
-            </ng-template>
-            <ng-template pTemplate="emptymessage">
-                <tr>
-                    <td colspan="4">
-                        <div class="text-center">
-                            <span class="text-lg">{{'IMMUNIZATION.TABLE.EMPTY_MESSAGE' | translate}}</span>
-                        </div>
-                    </td>
-                </tr>
-            </ng-template>
-
-        </p-table>
-    </ng-container>
-
-    <span *ngIf="appointmentId()">
-
-        <div class="mt-5"></div>
-
-        <p-autoComplete class="w-full" [style]="{width:'100%'}" id="vaccineName" [suggestions]="vaccineSuggestions"
-            optionLabel="label" optionValue="value"
-            placeholder="{{ 'IMMUNIZATION.PLACE_HOLDER.SEARCH_IMMUNIZATION' | translate }}" [dropdown]="false"
-            minLength="3" maxLength="100" (onSelect)="addImmunization($event.value)"
-            (completeMethod)="searchVaccine($event.query)" [inputStyle]="{ width: '100%' }" appendTo="body">
-        </p-autoComplete>
-
-        <div class="mt-5">
-            <div class="flex flex-wrap gap-2">
-                <button *ngFor="let vaccine of frequentlyUsedVaccines" type="button" pButton [rounded]="true"
-                    class="p-button p-button-outlined" (click)="addImmunization(vaccine)">
-                    {{ vaccine.label }}
-                </button>
+<div pageHeader="list">
+    <p-toolbar>
+        <ng-template #start>
+            <div class="flex items-center gap-2">
+                <p class="text-2xl font-bold sm:truncate sm:text-3xl sm:tracking-tight">
+                    {{'IMMUNIZATION.IMMUNIZATION' | translate }}
+                </p>
             </div>
-        </div>
-    </span>
-
+        </ng-template>
+    </p-toolbar>
 </div>
+<div class="card">
+    @if(isBrowser) {
+    <p-table [value]="immunizationList" size="small" [paginator]="true" [loading]="showLoader" [first]="first"
+        [lazy]="true" [rows]="size" (onLazyLoad)="loadImmunizations($event)" [scrollable]="true"
+        [totalRecords]="totalRecords" rowGroupMode="subheader" groupRowsBy="appointmentStartDateTime"
+        sortMode="multiple" [multiSortMeta]="[{ field: 'appointmentStartDateTime', order: -1 }]" #immunizationTable
+        tableAutoScroll stripedRows>
+        <ng-template pTemplate="caption">
+            <div class="flex flex-row justify-between table-options pb-1">
+                <div class="flex gap-3">
+                    <div class="flex flex-col">
+                        <label for="clear" class="text-md font-semibold mb-4">&nbsp;</label>
+                        <button pButton label="Clear" class="p-button-outlined" icon="pi pi-filter-slash"
+                            (click)="immunizationTable.clear()"></button>
+                    </div>
+                </div>
+                <div class="flex gap-3 items-end">
+                    <div class="">
+                        <label for="calendar-12h" class="text-md font-semibold mb-2">Appointment</label>
+                        <div class="mt-2">
+                            <p-columnFilter type="date" field="appointmentDate" [showMenu]="false"
+                                [showClearButton]="false" ariaLabel="Filter Appointment Date">
+                                <ng-template #filter let-value let-filter="filterCallback">
+                                    <p-datepicker inputId="calendar-12h" appendTo="body" dateMask dateFormat="dd/mm/yy"
+                                        (onSelect)="onDateRangeSelect(filterDate, filter)"
+                                        (onClear)="filter(undefined); filterDate = undefined" [showClear]="true"
+                                        placeholder="Select Date Range" [style]="{'width': columnWidth +'px'}"
+                                        class="w-full" [(ngModel)]="filterDate" selectionMode="range"
+                                        [readonlyInput]="true" dataType="string" [showTime]="false" />
+                                </ng-template>
+                            </p-columnFilter>
+                        </div>
+                    </div>
+                    <div class="">
+                        <label for="doctor" class="text-md font-semibold mb-2">Doctor</label>
+                        <div class="mt-2">
+                            <p-columnFilter field="doctor" [showMenu]="false" [showClearButton]="false">
+                                <ng-template #filter let-value let-filter="filterCallback">
+                                    <p-multiselect dropdown [options]="doctorOptions" id="doctor"
+                                        placeholder="Select Doctor" optionLabel="label" [ngModel]="value || []"
+                                        optionValue="value" display="chip" [filter]="true"
+                                        (onChange)="filter($event.value)" [style]="{'width': columnWidth+'px'}"
+                                        class="w-full" appendTo="body" />
+                                </ng-template>
+                            </p-columnFilter>
+                        </div>
+                    </div>
+                    <div class="">
+                        <label for="clinic" class="text-md font-semibold mb-2">Clinic</label>
+                        <div class="mt-2">
+                            <p-columnFilter field="clinic" [showMenu]="false" [showClearButton]="false">
+                                <ng-template #filter let-value let-filter="filterCallback">
+                                    <p-multiselect dropdown [options]="clinicOptions" id="clinic"
+                                        placeholder="Select Clinic" optionLabel="label" [ngModel]="value"
+                                        optionValue="value" display="chip" [filter]="true"
+                                        (onChange)="filter($event.value)" [style]="{'width': columnWidth+'px'}"
+                                        class="w-full" appendTo="body" />
+                                </ng-template>
+                            </p-columnFilter>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="groupheader" let-item>
+            <tr pRowGroupHeader>
+                <td colspan="10" class="bg-gray-100 !p-0">
+                    <div class="flex items-center w-full px-3 py-3 gap-6">
+                        <span class="font-semibold">
+                            {{ item.appointmentStartDateTime | date: 'dd MMM yyyy' }}
+                        </span>
+                        <span class="font-semibold">
+                            {{ item.administeredBy }}
+                        </span>
+                        <span class="font-semibold">
+                            {{ item.clinic.clinicName }}
+                        </span>
+                    </div>
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th scope="col" style="width:15%" class="font-bold">
+                    {{'IMMUNIZATION.PATIENT_NAME' | translate}}
+                </th>
+                <th scope="col" style="width:19%" class="font-bold">
+                    {{'IMMUNIZATION.VACCINE_NAME' | translate}}
+                </th>
+                <th scope="col" style="width:10%">
+                    {{'IMMUNIZATION.DOSE_NUMBER' | translate}}
+                </th>
+                <th scope="col" style="width:18%">
+                    {{'IMMUNIZATION.DATE_OF_VACCINATION' | translate}}
+                </th>
+                <th scope="col" style="width:12%">
+                    {{'IMMUNIZATION.ADMINISTERED_BY' | translate}}
+                </th>
+                <th scope="col" style="width:5%">
+                    {{'IMMUNIZATION.STATUS' | translate}}
+                </th>
+            </tr>
+            <tr>
+                <th scope="col">
+                    <p-columnFilter field="patient" [showMenu]="false" [showClearButton]="false">
+                        <ng-template #filter let-value let-filter="filterCallback">
+                            <p-autoComplete id="patientName" [ngModel]="value" [style]="{ width: '100%' }"
+                                [showClear]="true"
+                                [placeholder]="'IMMUNIZATION.PLACE_HOLDER.SEARCH_PATIENT_NAME' | translate"
+                                (patientClear)="filter(undefined)" (onSelect)="filter($event.value.value)" />
+                        </ng-template>
+                    </p-columnFilter>
+                </th>
+                <th scope="col">
+                    <p-columnFilter field="vaccine" [showMenu]="false" [showClearButton]="false">
+                        <ng-template #filter let-value let-filter="filterCallback">
+                            <p-autocomplete id="vaccineName" [ngModel]="value" inputStyleClass="w-full"
+                                [forceSelection]="false" [suggestions]="vaccineSuggestions" [showClear]="true"
+                                (completeMethod)="searchVaccine($event.query)" [dropdown]="false" [minLength]="3"
+                                optionLabel="label" optionValue="value" (onSelect)="filter($event.value.value)"
+                                (onClear)="filter(undefined)"
+                                [placeholder]="'IMMUNIZATION.PLACE_HOLDER.VACCINE_NAME' | translate" class="w-full"
+                                [style]="{'width':'100%'}" [inputStyle]="{ width: '100%' }" maxlength="100" />
+                        </ng-template>
+                    </p-columnFilter>
+                </th>
+                <th scope="col">
+                    <p-columnFilter field="doseNumber" [showMenu]="false" [showClearButton]="false">
+                        <ng-template #filter let-value let-filter="filterCallback">
+                            <p-select [options]="doseNumberOptions" id="doseNumber"
+                                [placeholder]="'IMMUNIZATION.PLACE_HOLDER.DOSE_NUMBER' | translate" optionLabel="label"
+                                [ngModel]="value" optionValue="value" [filter]="true" [showClear]="true"
+                                (onChange)="filter($event.value)" class="w-full" appendTo="body" />
+                        </ng-template>
+                    </p-columnFilter>
+                </th>
+                <th scope="col">
+                    <p-columnFilter field="dateOfVaccination" [showMenu]="false" [showClearButton]="false">
+                        <ng-template #filter let-value let-filter="filterCallback">
+                            <p-datepicker dateFormat="dd/mm/yy" class="w-full" [iconDisplay]="'input'"
+                                [readonlyInput]="true" [ngModel]="value" [showIcon]="true" (onSelect)="filter($event)"
+                                [showClear]="true"
+                                [placeholder]="'IMMUNIZATION.PLACE_HOLDER.DATE_OF_VACCINATION' | translate"
+                                (onClear)="filter(undefined)" [style]="{'width': '100%'}" appendTo="body" />
+                        </ng-template>
+                    </p-columnFilter>
+                </th>
+                <th scope="col"></th>
+                <th scope="col"></th>
 
+            </tr>
+        </ng-template>
 
-<app-immunization-add-edit *ngIf="visible" [(isVisible)]="visible" [selectedImmunization]="selectedImmunization()"
-    [appointmentId]="appointmentId()" [patientId]="patientId()"
-    (onImmunizationUpdate)="loadImmunizations($event)"></app-immunization-add-edit>
+        <ng-template #body let-item let-index="rowIndex">
+            <tr [pReorderableRow]="index">
+                <td>{{ item.firstName }} {{ item.lastName }}</td>
+
+                <td>
+                    {{ item.immunizationName }}
+                </td>
+                <td>
+                    {{ item.doseNumber }}
+                </td>
+                <td>
+                    {{ item.dateOfVaccination | date: 'dd/MM/yyyy' }}
+                </td>
+                <td>
+                    {{ item.administeredBy }}
+                </td>
+                <td>
+                    <p-tag [severity]="tagSeverityMap.get(item.status)" [value]="statusMap.get(item.status)"
+                        [rounded]="true">
+                    </p-tag>
+                </td>
+
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+            <tr>
+                <td colspan="8">
+                    <div class="text-center">
+                        <span class="text-lg">{{'IMMUNIZATION.TABLE.EMPTY_MESSAGE' | translate}}</span>
+                    </div>
+                </td>
+            </tr>
+        </ng-template>
+
+    </p-table>
+    }
+</div>

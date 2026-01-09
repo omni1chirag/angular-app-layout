@@ -1,0 +1,201 @@
+<div pageHeader="list" *ngIf="!appointmentId()">
+    <p-toolbar>
+        <ng-template #start>
+            <div class="flex items-center gap-2">
+                <p class="text-2xl font-bold sm:truncate sm:text-3xl sm:tracking-tight">
+                    {{ 'VITALS.VITALS' | translate }}
+                </p>
+            </div>
+        </ng-template>
+
+        <ng-template #end>
+            <p-button *ngIf="isModifiable()" label="{{'ADD' | translate}}" size="small" class="mr-3" severity="primary"
+                (onClick)="addVitals()" [disabled]="signOff() === 1"></p-button>
+        </ng-template>
+    </p-toolbar>
+</div>
+<div class="card">
+    <div class="flex items-center justify-between mb-3" *ngIf="appointmentId()">
+        <h4 class="font-semibold text-base/7 ">{{'VITALS.VITALS' | translate}}</h4>
+        <div class="flex items-center gap-4">
+            <p-button *ngIf="isModifiable()" [label]="'ADD' | translate" (onClick)="addVitals()"
+                [disabled]="signOff()===1" />
+        </div>
+    </div>
+    <p-divider  *ngIf="appointmentId()"/>
+    @if (isBrowser) {
+    <p-table [value]="vitals" [paginator]="true" styleClass="mt-2" [totalRecords]="totalRecords" [first]="first"
+        [rows]="size" [lazy]="true" (onLazyLoad)="loadVitals($event)" [loading]="showLoader" stripedRows tableAutoScroll
+        rowGroupMode="subheader" groupRowsBy="recordedDateStr" sortMode="multiple" [sortField]="'recordedDate'"
+        [sortOrder]="1" [multiSortMeta]="[{ field: 'recordedDate', order: -1 }]" #vitalTable>
+        <ng-template pTemplate="groupheader" let-rowData>
+            <tr pRowGroupHeader>
+                <td colspan="11" class="p-2 text-sm font-semibold bg-gray-100">
+                    {{ rowData.recordedDateStr | date: 'dd MMM yyyy' }}
+                </td>
+            </tr>
+        </ng-template>
+
+        <ng-template #header>
+            <tr>
+                <th scope="col">{{'VITALS.RECORDED_TIME' | translate}}</th>
+                <th scope="col">{{'VITALS.BODY_TEMPERATURE' | translate}}
+                </th>
+                <th scope="col">{{'VITALS.HEART_RATE' | translate}}</th>
+                <th scope="col">{{'VITALS.SPO2' | translate}}</th>
+                <th scope="col">{{'VITALS.HEIGHT' | translate}}</th>
+                <th scope="col">{{'VITALS.WEIGHT' | translate}}</th>
+                <th scope="col">{{'VITALS.BMI' | translate}}</th>
+                <th scope="col">{{'VITALS.RESPIRATORY_RATE' | translate}}
+                </th>
+                <th scope="col">{{'VITALS.BLOOD_PRESSURE' | translate}}
+                </th>
+                <th scope="col">{{'VITALS.BLOOD_GLUCOSE' | translate}}</th>
+                <th scope="col">{{'VITALS.ACTION' | translate}}
+                </th>
+            </tr>
+        </ng-template>
+        <ng-template #body let-vital>
+            <tr>
+                <td>{{vital.recordedDateTime | date: 'h:mm a'}}</td>
+                <td>
+                    @if (vital.bodyTemperature) {
+                    <p-button [label]="vital.bodyTemperature.value + ' ' + vital.bodyTemperature.unit" link
+                        styleClass="!text-gray-700 hover:!text-gray-900 !p-0" />
+                    } @else {
+                    --
+                    }
+                </td>
+                <td>
+                    @if (vital.heartRate) {
+                    <p-button [label]="vital.heartRate.value + ' ' + vital.heartRate.unit" link
+                        styleClass="!text-gray-700 hover:!text-gray-900 !p-0" />
+                    } @else {
+                    --
+                    }
+                </td>
+                <td>
+                    @if (vital.spo2) {
+                    <p-button [label]="vital.spo2.value + ' ' + vital.spo2.unit" link
+                        styleClass="!text-gray-700 hover:!text-gray-900 !p-0" />
+                    } @else {
+                    --
+                    }
+                </td>
+                <td>
+                    @if (vital.height) {
+                    <p-button [label]="vital.height.value + ' ' + vital.height.unit" link
+                        styleClass="!text-gray-700 hover:!text-gray-900 !p-0" />
+                    } @else {
+                    --
+                    }
+                </td>
+                <td>
+                    @if (vital.weight) {
+                    <p-button [label]="vital.weight.value + ' ' + vital.weight.unit" link
+                        styleClass="!text-gray-700 hover:!text-gray-900 !p-0" />
+                    } @else {
+                    --
+                    }
+                </td>
+                <td>
+                    @if (vital.bmi) {
+                    <p-button [label]="vital.bmi.value + ' ' + vital.bmi.unit" link
+                        styleClass="!text-gray-700 hover:!text-gray-900 !p-0" />
+                    } @else {
+                    --
+                    }
+                </td>
+                <td>
+                    @if (vital.respiratoryRate) {
+                    <p-button [label]="vital.respiratoryRate.value + ' ' + vital.respiratoryRate.unit" link
+                        styleClass="!text-gray-700 hover:!text-gray-900 !p-0" />
+                    } @else {
+                    --
+                    }
+                </td>
+                <td>
+                    @if (vital.bloodPressure) {
+                    <p-button [label]="vital.bloodPressure.value + ' ' + vital.bloodPressure.unit" link
+                        styleClass="!text-gray-700 hover:!text-gray-900 !p-0" />
+                    } @else {
+                    --
+                    }
+                </td>
+                <td>
+                    @if (vital.bloodGlucose) {
+                    <p-button [label]="vital.bloodGlucose.value + ' ' + vital.bloodGlucose.unit" link
+                        styleClass="!text-gray-700 hover:!text-gray-900 !p-0" />
+                    } @else {
+                    --
+                    }
+                </td>
+
+                <td class="flex justify-center gap-2">
+                    <p-menu #menu [popup]="true" [model]="optionsItems" appendTo="body">
+                        <ng-template #item let-item>
+
+                            @if (item.label === 'EDIT ') {
+                            @if (vital.isEditable && vital.appointmentSignOff !== 1) {
+                            <button class="w-full p-menu-item-link" (click)="editVital(vital.vitalsId)">
+                                <span [class]="item.icon"></span>
+                                <span class="ml-2">{{ item.label | translate }}</span>
+                            </button>
+                            } @else {
+                            <button class="w-full p-menu-item-link" [disabled]="true" [pTooltip]="!vital.isEditable 
+                                                    ? ('VITALS.TOOLTIP.NOT_AUTHORIZED' | translate) 
+                                                    : (vital.appointmentSignOff === 1 
+                                                        ? ('VITALS.TOOLTIP.LOCKED_CHART' | translate) 
+                                                        : null)" tooltipPosition="top"
+                                class="opacity-50 cursor-not-allowed">
+                                <span [class]="item.icon"></span>
+                                <span class="ml-2">{{ item.label | translate }}</span>
+                            </button>
+                            }
+                            }
+
+                            @if (item.label === 'DELETE') {
+                            @if (vital.isEditable && vital.appointmentSignOff !== 1) {
+                            <button class="w-full p-menu-item-link" (click)="deleteVital(vital.vitalsId)">
+                                <span [class]="item.icon"></span>
+                                <span class="ml-2">{{ item.label | translate }}</span>
+                            </button>
+                            } @else {
+
+                            <button class="w-full p-menu-item-link" [disabled]="true" [pTooltip]="!vital.isEditable 
+                                                    ? ('VITALS.TOOLTIP.NOT_AUTHORIZED' | translate) 
+                                                    : (vital.appointmentSignOff === 1 
+                                                        ? ('VITALS.TOOLTIP.LOCKED_CHART' | translate) 
+                                                        : null)" tooltipPosition="top"
+                                class="opacity-50 cursor-not-allowed">
+                                <span [class]="item.icon"></span>
+                                <span class="ml-2">{{ item.label | translate }}</span>
+                            </button>
+                            }
+                            }
+                        </ng-template>
+                    </p-menu>
+
+                    <div class="flex justify-center">
+                        <p-button icon="pi pi-ellipsis-v" severity="secondary" rounded [raised]="true"
+                            (onClick)="menu.toggle($event)" />
+                    </div>
+                </td>
+
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+            <tr>
+                <td colspan="11">
+                    <div class="flex justify-center">
+                        <span class="text-lg">{{'VITALS.TABLE.EMPTY_MESSAGE' | translate}}</span>
+                    </div>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+    }
+</div>
+
+<app-patient-vitals-add-edit *ngIf="visible" [(isVisible)]="visible" [vitalsId]="vitalsId" [patientId]="patientId()"
+    (vitalsUpdate)="vitalTable.clear()" [appointmentId]="appointmentId()"></app-patient-vitals-add-edit>

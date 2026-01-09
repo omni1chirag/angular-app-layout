@@ -1,32 +1,33 @@
 import { inject, Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
 import { ApiService } from './api.service';
+import { Observable } from 'rxjs';
+import { InsuranceModel } from '@model/insurance.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PatientInsuranceService {
 
-  private apiService = inject(ApiService);
+  private readonly apiService = inject(ApiService);
 
-  savePatientInsurance<T>(patientId, insurance): Observable<T> {
+  savePatientInsurance<T>(patientId: string, insurance: InsuranceModel): Observable<T> {
     return this.apiService.post(`patient-api/patients/${patientId}/insurances`, insurance);
   }
 
-  updatePatientInsurance<T>(patientId, patientInsuranceId, insurance): Observable<T> {
+  updatePatientInsurance<T>(patientId: string, patientInsuranceId: string, insurance: InsuranceModel): Observable<T> {
     return this.apiService.put(`patient-api/patients/${patientId}/insurances/${patientInsuranceId}`, insurance);
   }
 
-  getAllPatientInsurance<T>(patientId): Observable<T> {
+  getAllPatientInsurance<T>(patientId: string): Observable<T> {
     return this.apiService.get(`patient-api/patients/${patientId}/insurances`);
   }
 
-  getPatientInsurance<T>(patientId, patientInsuranceId): Observable<T> {
+  getPatientInsurance<T>(patientId: string, patientInsuranceId: string): Observable<T> {
     return this.apiService.get(`patient-api/patients/${patientId}/insurances/${patientInsuranceId}`);
   }
 
-  updatePatientInsuranceStatus(patientId, patientInsuranceId, data): Observable<any> {
-    return this.apiService.patch(`patient-api/patients/${patientId}/insurances/${patientInsuranceId}/status`, data);
+  updatePatientInsuranceStatus<T>(patientId: string, patientInsuranceId: string, status: number): Observable<T> {
+    return this.apiService.patch(`patient-api/patients/${patientId}/insurances/${patientInsuranceId}/status`, { status });
   }
 
 }

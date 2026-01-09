@@ -1,4 +1,4 @@
-import { Component, HostBinding, Input } from '@angular/core';
+import { Component, HostBinding, inject, Input, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RippleModule } from 'primeng/ripple';
 import { NavigationEnd, Router, RouterModule } from '@angular/router';
@@ -9,11 +9,10 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
 import { TooltipModule } from 'primeng/tooltip';
 
 @Component({
-    selector: '[app-menuitem]',
+    selector: 'app-menuitem',
     standalone: true,
     imports: [CommonModule, RouterModule, RippleModule, TooltipModule],
     templateUrl: './menuitem.component.html',
-    styleUrl: './menuitem.component.scss',
     animations: [
         trigger('children', [
             state('collapsed', style({
@@ -27,7 +26,11 @@ import { TooltipModule } from 'primeng/tooltip';
     ],
     providers: [LayoutService]
 })
-export class MenuitemComponent {
+export class MenuitemComponent implements OnInit, OnDestroy {
+
+    public readonly router = inject(Router);
+    private readonly layoutService = inject(LayoutService);
+
     @Input() item!: MenuItem;
 
     @Input() index!: number;
@@ -42,25 +45,21 @@ export class MenuitemComponent {
 
     menuResetSubscription: Subscription;
 
-    key: string = '';
+    key = '';
 
     tooltipOptions: TooltipOptions = {
         tooltipPosition: 'top',
         appendTo: 'body'
-      };
+    };
 
     constructor(
-        public router: Router,
-        private layoutService: LayoutService
     ) {
         this.menuSourceSubscription = this.layoutService.menuSource$.subscribe((value) => {
             Promise.resolve(null).then(() => {
                 if (value.routeEvent) {
-                    this.active = value.key === this.key || value.key.startsWith(this.key + '-') ? true : false;
-                } else {
-                    if (value.key !== this.key && !value.key.startsWith(this.key + '-')) {
-                        this.active = false;
-                    }
+                    this.active = value.key === this.key || value.key.startsWith(this.key + '-');
+                } else if (value.key !== this.key && !value.key.startsWith(this.key + '-')) {
+                    this.active = false;
                 }
             });
         });
@@ -69,14 +68,14 @@ export class MenuitemComponent {
             this.active = false;
         });
 
-        this.router.events.pipe(filter((event) => event instanceof NavigationEnd)).subscribe((params) => {
+        this.router.events.pipe(filter((event) => event instanceof NavigationEnd)).subscribe(() => {
             if (this.item.routerLink) {
                 this.updateActiveStateFromRoute();
             }
         });
     }
 
-    ngOnInit() {
+    ngOnInit(): void {
         this.key = this.parentKey ? this.parentKey + '-' + this.index : String(this.index);
 
         if (this.item.routerLink) {
@@ -84,15 +83,15 @@ export class MenuitemComponent {
         }
     }
 
-    updateActiveStateFromRoute() {
-        let activeRoute = this.router.isActive(this.item.routerLink[0], { paths: 'exact', queryParams: 'ignored', matrixParams: 'ignored', fragment: 'ignored' });
+    updateActiveStateFromRoute(): void {
+        const activeRoute = this.router.isActive(this.item.routerLink[0], { paths: 'exact', queryParams: 'ignored', matrixParams: 'ignored', fragment: 'ignored' });
 
         if (activeRoute) {
             this.layoutService.onMenuStateChange({ key: this.key, routeEvent: true });
         }
     }
 
-    itemClick(event: Event) {
+    itemClick(event: Event): void {
         // avoid processing disabled items
         if (this.item.disabled) {
             event.preventDefault();
@@ -112,16 +111,22 @@ export class MenuitemComponent {
         this.layoutService.onMenuStateChange({ key: this.key });
     }
 
-    get submenuAnimation() {
-        return this.root ? 'expanded' : this.active ? 'expanded' : 'collapsed';
+    get submenuAnimation(): string {
+        let state: 'expanded' | 'collapsed';
+        if (this.root || this.active) {
+            state = 'expanded';
+        } else {
+            state = 'collapsed';
+        }
+        return state;
     }
 
     @HostBinding('class.active-menuitem')
-    get activeClass() {
+    get activeClass(): boolean {
         return this.active && !this.root;
     }
 
-    ngOnDestroy() {
+    ngOnDestroy(): void {
         if (this.menuSourceSubscription) {
             this.menuSourceSubscription.unsubscribe();
         }

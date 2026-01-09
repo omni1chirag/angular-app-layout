@@ -1,4 +1,4 @@
-import { AfterViewInit, Directive, ElementRef, HostListener } from '@angular/core';
+import { AfterViewInit, Directive, ElementRef, HostListener, inject } from '@angular/core';
 import Inputmask from 'inputmask';
 
 
@@ -6,10 +6,10 @@ import Inputmask from 'inputmask';
   selector: '[dateMask]'
 })
 export class DateMaskDirective implements AfterViewInit {
-constructor(private el: ElementRef) { }
+  private readonly el = inject(ElementRef);
 
-  ngAfterViewInit() {
-     new Inputmask( this.getDateMask() ).mask( this.getHTMLInput() );
+  ngAfterViewInit(): void {
+    new Inputmask(this.getDateMask()).mask(this.getHTMLInput());
   }
 
   getHTMLInput(): HTMLInputElement {
@@ -23,13 +23,13 @@ constructor(private el: ElementRef) { }
     const timeOnly = el.hasAttribute('timeonly');
     const showTime = el.hasAttribute('showtime');
     const isRange = el.hasAttribute('selectionmode') && el.getAttribute('selectionmode') === 'range';
-    if(timeOnly) {
+    if (timeOnly) {
       return '99:99';
-    } else if(showTime) {
+    } else if (showTime) {
       return '99/99/9999 99:99';
-    } else if(format === 'mm/yy') {
+    } else if (format === 'mm/yy') {
       return '99/9999';
-    } else if(isRange) {
+    } else if (isRange) {
       return '99/99/9999 - 99/99/9999';
     } else {
       return '99/99/9999';
@@ -37,12 +37,12 @@ constructor(private el: ElementRef) { }
   }
 
   @HostListener('keydown.enter', ['$event'])
-  onEnterPress(event: KeyboardEvent) {
+  onEnterPress(event: KeyboardEvent): void {
     const inputElement = this.getHTMLInput();
     const enteredDate = inputElement.value.trim();
 
     if (!this.isValidDate(enteredDate)) {
-      inputElement.value="";
+      inputElement.value = "";
       event.preventDefault();
     }
   }
@@ -68,8 +68,8 @@ constructor(private el: ElementRef) { }
 
   validateSingleDate(dateStr: string): boolean {
     const datePattern = /^(\d{2})\/(\d{2})\/(\d{4})$/;
-    const match = dateStr.match(datePattern);
-
+    const match = datePattern.exec(dateStr);
+    
     if (!match) return false;
 
     const [, month, day, year] = match.map(Number);
@@ -79,7 +79,7 @@ constructor(private el: ElementRef) { }
 
   validateDateRange(dateRangeStr: string): boolean {
     const rangePattern = /^(\d{2})\/(\d{2})\/(\d{4}) - (\d{2})\/(\d{2})\/(\d{4})$/;
-    const match = dateRangeStr.match(rangePattern);
+    const match = rangePattern.exec(dateRangeStr);
 
     if (!match) return false;
 

@@ -1,35 +1,30 @@
-import { Component, Renderer2, ViewChild } from '@angular/core';
+import { Component, inject, OnDestroy, Renderer2, ViewChild } from '@angular/core';
 import { NavigationEnd, Router, RouterModule } from '@angular/router';
 import { SidebarComponent } from '@component/layout/sidebar/sidebar.component';
 import { NavbarComponent } from '@component/layout/navbar/navbar.component';
 import { CommonModule } from '@angular/common';
 import { filter, Subscription } from 'rxjs';
 import { LayoutService } from '@service/layout.service';
-import { UserMenuComponent } from "@component/user/user-menu/user-menu.component";
+import { UserMenuComponent } from "@component/layout/user-menu/user-menu.component";
 
 @Component({
-    selector: 'app-layout',
-    standalone: true,
-    imports: [CommonModule, NavbarComponent, SidebarComponent, RouterModule, UserMenuComponent],
-    templateUrl: './layout.component.html',
-    styleUrl: './layout.component.scss'
+  selector: 'app-layout',
+  standalone: true,
+  imports: [CommonModule, NavbarComponent, SidebarComponent, RouterModule, UserMenuComponent],
+  templateUrl: './layout.component.html'
 })
-export class LayoutComponent {
+export class LayoutComponent implements OnDestroy {
+  private readonly layoutService = inject(LayoutService);
+  private readonly renderer = inject(Renderer2);
+  private readonly router = inject(Router);
+
   overlayMenuOpenSubscription: Subscription;
 
-  menuOutsideClickListener: any;
+  menuOutsideClickListener;
 
-  @ViewChild(SidebarComponent) appSidebar!: SidebarComponent;
-
-  @ViewChild(NavbarComponent) appTopBar!: NavbarComponent;
-  
   @ViewChild(UserMenuComponent) userMenu!: UserMenuComponent;
 
-  constructor(
-    public layoutService: LayoutService,
-    public renderer: Renderer2,
-    public router: Router
-  ) {
+  constructor() {
     this.overlayMenuOpenSubscription = this.layoutService.overlayOpen$.subscribe(() => {
       if (!this.menuOutsideClickListener) {
         this.menuOutsideClickListener = this.renderer.listen('document', 'click', (event) => {
@@ -49,7 +44,7 @@ export class LayoutComponent {
     });
   }
 
-  isOutsideClicked(event: MouseEvent) {
+  isOutsideClicked(event: MouseEvent): boolean {
     const sidebarEl = document.querySelector('.layout-sidebar');
     const topbarEl = document.querySelector('.layout-menu-button');
     const eventTarget = event.target as Node;
@@ -57,7 +52,7 @@ export class LayoutComponent {
     return !(sidebarEl?.isSameNode(eventTarget) || sidebarEl?.contains(eventTarget) || topbarEl?.isSameNode(eventTarget) || topbarEl?.contains(eventTarget));
   }
 
-  hideMenu() {
+  hideMenu(): void {
     this.layoutService.layoutState.update((prev) => ({ ...prev, overlayMenuActive: false, staticMenuMobileActive: false, menuHoverActive: false }));
     if (this.menuOutsideClickListener) {
       this.menuOutsideClickListener();
@@ -84,7 +79,7 @@ export class LayoutComponent {
     }
   }
 
-  get containerClass() {
+  get containerClass(): Record<string, boolean> {
     return {
       'layout-overlay': this.layoutService.layoutConfig().menuMode === 'overlay',
       'layout-static': this.layoutService.layoutConfig().menuMode === 'static',
@@ -94,7 +89,7 @@ export class LayoutComponent {
     };
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     if (this.overlayMenuOpenSubscription) {
       this.overlayMenuOpenSubscription.unsubscribe();
     }
@@ -104,3 +99,4 @@ export class LayoutComponent {
     }
   }
 }
+

@@ -1,0 +1,27 @@
+
+<p-popover #notificationPanel>
+  <div class="max-h-[250px] overflow-y-auto p-1 w-[500px]">
+    <ng-container *ngIf="notifications.length > 0; else noNotifications">
+      <div *ngFor="let n of notifications"
+        class="flex items-center gap-2 p-2 rounded-lg my-1 bg-gray-50 hover:bg-blue-50 dark:bg-gray-800 dark:hover:bg-gray-700 transition-all shadow-sm hover:[--tw-translate-x:2px] transform">
+        <i class="text-lg pi pi-info-circle text-sky-500 dark:text-sky-400"></i>
+        <span class="flex-1 text-sm font-medium text-gray-700 dark:text-gray-200">{{ n.message }}</span>
+        <div class="flex gap-1 ml-auto">
+          <button style="margin-left: 5px;"
+            class="text-lg cursor-pointer pi pi-check-circle text-sky-500 dark:text-sky-400"
+            (click)="markAsRead(n.notificationId)" *ngIf="!n.read" pTooltip="{{'TOOLTIP.MARK_AS_READ' | translate}}"
+            tooltipPosition="top"></button>
+        </div>
+      </div>
+    </ng-container>
+
+    <ng-template #noNotifications>
+      <div class="p-3 text-center text-gray-500 dark:text-gray-400">No new notifications</div>
+    </ng-template>
+  </div>
+  <button
+    class="flex items-center justify-center px-4 py-1 mt-1 text-sm font-normal text-gray-800 transition-all duration-200 transform bg-gray-200 rounded-full shadow-md cursor-pointer hover:bg-gray-300 hover:shadow-lg hover:scale-105 dark:bg-gray-600 dark:hover:bg-gray-500 dark:text-gray-200"
+    (click)="viewAll()">
+    {{ 'NOTIFICATION.VIEW_ALL' | translate }}
+  </button>
+</p-popover>

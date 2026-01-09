@@ -1,47 +1,69 @@
+import { HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { ApiService } from './api.service';
 import { Observable } from 'rxjs';
+import { ApiService } from './api.service';
+import { Medication } from '@interface/medication.interface';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MedicationService {
 
-  private apiUrls = {
+  private readonly apiUrls = {
     medication: (patientId: string) => `patient-api/patients/${patientId}/medications`,
     master: () => 'master-api/master',
+    allMedications: () => 'patient-api/medications',
+    reportTemplate: 'report-template-api'
   }
-  private apiService = inject(ApiService);
+  private readonly apiService = inject(ApiService);
 
-  constructor() { }
-
-  saveMedication<T>(patientId, medication): Observable<T> {
+  saveMedication<T>(patientId: string, medication: Medication): Observable<T> {
     return this.apiService.post(this.apiUrls.medication(patientId), medication);
   }
 
-  updateMedication<T>(patientId, medicationId, medication): Observable<T> {
+  updateMedication<T>(patientId: string, medicationId: string, medication: Medication): Observable<T> {
     return this.apiService.put(`${this.apiUrls.medication(patientId)}/${medicationId}`, medication);
   }
 
-  getMedication<T>(patientId, medicationId): Observable<T> {
+  getMedication<T>(patientId: string, medicationId: string): Observable<T> {
     return this.apiService.get(`${this.apiUrls.medication(patientId)}/${medicationId}`);
   }
 
-  getMedications<T>(patientId: string, appointmentId?: string): Observable<T> {
-    const params = appointmentId ? { appointmentId } : {}
+  getMedications<T>(patientId: string, params: HttpParams): Observable<T> {
     return this.apiService.get(this.apiUrls.medication(patientId), { params });
   }
 
-  deleteMedication<T>(patientId, medicationId): Observable<T> {
+  deleteMedication<T>(patientId: string, medicationId: string): Observable<T> {
     return this.apiService.delete(`${this.apiUrls.medication(patientId)}/${medicationId}`);
   }
 
   getAllFrequentlyUsedMedicines<T>(): Observable<T> {
-    return this.apiService.get(this.apiUrls.master()+'/medicines/frequentlyused');
+    return this.apiService.get(this.apiUrls.master() + '/medicines/frequentlyused');
   }
 
-  searchMedicines<T>(searchParam: string): Observable<T> {
-    return this.apiService.get(this.apiUrls.master()+'/medicines/search', { params: { searchParam } });
+  getMedicationById<T>(patientId: string, medicationId: string): Observable<T> {
+    return this.apiService.get(`${this.apiUrls.medication(patientId)}/${medicationId}`);
+  }
+
+  getAllMedications<T>(params: HttpParams): Observable<T> {
+    return this.apiService.get(this.apiUrls.allMedications(), { params });
+  }
+
+  getRouteOfAdministratorList<T>(): Observable<T> {
+    return this.apiService.get(this.apiUrls.master() + '/drugs/routesOfAdministrator');
+  }
+
+  checkSubstanceIsPresentInPatientAllergies<T>(patientId: string, substanceIdentifiers: string[]): Observable<T> {
+    const params = new HttpParams().set('substanceIdentifiers', substanceIdentifiers.join(','));
+    return this.apiService.get(`${this.apiUrls.medication(patientId)}/check/warning`, { params, needFullResponse: true });
+  }
+
+  getAllPatientMedications<T>(patientId: string, params: HttpParams): Observable<T> {
+    return this.apiService.get(this.apiUrls.medication(patientId), { params });
+  }
+
+  printPrescriptions<T>(params: HttpParams): Observable<T> {
+    return this.apiService.get<T>(`${this.apiUrls.reportTemplate}/reports/prescriptions/print`, { params, responseType: 'blob' })
   }
 
 }

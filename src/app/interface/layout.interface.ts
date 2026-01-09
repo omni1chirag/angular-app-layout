@@ -1,7 +1,7 @@
-export interface layoutConfig {
+export interface LayoutConfig {
     preset?: string;
     primary?: string;
-    surface?: string | undefined | null;
+    surface?: string | null;
     darkTheme?: boolean;
     menuMode?: string;
 }

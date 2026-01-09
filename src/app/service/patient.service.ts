@@ -1,6 +1,7 @@
 import { inject, Injectable, signal } from '@angular/core';
 import { ApiService } from './api.service';
 import { Observable } from 'rxjs';
+import { CreatePatient, OptForUserOtpDTO, PatientConsentOTP, PatientOptForUser } from '@interface/patient-profile.interface';
 import { HttpParams } from '@angular/common/http';
 
 @Injectable({
@@ -8,51 +9,52 @@ import { HttpParams } from '@angular/common/http';
 })
 export class PatientService {
 
-  private apiUrls = {
+  isPatientUpdated = signal<boolean>(false);
+
+  private readonly apiService = inject(ApiService);
+
+  private readonly apiUrls = {
     patient: 'patient-api/patients',
-    patientsByPhoneNumber: 'patient-api/patients/by-phone-number',
   }
 
-  private apiService = inject(ApiService);
-
-  savePatient<T>(patient): Observable<T> {
-    return this.apiService.post(this.apiUrls.patient, patient);
+  savePatient<T>(patient: CreatePatient): Observable<T> {
+    return this.apiService.post<T>(this.apiUrls.patient, patient);
   }
 
-  updatePatient<T>(patientId, patient): Observable<T> {
-    return this.apiService.put(`${this.apiUrls.patient}/${patientId}`, patient);
+  updatePatient<T>(patientId: string, patient: CreatePatient): Observable<T> {
+    return this.apiService.put<T>(`${this.apiUrls.patient}/${patientId}`, patient, { needFullResponse: true });
   }
 
-  getPatient<T>(patientId): Observable<T> {
-    return this.apiService.get(`${this.apiUrls.patient}/${patientId}`)
+  getPatient<T>(patientId: string): Observable<T> {
+    return this.apiService.get<T>(`${this.apiUrls.patient}/${patientId}`)
   }
 
-  getPatients<T>(params?): Observable<T> {
-    return this.apiService.get(this.apiUrls.patient, { params });
+  sendConsentOtp<T>(data: PatientConsentOTP): Observable<T> {
+    return this.apiService.post<T>(`${this.apiUrls.patient}/send-consent-otp`, data);
   }
 
-  getPatientBasicInfo<T>(patientId): Observable<T> {
-    return this.apiService.get(`${this.apiUrls.patient}/${patientId}/basic-info`)
+  optForUser<T>(patientId: string, data: PatientOptForUser): Observable<T> {
+    return this.apiService.patch<T>(`${this.apiUrls.patient}/${patientId}/opt-for-user`, data);
   }
 
-  getPatientByPhoneNumber<T>(params): Observable<T> {
-    return this.apiService.get(`${this.apiUrls.patient}/by-phone-number`, { params })
+  sendOPTForUserOTP<T>(data: OptForUserOtpDTO): Observable<T> {
+    return this.apiService.post<T>(`${this.apiUrls.patient}/send-opt-for-user-otp`, data);
   }
 
-  mapPatientToDoctor<T>(patient): Observable<T> {
-    return this.apiService.post(`${this.apiUrls.patient}/map-to-doctor`, patient);
+  getProfilesByPhoneNumber<T>(params: HttpParams): Observable<T> {
+    return this.apiService.get<T>(`${this.apiUrls.patient}/profiles/by-phone-number`, { params })
   }
 
-  sendConsentOtp<T>(data): Observable<T> {
-    return this.apiService.post(`${this.apiUrls.patient}/send-consent-otp`, data);
+  getCityByPatientId<T>(patientId: string): Observable<T> {
+    return this.apiService.get<T>(`${this.apiUrls.patient}/${patientId}/city`)
   }
 
-  searchPatients<T>(searchParams: any): Observable<T> {
-    let params = new HttpParams().append('name', searchParams);
-    return this.apiService.get(`${this.apiUrls.patient}/search`, { params });
+  searchPatients<T>(searchParams: string): Observable<T> {
+    const params = new HttpParams().append('name', searchParams);
+    return this.apiService.get<T>(`${this.apiUrls.patient}/search`, { params });
   }
 
-  searchPatientByName<T>(params): Observable<T> {
-    return this.apiService.get(`${this.apiUrls.patient}/search`, { params })
+  getLastVisitedDoctors<T>(patientId: string, limit: number): Observable<T> {
+    return this.apiService.get<T>(`${this.apiUrls.patient}/${patientId}/doctors/last-visited`, {params: {limit}});
   }
 }

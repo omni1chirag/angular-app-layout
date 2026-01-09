@@ -1,23 +1,25 @@
-import { AfterViewInit, Directive, ElementRef, Input, Renderer2 } from '@angular/core';
+import { AfterViewInit, Directive, ElementRef, inject, Input, Renderer2 } from '@angular/core';
 
 @Directive({
   selector: '[mandatoryFieldLabel]'
 })
 export class MandatoryFieldLabelDirective implements AfterViewInit {
+  private readonly el = inject(ElementRef);
+  private readonly renderer = inject(Renderer2);
+
   private _isMandatory = true;
 
   @Input() set mandatoryFieldLabel(value: boolean | string) {
     this._isMandatory = value === '' || value === true || value === 'true';
   }
-  constructor(private el: ElementRef, private renderer: Renderer2) { }
 
-  ngAfterViewInit() {
+  ngAfterViewInit(): void {
     if (this._isMandatory) {
       this.addMandatoryAsterisk();
     }
   }
 
-  addMandatoryAsterisk() {
+  addMandatoryAsterisk(): void {
     const element = this.el.nativeElement;
     for (let i = element.childNodes.length - 1; i >= 0; i--) {
       const node = element.childNodes[i];

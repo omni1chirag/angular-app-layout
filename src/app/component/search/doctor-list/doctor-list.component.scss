@@ -1,0 +1,150 @@
+.doctor-dataview {
+  // Custom styling for DataView
+  ::ng-deep .p-dataview-content {
+    padding: 0;
+    background: transparent;
+  }
+
+  ::ng-deep .p-dataview-header {
+    padding: 0;
+    border: none;
+    background: transparent;
+  }
+
+  // Grid layout styling
+  &[data-layout="grid"] ::ng-deep .p-dataview-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 1rem;
+    padding: 1rem;
+  }
+
+  // List layout styling
+  &[data-layout="list"] ::ng-deep .p-dataview-content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 1rem;
+  }
+
+  // Loading overlay
+  ::ng-deep .p-dataview-loading-overlay {
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(2px);
+  }
+
+  // Paginator styling
+  ::ng-deep .p-paginator {
+    background: white;
+    border: 1px solid var(--p-surface-border);
+    border-radius: 0.75rem;
+    padding: 1rem;
+    margin-top: 1.5rem;
+
+    .p-paginator-pages .p-paginator-page {
+      margin: 0 0.125rem;
+      border-radius: 0.5rem;
+    }
+
+    .p-dropdown {
+      margin: 0 0.5rem;
+    }
+  }
+}
+
+// Header styling
+.dataview-header {
+  ::ng-deep .p-float-label {
+    margin-bottom: 0;
+  }
+
+  ::ng-deep .p-select {
+    min-width: 160px;
+  }
+
+  ::ng-deep .p-selectbutton .p-button {
+    padding: 0.5rem;
+    min-width: 2.5rem;
+
+    &.p-highlight {
+      background: var(--p-primary-color);
+      color: var(--p-primary-contrast-color);
+    }
+  }
+}
+
+// Doctor card hover effects
+.doctor-card {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+                0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  }
+}
+
+// List layout card hover
+.list-layout-card:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+              0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+// Avatar styling
+::ng-deep .p-avatar.p-avatar-circle {
+  border: 2px solid var(--p-surface-border);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+
+  img {
+    object-fit: cover;
+  }
+}
+
+// Empty state styling
+.empty-state .pi-search {
+  color: var(--p-surface-400);
+}
+
+// Responsive adjustments
+@media (max-width: 768px) {
+  ::ng-deep .p-select {
+    min-width: 140px;
+  }
+
+  .doctor-dataview[data-layout="grid"] ::ng-deep .p-dataview-content,
+  .doctor-dataview[data-layout="list"] ::ng-deep .p-dataview-content {
+    padding: 0.5rem;
+  }
+}
+
+@media (max-width: 640px) {
+  ::ng-deep .p-dataview-grid .p-grid {
+    margin: 0 !important;
+  }
+
+  .doctor-card {
+    margin-bottom: 1rem;
+  }
+}
+
+// Loading skeleton
+::ng-deep .p-skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--p-surface-100) 25%,
+    var(--p-surface-200) 50%,
+    var(--p-surface-100) 75%
+  );
+  background-size: 200% 100%;
+  animation: loading 1.5s infinite;
+}
+
+@keyframes loading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}

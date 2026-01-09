@@ -1,17 +1,19 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, DOCUMENT } from '@angular/common';
 import { HttpParams } from '@angular/common/http';
-import { Component, effect, EventEmitter, forwardRef, input, Output, output } from '@angular/core';
+import { Component, effect, forwardRef, inject, input, output } from '@angular/core';
 import { ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
+import { DocumentResponse, DocumentUpload, DocumentUploadResponse } from '@interface/document.interface';
 import { TranslateModule } from '@ngx-translate/core';
 import { DocumentService } from '@service/document.service';
 import { NotificationService } from '@service/notification.service';
 import { ConfirmationService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
-import { FileUploadModule } from 'primeng/fileupload';
+import { FileSelectEvent, FileUploadModule } from 'primeng/fileupload';
 import { InputGroupModule } from 'primeng/inputgroup';
 import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 import { InputTextModule } from 'primeng/inputtext';
+import { v4 as uuidv4 } from 'uuid';
 
 @Component({
   selector: 'app-file-upload',
@@ -39,36 +41,45 @@ import { InputTextModule } from 'primeng/inputtext';
 })
 export class FileUploadComponent implements ControlValueAccessor {
 
-  value: any = '';
+  value = '';
+  fileName = '';
+  isViewModelVisible = false;
 
   readonly fileTypeSupported = input<string>('*');
-  readonly moduleId = input<number | string>(undefined);
-  readonly subModuleId = input<number | string>(undefined);
+  readonly moduleId = input.required<number>();
+  readonly subModuleId = input.required<number>();
   readonly objectId = input.required<string>();
   readonly source = input.required<string>();
   readonly fileSize = input<number>(10);
-  readonly isView = input<Boolean>(false);
-  readonly isDelete = input<Boolean>(false);
-  readonly disabled = input<Boolean>(false);
-  readonly fileStored = output<any>();
-  readonly multiple = input<Boolean>(false);
+  readonly isView = input<boolean>(false);
+  readonly isDelete = input<boolean>(false);
+  readonly disabled = input<boolean>(false);
+  readonly multiple = input<boolean>(false);
+  private readonly document = inject(DOCUMENT);
 
-  @Output() completeDocumentUpload = new EventEmitter<any>();
+  readonly fileStored = output<string | null>();
+  readonly completeDocumentUpload = output<DocumentUploadResponse>();
 
-  currentUploadId = 'app-upload' + Math.floor(Math.random() * 150000);
-  isViewModelVisible = false;
-  fileName = '';
-  onChange: any = () => { };
-  onTouched: any = () => { };
+  readonly currentUploadId = `app-upload-${uuidv4()}`;
+
+  onChange: (value: string) => void = () => {
+    // no Implementation
+  };
+  onTouched: () => void = () => {
+    // Mark the component as touched for Angular forms
+  };
+
+
 
   get fileSizeInBytes(): number {
     return (this.fileSize()) * 1000000;
   }
 
-  constructor(private documentService: DocumentService,
-    private notificationService: NotificationService,
-    private confirmationService: ConfirmationService
-  ) {
+  private readonly documentService = inject(DocumentService);
+  private readonly notificationService = inject(NotificationService);
+  private readonly confirmationService = inject(ConfirmationService);
+
+  constructor() {
     effect(() => {
       if (this.objectId()) {
         this.getCurrentDocument();
@@ -76,65 +87,73 @@ export class FileUploadComponent implements ControlValueAccessor {
     });
   }
 
-  getCurrentDocument() {
-    let params = new HttpParams().append('objectId', this.objectId()).append('moduleId', this.moduleId()).append('subModuleId', this.subModuleId());
-    this.documentService.getDocumentByMapping(params).subscribe((resp: any) => {
-      if (resp.data) {
-        this.value = resp.data.documentId;
-        this.fileName = resp.data.docName;
+  getCurrentDocument(): void {
+    const params = new HttpParams().append('objectId', this.objectId()).append('moduleId', this.moduleId()).append('subModuleId', this.subModuleId());
+    this.documentService.getDocumentByMapping<DocumentResponse>(params).subscribe((data: DocumentResponse) => {
+      if (data) {
+        this.value = data.documentId;
+        this.fileName = data.docName;
       }
     })
   }
 
-  openFileSelector() {
-    const tmp = document.getElementById(this.currentUploadId).getElementsByClassName('p-fileupload-choose-button')
+  openFileSelector(): void {
+    const tmp = document.getElementById(this.currentUploadId)?.getElementsByClassName('p-fileupload-choose-button')
     if (tmp && tmp.length > 0) {
-      (<HTMLElement>tmp[0]).click()
+      (tmp[0] as HTMLElement).click()
     }
   }
 
-  onFileSelect(event: any) {
+  onFileSelect(event: FileSelectEvent): void {
     const file = event.files[0];
-    if (!this.validateFile(file)) {
+    if (file && !this.validateFile(file)) {
       this.clearFile();
       return;
     }
 
     const formData = new FormData();
-    formData.append('file', file);
-    const json = {
-      'moduleId': this.moduleId(),
-      'subModuleId': this.subModuleId(),
-      'source': this.source()
+    formData.append('file', file as Blob);
+    const json: DocumentUpload = {
+      moduleId: this.moduleId(),
+      subModuleId: this.subModuleId(),
+      source: this.source(),
+      objectId: this.objectId()
     }
     formData.append('dataObject', JSON.stringify(json));
 
-    this.documentService.uploadDocument(formData).subscribe({
-      next: (response: any) => {
-        if (response.data) {
-          this.value = response.data.documentId;
-          this.fileName = response.data.docName;
+    this.documentService.uploadDocument<DocumentUploadResponse>(formData).subscribe({
+      next: (data: DocumentUploadResponse) => {
+        if (data) {
+          this.value = data.documentId;
+          this.fileName = data.docName;
           this.onChange(this.value);
           this.fileStored.emit(this.value);
-          this.completeDocumentUpload.emit(response.data);
+          this.completeDocumentUpload.emit(data);
         }
       },
-      error: (err) => {
+      error: (err: unknown) => {
         console.error('Upload failed:', err);
         this.clearFile();
       }
     });
   }
 
-  deleteDocument() {
+  deleteDocument(): void {
     const deleteFile = () => {
-      this.documentService.deleteDocument(this.value).subscribe((resp: any) => {
-        this.notificationService.showSuccess(resp.message)
+      const apiCall = this.documentService.deleteDocument(this.value);
+      apiCall.subscribe(() => {
         this.clearFile();
         this.onChange(null);
         this.fileStored.emit(null);
+        this.handleDrawerOverflow();
       })
+
     }
+
+    const rejectConfirmation = () => {
+      this.handleDrawerOverflow();
+    };
+
     this.confirmationService.confirm({
       message: `Are you sure you want to delete this document?`,
       header: 'Confirmation',
@@ -151,6 +170,7 @@ export class FileUploadComponent implements ControlValueAccessor {
         text: true,
       },
       accept: deleteFile,
+      reject: rejectConfirmation
     });
 
   }
@@ -166,9 +186,10 @@ export class FileUploadComponent implements ControlValueAccessor {
     if (fileTypeSupported !== '*') {
       const typeList = fileTypeSupported.split(",");
       let flag = true;
-      const fileType = file.type.split("/")[1];
+      const fileType = file.type.split("/")[1] ?? '';
       typeList.forEach((type) => {
-        if (fileType.match(new RegExp(type.replace('.', '')))) {
+        const regex = new RegExp(type.replace('.', ''));
+        if (regex.exec(fileType)) {
           flag = false;
         }
       })
@@ -181,29 +202,47 @@ export class FileUploadComponent implements ControlValueAccessor {
     return true;
   }
 
-  clearFile() {
+  clearFile(): void {
     this.fileName = '';
+    this.value = '';
   }
 
-  writeValue(value: any): void {
+  writeValue(value: string): void {
     this.value = value;
   }
 
-  registerOnChange(fn: any): void {
+  registerOnChange(fn: (value: string) => void): void {
     this.onChange = fn;
   }
 
-  registerOnTouched(fn: any): void {
+  registerOnTouched(fn: () => void): void {
     this.onTouched = fn;
   }
 
-  setDisabledState?(isDisabled: boolean): void {
-    // Implement if needed
-  }
-
-  openViewModal() {
+  openViewModal(): void {
     if (!this.value) return;
     this.documentService.viewDocument(this.value);
+  }
+
+  /**
+ * Fix for PrimeNG v19: Prevents the background from becoming scrollable 
+ * when a nested overlay (e.g., OverlayPanel) closes while a Drawer is still active.
+ */
+  handleDrawerOverflow(): void {
+    const drawerSelectors = ['p-drawer', '.p-drawer-mask', '.p-drawer-active'];
+
+    // Check if any drawer element exists in the DOM
+    const isDrawerActive = drawerSelectors.some(selector =>
+      this.document.querySelector(selector)
+
+    );
+    if (isDrawerActive) {
+      // Using a very short delay ensures we run 
+      // after PrimeNG's internal 'onHide' cleanup logic.
+      setTimeout(() => {
+        this.document.body.classList.add('p-overflow-hidden');
+      }, 200);
+    }
   }
 
 }

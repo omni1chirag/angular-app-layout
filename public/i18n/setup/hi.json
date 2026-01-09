@@ -71,5 +71,24 @@
       "CARE_PLAN_SETUP_MASTER_ALREADY_EXISTS": "केयरप्लान सेटअप पहले से मौजूद है।",
       "CARE_PLAN_SETUP_ALREADY_EXISTS": "केयरप्लान सेटअप पहले से मौजूद है।"
     }
+  },
+  "NOTIFICATION": {
+    "TITLE": "सूचना सूची",
+    "CLEAR": "साफ़ करें",
+    "MARK_ALL_AS_READ": "सभी को पढ़ा हुआ चिह्नित करें",
+    "DELETE_ALL": "सभी हटाएँ",
+    "TRANSACTION_DATE": "लेन-देन की तारीख",
+    "SEARCH_MESSAGE": "संदेश खोजें",
+    "MESSAGE": "संदेश",
+    "ACTIONS": "कार्रवाइयाँ",
+    "LOCK": "ताला लगाएँ",
+    "UNLOCK": "ताला खोलें",
+    "MARK_AS_READ": "पढ़ा हुआ चिह्नित करें",
+    "DELETE": "हटाएँ",
+    "DELETE_CONFIRMATION": "क्या आप वाकई इस सूचना को हटाना चाहते हैं?",
+    "DELETE_ALL_CONFIRMATION": "क्या आप वाकई चयनित सूचनाओं को हटाना चाहते हैं?",
+    "CONFIRM_DELETE_HEADER": "हटाने की पुष्टि",
+    "YES": "हाँ",
+    "NO": "नहीं"
   }
 }

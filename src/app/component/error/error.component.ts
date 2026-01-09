@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { APP_ROUTES } from '@constants/app.constants';
 import { ErrorState } from '@interface/error-state.interface';
@@ -21,10 +21,11 @@ export class ErrorComponent {
   imageSrc = "/assets/images/login-bg-2-ghibli.png";
   logoSrc = "/assets/images/logo-white.png";
 
-  constructor(private router: Router,
-    private platformService: PlatformService,
-    private keycloakService: KeycloakService
-  ) {
+  private readonly router = inject(Router);
+  private readonly platformService = inject(PlatformService);
+  private readonly keycloakService = inject(KeycloakService);
+
+  constructor() {
     const navigation = this.router.getCurrentNavigation();
     this.errorState = navigation?.extras?.state as ErrorState | null;
 
@@ -33,7 +34,7 @@ export class ErrorComponent {
     }
   }
 
-  navigateToHome() {
+  navigateToHome():void {
     this.keycloakService.logout(APP_ROUTES.APP);
   }
 }

@@ -1,0 +1,93 @@
+<p-drawer [(visible)]="isVisible" position="right" appendTo="body" closable="false" [dismissible]="false"
+    styleClass="!w-full sm:!w-80 md:!w-80 lg:!w-[30rem]" blockScroll="true">
+    <ng-template #header>
+        <span class="flex flex-col w-full">
+            <span class="flex w-full justify-between">
+                <h4 *ngIf="pastMedicalHistoryId()" class="flex w-full text-base/7 font-semibold text-gray-900">{{
+                    'PAST_MEDICAL_HISTORY.EDIT_PAST_MEDICAL_HISTORY' |
+                    translate }}</h4>
+                <h4 *ngIf="!pastMedicalHistoryId()" class="flex w-full text-base/7 font-semibold text-gray-900">{{
+                    'PAST_MEDICAL_HISTORY.ADD_PAST_MEDICAL_HISTORY' |
+                    translate }}</h4>
+                <p-button icon="pi pi-times" class="flex justify-self-end" (onClick)="isVisible.set(false)"
+                    severity="secondary" [rounded]="true" [text]="true" />
+            </span>
+            <p-divider class="flex col-span-full w-full " />
+        </span>
+
+    </ng-template>
+
+    <form [formGroup]="pastHistoryForm">
+
+        <div class="grid grid-cols-12 gap-6">
+            <div class="flex flex-col col-span-full">
+                <label mandatoryFieldLabel for="medicalCondition">{{ 'PAST_MEDICAL_HISTORY.MEDICAL_CONDITION' |
+                    translate
+                    }}</label>
+                <div class="mt-2">
+                    <p-autocomplete dropdown id="medicalCondition" formControlName="medicalCondition" [forceSelection]="true"
+                        [suggestions]="filteredmedicalCondition" (completeMethod)="searchmedicalCondition($event.query)"
+                        (onSelect)="onMedicalConditionSelect($event)" optionLabel="label" [appendTo]="'body'" [dropdown]="false"
+                        placeholder="{{ 'PAST_MEDICAL_HISTORY.PLACE_HOLDER.PAST_MEDICAL_CONDITION' | translate }}"
+                        class="w-full" [style]="{'width':'100%'}" [inputStyle]="{ width: '100%' }" minLength="3" />
+                </div>
+            </div>
+
+            <div class="flex flex-col col-span-full">
+                <label mandatoryFieldLabel for="diagnosisDate">{{ 'PAST_MEDICAL_HISTORY.DIAGNOSIS_DATE' | translate
+                    }}</label>
+                <div class="mt-2">
+                    <p-datepicker dateMask dateFormat="dd/mm/yy" class="w-full" [maxDate]="yesterday"
+                        formControlName="diagnosisDate" [showIcon]="true" [iconDisplay]="'input'"
+                        [style]="{'width': '100%'}"
+                        placeholder="{{ 'PAST_MEDICAL_HISTORY.PLACE_HOLDER.DIAGNOSIS_DATE'| translate }}"
+                        [showButtonBar]="true" appendTo="body" />
+                </div>
+            </div>
+
+            <div class="flex flex-col col-span-full">
+                <label mandatoryFieldLabel for="status">{{ 'PAST_MEDICAL_HISTORY.STATUS' | translate }}</label>
+                <div class="mt-2">
+                    <p-select id="status" formControlName="status" [options]="statusOptions" optionLabel="label"
+                        optionValue="label" placeholder="{{ 'PAST_MEDICAL_HISTORY.PLACE_HOLDER.STATUS' | translate }}"
+                        class="w-full" [appendTo]="'body'">
+                    </p-select>
+                </div>
+            </div>
+
+            <div class="flex flex-col col-span-full">
+                <label for="notes">{{ 'PAST_MEDICAL_HISTORY.NOTES' | translate }}</label>
+                <div class="mt-2">
+                    <textarea pTextarea rows="3" maxlength="100" id="notes" formControlName="notes" class="w-full"
+                        placeholder="{{ 'PAST_MEDICAL_HISTORY.PLACE_HOLDER.NOTES' | translate }}">
+                    </textarea>
+                </div>
+            </div>
+
+            <div class="flex flex-col col-span-full">
+                <label for="attachReports">{{'PAST_MEDICAL_HISTORY.ATTACH_REPORTS' | translate }}</label>
+                <div class="mt-2">
+                    <app-file-upload formControlName="attachReports" [moduleId]="moduleId" [fileSize]="10"
+                        [isView]="true" [subModuleId]="subModuleId" source="PastHistory" [objectId]="getPastHistoryId()"
+                        [disabled]="mode === 'EDIT_PAST_MEDICAL_HISTORY'"
+                        [fileTypeSupported]="supportedTypes"></app-file-upload>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <ng-template #footer>
+        <p-divider />
+        <div class="grid grid-cols-12 gap-2">
+            <div class="hidden md:flex col-span-12 md:col-span-6"></div>
+            <div class="flex col-span-12 md:col-span-6 items-center gap-2">
+                <p-button label="{{'SAVE'| translate }}" size="small" (onClick)="save()" class="w-full"
+                    [styleClass]="'w-full sm:w-full md:w-full lg:w-full'" [loading]="isCallInitiated"
+                    [disabled]="isCallInitiated" />
+                <p-button label="{{'CANCEL'| translate }}" severity="danger" class="w-full"
+                    [styleClass]="'w-full sm:w-full md:w-full lg:w-full'" [outlined]="true"
+                    (onClick)="isVisible.set(false)" size="small" />
+            </div>
+        </div>
+    </ng-template>
+</p-drawer>

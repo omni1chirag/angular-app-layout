@@ -1,0 +1,525 @@
+<!-- Loading State -->
+<div *ngIf="loadingState() === LoadingState.LOADING" class="flex justify-center items-center min-h-[400px]">
+    <p-progressSpinner strokeWidth="4" [style]="{'width': '50px', 'height': '50px'}" styleClass="w-8 h-8" />
+</div>
+
+<!-- Error State -->
+<div *ngIf="loadingState() === LoadingState.ERROR" class="flex flex-col items-center justify-center min-h-[400px] p-6">
+    <div class="space-y-4 text-center">
+        <i class="text-4xl text-red-500 pi pi-exclamation-triangle"></i>
+        <h3 class="text-lg font-semibold text-gray-800">
+            {{'ERROR.LOADING_FAILED' | translate}}
+        </h3>
+        <p class="text-gray-600">
+            {{'ERROR.TRY_AGAIN_LATER' | translate}}
+        </p>
+        <button pButton label="{{'ACTION.RETRY' | translate}}" class="p-button-outlined" (click)="ngOnInit()">
+        </button>
+    </div>
+</div>
+
+<!-- Main Content -->
+<div pageHeader="list" *ngIf="loadingState() === LoadingState.SUCCESS">
+    <p-toolbar>
+        <ng-template #start>
+            <div class="flex items-center gap-2">
+                <p class="text-2xl font-bold sm:truncate sm:text-3xl sm:tracking-tight">
+                    Appointment Booking
+                </p>
+            </div>
+        </ng-template>
+
+        <ng-template #end>
+            <div class="flex items-center gap-2" *ngIf="appointmentForm && loadingState() === LoadingState.SUCCESS">
+                <button (click)="confirmAppointment()" pButton label="{{'APPOINTMENT.CONFIRM_BOOK' | translate}}"
+                    [disabled]="!appointmentForm.valid || isCallInitiated()"
+                    class="px-8 py-3 rounded-xl font-semibold min-w-[200px]" [loading]="isCallInitiated()">
+                </button>
+            </div>
+        </ng-template>
+    </p-toolbar>
+</div>
+
+<div class="flex flex-col">
+    <div *ngIf="loadingState() === LoadingState.SUCCESS && doctor()"
+        class="grid items-stretch grid-cols-1 gap-6 p-2 lg:grid-cols-2">
+        <!-- Left Section: Doctor Info -->
+        <div class="flex flex-col">
+            <!-- Doctor Info card -->
+            <div
+                class="flex flex-col flex-grow p-4 transition duration-300 bg-white shadow sm:p-6 rounded-2xl hover:shadow-lg">
+                <div class="flex flex-col items-center gap-4 md:flex-row md:items-start">
+                    <!-- Doctor Photo -->
+                    <div class="relative flex-shrink-0">
+                        <p-avatar *ngIf="!imageError()"
+                            [image]="`${host}/document-api/documents/thumbnail?objectId=${doctor()?.doctorId}&moduleId=4&subModuleId=4`"
+                            (onImageError)="onImageError()"
+                            class="!w-20 !h-20 sm:!w-24 sm:!h-24 md:!w-50 md:!h-45 rounded-full border border-gray-200 shadow-sm">
+                        </p-avatar>
+
+                        <p-avatar *ngIf="imageError()" icon="pi pi-user" [label]="setInitials(doctor())"
+                            class="!w-20 !h-20 sm:!w-24 sm:!h-24 md:!w-50 md:!h-45 rounded-full border border-gray-200 shadow-sm"
+                            [style]="{ 'background-color': 'var(--p-button-outlined-primary-active-background)', color: 'var(--p-button-outlined-primary-color)', 'font-weight': '600' }">
+                        </p-avatar>
+                    </div>
+
+                    <!-- Doctor Info -->
+                    <div class="flex-1 space-y-2 text-center break-words md:text-left">
+                        <h2 class="text-xl sm:text-2xl font-bold !mb-0 text-gray-800 truncate"
+                            [title]="(doctor().title || '') + ' ' + (doctor().fullName || '')">
+                            {{ doctor()?.title }} {{ doctor()?.fullName }}
+                        </h2>
+                        <span class="items-center text-sm font-medium text-green-600">
+                            <i class="mr-1 pi pi-check-circle"></i> {{'DOCTOR.VERIFIED' | translate}}
+                        </span>
+                        <p class="text-base !m-0 text-gray-600" [title]="doctor()?.qualificationsText">
+                            {{ doctor()?.qualificationsText | slice:0:50 }}
+                            <span *ngIf="doctor()?.qualificationsText?.length > 50">... more</span>
+                        </p>
+                        <p class="text-base !m-0 text-gray-600" [title]="doctor()?.specialitiesText">
+                            <span class="font-medium">Specialties:</span>
+                            {{ doctor()?.specialitiesText | slice:0:50 }}
+                            <span *ngIf="doctor()?.specialitiesText?.length > 50">... more</span>
+                        </p>
+                        <p class="text-base !m-0 text-gray-600">
+                            <span class="font-medium">Experience:</span>
+                            {{ doctor()?.yearOfExperience }} years
+                        </p>
+
+                        <!-- Selected Clinic -->
+                        <ng-container *ngIf="getActiveClinic() as clinic">
+                            <div class="p-3 mt-3 text-center border rounded-xl bg-gray-50 md:text-left">
+                                <p
+                                    class="text-base sm:text-lg font-semibold text-gray-800 !mb-[0.25px] flex items-center justify-center md:justify-start gap-2">
+                                    <i class="text-blue-600 pi pi-hospital"></i>
+                                    {{ clinic?.clinicName }}
+                                </p>
+
+                                <div
+                                    class="flex flex-col !m-1 sm:flex-row items-center justify-center md:justify-start gap-3 text-sm">
+                                    <a [href]="'tel:+91' + clinic.mobileNumber"
+                                        class="flex items-center gap-1 text-green-700 transition-colors hover:text-green-800">
+                                        <i class="pi pi-phone"></i>
+                                        +91 {{ maskMobile(clinic.mobileNumber) }}
+                                    </a>
+
+                                    <span class="hidden text-gray-300 sm:block">|</span>
+
+                                    <a [href]="'mailto:' + clinic.email"
+                                        class="flex items-center gap-1 text-purple-700 transition-colors hover:text-purple-800">
+                                        <i class="pi pi-envelope"></i>
+                                        {{ clinic.email }}
+                                    </a>
+                                </div>
+
+                                <!-- Address -->
+                                <p
+                                    class="text-sm text-gray-600 !m-1 flex items-center justify-center md:justify-start gap-2">
+                                    <i class="text-red-500 pi pi-map-marker"></i>
+                                    {{ clinic?.address }}, {{ clinic?.city }}, {{ clinic?.pincode }},
+                                    {{ clinic?.state }}, {{ clinic?.country }}
+                                </p>
+                            </div>
+                        </ng-container>
+                    </div>
+                </div>
+
+                <!-- About Tabs -->
+                <p-tabs [value]="0" scrollable class="w-full !mb-0 mt-4">
+                    <p-tablist>
+                        <p-tab *ngFor="let tab of doctor().aboutTabs; index as i" [value]="i">
+                            <div class="px-4 py-2 text-center">
+                                <div class="font-medium">{{ tab.label }}</div>
+                            </div>
+                        </p-tab>
+                    </p-tablist>
+
+                    <p-tabpanels>
+                        <p-tabpanel *ngFor="let tab of doctor().aboutTabs; index as i" [value]="i">
+                            <div class="p-3 overflow-y-auto leading-relaxed text-gray-700 max-h-64">
+                                {{ tab.content }}
+                            </div>
+                        </p-tabpanel>
+                    </p-tabpanels>
+                </p-tabs>
+
+                <!-- About Section (if available) -->
+                <div *ngIf="doctor().about" class="p-6 mt-4 bg-white shadow-sm rounded-2xl">
+                    <h3 class="mb-3 text-lg font-semibold text-gray-800">
+                        {{'DOCTOR.ABOUT' | translate}}
+                    </h3>
+                    <p class="leading-relaxed text-gray-600">
+                        {{ doctor().about }}
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Section: Booking -->
+        <div class="flex flex-col">
+            <form [formGroup]="appointmentForm" *ngIf="appointmentForm"
+                class="flex flex-col flex-grow p-6 space-y-6 bg-white shadow rounded-2xl">
+
+                <!-- Clinic Selection & Fee -->
+                <div class="p-0 m-0 mb-3">
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="text-2xl font-semibold text-gray-800">{{'CLINIC' | translate}}</span>
+                        <span class="text-base font-semibold text-gray-800" *ngIf="consultationFee()">
+                            {{'APPOINTMENT.CONSULTATION_FEE' | translate}}:
+                            <span class="text-xl font-semibold"> ₹{{ consultationFee() }}</span>
+                        </span>
+                    </div>
+                    <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+                        <!-- Clinic Selection -->
+                        <div class="md:grid-cols-1">
+                            <p-floatlabel variant="on">
+                                <p-select [options]="doctor()?.clinics || []" class="w-full" inputId="clinicId"
+                                    optionLabel="clinicName" optionValue="clinicId" formControlName="clinicId"
+                                    [filter]="true" [name]="'clinic-' + doctor()?.doctorId"
+                                    [ngClass]="{'ng-invalid ng-dirty': appointmentForm.get('clinicId')?.invalid && appointmentForm.get('clinicId')?.touched}">
+                                </p-select>
+                                <label for="clinicId">{{'PLACE_HOLDER.CHANGE_CLINIC' | translate}}</label>
+                            </p-floatlabel>
+                            <!-- Error Message -->
+                            <small
+                                *ngIf="appointmentForm.get('clinicId')?.invalid && appointmentForm.get('clinicId')?.touched"
+                                class="text-red-500">
+                                {{'APPOINTMENT.ERROR.CLINIC_REQUIRED' | translate}}
+                            </small>
+                        </div>
+
+                        <!-- Reason for Visit -->
+                        <div class="md:grid-cols-1">
+                            <p-floatlabel variant="on">
+                                <p-autoComplete #rfv_auto id="reasonForVisit" formControlName="reasonForVisit" multiple
+                                    inputStyleClass="w-full" [style]="{'width': '100%'}" [suggestions]="rfvSuggestions"
+                                    inputId="reasonForVisit" [minLength]="3" (onClear)="clearRFV()" (onBlur)="clearRFVSearch()"
+                                    [ngClass]="{'ng-invalid ng-dirty': appointmentForm.get('reasonForVisit')?.invalid && appointmentForm.get('reasonForVisit')?.touched}"
+                                    (completeMethod)="searchRFV($event)" />
+                                <label for="reasonForVisit">{{'APPOINTMENT.PLACE_HOLDER.REASON_FOR_VISIT' |
+                                    translate}}</label>
+                            </p-floatlabel>
+                            <!-- Error Message -->
+                            <small
+                                *ngIf="appointmentForm.get('reasonForVisit')?.invalid && appointmentForm.get('reasonForVisit')?.touched"
+                                class="text-red-500">
+                                {{'APPOINTMENT.ERROR.REASON_FOR_VISIT_REQUIRED' | translate}}
+                            </small>
+                        </div>
+                    </div>
+                </div>
+
+                @if (clinicId) {
+                    <!-- Consult Type -->
+                    <div class="p-0 m-0 consult-type-select">
+                        <p-selectButton [options]="consultTypes" formControlName="appointmentType" optionLabel="label"
+                            name="appointmentType" optionValue="value" class="w-full" unselectable="true">
+                        </p-selectButton>
+                    </div>
+
+                    <!-- Date Tabs with Slots - NEW ARCHITECTURE -->
+                    <div class="date-slots-section">
+                        <p-tabs [(value)]="activeTab" scrollable class="w-full mb-[-15px]">
+                            <p-tablist #tabList>
+                                <ng-template #previcon>
+                                    <i class="pi pi-arrow-left"></i>
+                                </ng-template>
+
+                                <!-- Iterate through dates from SlotManager -->
+                                @for(dateEntry of dates(); track dateEntry.date) {
+                                    <p-tab [value]="dateEntry.index" [disabled]="getSlotCount(dateEntry) === 0"
+                                          (keydown)="onTabKeyDown($event,dateEntry.index)">
+                                        <button class="px-4 py-2 text-center"
+                                                (click)="dateChange(dateEntry.index)"
+
+                                                tabindex="0"
+                                                [attr.data-tab-index]="dateEntry.index"
+                                                [attr.aria-label]="getTabAriaLabel(dateEntry)">
+                                            <div class="font-medium">
+                                                {{ dateEntry.dayName }}, {{ dateEntry.date | date:'d MMM' }}
+                                            </div>
+                                            <div [ngClass]="getSlotCount(dateEntry) > 0 ? 'text-green-600 text-sm' : 'text-gray-400 text-sm'">
+                                                {{ getSlotCount(dateEntry) > 0
+                                                    ? (getSlotCount(dateEntry) + ' Slots Available')
+                                                    : 'No Slots Available' }}
+                                            </div>
+                                        </button>
+                                    </p-tab>
+                                }
+
+                                <ng-template #nexticon>
+                                    <i class="pi pi-arrow-right"></i>
+                                </ng-template>
+                            </p-tablist>
+
+                            <p-tabpanels>
+                                @for(dateEntry of dates(); track dateEntry.date) {
+                                    <p-tabpanel [value]="dateEntry.index">
+                                        <div class="p-2">
+                                            <!-- Check if slots are loaded for this date -->
+                                            <ng-container *ngIf="getSlots(dateEntry) as slotData; else loadingOrEmpty">
+                                                <ng-container *ngIf="getSlotCount(dateEntry) > 0; else noSlots">
+                                                    <div class="pr-2 overflow-y-auto max-h-60">
+                                                        <!-- Iterate through day parts -->
+                                                        <div class="flex flex-wrap gap-2"
+                                                            *ngFor="let dayPart of dayParts">
+                                                            <ng-container *ngIf="getDisplaySlots(dateEntry)?.[dayPart] as dayPartSlots">
+                                                                <h6 class="w-full font-semibold text-gray-700 text-md"
+                                                                    *ngIf="dayPartSlots?.length">
+                                                                    {{ dayPart }}
+                                                                    <div class="flex flex-wrap gap-2 mt-2">
+                                                                        <p-button
+                                                                            *ngFor="let slot of dayPartSlots; trackBy: trackBySlot"
+                                                                            [severity]="slot.booked ? 'primary' : 'secondary'"
+                                                                            pButton
+                                                                            (onClick)="onSlotSelection(dateEntry, slot, dayPart)"
+                                                                            [disabled]="isCallInitiated() || slot.isBlocked"
+                                                                            type="button"
+                                                                            class="p-button-sm !p-0 h-12"
+                                                                            [label]="slot.time"
+                                                                            [attr.aria-label]="getSlotAriaLabel(slot, dayPart, dateEntry.date)">
+                                                                        </p-button>
+                                                                    </div>
+                                                                </h6>
+                                                            </ng-container>
+                                                        </div>
+                                                    </div>
+                                                </ng-container>
+
+                                                <ng-template #noSlots>
+                                                    <div class="py-8 text-center max-h-64">
+                                                        <i class="mb-2 text-3xl text-gray-300 pi pi-calendar-times"></i>
+                                                        <p class="text-sm text-gray-500">
+                                                            {{'APPOINTMENT.NO_SLOTS_AVAILABLE' | translate}}
+                                                        </p>
+                                                    </div>
+                                                </ng-template>
+                                            </ng-container>
+
+                                            <!-- Loading or Empty Template -->
+                                            <ng-template #loadingOrEmpty>
+                                                <div class="flex flex-col items-center justify-center py-8 max-h-64">
+                                                    <ng-container *ngIf="isLoadingSlots(); else emptyState">
+                                                        <p-progressSpinner
+                                                            strokeWidth="4"
+                                                            [style]="{'width': '40px', 'height': '40px'}" />
+                                                        <p class="mt-3 text-sm text-gray-500">
+                                                            Loading slots...
+                                                        </p>
+                                                    </ng-container>
+
+                                                    <ng-template #emptyState>
+                                                        <i class="mb-2 text-3xl text-gray-300 pi pi-calendar-times"></i>
+                                                        <p class="text-sm text-gray-500">
+                                                            {{'APPOINTMENT.NO_SLOTS_AVAILABLE' | translate}}
+                                                        </p>
+                                                    </ng-template>
+                                                </div>
+                                            </ng-template>
+                                        </div>
+                                    </p-tabpanel>
+                                }
+                            </p-tabpanels>
+                        </p-tabs>
+                    </div>
+
+                    <!-- No Dates Message -->
+                    <div *ngIf="dates().length === 0" class="py-12 text-center">
+                        <i class="mb-3 text-4xl text-gray-300 pi pi-calendar"></i>
+                        <p class="text-sm text-gray-500">
+                            {{'APPOINTMENT.NO_SLOTS_AVAILABLE' | translate}}
+                        </p>
+                    </div>
+                }
+
+                <!-- Error Message for Date/Time -->
+                <small
+                    *ngIf="appointmentForm.get('startDateTime')?.invalid && appointmentForm.get('startDateTime')?.touched"
+                    class="text-red-500">
+                    <span *ngIf="appointmentForm.get('startDateTime')?.errors?.['required']">
+                        {{'APPOINTMENT.ERROR.DATE_TIME_REQUIRED' | translate}}
+                    </span>
+                    <span *ngIf="appointmentForm.get('startDateTime')?.errors?.['pastDate']">
+                        {{'APPOINTMENT.ERROR.PAST_DATE_NOT_ALLOWED' | translate}}
+                    </span>
+                </small>
+
+                <p-divider></p-divider>
+
+                <!-- Documents Section -->
+                <div class="flex items-center justify-between mb-0">
+                    <h4 class="font-semibold text-base/7">{{'APPOINTMENT.UPLOAD_DOCUMENT' | translate}}</h4>
+                    <p-button size="small" class="mr-3" icon="pi pi-plus" severity="primary"
+                        (onClick)="addEditDocument(null)"></p-button>
+                </div>
+
+                <p-divider></p-divider>
+
+                <ng-container>
+                    @if (isBrowser) {
+                        <p-table [value]="documents" [size]="'small'" [scrollable]="true" #documentTable>
+                            <ng-template pTemplate="header">
+                                <tr>
+                                    <th scope="col" style="width:25%">{{'DOCUMENT.NAME' | translate}}</th>
+                                    <th scope="col" style="width:20%">{{'DOCUMENT.DOCUMENT_TYPE' | translate}}</th>
+                                    <th scope="col" style="width:10%;text-align: center;">{{'ACTIONS' | translate}}</th>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-document>
+                                <tr>
+                                    <td>{{document.docTitle}}</td>
+                                    <td>{{document.docTypeName}}</td>
+                                    <td class="flex justify-center gap-2">
+                                        <p-button icon="pi pi-eye" variant="outlined" severity="secondary" [rounded]="true"
+                                            (onClick)="viewDocument(document.documentId)" />
+                                        <p-button icon="pi pi-pencil" variant="outlined" severity="info" [rounded]="true"
+                                            (onClick)="addEditDocument(document.documentId)" />
+                                        <p-button icon="pi pi-trash" severity="danger" variant="outlined" [rounded]="true"
+                                            (onClick)="deleteDocument(document.documentId)" />
+                                    </td>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="emptymessage">
+                                <tr>
+                                    <td colspan="3" style="text-align:center;">
+                                        <span>{{ 'DOCUMENT.TABLE.EMPTY_MESSAGE' | translate }}</span>
+                                    </td>
+                                </tr>
+                            </ng-template>
+                        </p-table>
+                    }
+                </ng-container>
+
+                <!-- Notes -->
+                <div>
+                    <p-floatlabel variant="on">
+                        <textarea rows="2" pTextarea name="notes" id="notes" formControlName="notes" class="w-full"
+                            inputId="notes" [maxlength]="300"></textarea>
+                        <label for="notes">{{'APPOINTMENT.PLACE_HOLDER.NOTES' | translate}}</label>
+                    </p-floatlabel>
+                    <div class="flex justify-between mt-1 text-xs text-gray-500">
+                        <span *ngIf="appointmentForm.get('notes')?.errors?.['maxlength']" class="text-red-500">
+                            {{'APPOINTMENT.ERROR.NOTES_TOO_LONG' | translate}}
+                        </span>
+                        <span class="ml-auto">
+                            {{ appointmentForm.get('notes')?.value?.length || 0 }}/300
+                        </span>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Confirmation Dialog -->
+<p-dialog [header]="'APPOINTMENT.CONFIRM_BOOKING' | translate" [modal]="true" [visible]="confirmDialogVisible()"
+    [dismissableMask]="true" (onHide)="closeConfirmDialog()" [style]="{ width: '32rem' }"
+    [breakpoints]="{ '768px': '90vw' }" [closable]="true" [resizable]="false" [draggable]="false" appendTo="body">
+
+    <!-- Appointment Details -->
+    <div class="space-y-4">
+        <div class="p-4 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl">
+            <h4 class="flex items-center gap-2 mb-3 text-lg font-semibold text-gray-800">
+                <i class="text-blue-600 pi pi-calendar"></i>
+                {{'APPOINTMENT.BOOKING_SUMMARY' | translate}}
+            </h4>
+            <div class="space-y-2 text-sm">
+                <div class="flex justify-between">
+                    <span class="text-gray-600">{{'APPOINTMENT.DOCTOR' | translate}}:</span>
+                    <span class="font-medium">{{ doctor()?.title }} {{ doctor()?.fullName }}</span>
+                </div>
+
+                <div class="flex justify-between">
+                    <span class="text-gray-600">{{'APPOINTMENT.TYPE' | translate}}:</span>
+                    <span class="font-medium">
+                        {{ appointmentType === 'IN_PERSON' ? ('APPOINTMENT.IN_PERSON' | translate) :
+                        ('APPOINTMENT.VIDEO_CALL' | translate) }}
+                    </span>
+                </div>
+
+                <div class="flex justify-between">
+                    <span class="text-gray-600">{{'APPOINTMENT.DATE' | translate}}:</span>
+                    <span class="font-medium">{{ startDateTime | date:'fullDate' }}</span>
+                </div>
+
+                <div class="flex justify-between">
+                    <span class="text-gray-600">{{'APPOINTMENT.TIME' | translate}}:</span>
+                    <span class="font-medium">{{ startDateTime | date:'shortTime' }}</span>
+                </div>
+
+                <div class="flex justify-between pt-2 mt-2 border-t border-blue-200" >
+                    <span class="font-medium text-gray-600">{{'APPOINTMENT.TOTAL_FEE' | translate}}:</span>
+                    <span class="font-bold text-green-600">₹{{ consultationFee() }}</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Payment Options -->
+        <div class="space-y-3">
+            <h4 class="flex items-center gap-2 text-lg font-semibold text-gray-800">
+                <i class="text-green-600 pi pi-credit-card"></i>
+                {{'APPOINTMENT.PAYMENT_MODE' | translate}}
+            </h4>
+
+            <div class="space-y-3">
+                <div
+                    class="flex items-center p-3 space-x-3 transition-colors border border-gray-200 rounded-lg hover:bg-gray-50">
+                    <p-radioButton name="payment" value="ONLINE" [(ngModel)]="paymentMode" inputId="payNow" />
+                    <label for="payNow" class="flex-1 cursor-pointer">
+                        <div class="font-medium">{{'APPOINTMENT.PAY_NOW' | translate}}</div>
+                        <div class="text-sm text-gray-600">{{'APPOINTMENT.PAY_NOW_DESC' | translate}}</div>
+                    </label>
+                    <i class="text-blue-500 pi pi-mobile"></i>
+                </div>
+
+                <div
+                    class="flex items-center p-3 space-x-3 transition-colors border border-gray-200 rounded-lg hover:bg-gray-50">
+                    <p-radioButton name="payment" value="CASH" [(ngModel)]="paymentMode" inputId="payClinic" />
+                    <label for="payClinic" class="flex-1 cursor-pointer">
+                        <div class="font-medium">{{'APPOINTMENT.PAY_AT_CLINIC' | translate}}</div>
+                        <div class="text-sm text-gray-600">{{'APPOINTMENT.PAY_AT_CLINIC_DESC' | translate}}</div>
+                    </label>
+                    <i class="text-green-500 pi pi-building"></i>
+                </div>
+            </div>
+
+            <small *ngIf="!paymentMode" class="text-red-500">
+                {{'APPOINTMENT.ERROR.PAYMENT_OPTION_REQUIRED' | translate}}
+            </small>
+        </div>
+
+        <!-- Terms & Conditions -->
+        <div class="p-3 text-xs text-gray-500 rounded-lg bg-gray-50">
+            <p class="flex items-start gap-2">
+                <i class="pi pi-info-circle mt-0.5 flex-shrink-0"></i>
+                <span>{{'APPOINTMENT.TERMS_CONDITIONS' | translate}}</span>
+            </p>
+        </div>
+    </div>
+
+    <!-- Footer Actions -->
+    <ng-template pTemplate="footer">
+        <div class="flex justify-end gap-3 pt-4">
+            <button pButton type="button" label="{{'ACTION.CANCEL' | translate}}" class="p-button-outlined"
+                [disabled]="isCallInitiated()" (click)="closeConfirmDialog()">
+            </button>
+
+            <button pButton type="button" label="{{'APPOINTMENT.BOOK_NOW' | translate}}" class="p-button-success"
+                [disabled]="!paymentMode || isCallInitiated()" [loading]="isCallInitiated()"
+                (click)="saveAppointment()">
+            </button>
+        </div>
+    </ng-template>
+</p-dialog>
+
+<!-- Document Add/Edit Dialog -->
+<app-document-add-edit *ngIf="isDocumentVisible"
+    [documentId]="documentId"
+    [appointmentId]="this.appointmentId"
+    (documentUpdate)="documentUpdate($event)"
+    [patientId]="patientId"
+    [(isVisible)]="isDocumentVisible">
+</app-document-add-edit>
+
+<!-- Delete Document Confirmation -->
+<p-confirmdialog key="remove-document-confirmation-dialog" [position]="'top'" />

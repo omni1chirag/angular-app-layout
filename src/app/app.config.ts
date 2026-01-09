@@ -1,60 +1,80 @@
-import { APP_INITIALIZER, ApplicationConfig, importProvidersFrom, provideZoneChangeDetection } from '@angular/core';
-import { provideRouter, withEnabledBlockingInitialNavigation, withInMemoryScrolling } from '@angular/router';
+import {
+  ApplicationConfig,
+  inject,
+  PLATFORM_ID,
+  provideAppInitializer,
+  provideZoneChangeDetection,
+} from '@angular/core';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
-import Aura from '@primeng/themes/aura';
+import {
+  provideRouter,
+  withEnabledBlockingInitialNavigation,
+  withInMemoryScrolling,
+} from '@angular/router';
 
-import { routes } from './app.routes';
-import { provideClientHydration, withEventReplay } from '@angular/platform-browser';
-import { providePrimeNG } from 'primeng/config';
-import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/http';
+import {
+  provideHttpClient,
+  withFetch,
+  withInterceptors,
+} from '@angular/common/http';
+import { provideClientHydration } from '@angular/platform-browser';
 import { HttpResponseInterceptor } from '@interceptor/http-response.interceptor';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { provideTranslateService, TranslateService } from '@ngx-translate/core';
+import { KeycloakService } from '@service/keycloak.service';
 import { NgxTranslateService } from '@service/ngx-translate.service';
-import { MessageService } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
+import { providePrimeNG } from 'primeng/config';
 import { DialogService } from 'primeng/dynamicdialog';
+import { routes } from './app.routes';
 import { AppThemePreset } from './app.theme.preset';
-
-export function ngxFactory(service: NgxTranslateService) {
-  return () => service.init().catch(err => {
-    console.error('translate initialization failed:', err);
-  });
-}
+import { isPlatformBrowser } from '@angular/common';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
-    provideRouter(routes, withInMemoryScrolling({ anchorScrolling: 'enabled', scrollPositionRestoration: 'enabled' }), withEnabledBlockingInitialNavigation()),
-    provideClientHydration(withEventReplay()),
+    provideRouter(
+      routes,
+      withInMemoryScrolling({
+        anchorScrolling: 'enabled',
+        scrollPositionRestoration: 'enabled',
+      }),
+      withEnabledBlockingInitialNavigation()
+    ),
+    provideClientHydration(),
     provideAnimationsAsync(),
-    provideHttpClient(withFetch(), withInterceptors([
-      HttpResponseInterceptor
-    ])),
+    provideHttpClient(withFetch(), withInterceptors([HttpResponseInterceptor])),
     providePrimeNG({
       theme: {
         preset: AppThemePreset,
-        options: { darkModeSelector: '.app-dark' }
+        options: { darkModeSelector: '.app-dark' },
+      },
+    }),
+    provideTranslateService({ defaultLanguage: 'en' }),
+
+    provideAppInitializer(async () => {
+      const platformId = inject(PLATFORM_ID);
+
+      if (isPlatformBrowser(platformId)) {
+        const translate = inject(TranslateService);
+        translate.setDefaultLang('en');
+
+        const kc = inject(KeycloakService);
+        const svc = inject(NgxTranslateService);
+
+        await kc
+          .init()
+          .catch((err) =>
+            console.error('Keycloak initialization failed:', err)
+          );
+        await svc
+          .init()
+          .catch((err) =>
+            console.error('Translate initialization failed:', err)
+          );
       }
     }),
-    importProvidersFrom(
-      TranslateModule.forRoot({
-        defaultLanguage: 'en',
-      })
-    ),
-    {
-      provide: APP_INITIALIZER,
-      useFactory: (translate: TranslateService) => () => {
-        translate.setDefaultLang('en');
-      },
-      deps: [TranslateService],
-      multi: true
-    },
-    {
-      provide: APP_INITIALIZER,
-      useFactory: ngxFactory,
-      deps: [NgxTranslateService],
-      multi: true,
-    },
     MessageService,
-    DialogService
-  ]
+    DialogService,
+    ConfirmationService,
+  ],
 };

@@ -1,0 +1,31 @@
+@if (vitalName() && vitalConfig) {
+    <div [formGroup]="vitalFieldForm" class="flex flex-col col-span-full w-full" *ngIf="vitalFieldForm">
+        @if (displayLabel()) {
+        <label [for]="vitalConfig.label">{{ 'VITALS.' + vitalConfig.label | translate }}</label>
+        }
+        <div [ngClass]="displayLabel() ? 'mt-2' : ''">
+            <p-inputGroup>
+                <input pInputText type="text" [placeholder]="vitalConfig.placeHolder" formControlName="value"
+                    (keypress)="allowKeyCheck($event)" (blur)="formatCheckOnBlur($event)" style="width: 30%" />
+    
+                @if (vitalConfig.unit && vitalConfig.unit.length > 1) {
+                <p-select *ngIf="vitalConfig.unit?.length" formControlName="unit" optionLabel="label" optionValue="label"
+                    [options]="vitalConfig.unit" appendTo="body">
+                </p-select>
+                } @else {
+                <p-inputgroup-addon>{{vitalConfig.unit[0]?.label}}</p-inputgroup-addon>
+                }
+    
+            </p-inputGroup>
+            @if (vitalFieldForm?.get('status')?.value) {
+            <small [ngClass]="vitalColorMap.get(vitalFieldForm?.get('status')?.value) ">
+                {{ vitalFieldForm?.get('status')?.value }}
+            </small>
+            }
+        </div>
+    </div>
+    } @else {
+    <div class="flex flex-col col-span-full w-full">
+        <input pInputText type="text" disabled="ture" class="w-full" />
+    </div>
+    }

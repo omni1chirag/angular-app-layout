@@ -1,15 +1,16 @@
-import { AfterViewInit, Directive, ElementRef, Input, OnInit, Renderer2 } from '@angular/core';
+import { AfterViewInit, Directive, ElementRef, inject, Input, Renderer2 } from '@angular/core';
 
 @Directive({
   selector: '[pageHeader]',
 
 })
-export class PageHeaderDirective implements OnInit, AfterViewInit {
+export class PageHeaderDirective implements AfterViewInit {
+
+  private readonly el = inject(ElementRef);
+  private readonly renderer = inject(Renderer2);
+
+
   @Input() pageHeader!: string;
-  constructor(private el: ElementRef, private renderer: Renderer2) {
-  }
-  ngOnInit(): void {
-  }
 
   ngAfterViewInit(): void {
     this.applyStyles();

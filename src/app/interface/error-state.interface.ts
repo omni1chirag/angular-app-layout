@@ -4,5 +4,5 @@ export interface ErrorState {
     summary?: string;
     path?: string;
     status?: number;
-    detail?: any;
+    detail?: unknown;
   }

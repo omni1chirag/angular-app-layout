@@ -1,5 +1,7 @@
-import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
-import { isPlatformBrowser } from '@angular/common';
+import { Injectable, inject } from '@angular/core';
+import { UserProfile } from '@interface/user-profile.interface';
+import { PlatformService } from './platform.service';
+import { LabelValue } from '@interface/common.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -7,13 +9,14 @@ import { isPlatformBrowser } from '@angular/common';
 export class LocalStorageService {
 
   private readonly isBrowser: boolean;
+  private readonly platformService = inject(PlatformService);
 
-  constructor(@Inject(PLATFORM_ID) private platformId: Object) {
-    this.isBrowser = isPlatformBrowser(platformId);
+  constructor() {
+    this.isBrowser = this.platformService.isBrowser();
   }
 
   // Generic set
-  setItem(key: string, value: any): void {
+  setItem(key: string, value: unknown): void {
     if (!this.isBrowser) return;
 
     try {
@@ -71,8 +74,8 @@ export class LocalStorageService {
 
   // === Application-specific accessors ===
 
-  getUserMappedClinics(): string[] {
-    return this.getItem<string[]>('userClinics') ?? [];
+  getUserMappedClinics(): LabelValue<string>[] {
+    return this.getItem<LabelValue<string>[]>('userClinics') ?? [];
   }
 
   getCurrentlyUsedClinic(): string | null {
@@ -83,8 +86,12 @@ export class LocalStorageService {
     return this.getItem<string>('currentUserDoctorId');
   }
 
-  getUserProfile(): any | null {
-    return this.getItem<any>('userProfile');
+  getUserProfile(): UserProfile | null {
+    return this.getItem<UserProfile>('userProfile');
+  }
+
+  getPatientId(): string | null {
+    return this.getItem<string>('activePatientProfile');
   }
 
   getOrganizationId(): string {

@@ -3,6 +3,12 @@ pipeline {
 
     agent any
 
+
+    tools {
+        nodejs 'NodeJS_22.0.0'
+        jdk 'jdk21'
+    }
+
     parameters {
         choice(name: 'ENVIRONMENT', choices: ['qa'], 
         description: 'Select the environment for build.')
@@ -20,7 +26,38 @@ pipeline {
 
     // Stages define a series of steps in your pipeline.
     stages {
+        stage('SonarQube Analysis') {
+            steps {
+                script {
+                    echo 'Running Sonar Scanner in Docker'
+                    // Remove any stale scanner cache
+                    sh '''
+                        echo "Cleaning old .scannerwork..."
+                        rm -rf $WORKSPACE/.scannerwork || true
+                    '''
+                    withSonarQubeEnv('SonarQube_Digital-Health-India') {
+                        withCredentials([string(credentialsId: 'Digital-Health-India', variable: 'SONAR_TOKEN')]) {
+                            sh '''
+                              npx --yes sonar-scanner@3.1.0 -Dsonar.token=$SONAR_TOKEN
+                            '''
+                        }
+                    }
+                }
+            }
+        }
 
+        stage('Quality Gate') {
+            steps {
+                timeout(time: 5, unit: 'MINUTES') {
+                    script {
+                        def qg = waitForQualityGate()
+                        if (qg.status != 'OK') {
+                            error "Pipeline aborted due to SonarQube Quality Gate failure: ${qg.status}"
+                        }
+                    }
+                }
+            }
+        }
         stage('Docker Build') {
             steps {
                 script {

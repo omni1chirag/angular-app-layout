@@ -36,19 +36,14 @@ app.use(
     maxAge: '1y',
     index: false,
     redirect: false,
-    setHeaders: (res, path) => {
-      if (path.endsWith('.map')) {
-        res.setHeader('Content-Type', 'application/json');
-        res.setHeader('Access-Control-Allow-Origin', '*');
-      }
-    },
   }),
 );
+
 app.use(compression());
 /**
  * Handle all other requests by rendering the Angular application.
  */
-app.use('/**', (req, res, next) => {
+app.use('**', (req, res, next) => {
   angularApp
     .handle(req)
     .then((response) =>
@@ -64,7 +59,7 @@ app.use('/**', (req, res, next) => {
 let serverInstance: ReturnType<typeof app.listen> | undefined;
 
 if (isMainModule(import.meta.url)) {
-  const port = process.env['PORT'] || 4000;
+  const port = process.env['PORT'] || 4400;
   // app.listen(port, () => {
   //   console.log(`Node Express server listening on http://localhost:${port}`);
   // });

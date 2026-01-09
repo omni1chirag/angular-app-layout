@@ -1,0 +1,9 @@
+.main-container {
+  height: calc(100vh - var(--navbar-height));
+  padding: var(--navbar-height) 1rem 0;
+  position: relative;
+}
+
+.main-container>div {
+  height: 100%;
+}

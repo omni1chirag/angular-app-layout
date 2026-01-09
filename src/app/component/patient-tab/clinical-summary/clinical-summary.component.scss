@@ -1,0 +1,57 @@
+::ng-deep app-clinical-summary {
+  .p-datatable-mask {
+    position: absolute !important;
+  }
+}
+
+.loading-dots::after {
+  content: '';
+  display: inline-block;
+  animation: dots 1.5s steps(3, end) infinite;
+  width: 1ch;
+  text-align: left;
+}
+
+@keyframes dots {
+  0% {
+    content: '';
+  }
+
+  33% {
+    content: '.';
+  }
+
+  66% {
+    content: '..';
+  }
+
+  100% {
+    content: '...';
+  }
+}
+
+::ng-deep .p-timeline-event-marker {
+  width: 2rem !important;
+  height: 1.5rem !important;
+  border-radius: 50% !important;
+  background-color: var(--p-primary-color, #3b82f6) !important;
+  cursor: pointer;
+}
+
+::ng-deep .p-timeline-event-marker::before {
+  content: none !important;
+  display: none !important;
+}
+
+::ng-deep .appointment-timeline .p-timeline-event-content {
+  padding-right: 1rem !important;
+  padding-bottom: 1.5rem !important;
+}
+
+::ng-deep .appointment-timeline .p-card-body {
+  padding: 1rem !important;
+}
+
+::ng-deep .p-timeline-horizontal .p-timeline-event  {
+  flex: 0 !important;
+}

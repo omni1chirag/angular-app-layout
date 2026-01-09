@@ -1,0 +1,84 @@
+<p-drawer [(visible)]="isVisible" position="right" appendTo="body" closable="false" [dismissible]="false"
+    styleClass="!w-full sm:!w-80 md:!w-80 lg:!w-[30rem]" blockScroll="true">
+    <ng-template #header>
+        <span class="flex flex-col w-full">
+            <span class="flex w-full justify-between">
+                <h4 *ngIf="familyHistoryId()" class="flex w-full text-base/7 font-semibold text-gray-900">{{
+                    'FAMILY_HISTORY.EDIT_FAMILY_HISTORY' |
+                    translate }}</h4>
+                <h4 *ngIf="!familyHistoryId()" class="flex w-full text-base/7 font-semibold text-gray-900">{{
+                    'FAMILY_HISTORY.ADD_FAMILY_HISTORY' |
+                    translate }}</h4>
+                <p-button icon="pi pi-times" class="flex justify-self-end" (onClick)="isVisible.set(false)"
+                    severity="secondary" [rounded]="true" [text]="true" />
+            </span>
+            <p-divider class="flex col-span-full w-full " />
+        </span>
+    </ng-template>
+
+    <form [formGroup]="familyHistoryForm">
+        <div class="grid grid-cols-12 gap-6">
+            <div class="flex flex-col col-span-full">
+                <label mandatoryFieldLabel for="relation">{{ 'FAMILY_HISTORY.RELATIONSHIP' | translate }}</label>
+                <div class="mt-2">
+                    <p-select id="relation" formControlName="relation" [options]="relationOptions" optionLabel="label"
+                        optionValue="label" placeholder="{{ 'FAMILY_HISTORY.PLACE_HOLDER.RELATIONSHIP' | translate }}"
+                        class="w-full" [appendTo]="'body'">
+                    </p-select>
+                </div>
+            </div>
+            <div class="flex flex-col col-span-full">
+                <label mandatoryFieldLabel for="condition">{{ 'FAMILY_HISTORY.HEALTH_CONDITION' | translate }}</label>
+                <div class="mt-2">
+                    <p-autocomplete id="condition" formControlName="healthCondition" [forceSelection]="false"
+                        [suggestions]="filteredCondition" (completeMethod)="searchCondition($event.query)" (onSelect)="onConditionSelect($event)"
+                        optionLabel="label" [appendTo]="'body'" placeholder="{{ 'FAMILY_HISTORY.PLACE_HOLDER.HEALTH_CONDITION' | translate }}"
+                        class="w-full" [style]="{'width':'100%'}" [inputStyle]="{ width: '100%' }" minLength="3" />
+                </div>
+            </div>
+            <div class="flex flex-col col-span-full">
+                <label for="age">{{ 'FAMILY_HISTORY.DIAGNOSIS_AGE' | translate }}</label>
+                <div class="mt-2">
+                    <p-input-number inputId="age" [mode]="'decimal'" [max]="100" type="text" formControlName="age" name="age" id="age" class="w-full"
+                        placeholder="Enter Age"></p-input-number>
+                </div>
+            </div>
+            <div class="flex flex-col col-span-full">
+                <label for="age">{{ 'FAMILY_HISTORY.IS_DECEASED' | translate }}</label>
+                <div class="mt-2">
+                    <p-toggleswitch id="isDeceased" formControlName="isDeceased" />
+                </div>
+            </div>
+            <div class="flex flex-col col-span-full" *ngIf="familyHistoryForm.get('isDeceased')?.value">
+                <label for="causeOfDeath">Cause of Death</label>
+                <div class="mt-2">
+                    <textarea pTextarea id="causeOfDeath" type="text" formControlName="causeOfDeath" maxlength="100"
+                    placeholder="Enter cause of death" class="w-full"></textarea>
+                </div>
+            </div>
+            <div class="flex flex-col col-span-full">
+                <label for="notes">{{ 'FAMILY_HISTORY.NOTES' | translate }}</label>
+                <div class="mt-2">
+                    <textarea pTextarea rows="3" maxlength="1000" id="notes" formControlName="notes" class="w-full"
+                        placeholder="{{ 'FAMILY_HISTORY.PLACE_HOLDER.NOTES' | translate }}">
+                    </textarea>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <ng-template #footer>
+        <p-divider />
+        <div class="grid grid-cols-12 gap-2">
+            <div class="hidden md:flex col-span-12 md:col-span-6"></div>
+            <div class="flex col-span-12 md:col-span-6 items-center gap-2">
+                <p-button label="{{'SAVE'| translate }}" size="small" (onClick)="save()" class="w-full"
+                    [styleClass]="'w-full sm:w-full md:w-full lg:w-full'" [loading]="isCallInitiated"
+                    [disabled]="isCallInitiated" />
+                <p-button label="{{'CANCEL'| translate }}" severity="danger" class="w-full"
+                    [styleClass]="'w-full sm:w-full md:w-full lg:w-full'" [outlined]="true" (onClick)="isVisible.set(false)"
+                    size="small" />
+            </div>
+        </div>
+    </ng-template>
+</p-drawer>

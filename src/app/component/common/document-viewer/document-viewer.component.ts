@@ -1,7 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, input, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, inject, input, OnInit, ViewChild } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
+import { SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
+import { DocumentService } from '@service/document.service';
 import { ButtonModule } from 'primeng/button';
 import { DynamicDialogRef } from 'primeng/dynamicdialog';
 import { ImageModule } from 'primeng/image';
@@ -20,7 +21,14 @@ import { ImageModule } from 'primeng/image';
 })
 export class DocumentViewerComponent implements OnInit {
 
-  readonly url = input.required<any>();
+  blank(): void {
+    throw new Error('Method not implemented.');
+  }
+
+  private readonly documentService = inject(DocumentService);
+  public ref = inject(DynamicDialogRef);
+
+  readonly url = input.required<string>();
   readonly documentId = input<string>();
   readonly title = input<string>('Document');
 
@@ -35,42 +43,35 @@ export class DocumentViewerComponent implements OnInit {
   private initialTranslateY = 0;
   translateX = 0;
   translateY = 0;
-  private step = 0.1;
+  private readonly step = 0.1;
   scale = 1;
 
-  constructor(private sanitizer: DomSanitizer,
-    public ref: DynamicDialogRef
-  ) {
-  }
-
   ngOnInit(): void {
-    console.log(this.url(), this.documentId());
-    this.blobUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.url());
-
+    this.blobUrl = this.documentService.toTrustedResourceUrl(this.url());
   }
 
-  onClose(){
+  onClose(): void {
     URL.revokeObjectURL(this.url());
     this.ref.close();
   }
 
-  activateZoom(zoomType: 'In' | 'Out') {
+  activateZoom(zoomType: 'In' | 'Out'): void {
     this.isZoomIn = zoomType === 'In' ? !this.isZoomIn : false;
     this.isZoomOut = zoomType === 'Out' ? !this.isZoomOut : false;
   }
 
-  zoomIn() {
+  zoomIn(): void {
     this.scale = Math.min(this.scale + this.step, 5);  // max 5×
   }
 
-  zoomOut() {
+  zoomOut(): void {
     this.scale = Math.max(this.scale - this.step, 0.2); // min 0.2×
     if (this.scale === 1) {
       this.translateY = this.translateX = 0
     }
   }
 
-  onPreviewClick(event: MouseEvent) {
+  onPreviewClick(event: MouseEvent): void {
     if ((!this.isZoomIn && !this.isZoomOut) || this.isPanning) return;
 
     const imgEl = this.previewImg.nativeElement;
@@ -98,7 +99,7 @@ export class DocumentViewerComponent implements OnInit {
     this.applyTransform();
   }
 
-  startPan(event: MouseEvent) {
+  startPan(event: MouseEvent): void {
     this.isPanning = true;
     this.startX = event.clientX;
     this.startY = event.clientY;
@@ -107,7 +108,7 @@ export class DocumentViewerComponent implements OnInit {
     event.preventDefault();
   }
 
-  doPan(event: MouseEvent) {
+  doPan(event: MouseEvent): void {
     if (!this.isPanning) return;
 
     const deltaX = (event.clientX - this.startX) / this.scale;
@@ -119,7 +120,7 @@ export class DocumentViewerComponent implements OnInit {
     this.applyTransform();
   }
 
-  endPan(event: MouseEvent) {
+  endPan(event: MouseEvent): void {
     this.isPanning = false;
     event?.preventDefault();
   }
@@ -128,7 +129,5 @@ export class DocumentViewerComponent implements OnInit {
     const imgEl = this.previewImg.nativeElement;
     imgEl.style.transform = `scale(${this.scale}) translate(${this.translateX}px, ${this.translateY}px)`;
   }
-
-
 
 }
